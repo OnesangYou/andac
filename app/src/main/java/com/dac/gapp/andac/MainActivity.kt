@@ -1,11 +1,20 @@
 package com.dac.gapp.andac
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    // static method
+    companion object {
+        fun createIntent(context : Context): Intent {
+            return Intent(context, MainActivity::class.java)
+        }
+    }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
