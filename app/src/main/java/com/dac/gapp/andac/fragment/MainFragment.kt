@@ -1,10 +1,11 @@
-package com.dac.gapp.andac
+package com.dac.gapp.andac.fragment
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dac.gapp.andac.R
 
 class MainFragment : Fragment() {
 

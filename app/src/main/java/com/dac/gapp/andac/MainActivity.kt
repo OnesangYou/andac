@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
+import android.view.View
+import com.dac.gapp.andac.fragment.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -19,16 +22,21 @@ class MainActivity : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> {
+            R.id.navigation_search_ospital -> {
 
-                changeFragment(MainFragment())
+                changeFragment(SearchHospitalFragment())
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_dashboard -> {
-                changeFragment(MapFragment())
+            R.id.navigation_chat -> {
+                changeFragment(ChatFragment())
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_notifications -> {
+            R.id.navigation_board -> {
+                changeFragment(BoardFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_event -> {
+                changeFragment(EventFragment())
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -38,6 +46,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // toolbar
+        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+        // Get the ActionBar here to configure the way it behaves.
+        val actionBar = supportActionBar
+        actionBar!!.setDisplayShowCustomEnabled(true) //커스터마이징 하기 위해 필요
+        actionBar.setDisplayShowTitleEnabled(false)
+        actionBar.setDisplayHomeAsUpEnabled(false) // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
@@ -55,6 +72,12 @@ class MainActivity : AppCompatActivity() {
         // Add the fragment to the 'fragment_container' FrameLayout
         supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, firstFragment).commit()
+
+        // Go to My Page
+        my_page.setOnClickListener({
+            val nextIntent = Intent(this, MyPageActivity::class.java)
+            startActivity(nextIntent)
+        })
     }
 
     private fun changeFragment(newFragment: Fragment){
