@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_chat -> {
-                changeFragment(ChatFragment())
+                changeFragment(ChatRoomFragment())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_board -> {
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_event -> {
-                changeFragment(EventFragment())
+                changeFragment(EventListFragment())
                 return@OnNavigationItemSelectedListener true
             }
         }

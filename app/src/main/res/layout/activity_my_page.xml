@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            app:srcCompat="@drawable/ic_backspace_black_24dp"
+            app:srcCompat="@drawable/ic_arrow_back_black_18dp"
             tools:layout_editor_absoluteX="20dp"
             tools:layout_editor_absoluteY="14dp"
             tools:ignore="ContentDescription,RtlHardcoded" />
