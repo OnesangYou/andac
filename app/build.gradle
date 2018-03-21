@@ -16,10 +16,33 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+
     buildTypes {
-        release {
-            minifyEnabled false
+        debug {
+            minifyEnabled false // Proguard on/off
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true // BuildConfig.DEBUG
+        }
+
+        release {
+            minifyEnabled true // Proguard on/off
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false // BuildConfig.DEBUG
+        }
+    }
+
+    flavorDimensions "target"
+    productFlavors {
+        user {
+            dimension "target"
+            applicationIdSuffix ".user"
+            manifestPlaceholders = [appLabel: "ANDAC USER"]
+        }
+
+        hospital {
+            dimension "target"
+            applicationIdSuffix ".hospital"
+            manifestPlaceholders = [appLabel: "ANDAC HOSPITAL"]
         }
     }
 }
