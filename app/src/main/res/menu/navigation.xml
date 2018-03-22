@@ -2,7 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_search_ospital"
+        android:id="@+id/navigation_main"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/main" />
+
+    <item
+        android:id="@+id/navigation_search_hospital"
         android:icon="@drawable/ic_location_on_black_24dp"
         android:title="@string/searchHospital" />
 

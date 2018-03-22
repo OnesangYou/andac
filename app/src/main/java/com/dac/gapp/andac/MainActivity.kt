@@ -22,8 +22,11 @@ class MainActivity : AppCompatActivity() {
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_search_ospital -> {
-
+            R.id.navigation_main -> {
+                changeFragment(MainFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_search_hospital -> {
                 changeFragment(SearchHospitalFragment())
                 return@OnNavigationItemSelectedListener true
             }
