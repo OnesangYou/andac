@@ -1,10 +1,12 @@
 package com.dac.gapp.andac.user
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.dac.gapp.andac.MainActivity
 import com.dac.gapp.andac.R
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
@@ -18,6 +20,13 @@ import kotlinx.android.synthetic.main.activity_login.*
 
 
 open class LoginActivity : Activity() {
+
+    // static method
+    companion object {
+        fun createIntent(context: Context): Intent {
+            return Intent(context, LoginActivity::class.java)
+        }
+    }
 
     val TAG = "KBJ"
     private var mCallbackManager : CallbackManager? = null
