@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "181130852864-43i5kia138iv3l4o6skcas7b4eea7ehr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dac.gapp.andac.user",
+            "certificate_hash": "0d3e5b3fcfe1125bf940a2faa1f1d12880470008"
+          }
+        },
+        {
           "client_id": "181130852864-748p84tak8e7th4sdugbblp22c87cadv.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,57 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "181130852864-748p84tak8e7th4sdugbblp22c87cadv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181130852864:android:6c044d29453165c5",
+        "android_client_info": {
+          "package_name": "com.dac.gapp.andac.hospital"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "181130852864-h8c8g89btjs94rhichvphf0b36vu0jt0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dac.gapp.andac.hospital",
+            "certificate_hash": "0d3e5b3fcfe1125bf940a2faa1f1d12880470008"
+          }
+        },
+        {
+          "client_id": "181130852864-748p84tak8e7th4sdugbblp22c87cadv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3zHZydPw-8op-8OzhhR2fET9gn6R_mVU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "181130852864-748p84tak8e7th4sdugbblp22c87cadv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
