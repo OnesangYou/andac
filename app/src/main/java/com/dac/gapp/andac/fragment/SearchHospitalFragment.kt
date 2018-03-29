@@ -1,7 +1,7 @@
 package com.dac.gapp.andac.fragment
 
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,10 +10,10 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.dac.gapp.andac.HospitalActivity
 import com.dac.gapp.andac.R
 import kotlinx.android.synthetic.main.fragment_search_hospital.*
+import java.util.*
 
 
 /**
@@ -32,7 +32,7 @@ class SearchHospitalFragment : Fragment() {
     }
 
     private fun prepareUi() {
-        viewPager.adapter = TestPagerAdapter(fragmentManager)
+        viewPager.adapter = TestPagerAdapter(activity, fragmentManager)
         layout_tab.setupWithViewPager(viewPager)
     }
 
@@ -43,29 +43,27 @@ class SearchHospitalFragment : Fragment() {
         })
     }
 
-    class TestPagerAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
+}// Required empty public constructor
 
-        override fun getItem(position: Int): Fragment {
-//            when (position) {
-//                0 -> Toast.makeText(Activity(), "0", Toast.LENGTH_SHORT).show()
-//                1 -> Toast.makeText(Activity(), "1", Toast.LENGTH_SHORT).show()
-//                2 -> Toast.makeText(Activity(), "2", Toast.LENGTH_SHORT).show()
-//            }
-            return Fragment()
-        }
+class TestPagerAdapter(context: Context?, fm: FragmentManager?) : FragmentPagerAdapter(fm) {
 
-        override fun getCount(): Int {
-            return 3
-        }
+    private var titles: List<String> = Arrays.asList(context!!.getString(R.string.nearby_hospital),
+            context.getString(R.string.popularity), context.getString(R.string.seoul),
+            context.getString(R.string.gyeonggi), context.getString(R.string.incheon))
 
-        override fun getPageTitle(position: Int): CharSequence? {
-            when (position) {
-                0 -> return "첫번째 탭"
-                1 -> return "두번째 탭"
-                2 -> return "세번째 탭"
-            }
-            return null
+    override fun getItem(position: Int): Fragment {
+        // TODO fragment 계속 생성하지 않고 기존에 생성된거 유지하도록 변경
+        return when (position) {
+            0 -> SearchHospitalFragmentForMap()
+            else -> SearchHospitalFragmentForList()
         }
     }
 
-}// Required empty public constructor
+    override fun getCount(): Int {
+        return titles.size
+    }
+
+    override fun getPageTitle(position: Int): CharSequence? {
+        return titles[position]
+    }
+}
