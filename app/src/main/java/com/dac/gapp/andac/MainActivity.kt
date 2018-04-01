@@ -24,23 +24,18 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.navigation_main -> {
                 changeFragment(MainFragment())
-                return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_search_hospital -> {
                 changeFragment(SearchHospitalFragment())
-                return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_chat -> {
                 changeFragment(ChatRoomFragment())
-                return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_board -> {
                 changeFragment(BoardFragment())
-                return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_event -> {
                 changeFragment(EventListFragment())
-                return@OnNavigationItemSelectedListener true
             }
         }
         false
