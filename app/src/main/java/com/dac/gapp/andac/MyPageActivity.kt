@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import com.dac.gapp.andac.user.LoginActivity
 import kotlinx.android.synthetic.main.activity_my_page.*
 
-class MyPageActivity : AppCompatActivity() {
+class MyPageActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,6 +16,10 @@ class MyPageActivity : AppCompatActivity() {
         goToLogin.setOnClickListener { 
             val nextIntent = Intent(this, LoginActivity::class.java)
             startActivity(nextIntent)
+        }
+
+        logoutBtn.setOnClickListener {
+            getAuth()!!.signOut()
         }
     }
 }
