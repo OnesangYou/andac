@@ -9,7 +9,7 @@
         android:id="@+id/imgview_thumbnail"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@drawable/com_facebook_profile_picture_blank_portrait" />
+        android:background="@drawable/ic_accessibility_black_18dp" />
 
     <TextView
         android:id="@+id/txtview_title"
