@@ -1,12 +1,14 @@
 package com.dac.gapp.andac.fragment
 
-import android.support.v4.app.Fragment
+import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dac.gapp.andac.HospitalActivity
 import com.dac.gapp.andac.R
+import kotlinx.android.synthetic.main.fragment_search_hospital_for_map.*
 
 class SearchHospitalFragmentForMap : Fragment() {
 
@@ -16,7 +18,13 @@ class SearchHospitalFragmentForMap : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setupEventsOnCreate()
     }
 
+    private fun setupEventsOnCreate() {
+        btn_hospital.setOnClickListener({
+            val nextIntent = Intent(context, HospitalActivity::class.java)
+            startActivity(nextIntent)
+        })
+    }
 }

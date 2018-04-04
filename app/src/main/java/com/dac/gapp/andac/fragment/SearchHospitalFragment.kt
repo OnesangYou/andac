@@ -37,10 +37,6 @@ class SearchHospitalFragment : Fragment() {
     }
 
     private fun setupEventsOnCreate() {
-        btn_hospital.setOnClickListener({
-            val nextIntent = Intent(context, HospitalActivity::class.java)
-            startActivity(nextIntent)
-        })
     }
 
     class TestPagerAdapter(context: Context?, fm: FragmentManager?) : FragmentPagerAdapter(fm) {

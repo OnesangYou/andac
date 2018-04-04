@@ -1,14 +1,15 @@
 package com.dac.gapp.andac.fragment
 
-import android.support.v4.app.Fragment
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
+import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.adapter.SearchHospitalAdapter
+import com.dac.gapp.andac.model.SearchHospitalItem
+import kotlinx.android.synthetic.main.fragment_search_hospital_for_list.*
 
 class SearchHospitalFragmentForList : Fragment() {
 
@@ -18,42 +19,27 @@ class SearchHospitalFragmentForList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prepareUi()
     }
 
-    class MyAdapter(itemList : List<MyItem>) : RecyclerView.Adapter<MyViewHoder>() {
-        var itemList: List<MyItem> =  itemList
-
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MyViewHoder {
-            return MyViewHoder(LayoutInflater.from(parent!!.context).inflate(R.layout.row, parent, false))
-        }
-
-        override fun onBindViewHolder(holder: MyViewHoder?, position: Int) {
-            var myItem : MyItem = itemList.get(position)
-        }
-
-        override fun getItemCount(): Int {
-            return itemList.size
-        }
-
+    private fun prepareUi() {
+        setupRecyclerView()
     }
 
-    class MyViewHoder(view : View) : RecyclerView.ViewHolder(view) {
-        var thumbnail : ImageView
-        var title : TextView
-        var address : TextView
-        var description : TextView
-        init {
-            thumbnail = view.findViewById(R.id.imgview_thumbnail)
-            title = view.findViewById(R.id.txtview_title)
-            address = view.findViewById(R.id.txtview_address)
-            description = view.findViewById(R.id.txtview_description)
-
-        }
+    private fun setupRecyclerView() {
+        recyclerView.setHasFixedSize(true)
+        val lm = LinearLayoutManager(context)
+        lm.orientation = LinearLayoutManager.VERTICAL
+        recyclerView.layoutManager = lm
+        recyclerView.adapter = SearchHospitalAdapter(context, getDummyData())
     }
 
-    class MyItem(tumbnail : String, address : String, description : String) {
-        var tumbnail = tumbnail
-        var address = address
-        var description = description
+    private fun getDummyData(): List<SearchHospitalItem> {
+        var itemList: ArrayList<SearchHospitalItem> = ArrayList()
+        for (x in 1..10) {
+            val item = SearchHospitalItem(x, R.drawable.uproad_pic, "title $x", "address $x", "description $x")
+            itemList.add(item)
+        }
+        return itemList
     }
 }
