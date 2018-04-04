@@ -10,12 +10,10 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.user.JoinActivity
 import kotlinx.android.synthetic.main.fragment_join_phone.*
 
-
 /**
  * A simple [Fragment] subclass.
  */
 class JoinPhoneFragment : Fragment() {
-
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -27,7 +25,7 @@ class JoinPhoneFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         nextBtn.setOnClickListener {
-            (activity as JoinActivity).goToNextView()
+            (activity as JoinActivity).goToNextView(phoneEdit.text.toString(), checkedAgreeAlarm.isChecked)
         }
     }
 

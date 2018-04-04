@@ -58,7 +58,7 @@
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText" />
+                app:layout_constraintTop_toBottomOf="@+id/nickNameEdit" />
 
             <TextView
                 android:id="@+id/textView25"
@@ -100,7 +100,7 @@
 
             <EditText
 
-                android:id="@+id/editText"
+                android:id="@+id/nickNameEdit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -122,9 +122,9 @@
                 android:text="중복확인"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_10sp"
-                app:layout_constraintBottom_toBottomOf="@+id/editText"
+                app:layout_constraintBottom_toBottomOf="@+id/nickNameEdit"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/editText" />
+                app:layout_constraintTop_toTopOf="@+id/nickNameEdit" />
 
             <Button
                 android:id="@+id/button3"

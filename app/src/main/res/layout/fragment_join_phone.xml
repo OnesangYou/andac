@@ -18,7 +18,7 @@
             android:layout_height="0dp">
 
             <CheckBox
-                android:id="@+id/checkedTextView2"
+                android:id="@+id/checkedAll"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -43,7 +43,7 @@
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText6" />
+                app:layout_constraintTop_toBottomOf="@+id/certificationEdit" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -84,10 +84,10 @@
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText5" />
+                app:layout_constraintTop_toBottomOf="@+id/phoneEdit" />
 
             <EditText
-                android:id="@+id/editText5"
+                android:id="@+id/phoneEdit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -95,12 +95,13 @@
                 android:ems="10"
                 android:inputType="phone"
                 android:textSize="@dimen/_10sp"
+                android:digits="0123456789"
                 app:layout_constraintEnd_toStartOf="@+id/button5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
             <EditText
-                android:id="@+id/editText6"
+                android:id="@+id/certificationEdit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -123,9 +124,9 @@
                 android:text="인증번호 전송"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_10sp"
-                app:layout_constraintBottom_toBottomOf="@+id/editText5"
+                app:layout_constraintBottom_toBottomOf="@+id/phoneEdit"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/editText5" />
+                app:layout_constraintTop_toTopOf="@+id/phoneEdit" />
 
             <Button
                 android:id="@+id/button6"
@@ -137,9 +138,9 @@
                 android:text="인증번호 확인"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_10sp"
-                app:layout_constraintBottom_toBottomOf="@+id/editText6"
+                app:layout_constraintBottom_toBottomOf="@+id/certificationEdit"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/editText6" />
+                app:layout_constraintTop_toTopOf="@+id/certificationEdit" />
 
             <CheckBox
                 android:id="@+id/checkedTextView"
@@ -153,7 +154,7 @@
                 android:text="(필수) 서비스이용약관"
                 app:layout_constraintEnd_toStartOf="@+id/textView20"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkedTextView2" />
+                app:layout_constraintTop_toBottomOf="@+id/checkedAll" />
 
             <CheckBox
                 android:id="@+id/checkedTextView3"
@@ -207,7 +208,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/checkedTextView4" />
 
             <CheckBox
-                android:id="@+id/checkedTextView6"
+                android:id="@+id/checkedAgreeAlarm"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -230,9 +231,9 @@
                 android:layout_marginEnd="8dp"
                 android:text="상세보기"
                 android:textSize="@dimen/_10sp"
-                app:layout_constraintBottom_toBottomOf="@+id/checkedTextView2"
+                app:layout_constraintBottom_toBottomOf="@+id/checkedAll"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/checkedTextView2" />
+                app:layout_constraintTop_toTopOf="@+id/checkedAll" />
 
             <TextView
                 android:id="@+id/textView20"
@@ -285,9 +286,9 @@
                 android:layout_marginEnd="8dp"
                 android:text="상세보기"
                 android:textSize="@dimen/_10sp"
-                app:layout_constraintBottom_toBottomOf="@+id/checkedTextView6"
+                app:layout_constraintBottom_toBottomOf="@+id/checkedAgreeAlarm"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/checkedTextView6" />
+                app:layout_constraintTop_toTopOf="@+id/checkedAgreeAlarm" />
 
         </android.support.constraint.ConstraintLayout>
 

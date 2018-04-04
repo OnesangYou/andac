@@ -25,7 +25,7 @@ class JoinInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        joinBtn.setOnClickListener { (activity as JoinActivity).join() }
+        joinBtn.setOnClickListener { (activity as JoinActivity).join(emailEdit.text.toString(), nickNameEdit.text.toString()) }
     }
 
 }// Required empty public constructor
