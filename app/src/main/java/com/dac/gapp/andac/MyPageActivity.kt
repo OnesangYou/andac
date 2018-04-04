@@ -13,13 +13,10 @@ class MyPageActivity : BaseActivity() {
         setContentView(R.layout.activity_my_page)
 
         back.setOnClickListener({ finish() })
-        goToLogin.setOnClickListener { 
-            val nextIntent = Intent(this, LoginActivity::class.java)
-            startActivity(nextIntent)
-        }
 
         logoutBtn.setOnClickListener {
             getAuth()!!.signOut()
+            finish()
         }
     }
 }

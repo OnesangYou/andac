@@ -3,6 +3,7 @@ package com.dac.gapp.andac
 import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,7 +17,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun getUsers() : CollectionReference {
-        return getDb().collection("Users")
+        return getDb().collection("users")
     }
 
     fun getUsers(uuid : String): DocumentReference? {
@@ -25,6 +26,10 @@ open class BaseActivity : AppCompatActivity() {
 
     fun getAuth(): FirebaseAuth? {
         return FirebaseAuth.getInstance()
+    }
+
+    fun getCurrentUser(): FirebaseUser? {
+        return getAuth()?.currentUser
     }
 
 }

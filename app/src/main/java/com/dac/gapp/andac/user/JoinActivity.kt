@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_join_info.*
 import java.util.regex.Pattern
 
 
+@Suppress("NAME_SHADOWING")
 class JoinActivity : BaseActivity() {
 
     var MAX_PAGE = 2
@@ -61,8 +62,8 @@ class JoinActivity : BaseActivity() {
         }
 
         //비밀번호 유효성
-        if (!Pattern.matches("^(?=.*\\d)(?=.*[~`!@#$%^&*()-])(?=.*[a-zA-Z]).{8,20}$", passwordEdit.text.toString())) {
-            Toast.makeText(this@JoinActivity, "비밀번호 형식을 지켜주세요.", Toast.LENGTH_SHORT).show()
+        if (passwordEdit.text.toString().length < 6) {
+            Toast.makeText(this@JoinActivity, "비밀번호는 6자리 이상입니다", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -81,16 +82,24 @@ class JoinActivity : BaseActivity() {
         // 회원가입 시도
         Log.d(KBJ, "emailEdit : " + emailEdit.text)
         val mAuth = getAuth()
-        mAuth?.createUserWithEmailAndPassword(mUserInfo.email, passwordEdit.text.toString())?.addOnCompleteListener({ task ->
+        mAuth?.createUserWithEmailAndPassword(mUserInfo.email, passwordEdit.text.toString())?.addOnCompleteListener{ task ->
             if (task.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
                 Log.d(KBJ, "createUserWithEmail:success")
                 val user = mAuth.currentUser
 
                 // DB insert
-
-
-                updateUI(user)
+                getUsers().document(user?.uid!!).set(mUserInfo).addOnCompleteListener{ task2 ->
+                    if(task2.isSuccessful){
+                        updateUI(user)
+                    } else {
+                        "회원가입 실패".let {
+                            Log.d(KBJ, it)
+                            Toast.makeText(this@JoinActivity,it,Toast.LENGTH_SHORT).show()
+                            updateUI(null)
+                        }
+                    }
+                }
             } else {
                 // If sign in fails, display a message to the user.
                 Log.w(KBJ, "createUserWithEmail:failure", task.exception)
@@ -98,7 +107,7 @@ class JoinActivity : BaseActivity() {
                         Toast.LENGTH_SHORT).show()
                 updateUI(null)
             }
-        })
+        }
 
     }
 
@@ -106,6 +115,7 @@ class JoinActivity : BaseActivity() {
         if(user != null){
             Toast.makeText(this@JoinActivity, "Authentication Success.",
                     Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.dac.gapp.andac.BaseActivity
+import com.dac.gapp.andac.MyPageActivity
 import com.dac.gapp.andac.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -69,9 +70,6 @@ open class LoginActivity : BaseActivity() {
                 }
             }
         }
-
-
-
     }
 
     public override fun onStart() {
@@ -85,28 +83,8 @@ open class LoginActivity : BaseActivity() {
         if(currentUser != null){
             Toast.makeText(this@LoginActivity, "Authentication Success.",
                     Toast.LENGTH_SHORT).show()
-
-            // 디비에 uuid가 있는지 검사
-            /*
-            val uuid = currentUser.uid
-            getUsers(uuid)!!.get().addOnCompleteListener { task ->
-
-                if(!task.isSuccessful) {
-                    "Fail Get User Info".let {
-                        Toast.makeText(this@LoginActivity, it, Toast.LENGTH_SHORT).show()
-                        Log.d(KBJ, it)
-                    }
-                }
-                if(task.result.exists()) { // 있으면, 로그인 완료
-                    "Login Success".let {
-                        Toast.makeText(this@LoginActivity, it, Toast.LENGTH_SHORT).show()
-                        Log.d(KBJ, it)
-                    }
-                } else { // 없으면, 회원가입
-
-                }
-            }
-            */
+            startActivity(Intent(this, MyPageActivity::class.java))
+            finish()
         }
 
     }
