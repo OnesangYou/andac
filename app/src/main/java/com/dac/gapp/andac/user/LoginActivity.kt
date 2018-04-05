@@ -55,6 +55,7 @@ open class LoginActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
+            showProgressDialog()
             mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())?.addOnCompleteListener{ task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
@@ -80,6 +81,7 @@ open class LoginActivity : BaseActivity() {
     }
 
     private fun updateUI(currentUser: FirebaseUser?) {
+        hideProgressDialog()
         if(currentUser != null){
             Toast.makeText(this@LoginActivity, "Authentication Success.",
                     Toast.LENGTH_SHORT).show()

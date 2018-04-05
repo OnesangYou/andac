@@ -82,6 +82,7 @@ class JoinActivity : BaseActivity() {
         // 회원가입 시도
         Log.d(KBJ, "emailEdit : " + emailEdit.text)
         val mAuth = getAuth()
+        showProgressDialog()
         mAuth?.createUserWithEmailAndPassword(mUserInfo.email, passwordEdit.text.toString())?.addOnCompleteListener{ task ->
             if (task.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
@@ -107,11 +108,13 @@ class JoinActivity : BaseActivity() {
                         Toast.LENGTH_SHORT).show()
                 updateUI(null)
             }
+
         }
 
     }
 
     private fun updateUI(user: FirebaseUser?) {
+        hideProgressDialog()
         if(user != null){
             Toast.makeText(this@JoinActivity, "Authentication Success.",
                     Toast.LENGTH_SHORT).show()
