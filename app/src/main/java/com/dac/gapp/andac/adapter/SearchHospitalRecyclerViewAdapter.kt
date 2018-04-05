@@ -9,7 +9,7 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.model.SearchHospitalItem
 import com.dac.gapp.andac.viewholder.SearchHospitalViewHolder
 
-class SearchHospitalAdapter(private var context: Context, private var itemList: List<SearchHospitalItem>) : RecyclerView.Adapter<SearchHospitalViewHolder>() {
+class SearchHospitalRecyclerViewAdapter(private var context: Context, private var itemList: List<SearchHospitalItem>) : RecyclerView.Adapter<SearchHospitalViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SearchHospitalViewHolder {
         var view = LayoutInflater.from(parent!!.context).inflate(R.layout.row, parent, false)

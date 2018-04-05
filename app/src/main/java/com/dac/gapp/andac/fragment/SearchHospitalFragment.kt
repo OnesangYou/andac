@@ -1,17 +1,14 @@
 package com.dac.gapp.andac.fragment
 
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.adapter.SearchHospitalFragmentPagerAdapter
 import kotlinx.android.synthetic.main.fragment_search_hospital.*
-import java.util.*
 
 
 /**
@@ -30,35 +27,14 @@ class SearchHospitalFragment : Fragment() {
     }
 
     private fun prepareUi() {
-        viewPager.adapter = TestPagerAdapter(activity, fragmentManager)
+        viewPager.adapter = SearchHospitalFragmentPagerAdapter(context, fragmentManager)
         layoutTab.setupWithViewPager(viewPager)
     }
 
     private fun setupEventsOnCreate() {
     }
 
-    class TestPagerAdapter(context: Context?, fm: FragmentManager?) : FragmentPagerAdapter(fm) {
 
-        private var titles: List<String> = Arrays.asList(context!!.getString(R.string.nearby_hospital),
-                context.getString(R.string.popularity), context.getString(R.string.seoul),
-                context.getString(R.string.gyeonggi), context.getString(R.string.incheon))
-
-        override fun getItem(position: Int): Fragment {
-            // TODO fragment 계속 생성하지 않고 기존에 생성된거 유지하도록 변경
-            return when (position) {
-                0 -> SearchHospitalFragmentForMap()
-                else -> SearchHospitalFragmentForList()
-            }
-        }
-
-        override fun getCount(): Int {
-            return titles.size
-        }
-
-        override fun getPageTitle(position: Int): CharSequence? {
-            return titles[position]
-        }
-    }
 }
 
 

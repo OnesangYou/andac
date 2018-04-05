@@ -22,6 +22,7 @@
     <string name="fb_login_protocol_scheme">fb408431332901843</string>
     <string name="title_activity_login">LoginActivity</string>
 
+    <string name="no_title">No Title</string>
     <string name="nearby_hospital">근처 병원</string>
     <string name="popularity">인기순</string>
     <string name="seoul">서울</string>
