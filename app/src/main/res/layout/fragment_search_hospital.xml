@@ -12,97 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/layoutTag"
+    <include
+        layout="@layout/layout_tag"
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_margin="3dp"
         android:padding="1dp"
-        app:layout_constraintTop_toBottomOf="@+id/layoutTab">
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.20" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.40" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.60" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.80" />
-
-        <ImageButton
-            android:id="@+id/imgBtnLasic"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:padding="0sp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/selector_tag_lasic"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/guideline1" />
-
-        <ImageButton
-            android:id="@+id/imgBtnOldeye"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:padding="0sp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/selector_tag_oldeye"
-            app:layout_constraintLeft_toRightOf="@id/guideline1"
-            app:layout_constraintRight_toLeftOf="@id/guideline2" />
-
-        <ImageButton
-            android:id="@+id/imgBtnInsertLense"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:padding="0sp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/selector_tag_insertlense"
-            app:layout_constraintLeft_toRightOf="@id/guideline2"
-            app:layout_constraintRight_toLeftOf="@id/guideline3" />
-
-        <ImageButton
-            android:id="@+id/imgBtnWhiteeye"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:padding="0sp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/selector_tag_whiteeye"
-            app:layout_constraintLeft_toRightOf="@id/guideline3"
-            app:layout_constraintRight_toLeftOf="@id/guideline4" />
-
-        <ImageButton
-            android:id="@+id/imgBtnEyesick"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:padding="0sp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/selector_tag_eyesick"
-            app:layout_constraintLeft_toRightOf="@id/guideline4"
-            app:layout_constraintRight_toRightOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/layoutTab" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
