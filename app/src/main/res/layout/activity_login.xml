@@ -10,7 +10,7 @@
         android:id="@+id/click1"
         android:layout_width="match_parent"
         android:layout_height="205dp"
-        android:background="@color/colorMain"
+        android:background="@color/red"
         android:orientation="horizontal">
 
         <ImageView
@@ -65,6 +65,7 @@
         android:layout_marginStart="32dp"
         android:ems="10"
         android:hint="이메일을 입력해주세요"
+        android:textSize="@dimen/_15sp"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/passwordLoginEdit"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,6 +78,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
+        android:textSize="15sp"
         android:ems="10"
         android:hint="비밀번호를 입력해주세요"
         android:inputType="textPassword"
@@ -89,7 +91,7 @@
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
@@ -104,7 +106,7 @@
     <Button
         android:id="@+id/goToJoin"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
@@ -120,8 +122,8 @@
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/buttonstyle"
         android:text="ID 찾기"
@@ -132,9 +134,9 @@
 
     <Button
         android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginBottom="56dp"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="72dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/buttonstyle"
         android:text="PW 찾기"
