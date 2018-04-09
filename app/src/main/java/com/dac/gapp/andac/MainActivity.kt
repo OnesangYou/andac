@@ -16,6 +16,15 @@ import com.dac.gapp.andac.user.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
+    private var fragments: HashMap<Int, Fragment> = HashMap()
+
+    init {
+        fragments[R.id.navigation_main] = MainFragment()
+        fragments[R.id.navigation_search_hospital] = SearchHospitalFragment()
+        fragments[R.id.navigation_chat] = ChatRoomFragment()
+        fragments[R.id.navigation_board] = BoardFragment()
+        fragments[R.id.navigation_event] = EventListFragment()
+    }
 
     // static method
     companion object {
@@ -25,29 +34,8 @@ class MainActivity : BaseActivity() {
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_main -> {
-                changeFragment(MainFragment())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_search_hospital -> {
-                changeFragment(SearchHospitalFragment())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_chat -> {
-                changeFragment(ChatRoomFragment())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_board -> {
-                changeFragment(BoardFragment())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_event -> {
-                changeFragment(EventListFragment())
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
+        changeFragment(fragments[item.itemId]!!)
+        return@OnNavigationItemSelectedListener true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -27,7 +27,7 @@ class SearchHospitalFragment : Fragment() {
     }
 
     private fun prepareUi() {
-        viewPager.adapter = SearchHospitalFragmentPagerAdapter(context, fragmentManager)
+        viewPager.adapter = SearchHospitalFragmentPagerAdapter(context, childFragmentManager)
         layoutTab.setupWithViewPager(viewPager)
     }
 
