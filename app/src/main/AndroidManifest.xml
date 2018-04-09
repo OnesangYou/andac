@@ -56,7 +56,10 @@
         <activity
             android:name=".user.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".user.JoinActivity"></activity>
+        <activity android:name=".user.JoinActivity" />
+        <activity
+            android:name=".user.HospitalTextSearchActivity"
+            android:label="@string/title_activity_hospital_text_search"></activity>
     </application>
 
 </manifest>

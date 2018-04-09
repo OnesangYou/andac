@@ -29,4 +29,5 @@
     <string name="gyeonggi">경기</string>
     <string name="incheon">인천</string>
     <string name="loading">Loading</string>
+    <string name="title_activity_hospital_text_search">HospitalTextSearchActivity</string>
 </resources>

@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    dataBinding.enabled true
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.dac.gapp.andac"
@@ -71,6 +72,7 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:11.8.0'
     compile 'com.google.android.gms:play-services-auth:11.8.0'
     compile 'com.google.firebase:firebase-firestore:11.8.0'
+    compile 'com.algolia:instantsearch-android:1.+'
 
 }
 apply plugin: 'com.google.gms.google-services'

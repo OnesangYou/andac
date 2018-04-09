@@ -1,4 +1,4 @@
-package com.dac.gapp.andac.entity
+package com.dac.gapp.andac.model
 
 /**
  * Created by gimbyeongjin on 2018. 4. 4..

@@ -10,7 +10,7 @@ import android.widget.Toast
 import com.dac.gapp.andac.BaseActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.custom.SwipeViewPager
-import com.dac.gapp.andac.entity.UserInfo
+import com.dac.gapp.andac.model.UserInfo
 import com.dac.gapp.andac.fragment.JoinInfoFragment
 import com.dac.gapp.andac.fragment.JoinPhoneFragment
 import com.google.firebase.auth.FirebaseUser

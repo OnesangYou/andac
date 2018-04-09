@@ -17,7 +17,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
 
+    // 알고리아
+    val ALGOLIA_APP_ID = "VUNTR162M6"
+    val ALGOLIA_SEARCH_API_KEY = "f8eab63beb88f72136b260ea219aa6a4"
+
     val KBJ = "KBJ"
+
     fun getDb() : FirebaseFirestore {
         return FirebaseFirestore.getInstance()
     }

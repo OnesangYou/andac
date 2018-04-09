@@ -10,6 +10,7 @@ import com.dac.gapp.andac.ColumnActivity
 import com.dac.gapp.andac.EventActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.RequestSurgeryActivity
+import com.dac.gapp.andac.user.HospitalTextSearchActivity
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -35,6 +36,10 @@ class MainFragment : Fragment() {
             val nextIntent = Intent(context, EventActivity::class.java)
             startActivity(nextIntent)
         })
+
+        findHospitalByText.setOnClickListener {
+            startActivity(Intent(context, HospitalTextSearchActivity::class.java))
+        }
     }
 
 }
