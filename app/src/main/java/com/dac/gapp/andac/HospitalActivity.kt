@@ -7,16 +7,21 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.dac.gapp.andac.adapter.HospitalActivityPagerAdapter
-import com.dac.gapp.andac.fragment.GoogleMapCallback
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapFragment
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_hospital.*
-
 
 const val EXTRA_HOSPITAL_ID = "EXTRA_HOSPITAL_ID"
 
-class HospitalActivity : AppCompatActivity() {
+class HospitalActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    // static method
+    private var googleMap: GoogleMap? = null
+
+    // static methoda
     companion object {
         fun createIntent(context: Context, hospitalId: Int): Intent {
             var intent = Intent(context, HospitalActivity::class.java)
@@ -50,6 +55,20 @@ class HospitalActivity : AppCompatActivity() {
 
         val fragmentManager = fragmentManager
         val mapFragment = fragmentManager.findFragmentById(R.id.map) as MapFragment
-        mapFragment.getMapAsync(GoogleMapCallback())
+        mapFragment.getMapAsync(this)
+    }
+
+    override fun onMapReady(map: GoogleMap?) {
+        val seoul = LatLng(37.56, 126.97)
+        val markerOptions = MarkerOptions()
+        markerOptions.position(seoul)
+        markerOptions.title("서울")
+        markerOptions.snippet("한국의 수도")
+        map!!.addMarker(markerOptions)
+
+        map.moveCamera(CameraUpdateFactory.newLatLng(seoul))
+        map.animateCamera(CameraUpdateFactory.zoomTo(10f))
+
+        googleMap = map
     }
 }
