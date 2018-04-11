@@ -14,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCPBndOZL4BvkEk0BARo3mZTw7Vch31F6s" />
+
         <activity
             android:name=".SplashActivity"
             android:label="${appLabel}"

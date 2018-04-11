@@ -74,5 +74,8 @@ dependencies {
     compile 'com.google.firebase:firebase-firestore:11.8.0'
     compile 'com.algolia:instantsearch-android:1.+'
 
+    // For google map api -> firebase 버전 맞춰줘야됨.
+    implementation 'com.google.android.gms:play-services-maps:11.8.0'
+    implementation 'com.google.android.gms:play-services-location:11.8.0'
 }
 apply plugin: 'com.google.gms.google-services'

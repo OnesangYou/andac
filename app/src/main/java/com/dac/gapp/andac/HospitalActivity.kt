@@ -2,14 +2,15 @@ package com.dac.gapp.andac
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.dac.gapp.andac.adapter.HospitalActivityPagerAdapter
+import com.dac.gapp.andac.fragment.GoogleMapCallback
+import com.google.android.gms.maps.MapFragment
 import kotlinx.android.synthetic.main.activity_hospital.*
+
 
 const val EXTRA_HOSPITAL_ID = "EXTRA_HOSPITAL_ID"
 
@@ -30,7 +31,6 @@ class HospitalActivity : AppCompatActivity() {
         prepareUi()
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     private fun prepareUi() {
         // toolbar
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
@@ -47,5 +47,9 @@ class HospitalActivity : AppCompatActivity() {
         val images = ArrayList<Int>()
         images.addAll(arrayOf(R.drawable.heart, R.drawable.heart_fill, R.drawable.heart, R.drawable.heart_fill))
         viewPager.adapter = HospitalActivityPagerAdapter(this, supportFragmentManager, images)
+
+        val fragmentManager = fragmentManager
+        val mapFragment = fragmentManager.findFragmentById(R.id.map) as MapFragment
+        mapFragment.getMapAsync(GoogleMapCallback())
     }
 }
