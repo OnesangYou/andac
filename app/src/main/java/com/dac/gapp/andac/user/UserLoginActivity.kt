@@ -12,12 +12,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.*
 
-open class LoginActivity : BaseActivity() {
+open class UserLoginActivity : BaseActivity() {
 
     // static method
     companion object {
         fun createIntent(context: Context): Intent {
-            return Intent(context, LoginActivity::class.java)
+            return Intent(context, UserLoginActivity::class.java)
         }
     }
 
@@ -31,7 +31,7 @@ open class LoginActivity : BaseActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         goToJoin.setOnClickListener{
-            Intent(this@LoginActivity, JoinActivity::class.java).let {
+            Intent(this@UserLoginActivity, UserJoinActivity::class.java).let {
                 startActivity(it)
             }
         }
@@ -42,7 +42,7 @@ open class LoginActivity : BaseActivity() {
             if(emailEdit.text.isEmpty()) {
                 "이메일을 입력하세요".let {
                     Log.d(KBJ, it)
-                    Toast.makeText(this@LoginActivity, it, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@UserLoginActivity, it, Toast.LENGTH_SHORT).show()
                 }
                 return@setOnClickListener
             }
@@ -50,7 +50,7 @@ open class LoginActivity : BaseActivity() {
             if(passwordLoginEdit.text.isEmpty()) {
                 "패스워드를 입력하세요".let {
                     Log.d(KBJ, it)
-                    Toast.makeText(this@LoginActivity, it, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@UserLoginActivity, it, Toast.LENGTH_SHORT).show()
                 }
                 return@setOnClickListener
             }
@@ -65,7 +65,7 @@ open class LoginActivity : BaseActivity() {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(KBJ, "signInWithEmail:failure", task.exception)
-                    Toast.makeText(this@LoginActivity, "Authentication failed." + task.exception,
+                    Toast.makeText(this@UserLoginActivity, "Authentication failed." + task.exception,
                             Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
@@ -83,7 +83,7 @@ open class LoginActivity : BaseActivity() {
     private fun updateUI(currentUser: FirebaseUser?) {
         hideProgressDialog()
         if(currentUser != null){
-            Toast.makeText(this@LoginActivity, "Authentication Success.",
+            Toast.makeText(this@UserLoginActivity, "Authentication Success.",
                     Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, MyPageActivity::class.java))
             finish()

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
-import com.dac.gapp.andac.user.JoinActivity
+import com.dac.gapp.andac.user.UserJoinActivity
 import kotlinx.android.synthetic.main.fragment_join_info.*
 
 
@@ -25,7 +25,7 @@ class JoinInfoFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        joinBtn.setOnClickListener { (activity as JoinActivity).join(emailEdit.text.toString(), nickNameEdit.text.toString()) }
+        joinBtn.setOnClickListener { (activity as UserJoinActivity).join(emailEdit.text.toString(), nickNameEdit.text.toString()) }
     }
 
 }// Required empty public constructor
