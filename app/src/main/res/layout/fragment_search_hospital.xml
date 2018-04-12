@@ -6,19 +6,27 @@
     tools:context="com.dac.gapp.andac.fragment.SearchHospitalFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/searchHospital" />
 
-    <Button
-        android:id="@+id/hospital"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="68dp"
-        android:text="병원 상세보기"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/layoutTab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include
+        layout="@layout/layout_tag"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_margin="3dp"
+        android:padding="1dp"
+        app:layout_constraintTop_toBottomOf="@id/layoutTab" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/layoutTag" />
 
 </android.support.constraint.ConstraintLayout>

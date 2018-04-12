@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "181130852864",
-    "firebase_url": "https://andac-33bc2.firebaseio.com",
-    "project_id": "andac-33bc2",
-    "storage_bucket": "andac-33bc2.appspot.com"
+    "project_number": "210288101202",
+    "firebase_url": "https://andac-e2b8e.firebaseio.com",
+    "project_id": "andac-e2b8e",
+    "storage_bucket": "andac-e2b8e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:181130852864:android:85cb214226eaf88d",
+        "mobilesdk_app_id": "1:210288101202:android:6c044d29453165c5",
         "android_client_info": {
-          "package_name": "com.dac.gapp.andac.user"
+          "package_name": "com.dac.gapp.andac.hospital"
         }
       },
       "oauth_client": [
         {
-          "client_id": "181130852864-748p84tak8e7th4sdugbblp22c87cadv.apps.googleusercontent.com",
+          "client_id": "210288101202-ut6jf4obdidl5mltkjlckksbj42m6bbr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA3zHZydPw-8op-8OzhhR2fET9gn6R_mVU"
+          "current_key": "AIzaSyBwlpKoE1hKu94-xR5IHihUVi1YNpllens"
         }
       ],
       "services": {
@@ -39,20 +39,20 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:181130852864:android:6c044d29453165c5",
+        "mobilesdk_app_id": "1:210288101202:android:85cb214226eaf88d",
         "android_client_info": {
-          "package_name": "com.dac.gapp.andac.hospital"
+          "package_name": "com.dac.gapp.andac.user"
         }
       },
       "oauth_client": [
         {
-          "client_id": "181130852864-748p84tak8e7th4sdugbblp22c87cadv.apps.googleusercontent.com",
+          "client_id": "210288101202-ut6jf4obdidl5mltkjlckksbj42m6bbr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA3zHZydPw-8op-8OzhhR2fET9gn6R_mVU"
+          "current_key": "AIzaSyBwlpKoE1hKu94-xR5IHihUVi1YNpllens"
         }
       ],
       "services": {

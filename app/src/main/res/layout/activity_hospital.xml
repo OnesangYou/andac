@@ -1,16 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.dac.gapp.andac.HospitalActivity">
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hospital"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp"
-        tools:ignore="MissingConstraints" />
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <ImageView
+            android:id="@+id/my_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginStart="20dp"
+            app:srcCompat="@drawable/ic_arrow_back_black_18dp"
+            tools:ignore="ContentDescription,RtlHardcoded" />
+
+        <TextView
+            android:id="@+id/txtviewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/andac"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="20dp"
+            app:srcCompat="@drawable/bell"
+            tools:ignore="ContentDescription,RtlHardcoded" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/imgBtnRequestForCounseling"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="150dp" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layoutHospitalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/viewPager">
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guidelineHospitalInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.70" />
+
+                <TextView
+                    android:id="@+id/txtviewTitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="아이리움안과의원"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/txtviewAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="서울특별시 강남구 역삼1동 강남대로 388"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@id/txtviewTitle2" />
+
+                <TextView
+                    android:id="@+id/txtviewBusinessHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="open 10:10 ~ close 19:30"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@id/txtviewAddress" />
+
+                <TextView
+                    android:id="@+id/txtviewDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="당일 검사 후 당일 바로 수술! 우수한 안정성이 바로\n아이리움의 자부심입니다!"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@id/txtviewBusinessHours" />
+
+                <ImageView
+                    android:id="@+id/imgviewFavorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:src="@drawable/heart_fill"
+                    app:layout_constraintLeft_toRightOf="@id/guidelineHospitalInfo" />
+
+                <TextView
+                    android:id="@+id/txtviewFavorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.5 ★★★★★"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toRightOf="@id/guidelineHospitalInfo"
+                    app:layout_constraintTop_toBottomOf="@id/imgviewFavorite" />
+            </android.support.constraint.ConstraintLayout>
+
+            <include
+                layout="@layout/layout_tag"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_margin="3dp"
+                android:padding="1dp"
+                app:layout_constraintTop_toBottomOf="@id/layoutHospitalInfo" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layoutHospitalMap"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:layout_constraintTop_toBottomOf="@id/layoutTag">
+
+                <fragment
+                    android:id="@+id/map"
+                    class="com.google.android.gms.maps.MapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layoutHospitalComment"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:layout_constraintTop_toBottomOf="@id/layoutHospitalMap">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="layout for hospital comment" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layoutHospitalEvent"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:layout_constraintTop_toBottomOf="@id/layoutHospitalComment">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="layout for hospital event" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/imgBtnRequestForCounseling"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:padding="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/button_eventon"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </android.support.constraint.ConstraintLayout>

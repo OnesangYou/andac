@@ -1,25 +1,18 @@
 package com.dac.gapp.andac.user
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import com.dac.gapp.andac.MainActivity
+import com.dac.gapp.andac.BaseActivity
+import com.dac.gapp.andac.MyPageActivity
 import com.dac.gapp.andac.R
-import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginResult
-import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.*
 
-
-open class LoginActivity : Activity() {
+open class LoginActivity : BaseActivity() {
 
     // static method
     companion object {
@@ -28,8 +21,6 @@ open class LoginActivity : Activity() {
         }
     }
 
-    val TAG = "KBJ"
-    private var mCallbackManager : CallbackManager? = null
     private var mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,54 +30,47 @@ open class LoginActivity : Activity() {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance()
 
-        // Initialize Facebook Login button
-        mCallbackManager = CallbackManager.Factory.create()
-        facebookLoginBtn.setReadPermissions("email", "public_profile")
-        facebookLoginBtn.registerCallback(mCallbackManager, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult)
-                handleFacebookAccessToken(loginResult.accessToken)
+        goToJoin.setOnClickListener{
+            Intent(this@LoginActivity, JoinActivity::class.java).let {
+                startActivity(it)
             }
+        }
 
-            override fun onCancel() {
-                Log.d(TAG, "facebook:onCancel")
-                // ...
-            }
+        loginBtn.setOnClickListener {
+            val mAuth = getAuth()
 
-            override fun onError(error: FacebookException) {
-                Log.d(TAG, "facebook:onError", error)
-                // ...
-            }
-        })
-
-    }
-
-    private fun handleFacebookAccessToken(token: AccessToken) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token)
-
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        mAuth!!.signInWithCredential(credential)
-                .addOnCompleteListener(this) { task ->
-                    Log.d(TAG, "complete!!!")
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithCredential:success")
-                        val user = mAuth!!.currentUser
-                        updateUI(user)
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithCredential:failure", task.exception)
-                        Toast.makeText(this@LoginActivity, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
-                        updateUI(null)
-                    }
+            if(emailEdit.text.isEmpty()) {
+                "이메일을 입력하세요".let {
+                    Log.d(KBJ, it)
+                    Toast.makeText(this@LoginActivity, it, Toast.LENGTH_SHORT).show()
                 }
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        super.onActivityResult(requestCode, resultCode, data)
+                return@setOnClickListener
+            }
 
-        // Pass the activity result back to the Facebook SDK
-        mCallbackManager!!.onActivityResult(requestCode, resultCode, data)
+            if(passwordLoginEdit.text.isEmpty()) {
+                "패스워드를 입력하세요".let {
+                    Log.d(KBJ, it)
+                    Toast.makeText(this@LoginActivity, it, Toast.LENGTH_SHORT).show()
+                }
+                return@setOnClickListener
+            }
+
+            showProgressDialog()
+            mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())?.addOnCompleteListener{ task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(KBJ, "signInWithEmail:success")
+                    val user = mAuth.currentUser
+                    updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(KBJ, "signInWithEmail:failure", task.exception)
+                    Toast.makeText(this@LoginActivity, "Authentication failed." + task.exception,
+                            Toast.LENGTH_SHORT).show()
+                    updateUI(null)
+                }
+            }
+        }
     }
 
     public override fun onStart() {
@@ -97,7 +81,14 @@ open class LoginActivity : Activity() {
     }
 
     private fun updateUI(currentUser: FirebaseUser?) {
-        Toast.makeText(this@LoginActivity, currentUser.toString(), Toast.LENGTH_SHORT).show()
+        hideProgressDialog()
+        if(currentUser != null){
+            Toast.makeText(this@LoginActivity, "Authentication Success.",
+                    Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, MyPageActivity::class.java))
+            finish()
+        }
+
     }
 
 }
