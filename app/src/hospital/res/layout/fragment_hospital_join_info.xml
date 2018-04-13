@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorMain"
-            android:text="로그인"
+            android:text="다음단계"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent" />
 
