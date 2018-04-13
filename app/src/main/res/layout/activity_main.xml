@@ -19,8 +19,8 @@
 
         <ImageView
             android:id="@+id/my_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
             android:layout_gravity="left"
             android:layout_marginStart="20dp"
             app:srcCompat="@drawable/mypage"
@@ -28,15 +28,15 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="28dp"
             android:layout_gravity="center"
             android:background="@drawable/andac_font" />
 
         <ImageView
             android:id="@+id/notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
             android:layout_gravity="right"
             android:layout_marginEnd="20dp"
             app:srcCompat="@drawable/bell"
@@ -62,7 +62,7 @@
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
         android:background="?android:attr/windowBackground"
-        app:itemBackground="@color/colorMain"
+        app:itemBackground="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

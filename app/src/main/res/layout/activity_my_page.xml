@@ -19,10 +19,10 @@
 
         <ImageView
             android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="23dp"
             android:layout_gravity="left"
-            app:srcCompat="@drawable/ic_arrow_back_black_18dp"
+            app:srcCompat="@drawable/back"
             tools:layout_editor_absoluteX="20dp"
             tools:layout_editor_absoluteY="14dp"
             tools:ignore="ContentDescription,RtlHardcoded" />
