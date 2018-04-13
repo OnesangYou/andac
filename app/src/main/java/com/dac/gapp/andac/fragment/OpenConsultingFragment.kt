@@ -14,11 +14,10 @@ import kotlinx.android.synthetic.main.fragment_open_consulting.*
 class OpenConsultingFragment : Fragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_designation_consulting, container, false)
+        return inflater.inflate(R.layout.fragment_open_consulting, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        textView3.setText("1111111111111")
     }
 }

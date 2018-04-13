@@ -19,6 +19,5 @@ class DesignationConsultingFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        textView3.setText("22222222222")
     }
 }

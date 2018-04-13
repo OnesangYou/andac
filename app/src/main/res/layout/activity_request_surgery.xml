@@ -7,6 +7,26 @@
     android:layout_height="match_parent"
     tools:context="com.dac.gapp.andac.RequestSurgeryActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <TextView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:text="1:1 상담신청서" />
+
+    </android.support.v7.widget.Toolbar>
+
     <TextView
         android:id="@+id/tagText"
         android:layout_width="match_parent"
@@ -15,10 +35,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="start"
-        android:text="@string/andacRequestAdvice"
+        android:text="상담받을 태그신청"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <LinearLayout
         android:id="@+id/tagLayout"
@@ -58,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:text="@string/andacRequestAdvice"
+        android:text="시력"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tagLayout" />
@@ -77,7 +97,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:text="@string/andacRequestAdvice"
+        android:text="안과질환"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/visualacuityEdit" />
@@ -86,7 +106,7 @@
         android:id="@+id/diseaseEdit"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="우안/ 좌안"
+        android:hint="질환"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/diseaseText" />
@@ -96,7 +116,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:text="@string/andacRequestAdvice"
+        android:text="이름"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/diseaseEdit" />
@@ -105,7 +125,7 @@
         android:id="@+id/nameEdit"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:hint="우안/ 좌안"
+        android:hint="이름"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameText" />
@@ -115,7 +135,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:text="@string/andacRequestAdvice"
+        android:text="휴대폰번호"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEdit" />
@@ -124,7 +144,7 @@
         android:id="@+id/phoneEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="우안/ 좌안"
+        android:hint="폰번호"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phoneText" />
@@ -142,7 +162,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:text="TextView"
+        android:text="상세보기"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/checkBox"
         app:layout_constraintTop_toBottomOf="@+id/phoneEdit" />
