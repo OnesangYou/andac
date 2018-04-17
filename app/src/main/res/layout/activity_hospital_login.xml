@@ -45,7 +45,8 @@ ANDAC이 처음이세요?"
             android:layout_height="210dp"
             android:src="@drawable/model1"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:layout_editor_absoluteX="112dp" />
+            tools:layout_editor_absoluteX="112dp"
+            tools:ignore="MissingConstraints" />
 
 
         <Button
@@ -53,9 +54,9 @@ ANDAC이 처음이세요?"
             android:layout_width="320dp"
             android:layout_height="45dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/buttonstyle2"
+            android:background="@drawable/buttonstyle3"
             android:text="안닥리스트 확인 후 회원가입"
-            android:textColor="@color/white"
+            android:textColor="@color/colorMain"
             android:textSize="15dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -100,6 +101,33 @@ ANDAC이 처음이세요?"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
+
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/non"
+        android:text="ID 찾기"
+        android:textColor="@color/colorMain"
+        android:textSize="10dp"
+        app:layout_constraintEnd_toStartOf="@+id/button7"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/non"
+        android:text="PW 찾기"
+        android:textColor="@color/colorMain"
+        android:textSize="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
 
 
     <Button

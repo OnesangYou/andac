@@ -65,7 +65,7 @@
                 android:layout_marginLeft="44dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
-                android:text="폰번호 입력"
+                android:text="핸드폰번호 입력"
                 android:textSize="@dimen/_10sp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
