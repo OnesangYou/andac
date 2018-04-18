@@ -8,11 +8,11 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.fragment.SearchHospitalFragmentForList
 import com.dac.gapp.andac.fragment.SearchHospitalFragmentForMap
 
-class SearchHospitalFragmentPagerAdapter(val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class SearchHospitalFragmentPagerAdapter(val context: Context?, fm: FragmentManager) : FragmentPagerAdapter(fm) {
     private var fragments: ArrayList<Fragment> = ArrayList()
 
     init {
-        fragments.add(SearchHospitalFragmentForMap.create(context.getString(R.string.nearby_hospital)))
+        fragments.add(SearchHospitalFragmentForMap.create(context!!.getString(R.string.nearby_hospital)))
         fragments.add(SearchHospitalFragmentForList.create(context.getString(R.string.popularity)))
         fragments.add(SearchHospitalFragmentForList.create(context.getString(R.string.seoul)))
         fragments.add(SearchHospitalFragmentForList.create(context.getString(R.string.gyeonggi)))
@@ -34,6 +34,6 @@ class SearchHospitalFragmentPagerAdapter(val context: Context, fm: FragmentManag
         } else if (fragment is SearchHospitalFragmentForList) {
             return fragment.title
         }
-        return context.getString(R.string.no_title)
+        return context!!.getString(R.string.no_title)
     }
 }

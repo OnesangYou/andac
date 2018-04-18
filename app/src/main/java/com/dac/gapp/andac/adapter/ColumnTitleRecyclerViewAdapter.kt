@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.model.columnTitle
 import com.dac.gapp.andac.viewholder.ColumnTitleViewHolder
-import com.dac.gapp.andac.viewholder.SearchHospitalViewHolder
 
 /**
  * Created by godueol on 2018. 4. 14..
  */
 class ColumnTitleRecyclerViewAdapter(var context : Context, var list :List<columnTitle>) : RecyclerView.Adapter<ColumnTitleViewHolder>(){
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ColumnTitleViewHolder {
-        var view = LayoutInflater.from(parent!!.context).inflate(R.layout.column_row, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ColumnTitleViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.column_row, parent, false)
         return ColumnTitleViewHolder(view)
     }
 
@@ -22,9 +21,10 @@ class ColumnTitleRecyclerViewAdapter(var context : Context, var list :List<colum
         return list.size
     }
 
-    override fun onBindViewHolder(holder: ColumnTitleViewHolder?, position: Int) {
-        var item : columnTitle = list.get(position)
-        holder!!.titleText.text = item.title
+
+    override fun onBindViewHolder(holder: ColumnTitleViewHolder, position: Int) {
+        val item : columnTitle = list.get(position)
+        holder.titleText.text = item.title
 
     }
 

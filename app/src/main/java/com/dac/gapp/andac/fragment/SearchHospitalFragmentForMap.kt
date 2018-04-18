@@ -58,7 +58,7 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback {
         mapView!!.onStop()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         mapView!!.onSaveInstanceState(outState)
     }

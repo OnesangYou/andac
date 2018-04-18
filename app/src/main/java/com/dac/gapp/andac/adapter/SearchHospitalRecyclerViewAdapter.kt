@@ -9,21 +9,21 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.model.SearchHospitalItem
 import com.dac.gapp.andac.viewholder.SearchHospitalViewHolder
 
-class SearchHospitalRecyclerViewAdapter(private var context: Context, private var itemList: List<SearchHospitalItem>) : RecyclerView.Adapter<SearchHospitalViewHolder>() {
+class SearchHospitalRecyclerViewAdapter(private var context: Context?, private var itemList: List<SearchHospitalItem>) : RecyclerView.Adapter<SearchHospitalViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SearchHospitalViewHolder {
-        var view = LayoutInflater.from(parent!!.context).inflate(R.layout.row, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchHospitalViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.row, parent, false)
         return SearchHospitalViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: SearchHospitalViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: SearchHospitalViewHolder, position: Int) {
         val item: SearchHospitalItem = itemList[position]
-        holder!!.thumbnail.setImageResource(item.thumbnail)
+        holder.thumbnail.setImageResource(item.thumbnail)
         holder.title.text = item.title
         holder.address.text = item.address
         holder.description.text = item.description
         holder.itemView.setOnClickListener {
-            context.startActivity(HospitalActivity.createIntent(context, item.hospitalId))
+            context!!.startActivity(HospitalActivity.createIntent(context!!, item.hospitalId))
         }
     }
 

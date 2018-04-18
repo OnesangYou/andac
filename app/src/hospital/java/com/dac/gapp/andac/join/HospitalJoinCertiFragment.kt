@@ -17,12 +17,11 @@ import kotlinx.android.synthetic.hospital.fragment_hospital_join_comp.*
 class HospitalJoinCertiFragment : Fragment() {
 
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater!!.inflate(R.layout.fragment_hospital_join_certi, container, false)
+        return inflater.inflate(R.layout.fragment_hospital_join_certi, container, false)
     }
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         nextBtn.setOnClickListener { (activity as HospitalJoinActivity).goToNextView() }
     }

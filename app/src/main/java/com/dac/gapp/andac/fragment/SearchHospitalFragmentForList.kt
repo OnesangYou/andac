@@ -48,7 +48,7 @@ class SearchHospitalFragmentForList : Fragment() {
     }
 
     private fun getDummyData(): List<SearchHospitalItem> {
-        var itemList: ArrayList<SearchHospitalItem> = ArrayList()
+        val itemList: ArrayList<SearchHospitalItem> = ArrayList()
         for (x in 1..10) {
             val item = SearchHospitalItem(x, R.drawable.uproad_pic, "title $x", "address $x", "description $x")
             itemList.add(item)
