@@ -24,6 +24,7 @@
             android:iconifiedByDefault="false"
             android:queryHint="Search"
             algolia:autofocus="false"
+            algolia:defaultQueryHint="병원명을 입력해주세요"
             algolia:submitButtonEnabled="false"/>
     </LinearLayout>
 

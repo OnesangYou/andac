@@ -1,6 +1,5 @@
 package com.dac.gapp.andac.user
 
-import android.app.Activity
 import android.os.Bundle
 import com.algolia.instantsearch.helpers.InstantSearch
 import com.algolia.instantsearch.helpers.Searcher
