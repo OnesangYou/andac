@@ -14,6 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDkkpBXY7N4YbP0JSuOZJdma17MQ9k4g5E" />
+
         <activity
             android:name=".SplashActivity"
             android:label="${appLabel}"
@@ -36,7 +40,8 @@
             android:name=".user.UserLoginActivity"
             android:label="@string/title_activity_login" />
         <activity android:name=".HospitalLoginActivity" />
-        <activity android:name=".HospitalJoinActivity"></activity>
+        <activity android:name=".HospitalJoinActivity" />
+        <activity android:name=".hospital.SearchAddressActivity"></activity>
     </application>
 
 </manifest>
