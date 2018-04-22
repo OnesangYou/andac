@@ -14,14 +14,30 @@
             android:id="@+id/etAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter the Address." />
+            android:hint="Enter the Address or Radius." />
+
+        <Button
+            android:id="@+id/btnSetRadius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Radius"
+            app:layout_constraintRight_toLeftOf="@id/btnNowLocation"
+            app:layout_constraintTop_toBottomOf="@id/etAddress" />
+
+        <Button
+            android:id="@+id/btnNowLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Now Location"
+            app:layout_constraintRight_toLeftOf="@id/btnGetLocation"
+            app:layout_constraintTop_toBottomOf="@id/etAddress" />
 
         <Button
             android:id="@+id/btnGetLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Get Location"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etAddress" />
     </android.support.constraint.ConstraintLayout>
 

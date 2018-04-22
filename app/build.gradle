@@ -72,6 +72,9 @@ dependencies {
 
     implementation rootProject.ext.libs.firebase
 
+    implementation 'com.algolia:algoliasearch-android:3.20.11'
     implementation rootProject.ext.libs.algolia
+
+    implementation rootProject.ext.libs.timber
 }
 apply plugin: 'com.google.gms.google-services'

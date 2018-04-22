@@ -22,12 +22,28 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationListener
 import android.content.IntentSender
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import com.algolia.search.saas.AbstractQuery
+import com.algolia.search.saas.Client
+import com.algolia.search.saas.Query
+import com.dac.gapp.andac.util.MyToast
+import java.lang.Exception
 
 
 class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
+    private val ALGOLIA_APP_ID = "VUNTR162M6"
+    private val ALGOLIA_SEARCH_API_KEY = "f8eab63beb88f72136b260ea219aa6a4"
+    private val ALGOLIA_INDEX_NAME = "hospitals"
+
+    private val HITS = "hits"
+    private val NAME = "name"
+    private val LAT = "lat"
+    private val LNG = "lng"
+    private val GEOLOC = "_geoloc"
 
 
     private var mapView: MapView? = null
@@ -89,7 +105,11 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
             currentLatitude = location.latitude
             currentLongitude = location.longitude
 
-            Toast.makeText(requireContext(), currentLatitude.toString() + " WORKS " + currentLongitude + "", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "current LatLng($currentLatitude, $currentLongitude)", Toast.LENGTH_LONG).show()
+
+            addMarker(LatLng(currentLatitude, currentLongitude), "현재 위치")
+
+            searchHospital(50000000) // 50000km
         }
     }
 
@@ -127,10 +147,12 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
     }
 
     override fun onLocationChanged(location: Location?) {
-        currentLatitude = location!!.latitude;
-        currentLongitude = location!!.longitude;
+        currentLatitude = location!!.latitude
+        currentLongitude = location.longitude
 
-        Toast.makeText(requireContext(), currentLatitude.toString() + " WORKS " + currentLongitude + "", Toast.LENGTH_LONG).show()
+        googleMap!!.moveCamera(CameraUpdateFactory.newLatLng(LatLng(currentLatitude, currentLongitude)))
+        googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(10f))
+        Toast.makeText(requireContext(), "current LatLng($currentLatitude, $currentLongitude)", Toast.LENGTH_LONG).show()
     }
 
     override fun onStart() {
@@ -182,6 +204,19 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
     }
 
     private fun setupEventsOnCreate() {
+        btnSetRadius.setOnClickListener({
+            try {
+                val aroundRadius = Integer.parseInt(etAddress.text.toString())
+                Toast.makeText(requireContext(), "aroundRadius: $aroundRadius", Toast.LENGTH_SHORT).show()
+                searchHospital(aroundRadius)
+            } catch (e : Exception) {
+                Toast.makeText(requireContext(), "error: ${e.message}", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
+            }
+        })
+        btnNowLocation.setOnClickListener({
+            moveCamera(LatLng(currentLatitude, currentLongitude))
+        })
         btnGetLocation.setOnClickListener({
             val address = Common.getFromLocationName(context, etAddress.text.toString())
             if (address != null) {
@@ -196,6 +231,52 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
                 Toast.makeText(context, "주소가 올바르지 않습니다!!", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+
+    private fun searchHospital(aroundRadius: Int) {
+        val query = Query().setAroundLatLng(AbstractQuery.LatLng(currentLatitude, currentLatitude)).setAroundRadius(aroundRadius)
+        val apiClient = Client(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY)
+        apiClient.initIndex(ALGOLIA_INDEX_NAME)
+        apiClient.getIndex(ALGOLIA_INDEX_NAME)
+                .searchAsync(query, { jsonObject, algoliaException ->
+                    var latLng = jsonObject.getString("params").split("&")[0].split("=")[1].split("%2C")
+                    Log.d("onesang", "jsonObject: ${jsonObject.toString(4)}")
+
+                    if (jsonObject.has(HITS) && jsonObject.getJSONArray(HITS).length() > 0) {
+                        Log.d("onesang", "jsonObject: ${jsonObject.getJSONArray(HITS).getJSONObject(0).getString(NAME)}")
+                        val hits = jsonObject.getJSONArray(HITS)
+                        var i = 0
+                        while (i < hits.length()) {
+                            val jo = hits.getJSONObject(i)
+                            Log.d("onesang", "jsonObject[$i]: ${jo.toString(4)}")
+                            Log.d("onesang", "jsonObject[$i]: ${jo.getString(NAME)}")
+                            val geoloc = jo.getJSONObject(GEOLOC)
+                            addMarker(LatLng(geoloc.getDouble(LAT), geoloc.getDouble(LNG)), jo.getString(NAME))
+                            i++
+                        }
+
+                        Log.d("onesang", "currentLatitude, currentLatitude $currentLatitude, $currentLatitude")
+                        Log.d("onesang", "lat, lng: $latLng")
+                        Log.d("onesang", "algoliaException: $algoliaException")
+                        MyToast.show(requireContext(), "근처 병원 ${hits.length()}개를 찾았습니다!!")
+                    } else {
+                        MyToast.show(requireContext(), "근처 병원이 없습니다!!")
+                    }
+                    moveCamera(LatLng(currentLatitude, currentLongitude))
+                })
+    }
+
+    private fun addMarker(latLng: LatLng, title: String) {
+        val markerOptions = MarkerOptions()
+        markerOptions.position(latLng)
+        markerOptions.title(title)
+        googleMap!!.addMarker(markerOptions)
+    }
+
+    private fun moveCamera(latLng: LatLng) {
+        googleMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(14.5f))
     }
 
     override fun onMapReady(map: GoogleMap?) {
