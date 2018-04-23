@@ -29,6 +29,7 @@ import com.algolia.search.saas.AbstractQuery
 import com.algolia.search.saas.Client
 import com.algolia.search.saas.Query
 import com.dac.gapp.andac.util.MyToast
+import timber.log.Timber
 import java.lang.Exception
 
 
@@ -240,25 +241,25 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
         apiClient.initIndex(ALGOLIA_INDEX_NAME)
         apiClient.getIndex(ALGOLIA_INDEX_NAME)
                 .searchAsync(query, { jsonObject, algoliaException ->
-                    var latLng = jsonObject.getString("params").split("&")[0].split("=")[1].split("%2C")
-                    Log.d("onesang", "jsonObject: ${jsonObject.toString(4)}")
+                    val latLng = jsonObject.getString("params").split("&")[0].split("=")[1].split("%2C")
+                    Timber.d("jsonObject: ${jsonObject.toString(4)}")
 
                     if (jsonObject.has(HITS) && jsonObject.getJSONArray(HITS).length() > 0) {
-                        Log.d("onesang", "jsonObject: ${jsonObject.getJSONArray(HITS).getJSONObject(0).getString(NAME)}")
+                        Timber.d("jsonObject: ${jsonObject.getJSONArray(HITS).getJSONObject(0).getString(NAME)}")
                         val hits = jsonObject.getJSONArray(HITS)
                         var i = 0
                         while (i < hits.length()) {
                             val jo = hits.getJSONObject(i)
-                            Log.d("onesang", "jsonObject[$i]: ${jo.toString(4)}")
-                            Log.d("onesang", "jsonObject[$i]: ${jo.getString(NAME)}")
+                            Timber.d("jsonObject[$i]: ${jo.toString(4)}")
+                            Timber.d("jsonObject[$i]: ${jo.getString(NAME)}")
                             val geoloc = jo.getJSONObject(GEOLOC)
                             addMarker(LatLng(geoloc.getDouble(LAT), geoloc.getDouble(LNG)), jo.getString(NAME))
                             i++
                         }
 
-                        Log.d("onesang", "currentLatitude, currentLatitude $currentLatitude, $currentLatitude")
-                        Log.d("onesang", "lat, lng: $latLng")
-                        Log.d("onesang", "algoliaException: $algoliaException")
+                        Timber.d("currentLatitude, currentLatitude $currentLatitude, $currentLatitude")
+                        Timber.d("lat, lng: $latLng")
+                        Timber.d("algoliaException: $algoliaException")
                         MyToast.show(requireContext(), "근처 병원 ${hits.length()}개를 찾았습니다!!")
                     } else {
                         MyToast.show(requireContext(), "근처 병원이 없습니다!!")

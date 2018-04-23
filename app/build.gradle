@@ -12,6 +12,10 @@ android {
         minSdkVersion 19
         //noinspection OldTargetApi
         targetSdkVersion 26
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -52,11 +56,15 @@ android {
         resConfigs "auto"
         multiDexEnabled true
     }
+
+    dexOptions {
+        jumboMode true
+        javaMaxHeapSize "4g"
+    }
+
 }
 
 dependencies {
-    implementation 'com.android.support:multidex:1.0.3'
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 
@@ -69,19 +77,20 @@ dependencies {
     implementation rootProject.ext.libs.supportDesign
     implementation rootProject.ext.libs.supportAppcompatV7
     implementation rootProject.ext.libs.supportVectorDrawable
+
     implementation rootProject.ext.libs.constraintLayout
 
     implementation rootProject.ext.libs.playServices
 
     implementation rootProject.ext.libs.firebase
 
-    implementation 'com.algolia:algoliasearch-android:3.20.11'
     implementation rootProject.ext.libs.algolia
 
-    implementation rootProject.ext.libs.timber
+    implementation rootProject.ext.libs.logging
 
-//    implementation 'gun0912.ted:tedpermission:2.1.1'
     implementation rootProject.ext.libs.ted
+
+    implementation rootProject.ext.libs.multidex
 
 }
 apply plugin: 'com.google.gms.google-services'
