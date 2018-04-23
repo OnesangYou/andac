@@ -35,6 +35,20 @@ ext {
                                         "com.google.firebase:firebase-firestore:$playServicesVersion"
             ],
             algolia                 : "com.algolia:instantsearch-android:1.7.25",
+            timber                  : "com.jakewharton.timber:timber:4.5.1",
+            ted                 : "gun0912.ted:tedpermission:2.1.1",
+
+
+
+
+
+
+
+
+
+
+
+            // 현재 안쓰는 것들
             rxJava                  : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
             rxAndroid               : "io.reactivex.rxjava2:rxandroid:2.0.1",
             rxBinding               : ["com.jakewharton.rxbinding2:rxbinding:2.0.0",
@@ -60,7 +74,6 @@ ext {
             retrofit2ConverterGson  : "com.squareup.retrofit2:converter-gson:$retrofit2Version",
             retrofit2AdapterRxJava  : "com.squareup.retrofit2:adapter-rxjava2:$retrofit2Version",
             threetenabp             : "com.jakewharton.threetenabp:threetenabp:1.0.5",
-            timber                  : "com.jakewharton.timber:timber:4.5.1",
             junit                   : "junit:junit:4.12",
             dagger                  : "com.google.dagger:dagger:$daggerVersion",
             daggerCompiler          : "com.google.dagger:dagger-compiler:$daggerVersion"

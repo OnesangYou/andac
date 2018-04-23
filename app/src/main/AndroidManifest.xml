@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
+        android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="${appLabel}"
@@ -45,7 +46,7 @@
         <activity android:name=".user.UserJoinActivity" />
         <activity
             android:name=".user.HospitalTextSearchActivity"
-            android:label="@string/title_activity_hospital_text_search"></activity>
+            android:label="@string/title_activity_hospital_text_search" />
     </application>
 
 </manifest>
