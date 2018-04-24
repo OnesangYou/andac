@@ -27,6 +27,10 @@ open class BaseActivity : AppCompatActivity() {
         return FirebaseFirestore.getInstance()
     }
 
+    fun getHospitals(): CollectionReference {
+        return getDb().collection("hospitals")
+    }
+
     fun getUsers() : CollectionReference {
         return getDb().collection("users")
     }

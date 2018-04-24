@@ -31,7 +31,7 @@ ext {
 
             constraintLayout        : "com.android.support.constraint:constraint-layout:1.1.0",
 
-            playServices             : [ "com.google.android.gms:play-services-auth:$playServicesVersion",
+            playServices            : [ "com.google.android.gms:play-services-auth:$playServicesVersion",
                                         "com.google.android.gms:play-services-location:$playServicesVersion",
                                         "com.google.android.gms:play-services-maps:$playServicesVersion",
                                         "com.google.android.gms:play-services-places:$playServicesVersion",
@@ -42,9 +42,8 @@ ext {
                                         "com.google.firebase:firebase-core:$playServicesVersion",
                                         "com.google.firebase:firebase-firestore:$playServicesVersion"
             ],
-            algolia                 : [ "com.algolia:instantsearch-android:1.7.25",
-                                        "com.algolia:algoliasearch-android:3.20.11",
-            ],
+
+            algolia                 : "com.algolia:instantsearch-android:1.7.25",
 
             logging                 : [ "com.jakewharton.timber:timber:4.7.0",
                                         "com.orhanobut:logger:2.2.0",
