@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.Toast
 import com.dac.gapp.andac.custom.SwipeViewPager
 import com.dac.gapp.andac.join.*
+import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.model.firebase.UserInfo
 import java.util.regex.Pattern
 
 class HospitalJoinActivity : BaseActivity() {
@@ -15,6 +17,8 @@ class HospitalJoinActivity : BaseActivity() {
     var MAX_PAGE = 5
     var cur_fragment = Fragment()
     var viewPager : SwipeViewPager? = null
+    var userInfo  = UserInfo()
+    var hospitalInfo = HospitalInfo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

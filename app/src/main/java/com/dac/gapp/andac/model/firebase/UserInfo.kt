@@ -1,4 +1,4 @@
-package com.dac.gapp.andac.model
+package com.dac.gapp.andac.model.firebase
 
 /**
  * Created by gimbyeongjin on 2018. 4. 4..
