@@ -14,21 +14,29 @@
             android:id="@+id/etAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter the Address or Radius." />
+            android:hint="주소 또는 병원 검색 반경을 입력해주세요." />
+
+        <Button
+            android:id="@+id/btnClearMarkers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마커\n지우기"
+            app:layout_constraintRight_toLeftOf="@id/btnShowAllHospitals"
+            app:layout_constraintTop_toBottomOf="@id/etAddress" />
+
+        <Button
+            android:id="@+id/btnShowAllHospitals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="병원\n전체 찾기"
+            app:layout_constraintRight_toLeftOf="@id/btnSetRadius"
+            app:layout_constraintTop_toBottomOf="@id/etAddress" />
 
         <Button
             android:id="@+id/btnSetRadius"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Set Radius"
-            app:layout_constraintRight_toLeftOf="@id/btnNowLocation"
-            app:layout_constraintTop_toBottomOf="@id/etAddress" />
-
-        <Button
-            android:id="@+id/btnNowLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Now Location"
+            android:text="병원\n찾기"
             app:layout_constraintRight_toLeftOf="@id/btnGetLocation"
             app:layout_constraintTop_toBottomOf="@id/etAddress" />
 
@@ -36,7 +44,7 @@
             android:id="@+id/btnGetLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Get Location"
+            android:text="주소\n찾기"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/etAddress" />
     </android.support.constraint.ConstraintLayout>

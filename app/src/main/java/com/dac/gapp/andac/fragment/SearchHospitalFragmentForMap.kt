@@ -1,5 +1,6 @@
 package com.dac.gapp.andac.fragment
 
+import android.annotation.SuppressLint
 import android.content.IntentSender
 import android.location.Location
 import android.os.Bundle
@@ -26,6 +27,8 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.DocumentSnapshot
@@ -134,6 +137,7 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
         mapView!!.onDestroy()
     }
 
+    @SuppressLint("MissingPermission")
     override fun onConnected(p0: Bundle?) {
         val location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
 
@@ -209,6 +213,12 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
     }
 
     private fun setupEventsOnCreate() {
+        btnClearMarkers.setOnClickListener({
+            googleMap!!.clear()
+        })
+        btnShowAllHospitals.setOnClickListener({
+            showAllHospitals()
+        })
         btnSetRadius.setOnClickListener({
             try {
                 val aroundRadius = Integer.parseInt(etAddress.text.toString())
@@ -217,10 +227,6 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
                 Toast.makeText(requireContext(), "error: ${e.message}", Toast.LENGTH_SHORT).show()
                 e.printStackTrace()
             }
-        })
-        btnNowLocation.setOnClickListener({
-            addMarker("현재 위치", LatLng(currentLatitude, currentLongitude))
-            moveCamera(LatLng(currentLatitude, currentLongitude))
         })
         btnGetLocation.setOnClickListener({
             val address = Common.getFromLocationName(context, etAddress.text.toString())
@@ -239,13 +245,13 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
     }
 
     private fun searchHospital(aroundRadius: Int) {
-        googleMap!!.clear()
         MyToast.show(requireContext(), "($currentLatitude, $currentLongitude), ${aroundRadius / 1000}km")
         val query = Query()
                 .setAroundLatLng(AbstractQuery.LatLng(currentLatitude, currentLongitude))
                 .setAroundRadius(aroundRadius)
+                .setHitsPerPage(1000) // default 20, maximum 1000
         val searcher = Searcher.create(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, ALGOLIA_INDEX_NAME)
-        searcher.searchable.searchAsync(query, {jsonObject, algoliaException ->
+        searcher.searchable.searchAsync(query, { jsonObject, algoliaException ->
             val latLng = jsonObject.getString("params").split("&")[0].split("=")[1].split("%2C")
             Timber.d("jsonObject: ${jsonObject.toString(4)}")
 
@@ -274,14 +280,15 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
     }
 
     private fun addMarker(title: String, latLng: LatLng) {
-        addMarker(title, "", latLng)
+        addMarker(title, "", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE), latLng)
     }
 
-    private fun addMarker(title: String, snippet: String, latLng: LatLng) {
+    private fun addMarker(title: String, snippet: String, icon: BitmapDescriptor, latLng: LatLng) {
         val markerOptions = MarkerOptions()
         markerOptions.title(title)
         markerOptions.snippet(snippet)
         markerOptions.position(latLng)
+        markerOptions.icon(icon)
         googleMap!!.addMarker(markerOptions)
     }
 
@@ -290,39 +297,39 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
         googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(14.5f))
     }
 
+    @SuppressLint("MissingPermission")
     override fun onMapReady(map: GoogleMap?) {
         val seoul = LatLng(37.56, 126.97)
         val markerOptions = MarkerOptions()
         markerOptions.position(seoul)
         markerOptions.title("서울")
         markerOptions.snippet("한국의 수도")
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
         map!!.addMarker(markerOptions)
 
         map.moveCamera(CameraUpdateFactory.newLatLng(seoul))
         map.animateCamera(CameraUpdateFactory.zoomTo(10f))
+        map.isMyLocationEnabled = true
 
         googleMap = map
-//        initHospital()
     }
 
-    private fun initHospital() {
-        googleMap!!.clear()
+    private fun showAllHospitals() {
         (activity as BaseActivity).getHospitals()
                 .get()
                 .addOnCompleteListener({
                     if (it.isSuccessful) {
-                        for (document: DocumentSnapshot in it.result) {
+                        for (document in it.result) {
 //                            Timber.d(document.id + " => " + document.data)
-                            hospitals[document.id] = HospitalInfo(document.id, document.data!!)
+                            hospitals[document.id] = HospitalInfo(document.id, document.data)
                             val hospitalInfo = hospitals[document.id]
                             val address = if (hospitalInfo!!.address1 != "") hospitalInfo.address1 else hospitalInfo.address2
-                            addMarker(hospitalInfo.name, address, hospitalInfo.getLatLng())
+                            addMarker(hospitalInfo.name, address, BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE), hospitalInfo.getLatLng())
                             Timber.d("${hospitalInfo.id} => ${hospitalInfo.name} ${hospitalInfo.getLatLng()}")
                         }
-                        addMarker("현재 위치", LatLng(currentLatitude, currentLongitude))
-                        moveCamera(LatLng(currentLatitude, currentLongitude))
+                        MyToast.show(requireContext(), "근처 병원 ${it.result.size()}개를 찾았습니다!!")
                     } else {
-                        Timber.w("Error getting documents.", it.exception)
+                        Timber.w("Error getting documents. ${it.exception}")
                     }
                 })
     }
