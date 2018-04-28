@@ -32,15 +32,13 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.android.synthetic.main.fragment_search_hospital_for_map.*
 import timber.log.Timber
 import java.lang.Exception
 
 
-class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+class SearchHospitalFragmentForMap : Fragment() {
+
     // static method
     companion object {
         const val CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000
@@ -67,10 +65,34 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
 
     var title: String = ""
 
+    val mLocationListener = LocationListener {
+        currentLatitude = it.latitude
+        currentLongitude = it.longitude
+
+        googleMap!!.moveCamera(CameraUpdateFactory.newLatLng(LatLng(currentLatitude, currentLongitude)))
+        googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(10f))
+        Toast.makeText(requireContext(), "current LatLng($currentLatitude, $currentLongitude)", Toast.LENGTH_LONG).show()
+    }
+
+    @SuppressLint("MissingPermission")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_search_hospital_for_map, container, false)
         mapView = view.findViewById<View>(R.id.map) as MapView
-        mapView!!.getMapAsync(this)
+        mapView!!.getMapAsync({
+            val seoul = LatLng(37.56, 126.97)
+            val markerOptions = MarkerOptions()
+            markerOptions.position(seoul)
+            markerOptions.title("서울")
+            markerOptions.snippet("한국의 수도")
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+            it.addMarker(markerOptions)
+
+            it.moveCamera(CameraUpdateFactory.newLatLng(seoul))
+            it.animateCamera(CameraUpdateFactory.zoomTo(10f))
+            it.isMyLocationEnabled = true
+
+            googleMap = it
+        })
         return view
     }
 
@@ -80,118 +102,61 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
         setupEventsOnCreate()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (mapView != null) {
-            mapView!!.onCreate(savedInstanceState)
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mapView!!.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mapView!!.onResume()
-        mGoogleApiClient!!.connect()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        mapView!!.onSaveInstanceState(outState)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mapView!!.onPause()
-        //Disconnect from API onPause()
-        if (mGoogleApiClient!!.isConnected) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this)
-            mGoogleApiClient!!.disconnect()
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mapView!!.onStop()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView!!.onLowMemory()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapView!!.onDestroy()
-    }
-
     @SuppressLint("MissingPermission")
-    override fun onConnected(p0: Bundle?) {
-        val location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
-
-        if (location == null) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
-        } else {
-            //If everything went fine lets get latitude and longitude
-            currentLatitude = location.latitude
-            currentLongitude = location.longitude
-
-            Toast.makeText(requireContext(), "current LatLng($currentLatitude, $currentLongitude)", Toast.LENGTH_LONG).show()
-
-            searchHospital(2000) // 2km
-        }
-    }
-
-    override fun onConnectionSuspended(p0: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onConnectionFailed(connectionResult: ConnectionResult) {
-        /*
-             * Google Play services can resolve some errors it detects.
-             * If the error has a resolution, try sending an Intent to
-             * start a Google Play services activity that can resolve
-             * error.
-             */
-        if (connectionResult.hasResolution()) {
-            try {
-                // Start an Activity that tries to resolve the error
-                connectionResult.startResolutionForResult(requireActivity(), CONNECTION_FAILURE_RESOLUTION_REQUEST)
-                /*
-                     * Thrown if Google Play services canceled the original
-                     * PendingIntent
-                     */
-            } catch (e: IntentSender.SendIntentException) {
-                // Log the error
-                e.printStackTrace()
-            }
-
-        } else {
-            /*
-                 * If no resolution is available, display a dialog to the
-                 * user with the error.
-                 */
-            Log.e("Error", "Location services connection failed with code " + connectionResult.getErrorCode())
-        }
-    }
-
-    override fun onLocationChanged(location: Location?) {
-        currentLatitude = location!!.latitude
-        currentLongitude = location.longitude
-
-        googleMap!!.moveCamera(CameraUpdateFactory.newLatLng(LatLng(currentLatitude, currentLongitude)))
-        googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(10f))
-        Toast.makeText(requireContext(), "current LatLng($currentLatitude, $currentLongitude)", Toast.LENGTH_LONG).show()
-    }
-
     private fun setupCurrentLocation() {
         mGoogleApiClient = GoogleApiClient.Builder(requireContext())
                 // The next two lines tell the new client that “this” current class will handle connection stuff
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
+                .addConnectionCallbacks(object : GoogleApiClient.ConnectionCallbacks {
+
+                    override fun onConnected(p0: Bundle?) {
+                        val location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
+
+                        if (location == null) {
+                            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, mLocationListener)
+                        } else {
+                            //If everything went fine lets get latitude and longitude
+                            currentLatitude = location.latitude
+                            currentLongitude = location.longitude
+
+                            Toast.makeText(requireContext(), "current LatLng($currentLatitude, $currentLongitude)", Toast.LENGTH_LONG).show()
+
+                            searchHospital(2000) // 2km
+                        }
+                    }
+
+                    override fun onConnectionSuspended(p0: Int) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                })
+                .addOnConnectionFailedListener { connectionResult ->
+                    /*
+                            * Google Play services can resolve some errors it detects.
+                            * If the error has a resolution, try sending an Intent to
+                            * start a Google Play services activity that can resolve
+                            * error.
+                            */
+                    if (connectionResult.hasResolution()) {
+                        try {
+                            // Start an Activity that tries to resolve the error
+                            connectionResult.startResolutionForResult(requireActivity(), CONNECTION_FAILURE_RESOLUTION_REQUEST)
+                            /*
+                                                     * Thrown if Google Play services canceled the original
+                                                     * PendingIntent
+                                                     */
+                        } catch (e: IntentSender.SendIntentException) {
+                            // Log the error
+                            e.printStackTrace()
+                        }
+
+                    } else {
+                        /*
+                                                 * If no resolution is available, display a dialog to the
+                                                 * user with the error.
+                                                 */
+                        Log.e("Error", "Location services connection failed with code " + connectionResult.getErrorCode())
+                    }
+                }
                 //fourth line adds the LocationServices API endpoint from GooglePlayServices
                 .addApi(LocationServices.API)
                 .build()
@@ -288,23 +253,6 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
         googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(14.5f))
     }
 
-    @SuppressLint("MissingPermission")
-    override fun onMapReady(map: GoogleMap?) {
-        val seoul = LatLng(37.56, 126.97)
-        val markerOptions = MarkerOptions()
-        markerOptions.position(seoul)
-        markerOptions.title("서울")
-        markerOptions.snippet("한국의 수도")
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-        map!!.addMarker(markerOptions)
-
-        map.moveCamera(CameraUpdateFactory.newLatLng(seoul))
-        map.animateCamera(CameraUpdateFactory.zoomTo(10f))
-        map.isMyLocationEnabled = true
-
-        googleMap = map
-    }
-
     private fun showAllHospitals() {
         (activity as BaseActivity).getHospitals()
                 .get()
@@ -323,5 +271,56 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
                         Timber.w("Error getting documents. ${it.exception}")
                     }
                 })
+    }
+
+    // activity 가 아닌 fragment 에서 google map 을 사용할 때 lifecycle 마다 정의 해줘야 하는 것 같음...
+    // 안해주면 fragment 에서 google map 안뜸!!
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (mapView != null) {
+            mapView!!.onCreate(savedInstanceState)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView!!.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView!!.onResume()
+        mGoogleApiClient!!.connect()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mapView!!.onSaveInstanceState(outState)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView!!.onPause()
+        //Disconnect from API onPause()
+        if (mGoogleApiClient!!.isConnected) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, mLocationListener)
+            mGoogleApiClient!!.disconnect()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView!!.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView!!.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView!!.onLowMemory()
     }
 }
