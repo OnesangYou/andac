@@ -15,6 +15,7 @@ import com.algolia.search.saas.AbstractQuery
 import com.algolia.search.saas.Query
 import com.dac.gapp.andac.BaseActivity
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.model.Algolia
 import com.dac.gapp.andac.model.HospitalInfo
 import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.MyToast
@@ -43,16 +44,6 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
     // static method
     companion object {
         const val CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000
-
-        const val ALGOLIA_APP_ID = "VUNTR162M6"
-        const val ALGOLIA_SEARCH_API_KEY = "f8eab63beb88f72136b260ea219aa6a4"
-        const val ALGOLIA_INDEX_NAME = "hospitals"
-
-        const val HITS = "hits"
-        const val NAME = "name"
-        const val LAT = "lat"
-        const val LNG = "lng"
-        const val GEOLOC = "_geoloc"
 
         fun create(title: String): SearchHospitalFragmentForMap {
             val f = SearchHospitalFragmentForMap()
@@ -250,21 +241,21 @@ class SearchHospitalFragmentForMap : Fragment(), OnMapReadyCallback, GoogleApiCl
                 .setAroundLatLng(AbstractQuery.LatLng(currentLatitude, currentLongitude))
                 .setAroundRadius(aroundRadius)
                 .setHitsPerPage(1000) // default 20, maximum 1000
-        val searcher = Searcher.create(ALGOLIA_APP_ID, ALGOLIA_SEARCH_API_KEY, ALGOLIA_INDEX_NAME)
+        val searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, Algolia.INDEX_NAME_HOSPITAL.value)
         searcher.searchable.searchAsync(query, { jsonObject, algoliaException ->
             val latLng = jsonObject.getString("params").split("&")[0].split("=")[1].split("%2C")
             Timber.d("jsonObject: ${jsonObject.toString(4)}")
 
-            if (jsonObject.has(HITS) && jsonObject.getJSONArray(HITS).length() > 0) {
-                Timber.d("jsonObject: ${jsonObject.getJSONArray(HITS).getJSONObject(0).getString(NAME)}")
-                val hits = jsonObject.getJSONArray(HITS)
+            if (jsonObject.has(Algolia.HITS.value) && jsonObject.getJSONArray(Algolia.HITS.value).length() > 0) {
+                Timber.d("jsonObject: ${jsonObject.getJSONArray(Algolia.HITS.value).getJSONObject(0).getString(Algolia.NAME.value)}")
+                val hits = jsonObject.getJSONArray(Algolia.HITS.value)
                 var i = 0
                 while (i < hits.length()) {
                     val jo = hits.getJSONObject(i)
                     Timber.d("jsonObject[$i]: ${jo.toString(4)}")
-                    Timber.d("jsonObject[$i]: ${jo.getString(NAME)}")
-                    val geoloc = jo.getJSONObject(GEOLOC)
-                    addMarker(jo.getString(NAME), LatLng(geoloc.getDouble(LAT), geoloc.getDouble(LNG)))
+                    Timber.d("jsonObject[$i]: ${jo.getString(Algolia.NAME.value)}")
+                    val geoloc = jo.getJSONObject(Algolia.GEOLOC.value)
+                    addMarker(jo.getString(Algolia.NAME.value), LatLng(geoloc.getDouble(Algolia.LAT.value), geoloc.getDouble(Algolia.LNG.value)))
                     i++
                 }
 
