@@ -276,7 +276,8 @@
         android:background="@color/colorMain"
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 
 </android.support.constraint.ConstraintLayout>

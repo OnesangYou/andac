@@ -17,13 +17,6 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="28dp"
-            android:layout_gravity="left"
-            android:layout_marginStart="20dp"
-            android:background="@drawable/back"
-            />
 
         <TextView
             android:id="@+id/logo"
