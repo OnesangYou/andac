@@ -16,5 +16,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="제목입니다ㅏㅏㅏㅏ"/>
+        android:text="제목입니다"/>
 </android.support.constraint.ConstraintLayout>
