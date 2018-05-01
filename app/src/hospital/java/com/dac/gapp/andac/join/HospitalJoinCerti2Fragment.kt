@@ -122,7 +122,6 @@ class HospitalJoinCerti2Fragment : HospitalJoinBaseFragment(){
             if(user != null){
                 Toast.makeText(this, "Authentication Success.",
                         Toast.LENGTH_SHORT).show()
-                startActivity(Intent(context, MainActivity::class.java))
                 finish()
             }
         }

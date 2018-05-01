@@ -1,9 +1,7 @@
 package com.dac.gapp.andac.user
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.dac.gapp.andac.BaseActivity
 import com.dac.gapp.andac.MyPageActivity
@@ -11,16 +9,9 @@ import com.dac.gapp.andac.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_login.*
+import timber.log.Timber
 
 open class UserLoginActivity : BaseActivity() {
-
-    // static method
-    companion object {
-        fun createIntent(context: Context): Intent {
-            return Intent(context, UserLoginActivity::class.java)
-        }
-    }
-
     private var mAuth: FirebaseAuth? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +32,7 @@ open class UserLoginActivity : BaseActivity() {
 
             if(emailEdit.text.isEmpty()) {
                 "이메일을 입력하세요".let {
-                    Log.d(KBJ, it)
+                    Timber.tag(KBJ).d(it)
                     Toast.makeText(this@UserLoginActivity, it, Toast.LENGTH_SHORT).show()
                 }
                 return@setOnClickListener
@@ -49,7 +40,7 @@ open class UserLoginActivity : BaseActivity() {
 
             if(passwordLoginEdit.text.isEmpty()) {
                 "패스워드를 입력하세요".let {
-                    Log.d(KBJ, it)
+                    Timber.tag(KBJ).d(it)
                     Toast.makeText(this@UserLoginActivity, it, Toast.LENGTH_SHORT).show()
                 }
                 return@setOnClickListener
@@ -59,12 +50,12 @@ open class UserLoginActivity : BaseActivity() {
             mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())?.addOnCompleteListener{ task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d(KBJ, "signInWithEmail:success")
+                    Timber.tag(KBJ).d("signInWithEmail:success")
                     val user = mAuth.currentUser
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w(KBJ, "signInWithEmail:failure", task.exception)
+                    Timber.w(task.exception, "signInWithEmail:failure")
                     Toast.makeText(this@UserLoginActivity, "Authentication failed." + task.exception,
                             Toast.LENGTH_SHORT).show()
                     updateUI(null)
