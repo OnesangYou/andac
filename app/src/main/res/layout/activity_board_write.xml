@@ -16,5 +16,268 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/layoutTag"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_margin="3dp"
+        android:layout_marginTop="18dp"
+        android:padding="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="3dp">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.20" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.40" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.60" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.80" />
+
+        <ImageButton
+            android:id="@+id/imgBtnLasic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="0sp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_tag_lasic"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/guideline1" />
+
+        <ImageButton
+            android:id="@+id/imgBtnOldeye"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="0sp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_tag_oldeye"
+            app:layout_constraintLeft_toRightOf="@id/guideline1"
+            app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+        <ImageButton
+            android:id="@+id/imgBtnInsertLense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="0sp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_tag_insertlense"
+            app:layout_constraintLeft_toRightOf="@id/guideline2"
+            app:layout_constraintRight_toLeftOf="@id/guideline3" />
+
+        <ImageButton
+            android:id="@+id/imgBtnWhiteeye"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="0sp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_tag_whiteeye"
+            app:layout_constraintLeft_toRightOf="@id/guideline3"
+            app:layout_constraintRight_toLeftOf="@id/guideline4" />
+
+        <ImageButton
+            android:id="@+id/imgBtnEyesick"
+            android:layout_width="77dp"
+            android:layout_height="21dp"
+            android:background="@android:color/transparent"
+            android:padding="0sp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/selector_tag_eyesick"
+            app:layout_constraintLeft_toRightOf="@id/guideline4"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteY="1dp" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/profilepic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutTag" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
+        android:text="nick name"
+        android:textSize="@dimen/_15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/layoutTag"></TextView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="8dp"
+        android:text="자유게시판"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/button9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:text="후기게시판"
+        android:textSize="@dimen/_10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/button"
+        app:layout_constraintStart_toEndOf="@+id/button"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/button10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:text="질문게시판"
+        android:textSize="@dimen/_10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/button9"
+        app:layout_constraintStart_toEndOf="@+id/button9"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/text_hospital_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="14dp"
+        android:text="병원검색"
+        android:textSize="@dimen/_15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <EditText
+        android:id="@+id/hospital_search"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/text_hospital_search"
+        app:layout_constraintStart_toEndOf="@+id/text_hospital_search"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <TextView
+        android:id="@+id/button_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="10dp"
+        android:text="검색하기"
+        android:textColor="@color/colorMain"
+        android:textSize="@dimen/_15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/hospital_search"
+        app:layout_constraintStart_toEndOf="@+id/hospital_search" />
+
+    <EditText
+        android:id="@+id/edit_text_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:background="@null"
+        android:hint="게시물 제목을 입력해주세요"
+        android:textSize="@dimen/_18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hospital_search" />
+
+    <EditText
+        android:id="@+id/edit_text_contents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:hint="게시물 제목을 입력해주세요"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_title"
+        android:textSize="@dimen/_15sp"
+        />
+
+    <LinearLayout
+        android:id="@+id/picture_upload"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_contents"
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:layout_margin="10dp"
+            android:id="@+id/picture_1"
+            android:layout_width="80dp"
+            android:layout_height="100dp" />
+
+        <ImageView
+            android:layout_margin="10dp"
+            android:id="@+id/picture_2"
+            android:layout_width="80dp"
+            android:layout_height="100dp" />
+
+        <ImageView
+            android:layout_margin="10dp"
+            android:id="@+id/picture_3"
+            android:layout_width="80dp"
+            android:layout_height="100dp" />
+
+    </LinearLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/button_picture_upload"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@color/colorMain"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
 
 </android.support.constraint.ConstraintLayout>

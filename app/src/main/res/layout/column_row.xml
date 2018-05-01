@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/column_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/request_eyesick_off"/>
-    
+        android:src="@drawable/request_eyesick_off" />
+
     <TextView
         android:id="@+id/column_tite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="제목입니다ㅏㅏㅏㅏ"/>
-</android.support.constraint.ConstraintLayout>
+        android:text="제목입니다" />
+</LinearLayout>
