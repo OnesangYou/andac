@@ -13,7 +13,9 @@ import kotlinx.android.synthetic.hospital.fragment_hospital_join_certi2.*
 /**
  * A simple [Fragment] subclass.
  */
-class HospitalJoinTermsFragment : Fragment() {
+class HospitalJoinTermsFragment : HospitalJoinBaseFragment() {
+    override fun onChangeFragment() {
+    }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

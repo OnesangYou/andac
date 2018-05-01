@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_ANONYMOUS_PARAMETER")
+
 package com.dac.gapp.andac.join
 
 
@@ -16,14 +18,15 @@ import com.dac.gapp.andac.model.Algolia
 import kotlinx.android.synthetic.hospital.fragment_hospital_join_certi2.*
 import kotlinx.android.synthetic.main.activity_hospital_text_search.*
 
+
 /**
  * A simple [Fragment] subclass.
  */
-class HospitalJoinSearchFragment : Fragment() {
+class HospitalJoinSearchFragment : HospitalJoinBaseFragment() {
+    override fun onChangeFragment() {
+    }
 
     private lateinit var searcher: Searcher
-
-    private val ALGOLIA_INDEX_NAME = "hospitals"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -41,11 +44,32 @@ class HospitalJoinSearchFragment : Fragment() {
         }
 
         val baseActivity = context as BaseActivity
-        searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, ALGOLIA_INDEX_NAME)
+        searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, Algolia.INDEX_NAME_HOSPITAL.value)
         InstantSearch(baseActivity, searcher) // Initialize InstantSearch in this activity with searcher
         searcher.search(baseActivity.intent) // Show results for empty query (on app launch) / voice query (from intent)
 
         hits.setOnItemClickListener{ recyclerView: RecyclerView, i: Int, view1: View ->
+
+            val hit = hits.get(i)
+
+            (activity as HospitalJoinActivity).run{
+
+                hospitalInfo.apply{
+                    _geoloc.lat = hit.getJSONObject("_geoloc").getDouble("lat")
+                    _geoloc.lng = hit.getJSONObject("_geoloc").getDouble("lng")
+                    address1 = hit.getString("address1")
+                    address2 = hit.getString("address2")
+                    name = hit.getString("name")
+                    openDate = hit.getString("openDate")
+                    phone = hit.getString("phone")
+                    status = hit.getString("status")
+                    type = hit.getString("type")
+                }
+
+                hospitalKey = hit.getString("objectID")
+
+                goToNextView()
+            }
 
         }
 

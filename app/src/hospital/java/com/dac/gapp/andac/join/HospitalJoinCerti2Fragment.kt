@@ -3,7 +3,6 @@ package com.dac.gapp.andac.join
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,16 @@ import com.dac.gapp.andac.HospitalJoinActivity
 import com.dac.gapp.andac.MainActivity
 import com.dac.gapp.andac.R
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.hospital.fragment_hospital_join_certi2.*
 import timber.log.Timber
 import java.util.regex.Pattern
 
-class HospitalJoinCerti2Fragment : Fragment(){
+class HospitalJoinCerti2Fragment : HospitalJoinBaseFragment(){
+    override fun onChangeFragment() {
+    }
+
+    private lateinit var hospitalJoinActivity: HospitalJoinActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -25,8 +29,14 @@ class HospitalJoinCerti2Fragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        hospitalJoinActivity =  activity as HospitalJoinActivity
+        // 받아온 경우 Set
+        hospitalJoinActivity.hospitalInfo.apply {
+            if(cellPhone.isNotEmpty()) phoneEdit.setText(address2)
+        }
+
         nextBtn.setOnClickListener {
-            (activity as HospitalJoinActivity).run {
+            hospitalJoinActivity.run {
 
                 val emailStr = emailEdit.text.toString()
                 val passwordStr = passwordEdit.text.toString()
@@ -64,12 +74,11 @@ class HospitalJoinCerti2Fragment : Fragment(){
 
                 hospitalInfo.apply{
                     email = emailStr
-                    phoneNumber = phoneStr
+                    cellPhone = phoneStr
                 }
 
                 // 파베 회원가입
                 // 회원가입 시도
-
                 val mAuth = getAuth()
                 showProgressDialog()
                 mAuth?.createUserWithEmailAndPassword(emailStr, passwordStr)?.addOnCompleteListener{ task ->
@@ -79,7 +88,7 @@ class HospitalJoinCerti2Fragment : Fragment(){
                         val user = mAuth.currentUser
 
                         // DB insert
-                        getHospitals().document(user?.uid!!).set(hospitalInfo).addOnCompleteListener{ task2 ->
+                        getHospitals().document(user?.uid!!).set(hospitalInfo, SetOptions.merge()).addOnCompleteListener{ task2 ->
                             if(task2.isSuccessful){
                                 updateUI(user)
                             } else {
@@ -90,6 +99,10 @@ class HospitalJoinCerti2Fragment : Fragment(){
                                 }
                             }
                         }
+                        if(hospitalKey.isNotEmpty()){
+                            getHospitals().document(hospitalKey).delete()
+                        }
+
                     } else {
                         // If sign in fails, display a message to the user.
                         Timber.tag(KBJ).w(task.exception, "createUserWithEmail:failure")

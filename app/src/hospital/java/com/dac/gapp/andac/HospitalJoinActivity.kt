@@ -1,7 +1,6 @@
 package com.dac.gapp.andac
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.view.View
@@ -12,9 +11,10 @@ import com.dac.gapp.andac.model.firebase.HospitalInfo
 class HospitalJoinActivity : BaseActivity() {
 
     var MAX_PAGE = 5
-    var current_fragment = Fragment()
+    var current_fragment : HospitalJoinBaseFragment? = null
     var viewPager : SwipeViewPager? = null
     var hospitalInfo = HospitalInfo()
+    var hospitalKey : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ class HospitalJoinActivity : BaseActivity() {
 
     private inner class Adapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-        override fun getItem(position: Int): Fragment? {
+        override fun getItem(position: Int): HospitalJoinBaseFragment? {
             if (position < 0 || MAX_PAGE <= position)
                 return null
             when (position) {
@@ -45,6 +45,7 @@ class HospitalJoinActivity : BaseActivity() {
     }
 
     fun goToNextView(){
+        current_fragment!!.onChangeFragment()
         viewPager!!.apply { if(currentItem < MAX_PAGE) currentItem++ }
     }
 

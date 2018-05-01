@@ -10,5 +10,5 @@ class SearchHospitalViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     var thumbnail: ImageView = view.findViewById(R.id.imgview_thumbnail)
     var title: TextView = view.findViewById(R.id.txtview_title)
     var address: TextView = view.findViewById(R.id.txtview_address)
-    var description: TextView = view.findViewById(R.id.txtview_description)
+    var description: TextView = view.findViewById(R.id.txtview_phone)
 }
