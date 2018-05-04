@@ -1,5 +1,7 @@
 package com.dac.gapp.andac.model.firebase
 
+import java.util.*
+
 class HospitalInfo {
     var _geoloc: GeoLocation = GeoLocation()
     var address1: String = ""
@@ -16,5 +18,6 @@ class HospitalInfo {
     var cellPhone: String = ""
     var isAgreeAlarm: Boolean = false
     var isApproval: Boolean = false
+    var createDate: Date? = null
 
 }
