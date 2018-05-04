@@ -15,5 +15,6 @@ class HospitalInfo {
     var email: String = ""
     var cellPhone: String = ""
     var isAgreeAlarm: Boolean = false
+    var isApproval: Boolean = false
 
 }
