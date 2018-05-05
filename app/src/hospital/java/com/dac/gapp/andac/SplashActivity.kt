@@ -1,15 +1,37 @@
 package com.dac.gapp.andac
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.dac.gapp.andac.user.UserLoginActivity
+import com.dac.gapp.andac.util.MyToast
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
+import java.util.*
 
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startActivity(Intent(this, HospitalLoginActivity::class.java) )
-        finish()
+
+        TedPermission.with(this)
+                .setPermissionListener(object : PermissionListener {
+                    override fun onPermissionGranted() {
+                        startActivity(Intent(thisActivity(), HospitalLoginActivity::class.java))
+                        finish()
+                    }
+
+                    override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
+                        MyToast.show(thisActivity(), "권한이 거절되어 앱이 종료됩니다\n권한 승낙후 앱을 다시 실행해주세요")
+                        finish()
+                    }
+                })
+                .setDeniedMessage("해당 권한이 없을 경우 앱을 사용할 수 없습니다!!")
+                .setPermissions(android.Manifest.permission.INTERNET, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                .check()
+    }
+
+    fun thisActivity(): Activity {
+        return this
     }
 }
