@@ -29,7 +29,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".MyPageActivity" />
         <activity android:name=".RequestSurgeryActivity" />
         <activity android:name=".ColumnActivity" />
         <activity android:name=".EventActivity" />
@@ -37,11 +36,10 @@
         <activity android:name=".HospitalActivity" />
         <activity android:name=".BoardWriteActivity" />
         <activity
-            android:name=".user.UserLoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".HospitalLoginActivity" />
-        <activity android:name=".HospitalJoinActivity" />
-        <activity android:name=".hospital.SearchAddressActivity"></activity>
+        <activity android:name=".JoinActivity" />
+        <activity android:name=".SearchAddressActivity"></activity>
     </application>
 
 </manifest>

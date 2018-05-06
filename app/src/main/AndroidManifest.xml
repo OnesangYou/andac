@@ -41,11 +41,11 @@
         <activity android:name=".BoardWriteActivity" />
 
         <activity
-            android:name=".user.UserLoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".user.UserJoinActivity" />
+        <activity android:name=".JoinActivity" />
         <activity
-            android:name=".user.HospitalTextSearchActivity"
+            android:name=".HospitalTextSearchActivity"
             android:label="@string/title_activity_hospital_text_search" />
     </application>
 

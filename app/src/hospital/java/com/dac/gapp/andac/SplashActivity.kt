@@ -17,7 +17,7 @@ class SplashActivity : AppCompatActivity() {
         TedPermission.with(this)
                 .setPermissionListener(object : PermissionListener {
                     override fun onPermissionGranted() {
-                        startActivity(Intent(thisActivity(), HospitalLoginActivity::class.java))
+                        startActivity(Intent(thisActivity(), LoginActivity::class.java))
                         finish()
                     }
 

@@ -10,7 +10,7 @@ import com.dac.gapp.andac.ColumnActivity
 import com.dac.gapp.andac.EventActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.RequestSurgeryActivity
-import com.dac.gapp.andac.user.HospitalTextSearchActivity
+import com.dac.gapp.andac.HospitalTextSearchActivity
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {

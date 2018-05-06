@@ -34,7 +34,7 @@
         <activity android:name=".BoardWriteActivity" />
 
         <activity
-            android:name=".user.UserLoginActivity"
+            android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
     </application>
 

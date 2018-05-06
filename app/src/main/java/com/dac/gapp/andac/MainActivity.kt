@@ -11,8 +11,8 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
+import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.fragment.*
-import com.dac.gapp.andac.user.UserLoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -74,7 +74,7 @@ class MainActivity : BaseActivity() {
 
             // 로그인 상태 체크
             if(getCurrentUser() == null){
-                startActivity(Intent(this, UserLoginActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
             } else {
                 startActivity(Intent(this, MyPageActivity::class.java))
             }
