@@ -71,3 +71,5 @@ src/test/java/com/dac/gapp/andac/hospital/
 app/src/androidTest/java/com/dac/gapp/andac/hospital/
 app/src/main/java/com/dac/gapp/andac/hospital/
 app/src/test/java/com/dac/gapp/andac/hospital/
+
+/app/src/main/java/com/dac/gapp/andac/convertTemp/
