@@ -15,7 +15,7 @@ import com.algolia.search.saas.Query
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.model.Algolia
-import com.dac.gapp.andac.model.HospitalInfo
+import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.MyToast
 import com.google.android.gms.common.api.GoogleApiClient
@@ -76,19 +76,9 @@ class SearchHospitalFragmentForMap : Fragment() {
         val view = inflater.inflate(R.layout.fragment_search_hospital_for_map, container, false)
         mapView = view.findViewById<View>(R.id.map) as MapView
         mapView!!.getMapAsync({
-            val seoul = LatLng(37.56, 126.97)
-            val markerOptions = MarkerOptions()
-            markerOptions.position(seoul)
-            markerOptions.title("서울")
-            markerOptions.snippet("한국의 수도")
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
-            it.addMarker(markerOptions)
-
-            it.moveCamera(CameraUpdateFactory.newLatLng(seoul))
-            it.animateCamera(CameraUpdateFactory.zoomTo(10f))
             it.isMyLocationEnabled = true
-
             googleMap = it
+            showAllHospitals()
         })
         return view
     }
@@ -114,10 +104,7 @@ class SearchHospitalFragmentForMap : Fragment() {
                             //If everything went fine lets get latitude and longitude
                             currentLatitude = location.latitude
                             currentLongitude = location.longitude
-
-                            Toast.makeText(requireContext(), "current LatLng($currentLatitude, $currentLongitude)", Toast.LENGTH_LONG).show()
-
-                            searchHospital(2000) // 2km
+                            moveCamera(LatLng(currentLatitude, currentLongitude))
                         }
                     }
 
@@ -257,11 +244,11 @@ class SearchHospitalFragmentForMap : Fragment() {
                     if (it.isSuccessful) {
                         for (document in it.result) {
 //                            Timber.d(document.id + " => " + document.data)
-                            hospitals[document.id] = HospitalInfo(document.id, document.data)
+                            hospitals[document.id] = document.toObject(HospitalInfo::class.java)
                             val hospitalInfo = hospitals[document.id]
                             val address = if (hospitalInfo!!.address1 != "") hospitalInfo.address1 else hospitalInfo.address2
                             addMarker(hospitalInfo.name, address, BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE), hospitalInfo.getLatLng())
-                            Timber.d("${hospitalInfo.id} => ${hospitalInfo.name} ${hospitalInfo.getLatLng()}")
+                            Timber.d("${hospitalInfo.name} ${hospitalInfo._geoloc}")
                         }
                         MyToast.show(requireContext(), "근처 병원 ${it.result.size()}개를 찾았습니다!!")
                     } else {

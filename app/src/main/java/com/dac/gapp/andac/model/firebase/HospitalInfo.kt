@@ -1,5 +1,6 @@
 package com.dac.gapp.andac.model.firebase
 
+import com.google.android.gms.maps.model.LatLng
 import java.util.*
 
 class HospitalInfo {
@@ -20,4 +21,7 @@ class HospitalInfo {
     var isApproval: Boolean = false
     var createDate: Date? = null
 
+    public fun getLatLng() : LatLng {
+        return LatLng(_geoloc.lat!!, _geoloc.lng!!)
+    }
 }
