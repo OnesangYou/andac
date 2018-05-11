@@ -11,7 +11,10 @@ import android.widget.Toast
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SearchAddressActivity
+import com.yanzhenjie.album.Album
 import kotlinx.android.synthetic.hospital.fragment_join_info.*
+import timber.log.Timber
+
 
 /**
  * A simple [Fragment] subclass.
@@ -37,6 +40,17 @@ class JoinInfoFragment : JoinBaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         joinActivity =  activity as JoinActivity
+
+        uploadProfilePicBtn.setOnClickListener{
+            // Image File 가져옴
+            Album.image(this@JoinInfoFragment)
+                    .singleChoice()
+                    .onResult {
+                        Timber.d("Album.onResult : " + it.toString())
+                    }
+                    .onCancel { }
+                    .start()
+        }
 
         nextBtn.setOnClickListener {
             joinActivity.run{

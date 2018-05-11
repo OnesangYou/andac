@@ -89,7 +89,9 @@ ext {
             databindingCompiler     : "com.android.databinding:compiler:3.0.0",
 
             dagger                  : "com.google.dagger:dagger:$daggerVersion",
-            daggerCompiler          : "com.google.dagger:dagger-compiler:$daggerVersion"
+            daggerCompiler          : "com.google.dagger:dagger-compiler:$daggerVersion",
+
+            album                   : 'com.yanzhenjie:album:2.1.1'
     ]
 }
 

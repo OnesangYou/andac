@@ -92,5 +92,7 @@ dependencies {
 
     implementation rootProject.ext.libs.multidex
 
+    implementation rootProject.ext.libs.album
+
 }
 apply plugin: 'com.google.gms.google-services'
