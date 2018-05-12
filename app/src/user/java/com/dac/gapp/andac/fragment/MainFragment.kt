@@ -11,7 +11,7 @@ import com.dac.gapp.andac.EventActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.RequestSurgeryActivity
 import com.dac.gapp.andac.HospitalTextSearchActivity
-import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.user.fragment_main.*
 
 class MainFragment : Fragment() {
 
@@ -43,3 +43,4 @@ class MainFragment : Fragment() {
     }
 
 }
+
