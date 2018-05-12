@@ -65,34 +65,23 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
-
     testImplementation 'junit:junit:4.12'
-
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
     implementation rootProject.ext.libs.supportV4
     implementation rootProject.ext.libs.supportDesign
     implementation rootProject.ext.libs.supportAppcompatV7
     implementation rootProject.ext.libs.supportVectorDrawable
-
     implementation rootProject.ext.libs.constraintLayout
-
     implementation rootProject.ext.libs.playServices
-
     implementation rootProject.ext.libs.firebase
-
     implementation rootProject.ext.libs.algolia
-
     implementation rootProject.ext.libs.logging
-
     implementation rootProject.ext.libs.ted
-
     implementation rootProject.ext.libs.multidex
-
     implementation rootProject.ext.libs.album
-
+    implementation rootProject.ext.libs.cardview
 }
 apply plugin: 'com.google.gms.google-services'
