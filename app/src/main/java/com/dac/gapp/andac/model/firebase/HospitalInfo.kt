@@ -20,6 +20,8 @@ class HospitalInfo {
     var isAgreeAlarm: Boolean = false
     var isApproval: Boolean = false
     var createDate: Date? = null
+    var thumbnail: Int = 0
+    var documentId: String = ""
 
     public fun getLatLng() : LatLng {
         return LatLng(_geoloc.lat!!, _geoloc.lng!!)
