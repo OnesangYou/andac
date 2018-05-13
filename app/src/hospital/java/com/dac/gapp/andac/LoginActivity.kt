@@ -2,7 +2,6 @@ package com.dac.gapp.andac
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import com.dac.gapp.andac.base.BaseHospitalActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
