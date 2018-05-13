@@ -1,6 +1,7 @@
 package com.dac.gapp.andac.base
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 
@@ -26,6 +27,8 @@ open class BaseHospitalActivity : BaseActivity() {
             if(task.isSuccessful){
                 val hospitalInfo = task.result.toObject(HospitalInfo::class.java)
                 onSuccess(hospitalInfo!!.isApproval)
+            } else {
+                Log.d(KBJ, task.exception.toString())
             }
         }
     }

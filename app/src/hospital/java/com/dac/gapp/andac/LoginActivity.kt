@@ -75,5 +75,9 @@ class LoginActivity : BaseHospitalActivity() {
                 hideProgressDialog()
             }
         }
+        else {
+            hideProgressDialog()
+        }
+
     }
 }
