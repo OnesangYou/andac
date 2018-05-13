@@ -6,11 +6,10 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.dac.gapp.andac.base.BaseJoinActivity
 import com.dac.gapp.andac.custom.SwipeViewPager
-import com.dac.gapp.andac.join.JoinInfoFragment
-import com.dac.gapp.andac.join.JoinPhoneFragment
+import com.dac.gapp.andac.fragment.JoinInfoFragment
+import com.dac.gapp.andac.fragment.JoinPhoneFragment
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.user.fragment_join_info.*
@@ -37,7 +36,7 @@ class JoinActivity : BaseJoinActivity() {
     fun goToNextView(phoneNumber : String, isAgreeAlarm : Boolean){
         //핸드폰번호 유효성
         if (!Pattern.matches("^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$", phoneNumber)) {
-            Toast.makeText(this@JoinActivity, "올바른 핸드폰 번호가 아닙니다.", Toast.LENGTH_SHORT).show()
+            toast("올바른 핸드폰 번호가 아닙니다.")
             return
         }
 
@@ -50,28 +49,25 @@ class JoinActivity : BaseJoinActivity() {
 
         // 닉네임 공백체크
         if(nickName == ""){
-            Toast.makeText(this@JoinActivity, "Nick Name이 공백입니다", Toast.LENGTH_SHORT).show()
+            toast("Nick Name이 공백입니다")
             return
         }
 
         //이메일형식체크
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this@JoinActivity, "이메일 형식이 아닙니다", Toast.LENGTH_SHORT).show()
+            toast("이메일 형식이 아닙니다")
             return
         }
 
         //비밀번호 유효성
         if (passwordEdit.text.toString().length < 6) {
-            Toast.makeText(this@JoinActivity, "비밀번호는 6자리 이상입니다", Toast.LENGTH_SHORT).show()
+            toast("비밀번호는 6자리 이상입니다")
             return
         }
 
         // 비밀번호 일치
         if(passwordEdit.text.toString() != passwordEdit.text.toString()) {
-            "패스워드를 확인하세요".let {
-                Toast.makeText(this@JoinActivity,it, Toast.LENGTH_SHORT).show()
-                Log.d(KBJ, it)
-            }
+            toast("패스워드를 확인하세요")
             return
         }
 
@@ -93,18 +89,13 @@ class JoinActivity : BaseJoinActivity() {
                     if(task2.isSuccessful){
                         updateUI(user)
                     } else {
-                        "회원가입 실패".let {
-                            Log.d(KBJ, it)
-                            Toast.makeText(this@JoinActivity,it,Toast.LENGTH_SHORT).show()
-                            updateUI(null)
-                        }
+                        toast("회원가입 실패")
+                        updateUI(null)
                     }
                 }
             } else {
                 // If sign in fails, display a message to the user.
-                Log.w(KBJ, "createUserWithEmail:failure", task.exception)
-                Toast.makeText(this@JoinActivity, "Authentication failed." + task.exception,
-                        Toast.LENGTH_SHORT).show()
+                toast("Authentication failed." + task.exception)
                 updateUI(null)
             }
 
@@ -115,8 +106,7 @@ class JoinActivity : BaseJoinActivity() {
     private fun updateUI(user: FirebaseUser?) {
         hideProgressDialog()
         if(user != null){
-            Toast.makeText(this@JoinActivity, "Authentication Success.",
-                    Toast.LENGTH_SHORT).show()
+            toast("Authentication Success.")
             finish()
         }
     }

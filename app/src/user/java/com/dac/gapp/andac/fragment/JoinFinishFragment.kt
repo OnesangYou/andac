@@ -1,4 +1,4 @@
-package com.dac.gapp.andac.join
+package com.dac.gapp.andac.fragment
 
 
 import android.os.Bundle

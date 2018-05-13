@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.view.View
 import com.dac.gapp.andac.base.BaseJoinActivity
 import com.dac.gapp.andac.custom.SwipeViewPager
-import com.dac.gapp.andac.join.*
+import com.dac.gapp.andac.fragment.*
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 
 class JoinActivity : BaseJoinActivity() {

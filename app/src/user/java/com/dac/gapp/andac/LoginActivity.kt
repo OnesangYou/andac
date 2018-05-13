@@ -29,18 +29,12 @@ open class LoginActivity : BaseLoginActivity() {
             val mAuth = getAuth()
 
             if(emailEdit.text.isEmpty()) {
-                "이메일을 입력하세요".let {
-                    Timber.tag(KBJ).d(it)
-                    Toast.makeText(this@LoginActivity, it, Toast.LENGTH_SHORT).show()
-                }
+                toast("이메일을 입력하세요")
                 return@setOnClickListener
             }
 
             if(passwordLoginEdit.text.isEmpty()) {
-                "패스워드를 입력하세요".let {
-                    Timber.tag(KBJ).d(it)
-                    Toast.makeText(this@LoginActivity, it, Toast.LENGTH_SHORT).show()
-                }
+                toast("패스워드를 입력하세요")
                 return@setOnClickListener
             }
 
@@ -53,9 +47,7 @@ open class LoginActivity : BaseLoginActivity() {
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
-                    Timber.w(task.exception, "signInWithEmail:failure")
-                    Toast.makeText(this@LoginActivity, "Authentication failed." + task.exception,
-                            Toast.LENGTH_SHORT).show()
+                    toast("Authentication failed." + task.exception)
                     updateUI(null)
                 }
             }
@@ -72,8 +64,7 @@ open class LoginActivity : BaseLoginActivity() {
     private fun updateUI(currentUser: FirebaseUser?) {
         hideProgressDialog()
         if(currentUser != null){
-            Toast.makeText(this@LoginActivity, "Authentication Success.",
-                    Toast.LENGTH_SHORT).show()
+            toast(getString(R.string.successLogin))
             startActivity(Intent(this, MyPageActivity::class.java))
             finish()
         }
