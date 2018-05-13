@@ -23,7 +23,7 @@ class HospitalActivity : AppCompatActivity(), OnMapReadyCallback {
 
     // static methoda
     companion object {
-        fun createIntent(context: Context, hospitalId: Int): Intent {
+        fun createIntent(context: Context, hospitalId: String): Intent {
             var intent = Intent(context, HospitalActivity::class.java)
             intent.putExtra(EXTRA_HOSPITAL_ID, hospitalId)
             return intent
@@ -46,7 +46,7 @@ class HospitalActivity : AppCompatActivity(), OnMapReadyCallback {
         actionBar.setDisplayShowTitleEnabled(false)
         actionBar.setDisplayHomeAsUpEnabled(false) // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
 
-        val hospitalId = intent.getIntExtra(EXTRA_HOSPITAL_ID, 0)
+        val hospitalId = intent.getStringExtra(EXTRA_HOSPITAL_ID)
         txtviewTitle.text = "title $hospitalId"
 
         val images = ArrayList<Int>()

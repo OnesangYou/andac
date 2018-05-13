@@ -1,6 +1,7 @@
 package com.dac.gapp.andac.fragment
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.IntentSender
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_search_hospital_for_map.*
+import kotlinx.android.synthetic.main.row.view.*
 import timber.log.Timber
 import java.lang.Exception
 
@@ -78,6 +80,18 @@ class SearchHospitalFragmentForMap : Fragment() {
         mapView!!.getMapAsync({
             it.isMyLocationEnabled = true
             googleMap = it
+            googleMap!!.setOnMarkerClickListener {
+                layoutHospitalInfo.visibility = View.VISIBLE
+                val hospitalInfo = hospitals[it.tag.toString()]
+                // 병원 이미지는 일단 임시로
+                layoutHospitalInfo.imgview_thumbnail.setBackgroundResource(R.drawable.wook1_plash)
+                layoutHospitalInfo.txtview_title.text = hospitalInfo!!.name
+                layoutHospitalInfo.txtview_address.text = hospitalInfo.address1
+                layoutHospitalInfo.txtview_phone.text = hospitalInfo.phone
+                // 병원 하트 카운트는 어디서??
+                layoutHospitalInfo.heart_count.text = "1"
+                true
+            }
             showAllHospitals()
         })
         return view
@@ -85,6 +99,7 @@ class SearchHospitalFragmentForMap : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        layoutHospitalInfo.visibility = View.GONE
         setupCurrentLocation()
         setupEventsOnCreate()
     }
@@ -219,17 +234,15 @@ class SearchHospitalFragmentForMap : Fragment() {
         })
     }
 
-    private fun addMarker(title: String, latLng: LatLng) {
-        addMarker(title, "", BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE), latLng)
+    private fun addMarker(id: String, latLng: LatLng) {
+        val markerOptions = MarkerOptions()
+        markerOptions.position(latLng)
+        val marker = googleMap!!.addMarker(markerOptions)
+        marker.tag = id
     }
 
-    private fun addMarker(title: String, snippet: String, icon: BitmapDescriptor, latLng: LatLng) {
-        val markerOptions = MarkerOptions()
-        markerOptions.title(title)
-        markerOptions.snippet(snippet)
-        markerOptions.position(latLng)
-        markerOptions.icon(icon)
-        googleMap!!.addMarker(markerOptions)
+    private fun thisActivity(): Activity {
+        return requireActivity()
     }
 
     private fun moveCamera(latLng: LatLng) {
@@ -247,7 +260,7 @@ class SearchHospitalFragmentForMap : Fragment() {
                             hospitals[document.id] = document.toObject(HospitalInfo::class.java)
                             val hospitalInfo = hospitals[document.id]
                             val address = if (hospitalInfo!!.address1 != "") hospitalInfo.address1 else hospitalInfo.address2
-                            addMarker(hospitalInfo.name, address, BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE), hospitalInfo.getLatLng())
+                            addMarker(document.id, hospitalInfo.getLatLng())
                             Timber.d("${hospitalInfo.name} ${hospitalInfo._geoloc}")
                         }
                         MyToast.show(requireContext(), "근처 병원 ${it.result.size()}개를 찾았습니다!!")

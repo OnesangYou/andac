@@ -8,10 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.SearchHospitalRecyclerViewAdapter
-import com.dac.gapp.andac.model.SearchHospitalItem
+import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.fragment_search_hospital_for_list.*
+import timber.log.Timber
 
 class SearchHospitalFragmentForList : Fragment() {
+
+    private var hospitals: HashMap<String, HospitalInfo> = HashMap()
 
     var title: String = ""
 
@@ -44,16 +48,28 @@ class SearchHospitalFragmentForList : Fragment() {
         val lm = LinearLayoutManager(context)
         lm.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = lm
-        recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, getDummyData())
     }
 
-    private fun getDummyData(): List<SearchHospitalItem> {
-        val itemList: ArrayList<SearchHospitalItem> = ArrayList()
-        for (x in 1..10) {
-            val item = SearchHospitalItem(x, R.drawable.uproad_pic, "title $x", "address2 $x", "description $x")
-            itemList.add(item)
-        }
-        return itemList
+    private fun loadHospitals() {
+        (activity as BaseActivity).getHospitals()
+                .get()
+                .addOnCompleteListener({
+                    if (it.isSuccessful) {
+                        val itemList: ArrayList<HospitalInfo> = ArrayList()
+                        for (document in it.result) {
+//                            Timber.d(document.id + " => " + document.data)
+                            hospitals[document.id] = document.toObject(HospitalInfo::class.java)
+                            hospitals[document.id]!!.documentId = document.id
+                            val hospitalInfo = hospitals[document.id]
+                            val address = if (hospitalInfo!!.address1 != "") hospitalInfo.address1 else hospitalInfo.address2
+                            Timber.d("${hospitalInfo.name} ${hospitalInfo._geoloc}")
+                            itemList.add(hospitalInfo)
+                        }
+                        recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, itemList)
+                    } else {
+                        Timber.w("Error getting documents. ${it.exception}")
+                    }
+                })
     }
 
 }
