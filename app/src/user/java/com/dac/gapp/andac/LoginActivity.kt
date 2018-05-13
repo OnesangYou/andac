@@ -2,7 +2,7 @@ package com.dac.gapp.andac
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
 import com.dac.gapp.andac.base.BaseLoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -38,23 +38,32 @@ open class LoginActivity : BaseLoginActivity() {
                 return@setOnClickListener
             }
 
+            // 유저인지 확인 (병원계정 접근 금지)
             showProgressDialog()
-            mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())?.addOnCompleteListener{ task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Timber.tag(KBJ).d("signInWithEmail:success")
-                    val user = mAuth.currentUser
-                    updateUI(user)
+            onCheckNormalUser(emailEdit.text.toString(), {isUser ->
+                if(isUser){
+                    mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())?.addOnCompleteListener{ task ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Timber.tag(KBJ).d("signInWithEmail:success")
+                            val user = mAuth.currentUser
+                            updateUI(user)
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            toast("Authentication failed." + task.exception)
+                            updateUI(null)
+                        }
+                    }
                 } else {
-                    // If sign in fails, display a message to the user.
-                    toast("Authentication failed." + task.exception)
+                    // 회원가입 안되있음
+                    toast("유저 회원가입이 안된 Email 입니다")
                     updateUI(null)
                 }
-            }
+            })
         }
     }
 
-    public override fun onStart() {
+    override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = mAuth!!.currentUser
@@ -68,7 +77,16 @@ open class LoginActivity : BaseLoginActivity() {
             startActivity(Intent(this, MyPageActivity::class.java))
             finish()
         }
+    }
 
+    private fun onCheckNormalUser(email : String, onSuccess: (Boolean) -> Unit){
+        getUsers().whereEqualTo("email", email).get().addOnCompleteListener{ task ->
+            if(task.isSuccessful){
+                onSuccess(!task.result.isEmpty)
+            } else {
+                Log.d(KBJ, task.exception.toString())
+            }
+        }
     }
 
 }

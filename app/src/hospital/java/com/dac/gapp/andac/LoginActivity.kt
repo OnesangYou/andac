@@ -2,7 +2,9 @@ package com.dac.gapp.andac
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.dac.gapp.andac.base.BaseHospitalActivity
+import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.hospital.activity_login.*
@@ -35,19 +37,29 @@ class LoginActivity : BaseHospitalActivity() {
                 return@setOnClickListener
             }
 
+            // 병원 유저인지 체크
             showProgressDialog()
-            mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())?.addOnCompleteListener{ task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Timber.tag(KBJ).d("signInWithEmail:success")
-                    val user = mAuth.currentUser
-                    updateUI(user)
+            onCheckHospitalUser(emailEdit.text.toString(), { isHospitalUser ->
+                if(isHospitalUser){
+                    // toast("회원가입 되있음")
+                    mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())?.addOnCompleteListener{ task ->
+                        if (task.isSuccessful) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Timber.tag(KBJ).d("signInWithEmail:success")
+                            val user = mAuth.currentUser
+                            updateUI(user)
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            toast("Authentication failed." + task.exception)
+                            updateUI(null)
+                        }
+                    }
                 } else {
-                    // If sign in fails, display a message to the user.
-                    toast("Authentication failed." + task.exception)
+                    // 회원가입 안되있음
+                    toast("병원 유저 회원가입이 안된 Email 입니다")
                     updateUI(null)
                 }
-            }
+            })
         }
     }
 
@@ -77,6 +89,15 @@ class LoginActivity : BaseHospitalActivity() {
         else {
             hideProgressDialog()
         }
+    }
 
+    private fun onCheckHospitalUser(email : String, onSuccess: (Boolean) -> Unit){
+        getHospitals().whereEqualTo("email", email).get().addOnCompleteListener{ task ->
+            if(task.isSuccessful){
+                onSuccess(!task.result.isEmpty)
+            } else {
+                Log.d(KBJ, task.exception.toString())
+            }
+        }
     }
 }
