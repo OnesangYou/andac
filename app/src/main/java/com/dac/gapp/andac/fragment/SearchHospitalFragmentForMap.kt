@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.IntentSender
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,8 +12,8 @@ import android.widget.Toast
 import com.algolia.instantsearch.helpers.Searcher
 import com.algolia.search.saas.AbstractQuery
 import com.algolia.search.saas.Query
-import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.model.Algolia
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.Common
@@ -26,8 +25,6 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_search_hospital_for_map.*
@@ -36,7 +33,7 @@ import timber.log.Timber
 import java.lang.Exception
 
 
-class SearchHospitalFragmentForMap : Fragment() {
+class SearchHospitalFragmentForMap : BaseFragment() {
 
     // static method
     companion object {
@@ -251,7 +248,7 @@ class SearchHospitalFragmentForMap : Fragment() {
     }
 
     private fun showAllHospitals() {
-        (activity as BaseActivity).getHospitals()
+        context!!.getHospitals()
                 .get()
                 .addOnCompleteListener({
                     if (it.isSuccessful) {

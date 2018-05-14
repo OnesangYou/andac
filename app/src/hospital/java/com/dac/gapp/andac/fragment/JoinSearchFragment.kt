@@ -13,7 +13,6 @@ import com.algolia.instantsearch.helpers.InstantSearch
 import com.algolia.instantsearch.helpers.Searcher
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
-import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.Algolia
 import kotlinx.android.synthetic.hospital.fragment_join_certi2.*
 import kotlinx.android.synthetic.main.activity_hospital_text_search.*
@@ -43,10 +42,9 @@ class JoinSearchFragment : JoinBaseFragment() {
             hospitalJoinActivity.goToNextView()
         }
 
-        val baseActivity = context as BaseActivity
         searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, Algolia.INDEX_NAME_HOSPITAL.value)
-        InstantSearch(baseActivity, searcher) // Initialize InstantSearch in this activity with searcher
-        searcher.search(baseActivity.intent) // Show results for empty query (on app launch) / voice query (from intent)
+        InstantSearch(context!!, searcher) // Initialize InstantSearch in this activity with searcher
+        searcher.search(context!!.intent) // Show results for empty query (on app launch) / voice query (from intent)
 
         hits.setOnItemClickListener{ recyclerView: RecyclerView, i: Int, view1: View ->
 

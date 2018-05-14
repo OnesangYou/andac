@@ -1,19 +1,18 @@
 package com.dac.gapp.andac.fragment
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.SearchHospitalRecyclerViewAdapter
-import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.fragment_search_hospital_for_list.*
 import timber.log.Timber
 
-class SearchHospitalFragmentForList : Fragment() {
+class SearchHospitalFragmentForList : BaseFragment() {
 
     private var hospitals: HashMap<String, HospitalInfo> = HashMap()
 
@@ -51,7 +50,7 @@ class SearchHospitalFragmentForList : Fragment() {
     }
 
     private fun loadHospitals() {
-        (activity as BaseActivity).getHospitals()
+        context!!.getHospitals()
                 .get()
                 .addOnCompleteListener({
                     if (it.isSuccessful) {
