@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.dac.gapp.andac.base.BaseHospitalActivity
-import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.hospital.activity_login.*
@@ -72,7 +71,7 @@ class LoginActivity : BaseHospitalActivity() {
     }
 
     private fun updateUI(currentUser: FirebaseUser?) {
-        currentUser?.let{
+        if(currentUser != null){
             // 관리자 승인 확인
             onCheckApproval { isCheck ->
                 if (isCheck) {
