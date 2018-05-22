@@ -1,15 +1,18 @@
 package com.dac.gapp.andac
 
+import android.app.Activity
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.Toast
+import com.dac.gapp.andac.base.BaseActivity
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
+import android.content.Intent
 
-class SearchAddressActivity : AppCompatActivity() {
+
+
+class SearchAddressActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,14 +22,20 @@ class SearchAddressActivity : AppCompatActivity() {
 
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
-                Log.i(localClassName, "Place: " + place.name)
+                Log.i(localClassName, "Place : $place")
 
-                ("latLng: " + place.latLng).let{
-                    Toast.makeText(this@SearchAddressActivity, it, Toast.LENGTH_SHORT).show()
-                    Log.i(localClassName, it)
+                Intent().let{
+                    it.apply{
+                        putExtra("name", place.name)
+                        putExtra("latLng", place.latLng)
+                        putExtra("address", place.address)
+                        putExtra("phoneNumber", place.phoneNumber)
+                    }
+
+                    setResult(Activity.RESULT_OK, it)
                 }
+                finish()
             }
-
             override fun onError(status: Status) {
                 Log.i(localClassName, "An error occurred: $status")
             }

@@ -1,16 +1,17 @@
 package com.dac.gapp.andac.fragment
 
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SearchAddressActivity
+import com.google.android.gms.maps.model.LatLng
 import com.yanzhenjie.album.Album
 import kotlinx.android.synthetic.hospital.fragment_join_info.*
 import timber.log.Timber
@@ -20,6 +21,9 @@ import timber.log.Timber
  * A simple [Fragment] subclass.
  */
 class JoinInfoFragment : JoinBaseFragment() {
+
+    private val PICK_CONTACT_REQUEST: Int = 0
+
     override fun onChangeFragment() {
         // 받아온 경우 Set
         joinActivity.hospitalInfo.apply {
@@ -46,7 +50,7 @@ class JoinInfoFragment : JoinBaseFragment() {
             Album.image(this@JoinInfoFragment)
                     .singleChoice()
                     .onResult {
-                        Timber.d("Album.onResult : " + it.toString())
+                        Timber.d("Album.onResult : $it")
                     }
                     .onCancel { }
                     .start()
@@ -81,10 +85,36 @@ class JoinInfoFragment : JoinBaseFragment() {
         // 주소검색
         addressEdit.setOnClickListener {
             Intent(context, SearchAddressActivity::class.java).let {
-                startActivity(it)
+                startActivityForResult(it, PICK_CONTACT_REQUEST)
             }
         }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Check which request it is that we're responding to
+        if (requestCode === PICK_CONTACT_REQUEST && resultCode === RESULT_OK) {
+            // Get the URI that points to the selected contact
+            data?.let {
+                val latLng = data!!.getParcelableExtra<LatLng>("latLng")
+                val name = data.getStringExtra("name")
+                val address = data.getStringExtra("address")
+                val phoneNumber = data.getStringExtra("phoneNumber")
+
+                context!!.toast("latLng : $latLng, name : $name")
+
+                joinActivity.apply{
+                    hospitalName.setText(name)
+                    addressEdit.setText(address)
+                    phoneEdit.setText(phoneNumber)
+                    hospitalInfo._geoloc.apply {
+                        lat = latLng.latitude
+                        lng = latLng.longitude
+                    }
+                }
+            }
+        }
     }
 
 }// Required empty public constructor

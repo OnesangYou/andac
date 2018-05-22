@@ -84,12 +84,12 @@ open class BaseActivity : AppCompatActivity() {
         hideProgressDialog()
     }
 
-    private var toast: Toast? = null
+    private var mToast: Toast? = null
     // Context 클래스에 toast 함수 추가
-    fun Context.toast(message: CharSequence) {
+    fun toast(message: CharSequence) {
         // this는 Context 인스턴스!
         Toast.makeText(this, message, Toast.LENGTH_SHORT).let {
-            toast = it
+            mToast = it
             it.show()
         }
         Timber.d(message.toString())
@@ -101,7 +101,7 @@ open class BaseActivity : AppCompatActivity() {
 
         val time = 2000
         if (System.currentTimeMillis() <= backKeyPressedTime + time) {
-            toast?.cancel()
+            mToast?.cancel()
             ActivityCompat.finishAffinity(this@BaseActivity)
         } else {
             showGuide()
