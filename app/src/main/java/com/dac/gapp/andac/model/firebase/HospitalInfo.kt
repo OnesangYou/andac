@@ -23,7 +23,10 @@ class HospitalInfo {
     var thumbnail: Int = 0
     var documentId: String = ""
 
-    public fun getLatLng() : LatLng {
+    var profilePicUrl: String = ""
+    var profilePicRef: String = ""
+
+    fun getLatLng() : LatLng {
         return LatLng(_geoloc.lat!!, _geoloc.lng!!)
     }
 }

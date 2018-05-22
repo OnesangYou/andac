@@ -3,6 +3,7 @@ package com.dac.gapp.andac.fragment
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -14,7 +15,7 @@ import com.dac.gapp.andac.SearchAddressActivity
 import com.google.android.gms.maps.model.LatLng
 import com.yanzhenjie.album.Album
 import kotlinx.android.synthetic.hospital.fragment_join_info.*
-import timber.log.Timber
+import java.io.File
 
 
 /**
@@ -50,9 +51,14 @@ class JoinInfoFragment : JoinBaseFragment() {
             Album.image(this@JoinInfoFragment)
                     .singleChoice()
                     .onResult {
-                        Timber.d("Album.onResult : $it")
+                        joinActivity.apply {
+                            toast("Album.onResult : ${it.joinToString{it.path}}")
+                            it.forEach{albumFile ->
+                                // uri 저장
+                                profilePicUri = Uri.fromFile(File(albumFile.path))
+                            }
+                        }
                     }
-                    .onCancel { }
                     .start()
         }
 
@@ -107,7 +113,7 @@ class JoinInfoFragment : JoinBaseFragment() {
                 val address = data.getStringExtra("address")
                 val phoneNumber = data.getStringExtra("phoneNumber")
 
-                context!!.toast("latLng : $latLng, name : $name")
+//                context!!.toast("latLng : $latLng, name : $name")
 
                 joinActivity.apply{
                     hospitalName.setText(name)

@@ -26,9 +26,15 @@ open class BaseHospitalActivity : BaseActivity() {
         getHospitals().document(getUid()).get().addOnCompleteListener{ task ->
             if(task.isSuccessful){
                 val hospitalInfo = task.result.toObject(HospitalInfo::class.java)
-                onSuccess(hospitalInfo!!.isApproval)
+                if(hospitalInfo != null) {
+                    onSuccess(hospitalInfo.isApproval)
+                } else {
+                    // TODO 회원가입이 잘못됬을 경우... 처리해야함..
+                    toast("hospitalInfo is null")
+                }
             } else {
                 Log.d(KBJ, task.exception.toString())
+                onSuccess(false)
             }
         }
     }

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
 import com.google.firebase.auth.FirebaseUser
@@ -45,25 +44,25 @@ class JoinCerti2Fragment : JoinBaseFragment(){
 
                 //이메일형식체크
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
-                    context!!.toast("이메일 형식이 아닙니다")
+                    toast("이메일 형식이 아닙니다")
                     return@setOnClickListener
                 }
 
                 //비밀번호 유효성
                 if (passwordStr.length < 6) {
-                    context!!.toast("비밀번호는 6자리 이상입니다")
+                    toast("비밀번호는 6자리 이상입니다")
                     return@setOnClickListener
                 }
 
                 // 비밀번호 일치
                 if(passwordStr != passwordConfirmStr) {
-                    context!!.toast("패스워드를 확인하세요")
+                    toast("패스워드를 확인하세요")
                     return@setOnClickListener
                 }
 
                 //핸드폰번호 유효성
                 if (!Pattern.matches("^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$", phoneStr)) {
-                    context!!.toast("올바른 핸드폰 번호가 아닙니다.")
+                    toast("올바른 핸드폰 번호가 아닙니다. $phoneStr")
                     return@setOnClickListener
                 }
 
@@ -82,19 +81,8 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                         Timber.d("createUserWithEmail:success")
                         val user = mAuth.currentUser
 
-                        // DB insert
-                        getHospitals().document(user?.uid!!).set(hospitalInfo, SetOptions.merge()).addOnCompleteListener{ task2 ->
-                            if(task2.isSuccessful){
-                                updateUI(user)
-                            } else {
-                                this.toast("회원가입 실패")
-                                updateUI(null)
-                            }
-                        }
-                        // DB delete
-                        if(hospitalKey.isNotEmpty()){
-                            getHospitals().document(hospitalKey).delete()
-                        }
+                        // uploadPicFile
+                        uploadPicFile{insertDB(user, { deleteDB() })}
 
                     } else {
                         // If sign in fails, display a message to the user.
@@ -104,6 +92,40 @@ class JoinCerti2Fragment : JoinBaseFragment(){
 
                 }
             }
+        }
+    }
+
+    private fun JoinActivity.uploadPicFile(function: () -> Unit) {
+        if(profilePicUri != null) {
+            getHospitalsStorageRef().child(getUid()).child("profilePic.jpg").putFile(profilePicUri!!)
+                    .addOnSuccessListener { taskSnapshot ->
+                        hospitalInfo.profilePicUrl = taskSnapshot.downloadUrl.toString()
+                        toast("KBJ, uploadPicFile Complete")
+                        function.invoke()
+                    }
+        } else {
+            toast("profilePicUri is null")
+            updateUI(null)
+        }
+    }
+
+    private fun JoinActivity.insertDB(user: FirebaseUser?, function: () -> Unit) {
+        getHospitals().document(user?.uid!!).set(hospitalInfo, SetOptions.merge()).addOnCompleteListener { task2 ->
+            if (task2.isSuccessful) {
+                toast("KBJ, insertDB Complete")
+                function.invoke()
+                updateUI(user)
+            } else {
+                this.toast("회원가입 실패")
+                updateUI(null)
+            }
+        }
+    }
+
+    private fun JoinActivity.deleteDB() {
+        toast("KBJ, deleteDB Complete")
+        if (hospitalKey.isNotEmpty()) {
+            getHospitals().document(hospitalKey).delete()
         }
     }
 

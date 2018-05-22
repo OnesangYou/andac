@@ -1,5 +1,6 @@
 package com.dac.gapp.andac
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
@@ -16,6 +17,7 @@ class JoinActivity : BaseJoinActivity() {
     var viewPager : SwipeViewPager? = null
     var hospitalInfo = HospitalInfo()
     var hospitalKey : String = ""
+    var profilePicUri : Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
