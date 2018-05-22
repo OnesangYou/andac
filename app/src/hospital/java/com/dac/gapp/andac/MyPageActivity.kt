@@ -3,8 +3,9 @@ package com.dac.gapp.andac
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseHospitalActivity
-import com.dac.gapp.andac.base.BaseMyPageActivity
+import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.hospital.activity_my_page.*
 
 class MyPageActivity : BaseHospitalActivity() {
@@ -38,6 +39,15 @@ class MyPageActivity : BaseHospitalActivity() {
 
             }
 
+        }
+
+        // Set Profile
+        getHospital().get().addOnSuccessListener { documentSnapshot ->
+            val hospitalInfo = documentSnapshot.toObject(HospitalInfo::class.java)
+            if (hospitalInfo != null) {
+                Glide.with(this@MyPageActivity).load(hospitalInfo.profilePicUrl).into(profilePic)
+                nameText.text = hospitalInfo.name
+            }
         }
     }
 }

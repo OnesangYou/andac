@@ -36,6 +36,11 @@ open class BaseActivity : AppCompatActivity() {
         return getDb().collection("hospitals")
     }
 
+    fun getHospital(): DocumentReference {
+        return getHospitals().document(getUid())
+    }
+
+
     fun getHospitalsStorageRef() : StorageReference {
         return FirebaseStorage.getInstance().reference.child("hospitals")
     }
