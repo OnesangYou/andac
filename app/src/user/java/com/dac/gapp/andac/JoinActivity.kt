@@ -105,7 +105,7 @@ class JoinActivity : BaseJoinActivity() {
 
     private fun updateUI(user: FirebaseUser?) {
         hideProgressDialog()
-        if(user != null){
+        user?.let{
             toast("Authentication Success.")
             finish()
         }

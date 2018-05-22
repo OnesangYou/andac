@@ -63,7 +63,7 @@ class LoginActivity : BaseHospitalActivity() {
         }
     }
 
-    public override fun onStart() {
+    override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = mAuth!!.currentUser
@@ -72,7 +72,7 @@ class LoginActivity : BaseHospitalActivity() {
     }
 
     private fun updateUI(currentUser: FirebaseUser?) {
-        if(currentUser != null) {
+        currentUser?.let{
             // 관리자 승인 확인
             onCheckApproval { isCheck ->
                 if (isCheck) {

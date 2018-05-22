@@ -110,7 +110,7 @@ class JoinCerti2Fragment : JoinBaseFragment(){
     private fun updateUI(user: FirebaseUser?) {
         (activity as JoinActivity).run {
             hideProgressDialog()
-            if(user != null){
+            user?.let{
                 this.toast("Authentication Success.")
                 finish()
             }

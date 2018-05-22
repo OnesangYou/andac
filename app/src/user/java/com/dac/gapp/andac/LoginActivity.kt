@@ -72,7 +72,7 @@ open class LoginActivity : BaseLoginActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         hideProgressDialog()
-        if(currentUser != null){
+        currentUser?.let{
             toast(getString(R.string.successLogin))
             startActivity(Intent(this, MyPageActivity::class.java))
             finish()

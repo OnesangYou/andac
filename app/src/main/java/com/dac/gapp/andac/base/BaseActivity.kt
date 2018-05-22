@@ -3,6 +3,7 @@ package com.dac.gapp.andac.base
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Context
+import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -66,8 +67,10 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog!!.isShowing) {
-            mProgressDialog!!.dismiss()
+        mProgressDialog?.let{
+            if(it.isShowing){
+                it.dismiss()
+            }
         }
     }
 
@@ -81,11 +84,34 @@ open class BaseActivity : AppCompatActivity() {
         hideProgressDialog()
     }
 
+    private var toast: Toast? = null
     // Context 클래스에 toast 함수 추가
     fun Context.toast(message: CharSequence) {
         // this는 Context 인스턴스!
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).let {
+            toast = it
+            it.show()
+        }
         Timber.d(message.toString())
+    }
+
+    private var backKeyPressedTime: Long = 0
+
+    fun backPressed() {
+
+        val time = 2000
+        if (System.currentTimeMillis() <= backKeyPressedTime + time) {
+            toast?.cancel()
+            ActivityCompat.finishAffinity(this@BaseActivity)
+        } else {
+            showGuide()
+            backKeyPressedTime = System.currentTimeMillis()
+        }
+
+    }
+
+    private fun showGuide() {
+        toast("한번 더 누르면 종료됩니다.")
     }
 
 }
