@@ -22,7 +22,7 @@ import timber.log.Timber
  */
 class JoinInfoFragment : JoinBaseFragment() {
 
-    private val PICK_CONTACT_REQUEST: Int = 0
+    private val PICK_ADDRESS_REQUEST: Int = 0
 
     override fun onChangeFragment() {
         // 받아온 경우 Set
@@ -56,6 +56,7 @@ class JoinInfoFragment : JoinBaseFragment() {
                     .start()
         }
 
+
         nextBtn.setOnClickListener {
             joinActivity.run{
                 // 유효성 검사
@@ -82,22 +83,26 @@ class JoinInfoFragment : JoinBaseFragment() {
             }
         }
 
-        // 주소검색
-        addressEdit.setOnClickListener {
+        // 주소 검색
+        View.OnClickListener {
             Intent(context, SearchAddressActivity::class.java).let {
-                startActivityForResult(it, PICK_CONTACT_REQUEST)
+                startActivityForResult(it, PICK_ADDRESS_REQUEST)
             }
+        }.let {
+            addressEdit.setOnClickListener(it)
+            hospitalName.setOnClickListener(it)
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         // Check which request it is that we're responding to
-        if (requestCode === PICK_CONTACT_REQUEST && resultCode === RESULT_OK) {
+        if (requestCode == PICK_ADDRESS_REQUEST && resultCode == RESULT_OK) {
             // Get the URI that points to the selected contact
             data?.let {
-                val latLng = data!!.getParcelableExtra<LatLng>("latLng")
+                val latLng = data.getParcelableExtra<LatLng>("latLng")
                 val name = data.getStringExtra("name")
                 val address = data.getStringExtra("address")
                 val phoneNumber = data.getStringExtra("phoneNumber")
