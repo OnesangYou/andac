@@ -95,17 +95,16 @@ class JoinCerti2Fragment : JoinBaseFragment(){
         }
     }
 
-    private fun JoinActivity.uploadPicFile(function: () -> Unit) {
+    private fun JoinActivity.uploadPicFile(next: () -> Unit) {
         if(profilePicUri != null) {
             getHospitalsStorageRef().child(getUid()).child("profilePic.jpg").putFile(profilePicUri!!)
                     .addOnSuccessListener { taskSnapshot ->
                         hospitalInfo.profilePicUrl = taskSnapshot.downloadUrl.toString()
                         toast("KBJ, uploadPicFile Complete")
-                        function.invoke()
+                        next.invoke()
                     }
         } else {
-            toast("profilePicUri is null")
-            updateUI(null)
+            next.invoke()
         }
     }
 
