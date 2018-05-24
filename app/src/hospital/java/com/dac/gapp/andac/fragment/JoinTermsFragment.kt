@@ -8,7 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
-import kotlinx.android.synthetic.hospital.fragment_join_certi2.*
+import kotlinx.android.synthetic.hospital.fragment_join_terms.*
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -25,8 +26,28 @@ class JoinTermsFragment : JoinBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        nextBtn.setOnClickListener { (activity as JoinActivity).goToNextView() }
+        nextBtn.setOnClickListener {
+
+            // 필수 체크 검사
+            if(Arrays.asList(checkedTextView,checkedTextView3, checkedTextView4, checkedTextView5)
+                            .map { it.isChecked }.reduce { acc, b -> acc && b }){
+                joinActivity().goToNextView()
+            } else {
+                context!!.toast("필수 항목을 모두 체크해야 진행할 수 있습니다")
+            }
+
+        }
+
+        // 선택 동의 버튼
+        checkedAgreeAlarm.setOnCheckedChangeListener { _, b -> joinActivity().hospitalInfo.isAgreeAlarm = b }
+
+        // 전체 선택 버튼
+        checkedAll.setOnCheckedChangeListener{ _, b ->
+            Arrays.asList(checkedTextView,checkedTextView3, checkedTextView4, checkedTextView5, checkedAgreeAlarm).forEach { it.isChecked = b } }
+
     }
+
+    private fun joinActivity() = (activity as JoinActivity)
 
 
 }// Required empty public constructor
