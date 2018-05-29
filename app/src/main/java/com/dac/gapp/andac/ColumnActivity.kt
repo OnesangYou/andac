@@ -5,11 +5,11 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.dac.gapp.andac.adapter.ColumnTitleRecyclerViewAdapter
-import com.dac.gapp.andac.model.columnTitle
+import com.dac.gapp.andac.model.ColumnTitle
 import kotlinx.android.synthetic.main.activity_column.*
 
 class ColumnActivity : AppCompatActivity() {
-    var columntitleList : MutableList<columnTitle> = mutableListOf<columnTitle>()
+    var columntitleList : MutableList<ColumnTitle> = mutableListOf<ColumnTitle>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_column)
@@ -27,7 +27,7 @@ class ColumnActivity : AppCompatActivity() {
     fun prepareData(){
         for(i in 1..10){
 
-            columntitleList.add(columnTitle(1,"Dsadsa"))
+            columntitleList.add(ColumnTitle(1,"Dsadsa"))
         }
     }
 }

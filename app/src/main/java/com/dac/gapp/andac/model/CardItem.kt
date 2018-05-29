@@ -1,4 +1,4 @@
-package com.dac.gapp.andac
+package com.dac.gapp.andac.model
 
 // 카드뷰에서 사용할 클래스 적어줌.
 class CardItem// 컨서트럭트해줌

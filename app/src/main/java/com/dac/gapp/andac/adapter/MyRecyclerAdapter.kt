@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.dac.gapp.andac.CardItem
+import com.dac.gapp.andac.model.CardItem
 import com.dac.gapp.andac.R
 
 class MyRecyclerAdapter

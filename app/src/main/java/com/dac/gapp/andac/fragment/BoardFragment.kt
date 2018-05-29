@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.BoardWriteActivity
-import com.dac.gapp.andac.CardItem
+import com.dac.gapp.andac.model.CardItem
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.MyRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_board.*
