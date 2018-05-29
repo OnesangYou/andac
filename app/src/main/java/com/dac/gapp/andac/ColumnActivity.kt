@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_column.*
 
 class ColumnActivity : AppCompatActivity() {
     var columntitleList : MutableList<ColumnTitle> = mutableListOf<ColumnTitle>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_column)
@@ -19,14 +20,10 @@ class ColumnActivity : AppCompatActivity() {
 
         columnList.layoutManager = layoutmanager
         columnList.adapter = ColumnTitleRecyclerViewAdapter(applicationContext,columntitleList)
-
-
-
     }
 
     fun prepareData(){
         for(i in 1..10){
-
             columntitleList.add(ColumnTitle(1,"Dsadsa"))
         }
     }

@@ -1,12 +1,53 @@
 package com.dac.gapp.andac
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.support.v7.app.AlertDialog
+import android.view.View
+import android.widget.Toast
+import com.dac.gapp.andac.model.EventDetail
+import com.yanzhenjie.album.mvp.BaseActivity
+import kotlinx.android.synthetic.main.activity_event.*
+import kotlinx.android.synthetic.main.event_request_dialog.view.*
 
-class EventActivity : AppCompatActivity() {
+class EventActivity : BaseActivity() {
+    var builder : AlertDialog.Builder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event)
+
+        setInfo()
+        setDialog()
+        event_submit.setOnClickListener({v: View ->
+            builder!!.show()
+        })
+    }
+
+    fun setInfo(){
+        if (intent.hasExtra("EventInfo")) {
+            var eventDetail = intent.getParcelableExtra<EventDetail>("EventInfo")
+            event_title.text = eventDetail.title
+            sub_title.text = eventDetail.sub_title
+            body.text = eventDetail.body
+            deal_kind.text = eventDetail.deal_kind
+            price.text = eventDetail.price
+            buy_count.text = eventDetail.buy_count
+        }
+    }
+
+    fun setDialog(){
+        builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.event_request_dialog, null)
+        builder!!.setView(dialogView)
+                .setPositiveButton("확인") { dialogInterface, i ->
+
+                    var name = dialogView.event_name.text.toString()
+                    var phone = dialogView.event_phone.text.toString()
+                    var time = dialogView.event_time.text.toString()
+                    Toast.makeText(this,name+"/"+phone+"/"+time,Toast.LENGTH_SHORT ).show()
+                }
+                .setNegativeButton("취소") { dialogInterface, i ->
+                    Toast.makeText(this,"택형귀요미~",Toast.LENGTH_SHORT ).show()
+                }.create()
     }
 }
