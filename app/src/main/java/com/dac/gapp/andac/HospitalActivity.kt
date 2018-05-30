@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.dac.gapp.andac.adapter.HospitalActivityPagerAdapter
+import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapFragment
@@ -15,17 +16,18 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_hospital.*
 
-const val EXTRA_HOSPITAL_ID = "EXTRA_HOSPITAL_ID"
+const val EXTRA_HOSPITAL_INFO = "EXTRA_HOSPITAL_INFO"
 
 class HospitalActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private var googleMap: GoogleMap? = null
+    private lateinit var hospitalInfo: HospitalInfo
+    private lateinit var googleMap: GoogleMap
 
     // static methoda
     companion object {
-        fun createIntent(context: Context, hospitalId: String): Intent {
-            var intent = Intent(context, HospitalActivity::class.java)
-            intent.putExtra(EXTRA_HOSPITAL_ID, hospitalId)
+        fun createIntent(context: Context, hospitalInfo: HospitalInfo?): Intent {
+            val intent = Intent(context, HospitalActivity::class.java)
+            intent.putExtra(EXTRA_HOSPITAL_INFO, hospitalInfo)
             return intent
         }
     }
@@ -33,8 +35,10 @@ class HospitalActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hospital)
+        hospitalInfo = intent.getSerializableExtra(EXTRA_HOSPITAL_INFO) as HospitalInfo
         prepareUi()
     }
+
 
     private fun prepareUi() {
         // toolbar
@@ -46,8 +50,11 @@ class HospitalActivity : AppCompatActivity(), OnMapReadyCallback {
         actionBar.setDisplayShowTitleEnabled(false)
         actionBar.setDisplayHomeAsUpEnabled(false) // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
 
-        val hospitalId = intent.getStringExtra(EXTRA_HOSPITAL_ID)
-        txtviewTitle.text = "title $hospitalId"
+        txtviewTitle.text = hospitalInfo.name
+        txtvieName.text = hospitalInfo.name
+        txtviewAddress.text = hospitalInfo.address1
+        txtviewBusinessHours.text = hospitalInfo.openDate
+        txtviewDescription.text = hospitalInfo.description
 
         val images = ArrayList<Int>()
         images.addAll(arrayOf(R.drawable.heart, R.drawable.heart_fill, R.drawable.heart, R.drawable.heart_fill))
@@ -58,16 +65,14 @@ class HospitalActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
+
     override fun onMapReady(map: GoogleMap?) {
-        val seoul = LatLng(37.56, 126.97)
         val markerOptions = MarkerOptions()
-        markerOptions.position(seoul)
-        markerOptions.title("서울")
-        markerOptions.snippet("한국의 수도")
+        markerOptions.position(hospitalInfo.getLatLng())
         map!!.addMarker(markerOptions)
 
-        map.moveCamera(CameraUpdateFactory.newLatLng(seoul))
-        map.animateCamera(CameraUpdateFactory.zoomTo(10f))
+        map.moveCamera(CameraUpdateFactory.newLatLng(hospitalInfo.getLatLng()))
+        map.animateCamera(CameraUpdateFactory.zoomTo(15f))
 
         googleMap = map
     }

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.SearchHospitalFragmentPagerAdapter
 import kotlinx.android.synthetic.main.fragment_search_hospital.*
+import kotlinx.android.synthetic.user.activity_join.*
 
 
 /**
@@ -28,6 +29,7 @@ class SearchHospitalFragment : Fragment() {
 
     private fun prepareUi() {
         viewPager.adapter = SearchHospitalFragmentPagerAdapter(context, childFragmentManager)
+        viewPager.offscreenPageLimit = 4
         layoutTab.setupWithViewPager(viewPager)
     }
 

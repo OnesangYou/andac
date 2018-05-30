@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.algolia.instantsearch.helpers.Searcher
 import com.algolia.search.saas.AbstractQuery
 import com.algolia.search.saas.Query
+import com.dac.gapp.andac.HospitalActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.model.Algolia
@@ -67,11 +68,11 @@ class SearchHospitalFragmentForMap : BaseFragment() {
 
         googleMap!!.moveCamera(CameraUpdateFactory.newLatLng(LatLng(currentLatitude, currentLongitude)))
         googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(10f))
-        Toast.makeText(requireContext(), "current LatLng($currentLatitude, $currentLongitude)", Toast.LENGTH_LONG).show()
     }
 
     @SuppressLint("MissingPermission")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        context!!.showProgressDialog()
         val view = inflater.inflate(R.layout.fragment_search_hospital_for_map, container, false)
         mapView = view.findViewById<View>(R.id.map) as MapView
         mapView!!.getMapAsync({
@@ -87,9 +88,12 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 layoutHospitalInfo.txtview_phone.text = hospitalInfo.phone
                 // 병원 하트 카운트는 어디서??
                 layoutHospitalInfo.heart_count.text = "1"
+                layoutHospitalInfo.setOnClickListener({
+                    startActivity(HospitalActivity.createIntent(thisActivity(), hospitalInfo))
+                })
                 true
             }
-            showAllHospitals()
+//            showAllHospitals()
         })
         return view
     }
@@ -100,6 +104,8 @@ class SearchHospitalFragmentForMap : BaseFragment() {
         setupCurrentLocation()
         setupEventsOnCreate()
     }
+
+    private var isFirstTime: Boolean = true
 
     @SuppressLint("MissingPermission")
     private fun setupCurrentLocation() {
@@ -116,7 +122,11 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                             //If everything went fine lets get latitude and longitude
                             currentLatitude = location.latitude
                             currentLongitude = location.longitude
-                            moveCamera(LatLng(currentLatitude, currentLongitude))
+//                            moveCamera(LatLng(currentLatitude, currentLongitude))
+                            if (isFirstTime) {
+                                searchHospital(3000)
+                                isFirstTime = false
+                            }
                         }
                     }
 
@@ -213,10 +223,10 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 var i = 0
                 while (i < hits.length()) {
                     val jo = hits.getJSONObject(i)
-                    Timber.d("jsonObject[$i]: ${jo.toString(4)}")
-                    Timber.d("jsonObject[$i]: ${jo.getString(Algolia.NAME.value)}")
-                    val geoloc = jo.getJSONObject(Algolia.GEOLOC.value)
-                    addMarker(jo.getString(Algolia.NAME.value), LatLng(geoloc.getDouble(Algolia.LAT.value), geoloc.getDouble(Algolia.LNG.value)))
+//                    Timber.d("jsonObject[$i]: ${jo.toString(4)}")
+                    val hospitalInfo = HospitalInfo.create(jo)
+                    hospitals[hospitalInfo.documentId] = hospitalInfo
+                    addMarker(hospitalInfo.documentId, hospitalInfo.getLatLng())
                     i++
                 }
 
@@ -228,18 +238,21 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 MyToast.show(requireContext(), "근처 병원이 없습니다!!")
             }
             moveCamera(LatLng(currentLatitude, currentLongitude))
+            context!!.hideProgressDialog()
         })
-    }
-
-    private fun addMarker(id: String, latLng: LatLng) {
-        val markerOptions = MarkerOptions()
-        markerOptions.position(latLng)
-        val marker = googleMap!!.addMarker(markerOptions)
-        marker.tag = id
     }
 
     private fun thisActivity(): Activity {
         return requireActivity()
+    }
+
+    private fun addMarker(id: String, latLng: LatLng) {
+        context!!.runOnUiThread({
+            val markerOptions = MarkerOptions()
+            markerOptions.position(latLng)
+            val marker = googleMap!!.addMarker(markerOptions)
+            marker.tag = id
+        })
     }
 
     private fun moveCamera(latLng: LatLng) {
@@ -251,19 +264,23 @@ class SearchHospitalFragmentForMap : BaseFragment() {
         context!!.getHospitals()
                 .get()
                 .addOnCompleteListener({
-                    if (it.isSuccessful) {
-                        for (document in it.result) {
+                    Thread({
+                        if (it.isSuccessful) {
+                            for (document in it.result) {
 //                            Timber.d(document.id + " => " + document.data)
-                            hospitals[document.id] = document.toObject(HospitalInfo::class.java)
-                            val hospitalInfo = hospitals[document.id]
-                            val address = if (hospitalInfo!!.address1 != "") hospitalInfo.address1 else hospitalInfo.address2
-                            addMarker(document.id, hospitalInfo.getLatLng())
-                            Timber.d("${hospitalInfo.name} ${hospitalInfo._geoloc}")
+                                hospitals[document.id] = document.toObject(HospitalInfo::class.java)
+                                val hospitalInfo = hospitals[document.id]
+                                val address = if (hospitalInfo!!.address1 != "") hospitalInfo.address1 else hospitalInfo.address2
+                                addMarker(document.id, hospitalInfo.getLatLng())
+//                                Timber.d("${hospitalInfo.name} ${hospitalInfo._geoloc}")
+                            }
+                            context!!.runOnUiThread({
+                                MyToast.show(requireContext(), "근처 병원 ${it.result.size()}개를 찾았습니다!!")
+                            })
+                        } else {
+                            Timber.w("Error getting documents. ${it.exception}")
                         }
-                        MyToast.show(requireContext(), "근처 병원 ${it.result.size()}개를 찾았습니다!!")
-                    } else {
-                        Timber.w("Error getting documents. ${it.exception}")
-                    }
+                    }).start()
                 })
     }
 

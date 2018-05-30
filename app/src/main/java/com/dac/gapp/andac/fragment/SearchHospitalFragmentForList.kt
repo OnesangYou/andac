@@ -40,6 +40,7 @@ class SearchHospitalFragmentForList : BaseFragment() {
 
     private fun prepareUi() {
         setupRecyclerView()
+//        loadHospitals()
     }
 
     private fun setupRecyclerView() {
@@ -61,7 +62,7 @@ class SearchHospitalFragmentForList : BaseFragment() {
                             hospitals[document.id]!!.documentId = document.id
                             val hospitalInfo = hospitals[document.id]
                             val address = if (hospitalInfo!!.address1 != "") hospitalInfo.address1 else hospitalInfo.address2
-                            Timber.d("${hospitalInfo.name} ${hospitalInfo._geoloc}")
+//                            Timber.d("${hospitalInfo.name} ${hospitalInfo._geoloc}")
                             itemList.add(hospitalInfo)
                         }
                         recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, itemList)
