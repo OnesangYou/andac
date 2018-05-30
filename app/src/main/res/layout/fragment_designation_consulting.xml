@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -30,11 +31,14 @@
             android:hint="병원을 선택해 주세요"
             android:inputType="none" />
 
-        <TextView
+        <Button
             android:id="@+id/hospitalSearch1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="병원검색" />
+            android:background="@color/colorMain"
+            android:text="병원검색"
+            android:textColor="@color/white" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -54,7 +58,8 @@
             android:id="@+id/hospitalText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="병원2" />
+            android:text="병원2"
+            />
 
         <EditText
             android:id="@+id/hospitalEdit2"
@@ -63,16 +68,23 @@
             android:hint="병원을 선택해 주세요"
             android:inputType="none" />
 
-        <TextView
+        <Button
             android:id="@+id/hospitalSearch2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="병원검색" />
+            android:text="병원검색"
+            android:textColor="@color/white"
+            android:background="@color/colorMain"
+            />
 
-        <TextView
+        <Button
             android:id="@+id/regionAddText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="병원추가" />
+            android:text="병원추가"
+            android:textColor="@color/white"
+            android:background="@color/colorMain"
+            />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

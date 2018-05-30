@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -78,7 +86,7 @@
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_marginLeft="8dp"
-            android:background="@drawable/request_oldeye_off" />
+            android:background="@drawable/request_whiteeye_off" />
 
         <ImageView
             android:layout_width="65dp"
@@ -203,19 +211,20 @@
         app:layout_constraintTop_toBottomOf="@+id/phoneEdit" />
 
     <android.support.design.widget.TabLayout
-
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
         android:layout_height="31dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 
-    <TextView
+    <Button
         android:id="@+id/sumitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="작성완료"
+        android:textColor="@color/white"
+        android:background="@color/colorMain"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="parent" />
@@ -223,13 +232,13 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/tabViwePager"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="200dp"
         app:layout_constraintBottom_toTopOf="@+id/sumitButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tablayout" />
 
 
-
-
 </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
