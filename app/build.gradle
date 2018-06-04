@@ -52,8 +52,7 @@ android {
     }
 
     defaultConfig {
-        // ...
-        resConfigs "auto"
+        resConfigs "kr"
         multiDexEnabled true
     }
 
@@ -68,8 +67,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation rootProject.ext.libs.supportV4
     implementation rootProject.ext.libs.supportDesign
     implementation rootProject.ext.libs.supportAppcompatV7
@@ -83,5 +82,7 @@ dependencies {
     implementation rootProject.ext.libs.multidex
     implementation rootProject.ext.libs.album
     implementation rootProject.ext.libs.cardview
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
+    implementation 'nl.komponents.kovenant:kovenant-core:3.3.0'
 }
 apply plugin: 'com.google.gms.google-services'

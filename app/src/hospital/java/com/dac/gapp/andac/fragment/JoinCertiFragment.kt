@@ -1,14 +1,15 @@
 package com.dac.gapp.andac.fragment
 
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
-import kotlinx.android.synthetic.hospital.fragment_join_certi2.*
+import kotlinx.android.synthetic.hospital.fragment_join_certi.*
+import java.io.File
 
 
 /**
@@ -24,7 +25,27 @@ class JoinCertiFragment : JoinBaseFragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        nextBtn.setOnClickListener { (activity as JoinActivity).goToNextView() }
+        nextBtn.setOnClickListener { getJoinActivity().goToNextView() }
+
+        // 계좌 사진 업로드
+        bankAccountUploadBtn.setOnClickListener{
+            // Image File 가져옴
+            startAlbumImage(this@JoinCertiFragment, {albumFile ->
+                getJoinActivity().bankAccountPicUri = Uri.fromFile(File(albumFile.path))
+            })
+
+        }
+
+        // 사업자등록증 업로드
+        busiRegiUploadBtn.setOnClickListener {
+            startAlbumImage(this@JoinCertiFragment, {albumFile ->
+                getJoinActivity().busiRegiPicUri = Uri.fromFile(File(albumFile.path))
+            })
+        }
+
     }
+
+
+
 
 }// Required empty public constructor

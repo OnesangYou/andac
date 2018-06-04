@@ -18,6 +18,8 @@ class JoinActivity : BaseJoinActivity() {
     var hospitalInfo = HospitalInfo()
     var hospitalKey : String = ""
     var profilePicUri : Uri? = null
+    var bankAccountPicUri: Uri? = null
+    var busiRegiPicUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

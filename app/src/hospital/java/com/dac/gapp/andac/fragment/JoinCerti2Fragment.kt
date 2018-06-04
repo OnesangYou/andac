@@ -1,23 +1,27 @@
 package com.dac.gapp.andac.fragment
 
 
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.hospital.fragment_join_certi2.*
+import nl.komponents.kovenant.Promise
+import nl.komponents.kovenant.all
+import nl.komponents.kovenant.deferred
 import timber.log.Timber
 import java.util.regex.Pattern
 
 class JoinCerti2Fragment : JoinBaseFragment(){
     override fun onChangeFragment() {
     }
-
-    private lateinit var joinActivity: JoinActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -26,14 +30,13 @@ class JoinCerti2Fragment : JoinBaseFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        joinActivity =  activity as JoinActivity
         // 받아온 경우 Set
-        joinActivity.hospitalInfo.apply {
+        getJoinActivity().hospitalInfo.apply {
             if(cellPhone.isNotEmpty()) phoneEdit.setText(address2)
         }
 
         nextBtn.setOnClickListener {
-            joinActivity.run {
+            getJoinActivity().run {
 
                 val emailStr = emailEdit.text.toString()
                 val passwordStr = passwordEdit.text.toString()
@@ -78,15 +81,25 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                 mAuth?.createUserWithEmailAndPassword(emailStr, passwordStr)?.addOnCompleteListener{ task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Timber.d("createUserWithEmail:success")
+                        Timber.d("createU serWithEmail:success")
                         val user = mAuth.currentUser
 
-                        // uploadPicFile
-                        uploadPicFile{insertDB(user, { deleteDB() })}
+                        // Promise, 사진 파일 한꺼번에 올리기
+                        val promises = mutableListOf<Promise<String, Exception>>()
+                        profilePicUri?.let{promises.add(uploadPicFilePromise("profilePic.jpg", it).success { url -> hospitalInfo.profilePicUrl = url})}
+                        bankAccountPicUri?.let{promises.add(uploadPicFilePromise("bankAccountPic.jpg", it).success { url -> hospitalInfo.bankAccountPicUrl = url})}
+                        busiRegiPicUri?.let{promises.add(uploadPicFilePromise("busiRegiPic.jpg", it).success { url -> hospitalInfo.busiRegiPicUrl = url})}
+                        all(*promises.toTypedArray()) success {
+                            it.forEach { url -> Log.d("KBJ", url) }
+                            insertDB(user, { deleteDB() })
+                        } always {
+                            println("All ${promises.size} promises are done.")
+                        }
+
 
                     } else {
                         // If sign in fails, display a message to the user.
-                        this.toast("Authentication failed." + task.exception)
+                        toast("Authentication failed." + task.exception as Any?)
                         updateUI(null)
                     }
 
@@ -95,21 +108,20 @@ class JoinCerti2Fragment : JoinBaseFragment(){
         }
     }
 
-    private fun JoinActivity.uploadPicFile(next: () -> Unit) {
-        if(profilePicUri != null) {
-            getHospitalsStorageRef().child(getUid()).child("profilePic.jpg").putFile(profilePicUri!!)
-                    .addOnSuccessListener { taskSnapshot ->
-                        hospitalInfo.profilePicUrl = taskSnapshot.downloadUrl.toString()
-                        toast("KBJ, uploadPicFile Complete")
-                        next.invoke()
+    private fun JoinActivity.uploadPicFilePromise(fileName : String , picUri : Uri): Promise<String, Exception> {
+        val deferred = deferred<String, Exception>()
+        getHospitalsStorageRef().child(getUid()).child(fileName).putFile(picUri)
+                .addOnSuccessListener { taskSnapshot ->
+                    "uploadPicFile Complete".let {
+                        toast(it)
+                        deferred.resolve(taskSnapshot.downloadUrl.toString())
                     }
-        } else {
-            next.invoke()
-        }
+                }
+        return deferred.promise
     }
 
-    private fun JoinActivity.insertDB(user: FirebaseUser?, function: () -> Unit) {
-        getHospitals().document(user?.uid!!).set(hospitalInfo, SetOptions.merge()).addOnCompleteListener { task2 ->
+    private fun JoinActivity.insertDB(user: FirebaseUser?, function: () -> Unit): Task<Void> {
+        return getHospitals().document(user?.uid!!).set(hospitalInfo, SetOptions.merge()).addOnCompleteListener { task2 ->
             if (task2.isSuccessful) {
                 toast("KBJ, insertDB Complete")
                 function.invoke()

@@ -9,11 +9,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SearchAddressActivity
 import com.google.android.gms.maps.model.LatLng
-import com.yanzhenjie.album.Album
 import kotlinx.android.synthetic.hospital.fragment_join_info.*
 import java.io.File
 
@@ -27,14 +25,12 @@ class JoinInfoFragment : JoinBaseFragment() {
 
     override fun onChangeFragment() {
         // 받아온 경우 Set
-        joinActivity.hospitalInfo.apply {
+        getJoinActivity().hospitalInfo.apply {
             if(name.isNotEmpty()) hospitalName.setText(name)
             if(address2.isNotEmpty()) addressEdit.setText(address2)
             if(phone.isNotEmpty()) phoneEdit.setText(phone)
         }
     }
-
-    private lateinit var joinActivity: JoinActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -44,27 +40,16 @@ class JoinInfoFragment : JoinBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        joinActivity =  activity as JoinActivity
-
         uploadProfilePicBtn.setOnClickListener{
             // Image File 가져옴
-            Album.image(this@JoinInfoFragment)
-                    .singleChoice()
-                    .onResult {
-                        joinActivity.apply {
-                            toast("Album.onResult : ${it.joinToString{it.path}}")
-                            it.forEach{albumFile ->
-                                // uri 저장
-                                profilePicUri = Uri.fromFile(File(albumFile.path))
-                            }
-                        }
-                    }
-                    .start()
+            startAlbumImage(this@JoinInfoFragment, {albumFile ->
+                getJoinActivity().profilePicUri = Uri.fromFile(File(albumFile.path))
+            })
         }
 
 
         nextBtn.setOnClickListener {
-            joinActivity.run{
+            getJoinActivity().run{
                 // 유효성 검사
                 val hospitalStr = hospitalName.text.toString()
                 val addressStr = addressEdit.text.toString()
@@ -115,7 +100,7 @@ class JoinInfoFragment : JoinBaseFragment() {
 
 //                context!!.toast("latLng : $latLng, name : $name")
 
-                joinActivity.apply{
+                getJoinActivity().apply{
                     hospitalName.setText(name)
                     addressEdit.setText(address)
                     phoneEdit.setText(phoneNumber)

@@ -51,6 +51,12 @@ class HospitalInfo : Serializable {
     var profilePicUrl: String = ""
     var profilePicRef: String = ""
 
+    var bankAccountPicUrl: String = ""
+    var bankAccountPicRef: String = ""
+
+    var busiRegiPicUrl: String = ""
+    var busiRegiPicRef: String = ""
+
     fun getLatLng(): LatLng {
         return LatLng(_geoloc.lat!!, _geoloc.lng!!)
     }
