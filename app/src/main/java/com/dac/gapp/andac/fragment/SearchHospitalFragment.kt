@@ -29,7 +29,7 @@ class SearchHospitalFragment : Fragment() {
 
     private fun prepareUi() {
         viewPager.adapter = SearchHospitalFragmentPagerAdapter(context, childFragmentManager)
-        viewPager.offscreenPageLimit = 4
+        viewPager.offscreenPageLimit = 10
         layoutTab.setupWithViewPager(viewPager)
     }
 

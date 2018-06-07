@@ -15,7 +15,7 @@ class HospitalInfo : Serializable {
             hospitalInfo.address1 = jo.getString(Algolia.ADDRESS1.value)
             hospitalInfo.address2 = jo.getString(Algolia.ADDRESS2.value)
             hospitalInfo.name = jo.getString(Algolia.NAME.value)
-            hospitalInfo.number = jo.getInt(Algolia.NUMBER.value)
+            hospitalInfo.number = if (jo.has(Algolia.NUMBER.value)) jo.getInt(Algolia.NUMBER.value) else 0
             hospitalInfo.openDate = jo.getString(Algolia.OPEN_DATE.value)
             hospitalInfo.phone = jo.getString(Algolia.PHONE.value)
             hospitalInfo.status = jo.getString(Algolia.STATUS.value)

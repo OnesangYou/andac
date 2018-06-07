@@ -7,16 +7,28 @@ import android.support.v4.app.FragmentPagerAdapter
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.fragment.SearchHospitalFragmentForList
 import com.dac.gapp.andac.fragment.SearchHospitalFragmentForMap
+import java.util.*
 
 class SearchHospitalFragmentPagerAdapter(val context: Context?, fm: FragmentManager) : FragmentPagerAdapter(fm) {
     private var fragments: ArrayList<Fragment> = ArrayList()
 
     init {
         fragments.add(SearchHospitalFragmentForMap.create(context!!.getString(R.string.nearby_hospital)))
-        fragments.add(SearchHospitalFragmentForList.create(context.getString(R.string.popularity)))
-        fragments.add(SearchHospitalFragmentForList.create(context.getString(R.string.seoul)))
-        fragments.add(SearchHospitalFragmentForList.create(context.getString(R.string.gyeonggi)))
-        fragments.add(SearchHospitalFragmentForList.create(context.getString(R.string.incheon)))
+        val tabs = Arrays.asList(
+                R.string.popularity,
+                R.string.seoul,
+                R.string.gyeonggi,
+                R.string.incheon,
+                R.string.busan,
+                R.string.ulsan,
+                R.string.gwangju,
+                R.string.jeonju,
+                R.string.daejeon,
+                R.string.chungcheong
+        )
+        for (tab in tabs) {
+            fragments.add(SearchHospitalFragmentForList.create(context.getString(tab)))
+        }
     }
 
     override fun getItem(position: Int): Fragment {
