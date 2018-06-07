@@ -1,20 +1,16 @@
 package com.dac.gapp.andac
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.internal.BottomNavigationItemView
 import android.support.design.internal.BottomNavigationMenuView
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
-import android.support.v4.view.GravityCompat
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.fragment.*
 import kotlinx.android.synthetic.main.activity_main.*

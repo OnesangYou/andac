@@ -31,4 +31,9 @@
     <string name="waitApproval">관리자 승인 대기 중입니다</string>
     <string name="successLogin">로그인 완료</string>
 
+    <string name="free_board">자유게시판</string>
+    <string name="review_board">후기게시판</string>
+    <string name="question_board">질문게시판</string>
+    <string name="hot_board">인기게시판</string>
+
 </resources>

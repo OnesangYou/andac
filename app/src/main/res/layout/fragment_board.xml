@@ -14,15 +14,20 @@
         tools:context=".MainActivity"
         android:orientation="vertical"
         >
-
-    <!-- TODO: Update blank fragment layout -->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            tools:listitem="@layout/item_card"
+        <android.support.design.widget.TabLayout
+            android:id="@+id/layoutTab"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content" />
+        <include
+            layout="@layout/layout_tag"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_margin="3dp"
+            android:padding="1dp"/>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
@@ -34,8 +39,8 @@
         android:layout_margin="16dp"
         android:layout_marginBottom="30dp"
         android:layout_marginEnd="30dp"
-        android:background="@color/colorMain"
-        app:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/board_write"
+        app:backgroundTint="@color/colorMain"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
