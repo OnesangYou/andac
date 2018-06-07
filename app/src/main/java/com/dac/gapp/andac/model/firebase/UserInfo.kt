@@ -3,4 +3,10 @@ package com.dac.gapp.andac.model.firebase
 /**
  * Created by gimbyeongjin on 2018. 4. 4..
  */
-data class UserInfo(var email : String = "",var nickName : String = "",var phoneNumber : String = "",var isAgreeAlarm : Boolean = false)
+data class UserInfo(
+        var email : String = "",
+        var nickName : String = "",
+        var phoneNumber : String = "",
+        var profilePicUrl : String = "",
+        var isAgreeAlarm : Boolean = false
+)

@@ -1,7 +1,9 @@
 package com.dac.gapp.andac
 
 import android.os.Bundle
+import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseMyPageActivity
+import com.dac.gapp.andac.model.firebase.UserInfo
 import kotlinx.android.synthetic.user.activity_my_page.*
 
 open class MyPageActivity : BaseMyPageActivity() {
@@ -15,6 +17,14 @@ open class MyPageActivity : BaseMyPageActivity() {
         logoutBtn.setOnClickListener {
             getAuth()!!.signOut()
             finish()
+        }
+
+        // Set Profile
+        getUser()!!.get().addOnSuccessListener { documentSnapshot ->
+            documentSnapshot.toObject(UserInfo::class.java)?.let {userInfo ->
+                Glide.with(this@MyPageActivity).load(userInfo.profilePicUrl).into(profilePic)
+                nameText.text = userInfo.nickName
+            }
         }
     }
 }
