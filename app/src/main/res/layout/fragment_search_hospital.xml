@@ -10,7 +10,8 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/layoutTab"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:tabMode="scrollable"/>
 
     <include
         layout="@layout/layout_tag"
