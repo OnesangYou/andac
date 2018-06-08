@@ -40,6 +40,7 @@ class HospitalTextSearchActivity : BaseActivity() {
                 phone = hit.getString("phone")
                 status = hit.getString("status")
                 type = hit.getString("type")
+                objectID = hit.getString("objectID")
             }.let { hospitalInfo ->
                 Intent().let{
                     it.putExtra("hospitalInfo", hospitalInfo)

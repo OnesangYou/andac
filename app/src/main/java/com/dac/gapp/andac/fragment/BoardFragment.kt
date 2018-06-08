@@ -10,13 +10,14 @@ import android.view.ViewGroup
 import com.dac.gapp.andac.BoardWriteActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.BoardFragmentPagerAdapter
+import com.dac.gapp.andac.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_board.*
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class BoardFragment : Fragment() {
+class BoardFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -26,9 +27,13 @@ class BoardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareUi()
 
-        fabWriteBoard.setOnClickListener {
+
+        if(context!!.isUser()) fabWriteBoard.setOnClickListener {
             val nextIntent = Intent(context, BoardWriteActivity::class.java)
             startActivity(nextIntent)
+        }
+        else {
+            fabWriteBoard.visibility = View.INVISIBLE
         }
     }
 

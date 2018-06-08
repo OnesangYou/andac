@@ -20,11 +20,9 @@ open class MyPageActivity : BaseMyPageActivity() {
         }
 
         // Set Profile
-        getUser()!!.get().addOnSuccessListener { documentSnapshot ->
-            documentSnapshot.toObject(UserInfo::class.java)?.let {userInfo ->
-                Glide.with(this@MyPageActivity).load(userInfo.profilePicUrl).into(profilePic)
-                nameText.text = userInfo.nickName
-            }
+        getUserInfo().success { userInfo ->
+            Glide.with(this@MyPageActivity).load(userInfo.profilePicUrl).into(profilePic)
+            nameText.text = userInfo.nickName
         }
     }
 }

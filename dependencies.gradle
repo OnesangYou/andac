@@ -87,7 +87,7 @@ ext {
 
             junit                   : "junit:junit:4.12",
 
-            databindingCompiler     : "com.android.databinding:compiler:3.0.0",
+            databindingCompiler     : "com.android.databinding:compiler:$android_plugin_version",
 
             dagger                  : "com.google.dagger:dagger:$daggerVersion",
             daggerCompiler          : "com.google.dagger:dagger-compiler:$daggerVersion",
