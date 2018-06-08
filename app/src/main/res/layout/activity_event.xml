@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -16,9 +17,11 @@
         android:fitsSystemWindows="true"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="NotSibling">
 
         <ImageView
             android:id="@+id/my_page"
@@ -46,76 +49,156 @@
             tools:ignore="ContentDescription,RtlHardcoded" />
     </android.support.v7.widget.Toolbar>
 
+
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
+        android:background="@color/colorMain"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:ignore="MissingConstraints">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/taek_splash" />
-    </ScrollView>
+    </android.support.constraint.ConstraintLayout>
 
-    <LinearLayout
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout8"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:background="@color/white"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/event_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="국내 최저가!!" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="아이리의 자부심 스마일라식!\n올해 최고의 브랜드상 수상기념 특별 할인가!"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/sub_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="엄청난 기술력!" />
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="25dp"
+            android:text="아이리움안과의원 [서울 / 청담]"
+            android:textSize="@dimen/_13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/event_title" />
 
-        <TextView
-            android:id="@+id/body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="뭐라고써져있는거야" />
 
         <TextView
             android:id="@+id/deal_kind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="특별가"
-            android:textSize="20dp" />
+            android:layout_marginStart="16dp"
+            android:text="할인가"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sub_title" />
 
         <TextView
             android:id="@+id/price"
             android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginStart="8dp"
+            android:text="800,000원"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/deal_kind"
+            app:layout_constraintTop_toBottomOf="@+id/sub_title" />
+
+        <TextView
+            android:id="@+id/term"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="80000원" />
+            android:layout_marginStart="16dp"
+            android:text="2018.06.30 ~ 2018.08.25"
+            android:textSize="@dimen/_10sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deal_kind" />
 
         <TextView
             android:id="@+id/buy_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="132dp"
+            android:layout_marginStart="312dp"
+            android:layout_marginTop="30dp"
             android:gravity="end"
-            android:text="1121구매" />
+            android:text="1121구매"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="78dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/tag_lasic_off"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/circle"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="308dp"
+        tools:layout_editor_absoluteY="335dp"
+        />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:src="@drawable/heart_fill"
+        tools:layout_editor_absoluteX="318dp"
+        tools:layout_editor_absoluteY="348dp"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/colorMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8">
+
 
     </LinearLayout>
+
+    </ScrollView>
+
+
+
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.Toast
 import com.dac.gapp.andac.model.EventDetail
@@ -46,7 +45,6 @@ class EventActivity : BaseActivity() {
             var eventDetail = intent.getParcelableExtra<EventDetail>("EventInfo")
             event_title.text = eventDetail.title
             sub_title.text = eventDetail.sub_title
-            body.text = eventDetail.body
             deal_kind.text = eventDetail.deal_kind
             price.text = eventDetail.price
             buy_count.text = eventDetail.buy_count
