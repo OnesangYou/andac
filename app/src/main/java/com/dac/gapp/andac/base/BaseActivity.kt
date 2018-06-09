@@ -80,6 +80,7 @@ open class BaseActivity : AppCompatActivity() {
     fun showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = ProgressDialog(this)
+            mProgressDialog!!.setCanceledOnTouchOutside(false)
             mProgressDialog!!.setMessage(getString(R.string.loading))
             mProgressDialog!!.isIndeterminate = true
         }
