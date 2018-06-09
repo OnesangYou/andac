@@ -45,6 +45,7 @@ class EventActivity : BaseActivity() {
             var eventDetail = intent.getParcelableExtra<EventDetail>("EventInfo")
             event_title.text = eventDetail.title
             sub_title.text = eventDetail.sub_title
+            body.text=eventDetail.body
             deal_kind.text = eventDetail.deal_kind
             price.text = eventDetail.price
             buy_count.text = eventDetail.buy_count
