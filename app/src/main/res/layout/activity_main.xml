@@ -28,8 +28,8 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="80dp"
-            android:layout_height="28dp"
+            android:layout_width="70dp"
+            android:layout_height="23dp"
             android:layout_gravity="center"
             android:background="@drawable/andac_font" />
 

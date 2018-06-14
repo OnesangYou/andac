@@ -55,10 +55,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
+        <Button
             android:id="@+id/regionAddText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="지역추가" />
+            android:text="지역추가"
+            android:textColor="@color/colorMain"
+            android:background="@color/white"
+            />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

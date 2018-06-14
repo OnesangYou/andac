@@ -35,9 +35,9 @@
             android:id="@+id/hospitalSearch1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorMain"
+            android:background="@color/white"
             android:text="병원검색"
-            android:textColor="@color/white" />
+            android:textColor="@color/colorMain" />
 
     </LinearLayout>
 
@@ -73,8 +73,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="병원검색"
-            android:textColor="@color/white"
-            android:background="@color/colorMain"
+            android:textColor="@color/colorMain"
+            android:background="@color/white"
             />
 
         <Button
@@ -82,8 +82,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="병원추가"
-            android:textColor="@color/white"
-            android:background="@color/colorMain"
+            android:textColor="@color/colorMain"
+            android:background="@color/white"
             />
 
     </LinearLayout>

@@ -64,7 +64,7 @@ class EventActivity : BaseActivity() {
                     Toast.makeText(this,name+"/"+phone+"/"+time,Toast.LENGTH_SHORT ).show()
                 }
                 .setNegativeButton("취소") { dialogInterface, i ->
-                    Toast.makeText(this,"택형귀요미~",Toast.LENGTH_SHORT ).show()
+                    Toast.makeText(this,"이벤트신청이 완료되었습니다.\n내이벤트목록을 확인하세요",Toast.LENGTH_SHORT ).show()
                 }.create()
     }
 }

@@ -1,94 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:orientation="horizontal"
-    android:weightSum="3">
+    >
 
     <ImageView
         android:id="@+id/event_image"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/event1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/event_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/event_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="10dp"
+        android:text="아이리움 스마일라식"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/event_image"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/button_like"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical|end"
+        android:src="@drawable/heart_fill"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginStart="4dp"
+        android:text="아이리안과의원[강남/청담]"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/deal_kind"
+        app:layout_constraintStart_toEndOf="@+id/event_image" />
+
+    <TextView
+        android:id="@+id/body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="4dp"
+        android:text="2018.06.30 ~ 2018.07.20"
+        android:textSize="@dimen/_10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/event_image" />
+
+    <ImageView
+        android:id="@+id/tag"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="8dp"
         android:layout_weight="1"
-        android:src="@drawable/taek_splash" />
+        android:scaleType="fitStart"
+        android:src="@drawable/tag_lasic_on"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:orientation="vertical">
+    <TextView
+        android:id="@+id/deal_kind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="60dp"
+        android:text="특별가"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/body"
+        app:layout_constraintStart_toEndOf="@+id/event_image"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="18dp"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="60dp"
+        android:layout_toRightOf="@id/deal_kind"
+        android:text="80000원"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/body"
+        app:layout_constraintStart_toEndOf="@+id/deal_kind"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/event_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="국내 최저가!!" />
+    <TextView
+        android:id="@+id/buy_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="2dp"
+        android:gravity="end"
+        android:text="1222"
+        android:textSize="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_like" />
 
-            <ImageView
-                android:id="@+id/button_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="130dp"
-                android:gravity="center_vertical|end"
-                android:src="@drawable/home" />
-        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/sub_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="엄청난 기술력!" />
-
-        <TextView
-            android:id="@+id/body"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="뭐라고써져있는거야" />
-
-        <ImageView
-            android:id="@+id/tag"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scaleType="fitStart"
-            android:src="@drawable/tag_lasic_on" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/deal_kind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="특별가"
-                android:textSize="20dp" />
-
-            <TextView
-                android:id="@+id/price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_toRightOf="@id/deal_kind"
-                android:text="80000원" />
-
-            <TextView
-                android:id="@+id/buy_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="132dp"
-                android:gravity="end"
-                android:text="1121구매" />
-        </RelativeLayout>
-    </LinearLayout>
-</LinearLayout>
+    </android.support.constraint.ConstraintLayout>

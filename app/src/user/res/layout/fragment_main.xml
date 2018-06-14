@@ -16,7 +16,7 @@
             android:id="@+id/constraintLayout3"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="@color/black"
+            android:background="@color/colorMain"
             app:layout_constraintTop_toTopOf="parent">
 
             <Button
@@ -97,13 +97,12 @@
 
             <ImageView
                 android:id="@+id/imageView5"
-                android:layout_width="480dp"
-                android:layout_height="250dp"
-                android:src="@drawable/taek_splash"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/splash"
+                />
+
+
 
         </android.support.constraint.ConstraintLayout>
 
@@ -112,30 +111,12 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_marginTop="15dp"
-            android:background="@color/black"
+            android:background="@drawable/ad21"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
             tools:ignore="MissingConstraints">
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="80dp"
-                android:src="@drawable/pic1" />
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="80dp"
-                android:src="@drawable/pic2" />
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="80dp"
-                android:src="@drawable/pic4" />
-
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="80dp"
-                android:src="@drawable/pic3" />
 
         </LinearLayout>
 
@@ -147,171 +128,49 @@
             android:background="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
-            <TextView
-                android:id="@+id/best_calrum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="베스트 칼럼"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <LinearLayout
-                android:orientation="horizontal"
+            <ImageView
+                android:id="@+id/imageView6"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                app:layout_constraintTop_toBottomOf="@+id/best_calrum">
+                android:layout_height="350dp"
+                android:background="@drawable/test1"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:layout_width="200dp"
-                    android:layout_height="150dp"
-                    android:src="@drawable/wook1_plash"
-                    />
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/test2"
+                app:layout_constraintTop_toBottomOf="@+id/imageView6"
+                />
 
-                <ImageView
-                    android:layout_width="200dp"
-                    android:layout_height="150dp"
-                    android:src="@drawable/wook2_splash"
-                    />
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@drawable/test3"
+                app:layout_constraintTop_toBottomOf="@+id/imageView7"
+                android:layout_marginTop="20dp"
+                />
 
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:background="@drawable/test4"
+                app:layout_constraintTop_toBottomOf="@+id/imageView8"
+                android:layout_marginTop="20dp"
+                />
+
 
         </android.support.constraint.ConstraintLayout>
 
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraintLayout5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
-
-            <TextView
-                android:id="@+id/main_AD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="오늘의 추천병원"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/white"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/main_AD"
-                >
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/pic4" />
 
 
-            </LinearLayout>
-
-        </android.support.constraint.ConstraintLayout>
 
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraintLayout6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout5">
 
-            <TextView
-                android:id="@+id/main_best_board"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="베스트 후기"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/white"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/main_best_board"
-                >
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/pic3" />
-
-
-            </LinearLayout>
-
-        </android.support.constraint.ConstraintLayout>
-
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraintLayout7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout6">
-
-            <TextView
-                android:id="@+id/main_best_event"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="이벤트 기획전"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical"
-                app:layout_constraintTop_toBottomOf="@+id/main_best_event">
-
-                <ImageView
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
-                    android:src="@drawable/pic1" />
-
-                <ImageView
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
-                    android:src="@drawable/pic2" />
-
-
-                <ImageView
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
-                    android:src="@drawable/pic3" />
-
-
-                <ImageView
-                    android:layout_width="300dp"
-                    android:layout_height="200dp"
-                    android:src="@drawable/pic4" />
-
-
-            </LinearLayout>
-
-        </android.support.constraint.ConstraintLayout>
 
 
         <Button
@@ -322,7 +181,7 @@
             android:text="컬럼"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout7" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
 
         <Button
             android:id="@+id/event"

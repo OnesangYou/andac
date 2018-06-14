@@ -54,7 +54,7 @@
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="310dp"
-        android:background="@color/colorMain"
+        android:background="@drawable/event2"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout8"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +83,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="아이리의 자부심 스마일라식!\n올해 최고의 브랜드상 수상기념 특별 할인가!"
+            android:text="아이리움 스마일라식"
+            android:textSize="@dimen/_20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -135,11 +137,11 @@
             android:id="@+id/buy_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="312dp"
+            android:layout_marginEnd="27dp"
             android:layout_marginTop="30dp"
             android:gravity="end"
-            android:text="1121구매"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="1121"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -156,21 +158,27 @@
 
 
     <ImageView
+        android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="335dp"
         android:src="@drawable/circle"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="308dp"
-        tools:layout_editor_absoluteY="335dp"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <ImageView
-        android:layout_width="40dp"
+        android:layout_width="35dp"
         android:layout_height="35dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginTop="350dp"
         android:src="@drawable/heart_fill"
-        tools:layout_editor_absoluteX="318dp"
-        tools:layout_editor_absoluteY="348dp"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
