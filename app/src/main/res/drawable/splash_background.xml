@@ -3,8 +3,7 @@
 
     <item>
 
-        <bitmap android:src="@drawable/wook2_splash"
-            android:gravity="center"
+        <bitmap android:src="@drawable/splash_activitiy"
             android:scaleType="centerInside"
             >
 
