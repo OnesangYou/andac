@@ -6,7 +6,6 @@ import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
-import com.google.android.gms.tasks.OnSuccessListener
 import kotlinx.android.synthetic.main.activity_board_write.*
 
 
@@ -30,14 +29,14 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         }
 
         // Set User
-        getUserInfo().success { userInfo ->
+        getUserInfo()?.addOnSuccessListener { userInfo ->
             nickName.text = userInfo.nickName
             Glide.with(this@BoardWriteActivity).load(userInfo.profilePicUrl).into(profilePic)
         }
 
         // Picture
         button_picture_upload.setOnClickListener {
-            startAlbumImageUri(this@BoardWriteActivity).success{ pictureUri = it }
+            startAlbumImageUri(this@BoardWriteActivity).addOnSuccessListener { pictureUri = it }
         }
 
         // Tag
