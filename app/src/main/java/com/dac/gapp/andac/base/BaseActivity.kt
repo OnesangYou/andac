@@ -29,6 +29,7 @@ import timber.log.Timber
 import java.io.File
 
 
+@Suppress("LABEL_NAME_CLASH")
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
 
@@ -148,23 +149,27 @@ open class BaseActivity : AppCompatActivity() {
         return BuildConfig.FLAVOR == "user"
     }
 
-    private fun startAlbumImage(context: Context) : Task<AlbumFile> {
-        return TaskCompletionSource<AlbumFile>().run{
-            Album.image(context)
-                    .singleChoice()
-                    .onResult {
-                        it.forEach{albumFile ->
-                            // uri 저장
-                            setResult(albumFile)
-                        }
-                    }
+    private fun startAlbumMultiImage(limitCnt : Int) : Task<MutableCollection<AlbumFile>> {
+        return TaskCompletionSource<MutableCollection<AlbumFile>>().run{
+            kotlin.run {
+                if(limitCnt == 1) return@run Album.image(this@BaseActivity).singleChoice()
+                return@run Album.image(this@BaseActivity).multipleChoice().selectCount(limitCnt)
+            }
+                    .onResult { setResult(it) }
                     .start()
             task
         }
     }
 
-    fun startAlbumImageUri(context: Context): Task<Uri> {
-        return startAlbumImage(context).continueWith { Uri.fromFile(File(it.result.path)) }
+
+    fun startAlbumImageUri(): Task<Uri> {
+        return startAlbumMultiImage(1).continueWith { Uri.fromFile(File(it.result.first().path)) }
+    }
+
+    fun startAlbumMultiImageUri(limitCnt : Int): Task<List<Uri>> {
+        return startAlbumMultiImage(limitCnt).continueWith {task ->
+            task.result.map { Uri.fromFile(File(it.path)) }
+        }
     }
 
     fun getBoardStorageRef() : StorageReference {

@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_board_write.*
 class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
     private val HOSPITAL_OBJECT_REQUEST = 0
-    val boardInfo = BoardInfo()
+    private val boardInfo = BoardInfo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,11 +36,11 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
         // Picture
         button_picture_upload.setOnClickListener {
-            startAlbumImageUri(this@BoardWriteActivity).addOnSuccessListener { pictureUri = it }
+            startAlbumImageUri().addOnSuccessListener { pictureUri = it }
         }
 
         // Tag
-        radioGroupTag.setOnCheckedChangeListener({ _, id ->
+        radioGroupTag.setOnCheckedChangeListener { _, id ->
             when(id) {
                 R.id.imgBtnLasic -> boardInfo.tag = "라식/라섹"
                 R.id.imgBtnOldeye -> boardInfo.tag = "노안수술"
@@ -48,16 +48,16 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                 R.id.imgBtnWhiteeye -> boardInfo.tag = "백내장수술"
                 R.id.imgBtnEyesick -> boardInfo.tag = "안구질환"
             }
-        })
+        }
 
         // Type
-        radioGroupType.setOnCheckedChangeListener({ _, id ->
+        radioGroupType.setOnCheckedChangeListener { _, id ->
             when(id) {
                 R.id.free_board -> boardInfo.type = getString(R.string.free_board)
                 R.id.review_board -> boardInfo.type = getString(R.string.review_board)
                 R.id.question_board -> boardInfo.type = getString(R.string.question_board)
             }
-        })
+        }
 
         // Upload
         uploadBtn.setOnClickListener {
