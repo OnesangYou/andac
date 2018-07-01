@@ -6,7 +6,9 @@ import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.google.android.gms.tasks.Tasks
 import kotlinx.android.synthetic.main.activity_board_write.*
+import java.util.*
 
 
 class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
@@ -18,8 +20,8 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_write)
 
-
-        var pictureUri : Uri? = null
+        var pictureUris : List<Uri>? = null
+        val imageViews = Arrays.asList(picture_1, picture_2, picture_3)
 
         hospital_search.setOnClickListener {
             // 병원 검색
@@ -36,7 +38,14 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
         // Picture
         button_picture_upload.setOnClickListener {
-            startAlbumImageUri().addOnSuccessListener { pictureUri = it }
+            startAlbumImageUri(3)
+                    // save
+                    .addOnSuccessListener { pictureUris = it }
+                    // load image view
+                    .addOnSuccessListener {uris ->
+                        uris.forEachIndexed{ index, it -> Glide.with(this@BoardWriteActivity).load(it).into(imageViews[index]) }
+                    }
+
         }
 
         // Tag
@@ -76,23 +85,23 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
             val boardInfoRef = getBoards().document()
 
-            val task = boardInfoRef.set(boardInfo)
-            val listener = {
-                toast("게시물 업로드 완료")
-                hideProgressDialog()
-            }
-
             // picture 업로드 후 uri 받아오기
             showProgressDialog()
-            pictureUri?.let {
-                getBoardStorageRef().child(boardInfoRef.id).child("picture.jpg").putFile(it).addOnSuccessListener {taskSnapshot ->
-                    boardInfo.pictureUrl = taskSnapshot.downloadUrl.toString()
-                    task.addOnSuccessListener{listener.invoke()}
+
+            pictureUris?.let { uris ->
+                boardInfo.pictureUrls?.clear()
+                uris.mapIndexed { index, uri  ->
+                    getBoardStorageRef().child(boardInfoRef.id).child("picture$index.jpg").putFile(uri)
+                            .continueWith{ it.result.downloadUrl.toString() }
+                            .addOnSuccessListener { boardInfo.pictureUrls?.add(it) }
                 }
-                it
-            }.let {
-                task.addOnSuccessListener{listener.invoke()}
-            }
+                .let { Tasks.whenAll(it) }
+                .onSuccessTask { boardInfoRef.set(boardInfo) }
+            } // 사진이 없을 경우
+                    .let { boardInfoRef.set(boardInfo) }
+                    .addOnSuccessListener{toast("게시물 업로드 완료")}
+                    .addOnCompleteListener{hideProgressDialog()}
+
         }
 
     }

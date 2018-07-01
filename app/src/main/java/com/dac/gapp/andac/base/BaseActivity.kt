@@ -166,7 +166,7 @@ open class BaseActivity : AppCompatActivity() {
         return startAlbumMultiImage(1).continueWith { Uri.fromFile(File(it.result.first().path)) }
     }
 
-    fun startAlbumMultiImageUri(limitCnt : Int): Task<List<Uri>> {
+    fun startAlbumImageUri(limitCnt : Int): Task<List<Uri>> {
         return startAlbumMultiImage(limitCnt).continueWith {task ->
             task.result.map { Uri.fromFile(File(it.path)) }
         }
