@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.algolia.instantsearch.helpers.InstantSearch
 import com.algolia.instantsearch.helpers.Searcher
+import com.algolia.search.saas.Query
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.model.Algolia
@@ -42,34 +43,40 @@ class JoinSearchFragment : JoinBaseFragment() {
             hospitalJoinActivity.goToNextView()
         }
 
-        searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, Algolia.INDEX_NAME_HOSPITAL.value)
-        InstantSearch(context!!, searcher) // Initialize InstantSearch in this activity with searcher
-        searcher.search(context!!.intent) // Show results for empty query (on app launch) / voice query (from intent)
+        context?.let{context ->
+            searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, Algolia.INDEX_NAME_HOSPITAL.value)
+            InstantSearch(context, searcher) // Initialize InstantSearch in this activity with searcher
+            searcher
+                    .setQuery(Query().setFilters("approval=0")) // 승인 안된 병원 목록
+                    .search(context.intent) // Show results for empty query (on app launch) / voice query (from intent)
 
-        hits.setOnItemClickListener{ recyclerView: RecyclerView, i: Int, view1: View ->
+            hits.setOnItemClickListener{ recyclerView: RecyclerView, i: Int, view1: View ->
 
-            val hit = hits.get(i)
+                val hit = hits.get(i)
 
-            (activity as JoinActivity).run{
+                (activity as JoinActivity).run{
 
-                hospitalInfo.apply{
-                    _geoloc.lat = hit.getJSONObject("_geoloc").getDouble("lat")
-                    _geoloc.lng = hit.getJSONObject("_geoloc").getDouble("lng")
-                    address1 = hit.getString("address1")
-                    address2 = hit.getString("address2")
-                    name = hit.getString("name")
-                    openDate = hit.getString("openDate")
-                    phone = hit.getString("phone")
-                    status = hit.getString("status")
-                    type = hit.getString("type")
+                    hospitalInfo.apply{
+                        _geoloc.lat = hit.getJSONObject("_geoloc").getDouble("lat")
+                        _geoloc.lng = hit.getJSONObject("_geoloc").getDouble("lng")
+                        address1 = hit.getString("address1")
+                        address2 = hit.getString("address2")
+                        name = hit.getString("name")
+                        openDate = hit.getString("openDate")
+                        phone = hit.getString("phone")
+                        status = hit.getString("status")
+                        type = hit.getString("type")
+                    }
+
+                    hospitalKey = hit.getString("objectID")
+
+                    goToNextView()
                 }
 
-                hospitalKey = hit.getString("objectID")
-
-                goToNextView()
             }
-
         }
+
+
 
     }
 

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.algolia.instantsearch.helpers.InstantSearch
 import com.algolia.instantsearch.helpers.Searcher
+import com.algolia.search.saas.Query
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.Algolia
 import com.dac.gapp.andac.model.firebase.HospitalInfo
@@ -23,7 +24,10 @@ class HospitalTextSearchActivity : BaseActivity() {
 
         searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, Algolia.INDEX_NAME_HOSPITAL.value)
         InstantSearch(this, searcher) // Initialize InstantSearch in this activity with searcher
-        searcher.search(intent) // Show results for empty query (on app launch) / voice query (from intent)
+
+        searcher
+                .setQuery(Query().setFilters(intent.getStringExtra("filterStr")))
+                .search(intent)
 
         // hospitalInfo 객체를 만들어서 호출한 곳에 보냄
         hits.setOnItemClickListener{ _: RecyclerView, i: Int, _: View ->

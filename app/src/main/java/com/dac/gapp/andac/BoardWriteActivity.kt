@@ -27,6 +27,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         hospital_search.setOnClickListener {
             // 병원 검색
             Intent(this@BoardWriteActivity, HospitalTextSearchActivity::class.java).let {
+                it.putExtra("filterStr", "approval=1")  // 승인된 병원만 보이도록
                 startActivityForResult(it, HOSPITAL_OBJECT_REQUEST)
             }
         }
