@@ -9,6 +9,7 @@ import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.google.android.gms.tasks.Tasks
 import kotlinx.android.synthetic.main.activity_board_write.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
@@ -36,14 +37,15 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
             Glide.with(this@BoardWriteActivity).load(userInfo.profilePicUrl).into(profilePic)
         }
 
-        // Picture
+        // Pick Pictures
         button_picture_upload.setOnClickListener {
             startAlbumImageUri(3)
                     // save
                     .addOnSuccessListener { pictureUris = it }
                     // load image view
                     .addOnSuccessListener {uris ->
-                        uris.forEachIndexed{ index, it -> Glide.with(this@BoardWriteActivity).load(it).into(imageViews[index]) }
+                        imageViews.forEachIndexed { index, imageView -> Glide.with(this@BoardWriteActivity).load(
+                                if(index < uris.size) uris[index] else R.drawable.profilepic).into(imageView) }
                     }
 
         }
@@ -89,14 +91,13 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
             showProgressDialog()
 
             pictureUris?.let { uris ->
-                boardInfo.pictureUrls?.clear()
                 uris.mapIndexed { index, uri  ->
                     getBoardStorageRef().child(boardInfoRef.id).child("picture$index.jpg").putFile(uri)
                             .continueWith{ it.result.downloadUrl.toString() }
-                            .addOnSuccessListener { boardInfo.pictureUrls?.add(it) }
                 }
-                .let { Tasks.whenAll(it) }
-                .onSuccessTask { boardInfoRef.set(boardInfo) }
+                .let { Tasks.whenAllSuccess<String>(it) }
+                        .addOnSuccessListener { boardInfo.pictureUrls = ArrayList(it) }
+                        .onSuccessTask { boardInfoRef.set(boardInfo) }
             } // 사진이 없을 경우
                     .let { boardInfoRef.set(boardInfo) }
                     .addOnSuccessListener{toast("게시물 업로드 완료")}
