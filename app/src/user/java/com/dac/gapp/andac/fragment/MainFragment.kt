@@ -38,7 +38,7 @@ class MainFragment : Fragment() {
         })
 
         findHospitalByText.setOnClickListener {
-            startActivity(Intent(context, HospitalTextSearchActivity::class.java))
+            startActivity(Intent(context, HospitalTextSearchActivity::class.java).putExtra("filterStr", "approval=1"))
         }
     }
 
