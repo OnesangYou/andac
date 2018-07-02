@@ -26,7 +26,11 @@ class SplashActivity : AppCompatActivity() {
                     }
                 })
                 .setDeniedMessage("해당 권한이 없을 경우 앱을 사용할 수 없습니다!!")
-                .setPermissions(android.Manifest.permission.INTERNET, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                .setPermissions(
+                        android.Manifest.permission.INTERNET,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.CALL_PHONE
+                        )
                 .check()
     }
 

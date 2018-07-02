@@ -61,6 +61,7 @@ class SearchHospitalFragmentForList : BaseFragment() {
         // filter 에 number, objectID 칼럼 제외하고 안됨 -> 왜???????
         // _highlightResult 관련이 있나??
         val query = Query(title)
+        query.hitsPerPage = Integer.MAX_VALUE
 //        query.filters = "address1:\"test\""
 //                query.filters = "lat=36.32911"
 //        query.filters = "number=580"

@@ -2,6 +2,8 @@ package com.dac.gapp.andac
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -23,7 +25,7 @@ class HospitalActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var hospitalInfo: HospitalInfo
     private lateinit var googleMap: GoogleMap
 
-    // static methoda
+    // static method
     companion object {
         fun createIntent(context: Context, hospitalInfo: HospitalInfo?): Intent {
             val intent = Intent(context, HospitalActivity::class.java)
@@ -37,8 +39,8 @@ class HospitalActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_hospital)
         hospitalInfo = intent.getSerializableExtra(EXTRA_HOSPITAL_INFO) as HospitalInfo
         prepareUi()
+        setupEvents()
     }
-
 
     private fun prepareUi() {
         // toolbar
@@ -65,6 +67,12 @@ class HospitalActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
+    private fun setupEvents() {
+        notification.setOnClickListener({ v ->
+            startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))
+//            startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+hospitalInfo.phone)))
+        })
+    }
 
     override fun onMapReady(map: GoogleMap?) {
         val markerOptions = MarkerOptions()

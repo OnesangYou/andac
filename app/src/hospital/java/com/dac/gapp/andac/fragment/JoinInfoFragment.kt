@@ -42,9 +42,9 @@ class JoinInfoFragment : JoinBaseFragment() {
 
         uploadProfilePicBtn.setOnClickListener{
             // Image File 가져옴
-            startAlbumImage(this@JoinInfoFragment, {albumFile ->
+            context?.startAlbumImageUri()?.addOnSuccessListener{albumFile ->
                 getJoinActivity().profilePicUri = Uri.fromFile(File(albumFile.path))
-            })
+            }
         }
 
 

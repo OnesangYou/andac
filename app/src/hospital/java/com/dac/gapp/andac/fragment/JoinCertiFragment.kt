@@ -30,17 +30,16 @@ class JoinCertiFragment : JoinBaseFragment() {
         // 계좌 사진 업로드
         bankAccountUploadBtn.setOnClickListener{
             // Image File 가져옴
-            startAlbumImage(this@JoinCertiFragment, {albumFile ->
-                getJoinActivity().bankAccountPicUri = Uri.fromFile(File(albumFile.path))
-            })
+            context?.startAlbumImageUri()?.addOnSuccessListener { albumFile ->
+                getJoinActivity().bankAccountPicUri = Uri.fromFile(File(albumFile.path)) }
 
         }
 
         // 사업자등록증 업로드
         busiRegiUploadBtn.setOnClickListener {
-            startAlbumImage(this@JoinCertiFragment, {albumFile ->
+            context?.startAlbumImageUri()?.addOnSuccessListener {albumFile ->
                 getJoinActivity().busiRegiPicUri = Uri.fromFile(File(albumFile.path))
-            })
+            }
         }
 
     }

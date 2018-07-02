@@ -6,20 +6,23 @@ import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.google.android.gms.tasks.Tasks
 import kotlinx.android.synthetic.main.activity_board_write.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
     private val HOSPITAL_OBJECT_REQUEST = 0
-    val boardInfo = BoardInfo()
+    private val boardInfo = BoardInfo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_write)
 
-
-        var pictureUri : Uri? = null
+        var pictureUris : List<Uri>? = null
+        val imageViews = Arrays.asList(picture_1, picture_2, picture_3)
 
         hospital_search.setOnClickListener {
             // 병원 검색
@@ -34,13 +37,21 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
             Glide.with(this@BoardWriteActivity).load(userInfo.profilePicUrl).into(profilePic)
         }
 
-        // Picture
+        // Pick Pictures
         button_picture_upload.setOnClickListener {
-            startAlbumImageUri(this@BoardWriteActivity).addOnSuccessListener { pictureUri = it }
+            startAlbumImageUri(3)
+                    // save
+                    .addOnSuccessListener { pictureUris = it }
+                    // load image view
+                    .addOnSuccessListener {uris ->
+                        imageViews.forEachIndexed { index, imageView -> Glide.with(this@BoardWriteActivity).load(
+                                if(index < uris.size) uris[index] else R.drawable.profilepic).into(imageView) }
+                    }
+
         }
 
         // Tag
-        radioGroupTag.setOnCheckedChangeListener({ _, id ->
+        radioGroupTag.setOnCheckedChangeListener { _, id ->
             when(id) {
                 R.id.imgBtnLasic -> boardInfo.tag = "라식/라섹"
                 R.id.imgBtnOldeye -> boardInfo.tag = "노안수술"
@@ -48,16 +59,16 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                 R.id.imgBtnWhiteeye -> boardInfo.tag = "백내장수술"
                 R.id.imgBtnEyesick -> boardInfo.tag = "안구질환"
             }
-        })
+        }
 
         // Type
-        radioGroupType.setOnCheckedChangeListener({ _, id ->
+        radioGroupType.setOnCheckedChangeListener { _, id ->
             when(id) {
                 R.id.free_board -> boardInfo.type = getString(R.string.free_board)
                 R.id.review_board -> boardInfo.type = getString(R.string.review_board)
                 R.id.question_board -> boardInfo.type = getString(R.string.question_board)
             }
-        })
+        }
 
         // Upload
         uploadBtn.setOnClickListener {
@@ -76,23 +87,22 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
             val boardInfoRef = getBoards().document()
 
-            val task = boardInfoRef.set(boardInfo)
-            val listener = {
-                toast("게시물 업로드 완료")
-                hideProgressDialog()
-            }
-
             // picture 업로드 후 uri 받아오기
             showProgressDialog()
-            pictureUri?.let {
-                getBoardStorageRef().child(boardInfoRef.id).child("picture.jpg").putFile(it).addOnSuccessListener {taskSnapshot ->
-                    boardInfo.pictureUrl = taskSnapshot.downloadUrl.toString()
-                    task.addOnSuccessListener{listener.invoke()}
+
+            pictureUris?.let { uris ->
+                uris.mapIndexed { index, uri  ->
+                    getBoardStorageRef().child(boardInfoRef.id).child("picture$index.jpg").putFile(uri)
+                            .continueWith{ it.result.downloadUrl.toString() }
                 }
-                it
-            }.let {
-                task.addOnSuccessListener{listener.invoke()}
-            }
+                .let { Tasks.whenAllSuccess<String>(it) }
+                        .addOnSuccessListener { boardInfo.pictureUrls = ArrayList(it) }
+                        .onSuccessTask { boardInfoRef.set(boardInfo) }
+            } // 사진이 없을 경우
+                    .let { boardInfoRef.set(boardInfo) }
+                    .addOnSuccessListener{toast("게시물 업로드 완료")}
+                    .addOnCompleteListener{hideProgressDialog()}
+
         }
 
     }
