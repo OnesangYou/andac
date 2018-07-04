@@ -46,7 +46,8 @@
     </android.support.v7.widget.Toolbar>
 
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
