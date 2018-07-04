@@ -84,9 +84,9 @@ class JoinCerti2Fragment : JoinBaseFragment(){
 
                         // 사진 파일 한꺼번에 올리기
                         mutableListOf<Task<String>>().apply{
-                            profilePicUri?.let{add(uploadPicFileTask("profilePic.jpg", it).addOnSuccessListener { url -> hospitalInfo.profilePicUrl = url})}
-                            bankAccountPicUri?.let{add(uploadPicFileTask("bankAccountPic.jpg", it).addOnSuccessListener { url -> hospitalInfo.bankAccountPicUrl = url})}
-                            busiRegiPicUri?.let{add(uploadPicFileTask("busiRegiPic.jpg", it).addOnSuccessListener { url -> hospitalInfo.busiRegiPicUrl = url})}
+                            profilePicUri?.let{ uploadPicFileTask("profilePic.jpg", it)?.addOnSuccessListener { url -> hospitalInfo.profilePicUrl = url}?.let { it1 -> add(it1) } }
+                            bankAccountPicUri?.let{ uploadPicFileTask("bankAccountPic.jpg", it)?.addOnSuccessListener { url -> hospitalInfo.bankAccountPicUrl = url}?.let { it1 -> add(it1) } }
+                            busiRegiPicUri?.let{ uploadPicFileTask("busiRegiPic.jpg", it)?.addOnSuccessListener { url -> hospitalInfo.busiRegiPicUrl = url}?.let { it1 -> add(it1) } }
                         }.let { Tasks.whenAll(it).addOnSuccessListener {
                             insertDB(user).onSuccessTask { deleteDB() }
                         }}
@@ -102,11 +102,13 @@ class JoinCerti2Fragment : JoinBaseFragment(){
         }
     }
 
-    private fun JoinActivity.uploadPicFileTask(fileName : String , picUri : Uri): Task<String> {
-        return getHospitalsStorageRef().child(getUid()).child(fileName).putFile(picUri).continueWith {
-                    toast("uploadPicFile Complete")
-                    it.result.downloadUrl.toString()
-                }
+    private fun JoinActivity.uploadPicFileTask(fileName : String , picUri : Uri): Task<String>? {
+        return getUid()?.let {
+            getHospitalsStorageRef().child(it).child(fileName).putFile(picUri).continueWith {
+                toast("uploadPicFile Complete")
+                it.result.downloadUrl.toString()
+            }
+        }
     }
 
     private fun JoinActivity.insertDB(user: FirebaseUser?): Task<Void> {

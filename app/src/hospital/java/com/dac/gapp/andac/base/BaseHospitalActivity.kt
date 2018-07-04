@@ -8,35 +8,22 @@ import com.dac.gapp.andac.model.firebase.HospitalInfo
 @SuppressLint("Registered")
 open class BaseHospitalActivity : BaseActivity() {
 
-    fun onCheckApproval(onSuccess: () -> Unit){
-        getHospitals().document(getUid()).get().addOnCompleteListener{ task ->
-            if(task.isSuccessful){
-                val hospitalInfo = task.result.toObject(HospitalInfo::class.java)
-
-                if(hospitalInfo!!.isApproval) {
-                    onSuccess()
-                } else {
-                    toast(getString(R.string.waitApproval))
-                }
-            }
-        }
-    }
-
     fun onCheckApproval(onSuccess: (Boolean) -> Unit){
-        getHospitals().document(getUid()).get().addOnCompleteListener{ task ->
-            if(task.isSuccessful){
-                val hospitalInfo = task.result.toObject(HospitalInfo::class.java)
-                if(hospitalInfo != null) {
-                    onSuccess(hospitalInfo.isApproval)
+        getUid()?.let {
+            getHospitals().document(it).get().addOnCompleteListener{ task ->
+                if(task.isSuccessful){
+                    val hospitalInfo = task.result.toObject(HospitalInfo::class.java)
+                    if(hospitalInfo != null) {
+                        onSuccess(hospitalInfo.isApproval)
+                    } else {
+                        Log.d(KBJ,"hospitalInfo is null")
+                    }
                 } else {
-                    // TODO 회원가입이 잘못됬을 경우... 처리해야함..
-                    toast("hospitalInfo is null")
+                    Log.d(KBJ, task.exception.toString())
+                    onSuccess(false)
                 }
-            } else {
-                Log.d(KBJ, task.exception.toString())
-                onSuccess(false)
             }
-        }
+        }?:goToLogin()
     }
 
 }

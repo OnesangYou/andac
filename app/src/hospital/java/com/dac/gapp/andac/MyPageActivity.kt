@@ -42,7 +42,7 @@ class MyPageActivity : BaseHospitalActivity() {
         }
 
         // Set Profile
-        getHospital().get().addOnSuccessListener { documentSnapshot ->
+        getHospital()?.get()?.addOnSuccessListener { documentSnapshot ->
             val hospitalInfo = documentSnapshot.toObject(HospitalInfo::class.java)
             if (hospitalInfo != null) {
                 Glide.with(this@MyPageActivity).load(hospitalInfo.profilePicUrl).into(profilePic)

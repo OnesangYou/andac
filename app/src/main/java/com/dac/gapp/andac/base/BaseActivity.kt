@@ -3,8 +3,11 @@
 package com.dac.gapp.andac.base
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
@@ -12,7 +15,9 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.dac.gapp.andac.BuildConfig
+import com.dac.gapp.andac.LoginActivity
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.SplashActivity
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
@@ -34,9 +39,10 @@ import java.io.File
 open class BaseActivity : AppCompatActivity() {
 
     val KBJ = "KBJ"
+    val GOTO_MYPAGE = "goToMyPage"
 
-    fun getUid() : String {
-        return getCurrentUser()!!.uid
+    fun getUid() : String? {
+        return getCurrentUser()?.uid
     }
 
     fun getDb() : FirebaseFirestore {
@@ -47,8 +53,8 @@ open class BaseActivity : AppCompatActivity() {
         return getDb().collection("hospitals")
     }
 
-    fun getHospital(): DocumentReference {
-        return getHospitals().document(getUid())
+    fun getHospital(): DocumentReference? {
+        return getUid()?.let { getHospitals().document(it) }
     }
 
 
@@ -61,7 +67,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun getUser(): DocumentReference? {
-        return getUsers().document(getUid())
+        return getUid()?.let { getUsers().document(it) }
     }
 
     fun getUser(uuid : String): DocumentReference? {
@@ -178,6 +184,22 @@ open class BaseActivity : AppCompatActivity() {
 
     fun getBoards(): CollectionReference {
         return getDb().collection("boards")
+    }
+
+    private fun restartApp() {
+        val mStartActivity = Intent(this, SplashActivity::class.java)
+        val mPendingIntentId = 123456
+        val mPendingIntent = PendingIntent.getActivity(this, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT)
+        val mgr = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent)
+        System.exit(0)
+    }
+
+    fun goToLogin(gotoMyPage : Boolean = false){
+        Intent(this, LoginActivity::class.java).let {
+            if(gotoMyPage) it.putExtra(GOTO_MYPAGE, true)
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
     }
 
 }
