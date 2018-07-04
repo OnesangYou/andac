@@ -75,10 +75,15 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         uploadBtn.setOnClickListener {
 
             // set boardInfo
-            boardInfo.apply {
-                writerUid = getUid()
-                title = edit_text_title.text.toString()
-                contents = edit_text_contents.text.toString()
+            getUid()?.let {
+                boardInfo.apply {
+                    writerUid = it
+                    title = edit_text_title.text.toString()
+                    contents = edit_text_contents.text.toString()
+                }
+            }?:let {
+                goToLogin()
+                return@setOnClickListener
             }
 
             // 유효성검사
@@ -96,11 +101,11 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                     getBoardStorageRef().child(boardInfoRef.id).child("picture$index.jpg").putFile(uri)
                             .continueWith{ it.result.downloadUrl.toString() }
                 }
-                .let { Tasks.whenAllSuccess<String>(it) }
+                        .let { Tasks.whenAllSuccess<String>(it) }
                         .addOnSuccessListener { boardInfo.pictureUrls = ArrayList(it) }
                         .onSuccessTask { boardInfoRef.set(boardInfo) }
             } // 사진이 없을 경우
-                    .let { boardInfoRef.set(boardInfo) }
+                    ?:let { boardInfoRef.set(boardInfo) }
                     .addOnSuccessListener{toast("게시물 업로드 완료")}
                     .addOnCompleteListener{hideProgressDialog()}
 

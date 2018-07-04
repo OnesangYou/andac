@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.BoardWriteActivity
+import com.dac.gapp.andac.LoginActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.BoardFragmentPagerAdapter
 import com.dac.gapp.andac.base.BaseFragment
@@ -27,14 +28,16 @@ class BoardFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareUi()
 
+        context?.apply {
+            if(isUser()) fabWriteBoard.setOnClickListener { _ ->
+                getCurrentUser()?.let{ goToLogin() }
+                ?:startActivity(Intent(context, BoardWriteActivity::class.java))
+            }
+            else {
+                fabWriteBoard.visibility = View.INVISIBLE
+            }
+        }
 
-        if(context!!.isUser()) fabWriteBoard.setOnClickListener {
-            val nextIntent = Intent(context, BoardWriteActivity::class.java)
-            startActivity(nextIntent)
-        }
-        else {
-            fabWriteBoard.visibility = View.INVISIBLE
-        }
     }
 
     private fun prepareUi() {

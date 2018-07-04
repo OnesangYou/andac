@@ -9,11 +9,11 @@ import android.support.design.internal.BottomNavigationMenuView
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.View
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.fragment.*
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 
 class MainActivity : BaseActivity() {
     private var fragments: HashMap<Int, Fragment> = HashMap()
@@ -75,7 +75,7 @@ class MainActivity : BaseActivity() {
 
             // 로그인 상태 체크
             if(getCurrentUser() == null){
-                startActivity(Intent(this, LoginActivity::class.java))
+                goToLogin(true)
             } else {
                 startActivity(Intent(this, MyPageActivity::class.java))
             }
@@ -116,9 +116,9 @@ class MainActivity : BaseActivity() {
                     item.setChecked(item.itemData.isChecked)
                 }
             } catch (e: NoSuchFieldException) {
-                Log.e("ERROR NO SUCH FIELD", "Unable to get shift mode field")
+                Timber.e("Unable to get shift mode field")
             } catch (e: IllegalAccessException) {
-                Log.e("ERROR ILLEGAL ALG", "Unable to change value of shift mode")
+                Timber.tag("ERROR ILLEGAL ALG").e("Unable to change value of shift mode")
             }
 
         }

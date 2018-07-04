@@ -59,12 +59,15 @@ class RequestSurgeryActivity : BaseActivity() {
             val phone = phoneEdit.text.toString()
             val range = "병원주소나, 병원이름"
             val surgery = SurgeryInfo(tag, visualacuity, disease, name, phone,range)
-            db.collection("surgery_".plus(type)).document(getUid()).set(surgery).addOnSuccessListener {
-                Toast.makeText(this,"신청 성공",Toast.LENGTH_SHORT).show()
-                finish()
-            }.addOnCanceledListener {
-                Toast.makeText(this,"신청 실패 다시시도",Toast.LENGTH_SHORT).show()
-            }
+
+            getUid()?.let { mUri ->
+                db.collection("surgery_".plus(type)).document(mUri).set(surgery).addOnSuccessListener {
+                    Toast.makeText(this,"신청 성공",Toast.LENGTH_SHORT).show()
+                    finish()
+                }.addOnCanceledListener {
+                    Toast.makeText(this,"신청 실패 다시시도",Toast.LENGTH_SHORT).show()
+                }
+            }?:goToLogin()
         }
     }
 }

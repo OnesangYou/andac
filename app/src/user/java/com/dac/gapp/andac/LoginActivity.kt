@@ -74,7 +74,7 @@ open class LoginActivity : BaseLoginActivity() {
         hideProgressDialog()
         currentUser?.let{
             toast(getString(R.string.successLogin))
-            startActivity(Intent(this, MyPageActivity::class.java))
+            if(intent.getBooleanExtra(GOTO_MYPAGE, false)) startActivity(Intent(this, MyPageActivity::class.java))
             finish()
         }
     }
@@ -84,7 +84,7 @@ open class LoginActivity : BaseLoginActivity() {
             if(task.isSuccessful){
                 onSuccess(!task.result.isEmpty)
             } else {
-                Log.d(KBJ, task.exception.toString())
+                task.exception?.printStackTrace()
             }
         }
     }
