@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.dac.gapp.andac.model.CardItem
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.model.firebase.BoardInfo
 
 class MyRecyclerAdapter
 //여기까지가  클릭리스너 끝나는 부분임. 만약에 외부에서 연결이 됬다고 한다면 실제로 클릭이일어나는 부분은 바인드뷰홀더에서 이루어져야한다.
 //외부에서 데이터를 받을 수 있게 컨스트럭터도 하나 만들어봄.
-(private val context : Context?, private val mDataList: List<CardItem>) : RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder>() {
+(private val context : Context?, private val mDataList: List<BoardInfo>) : RecyclerView.Adapter<MyRecyclerAdapter.ViewHolder>() {
 
     override//뷰홀더를 만드는 부분이고 리턴을 해주면 바인더 부분으로 들어
     fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -52,16 +52,9 @@ class MyRecyclerAdapter
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var title: TextView
-        internal var contents: TextView
-        internal var like: Button
-        internal var writting: Button
-
-        init {
-            title = itemView.findViewById(R.id.title_text)
-            contents = itemView.findViewById(R.id.contents_text)
-            like = itemView.findViewById(R.id.button_like)
-            writting = itemView.findViewById(R.id.button_writting)
-        }
+        var title : TextView = itemView.findViewById(R.id.title_text)
+        var contents : TextView = itemView.findViewById(R.id.contents_text)
+        var like : Button = itemView.findViewById(R.id.button_like)
+        var writting : Button = itemView.findViewById(R.id.button_writting)
     }
 }
