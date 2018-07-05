@@ -66,16 +66,15 @@ class BoardFragment : BaseFragment() {
                     .continueWithTask{task ->
                         task.result.toObjects(BoardInfo::class.java).let { userInfoMap ->
                             userInfoMap.groupBy { it.writerUid }
-                            .map {
-                                getUser(it.key)?.get()
-                            }
+                            .map { getUser(it.key)?.get() }
                             .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                             .addOnSuccessListener {
-                                it.filter { it != null }.map {
-                                    it.id to it.toObject(UserInfo::class.java)
-                                }.toMap().also {
+                                it
+                                .filter { it != null }
+                                .map { it.id to it.toObject(UserInfo::class.java) }
+                                .toMap().also {
                                     recyclerView.adapter = MyRecyclerAdapter(context, userInfoMap, it)
-                                    recyclerView.adapter.notifyDataSetChanged()
+//                                    recyclerView.adapter.notifyDataSetChanged()
                                 }
                             }
                         }
