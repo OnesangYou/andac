@@ -33,8 +33,8 @@ class BoardFragment : BaseFragment() {
 
         context?.apply {
             if(isUser()) fabWriteBoard.setOnClickListener { _ ->
-                getCurrentUser()?.let{ goToLogin() }
-                ?:startActivity(Intent(context, BoardWriteActivity::class.java))
+                getCurrentUser()?.let{ startActivity(Intent(context, BoardWriteActivity::class.java)) }
+                ?:goToLogin()
             }
             else {
                 fabWriteBoard.visibility = View.INVISIBLE
@@ -48,10 +48,10 @@ class BoardFragment : BaseFragment() {
         boardTabGroup.apply {
             setOnCheckedChangeListener({ _, checkedId ->
                 when(checkedId) {
-                    R.id.free_board     -> getBoardInfoList(getString(R.string.free_board))
-                    R.id.review_board   -> getBoardInfoList(getString(R.string.review_board))
-                    R.id.question_board -> getBoardInfoList(getString(R.string.question_board))
-                    R.id.hot_board      -> getBoardInfoList(getString(R.string.hot_board))
+                    R.id.free_board     -> setAdapter(getString(R.string.free_board))
+                    R.id.review_board   -> setAdapter(getString(R.string.review_board))
+                    R.id.question_board -> setAdapter(getString(R.string.question_board))
+                    R.id.hot_board      -> setAdapter(getString(R.string.hot_board))
                 }
             })
             check(R.id.free_board)  // default
@@ -59,7 +59,7 @@ class BoardFragment : BaseFragment() {
 
     }
 
-    private fun getBoardInfoList(type : String) {
+    private fun setAdapter(type : String) {
         context?.apply {
             showProgressDialog()
             getBoards().whereEqualTo("type", type).get()
@@ -74,7 +74,6 @@ class BoardFragment : BaseFragment() {
                                 .map { it.id to it.toObject(UserInfo::class.java) }
                                 .toMap().also {
                                     recyclerView.adapter = MyRecyclerAdapter(context, userInfoMap, it)
-//                                    recyclerView.adapter.notifyDataSetChanged()
                                 }
                             }
                         }

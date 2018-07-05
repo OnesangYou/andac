@@ -3,6 +3,7 @@ package com.dac.gapp.andac
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
@@ -95,19 +96,23 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
             // picture 업로드 후 uri 받아오기
             showProgressDialog()
+            pictureUris.let{uris ->
+                if(uris != null) return@let uris.mapIndexed { index, uri  ->
+                                    getBoardStorageRef().child(boardInfoRef.id).child("picture$index.jpg").putFile(uri)
+                                            .continueWith{ it.result.downloadUrl.toString() }
+                                }
+                                .let { Tasks.whenAllSuccess<String>(it) }
+                                .addOnSuccessListener { boardInfo.pictureUrls = ArrayList(it) }
+                                .onSuccessTask { boardInfoRef.set(boardInfo) }
+                else return@let boardInfoRef.set(boardInfo)
 
-            pictureUris?.let { uris ->
-                uris.mapIndexed { index, uri  ->
-                    getBoardStorageRef().child(boardInfoRef.id).child("picture$index.jpg").putFile(uri)
-                            .continueWith{ it.result.downloadUrl.toString() }
-                }
-                        .let { Tasks.whenAllSuccess<String>(it) }
-                        .addOnSuccessListener { boardInfo.pictureUrls = ArrayList(it) }
-                        .onSuccessTask { boardInfoRef.set(boardInfo) }
-            } // 사진이 없을 경우
-                    ?:let { boardInfoRef.set(boardInfo) }
-                    .addOnSuccessListener{toast("게시물 업로드 완료")}
+            }
+                    .addOnSuccessListener{
+                        toast("게시물 업로드 완료")
+                        finish()
+                    }
                     .addOnCompleteListener{hideProgressDialog()}
+
 
         }
 

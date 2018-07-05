@@ -5,11 +5,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.base_item_card.*
 import kotlinx.android.synthetic.main.base_item_card.view.*
 
 class MyRecyclerAdapter
@@ -32,22 +35,26 @@ class MyRecyclerAdapter
             title_text.text = item.title //아이템을 홀더에 넣어주면 되요 지금 타이틀넣은것
             contents_text.text = item.contents //아이템을 홀더에 넣기 지금건 컨텐츠
 
-            userInfo?.let {
-                text_nickname.text = userInfo.nickName
+
+            val pictures = arrayListOf<ImageView>(picture_1, picture_2, picture_3)
+            item.pictureUrls?.forEachIndexed { index, url ->
+                Glide.with(context).load(url).into(pictures[index])
+            }
+
+            userInfo?.apply {
+                text_nickname.text = nickName
+
             }
 
 
-            // 클릭이되었을때 일어나는건 바인두뷰홀더에서 작성해주어야함.
-            // 만약 외부에서 리스너를 연결을 했다면
             itemView.setOnClickListener {
                 Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()
             }
 
-            //여기서 좋아요버튼 클릭되는 리스너만들것임.
             button_like.setOnClickListener {
                 Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()
             }
-            //여기서 댓글쓰기버튼 클릭되는 리스너 만들것. 만들다보니까 온라이크버튼클릭드, 온롸이팅 클릭드 어케 자동으로 생기나 궁금
+
             button_writting.setOnClickListener {
                 Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()
             }
