@@ -3,22 +3,20 @@ package com.dac.gapp.andac.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.design.widget.TabLayout.OnTabSelectedListener
 import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
-import android.util.Log
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.BoardWriteActivity
-import com.dac.gapp.andac.LoginActivity
 import com.dac.gapp.andac.R
-import com.dac.gapp.andac.adapter.BoardFragmentPagerAdapter
+import com.dac.gapp.andac.adapter.MyRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.model.firebase.BoardInfo
+import com.dac.gapp.andac.model.firebase.UserInfo
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.android.synthetic.main.fragment_board.*
-import com.dac.gapp.andac.R.id.viewPager
-import kotlinx.coroutines.experimental.selects.select
 
 
 /**
@@ -32,7 +30,6 @@ class BoardFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        prepareUi()
 
         context?.apply {
             if(isUser()) fabWriteBoard.setOnClickListener { _ ->
@@ -44,32 +41,48 @@ class BoardFragment : BaseFragment() {
             }
         }
 
+        // set recyclerView
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        // set boardTabGroup
+        boardTabGroup.apply {
+            setOnCheckedChangeListener({ _, checkedId ->
+                when(checkedId) {
+                    R.id.free_board     -> getBoardInfoList(getString(R.string.free_board))
+                    R.id.review_board   -> getBoardInfoList(getString(R.string.review_board))
+                    R.id.question_board -> getBoardInfoList(getString(R.string.question_board))
+                    R.id.hot_board      -> getBoardInfoList(getString(R.string.hot_board))
+                }
+            })
+            check(R.id.free_board)  // default
+        }
+
     }
 
-    private fun prepareUi() {
-
-
-        viewPager.adapter = BoardFragmentPagerAdapter(context, childFragmentManager)
-        viewPager.offscreenPageLimit = 4
-        layoutTab.setupWithViewPager(viewPager)
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                Log.d("ITPANGPANG", "onPageScrolled : $position")
-            }
-
-            override fun onPageSelected(position: Int) {
-                (viewPager.adapter as BoardFragmentPagerAdapter).getItem(position).getData()
-
-                Log.d("ITPANGPANG", "onPageSelected : $position")
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-                Log.d("ITPANGPANG", "onPageScrollStateChanged : $state")
-            }
-        })
-
+    private fun getBoardInfoList(type : String) {
+        context?.apply {
+            showProgressDialog()
+            getBoards().whereEqualTo("type", type).get()
+                    .continueWithTask{task ->
+                        task.result.toObjects(BoardInfo::class.java).let { userInfoMap ->
+                            userInfoMap.groupBy { it.writerUid }
+                            .map {
+                                getUser(it.key)?.get()
+                            }
+                            .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
+                            .addOnSuccessListener {
+                                it.filter { it != null }.map {
+                                    it.id to it.toObject(UserInfo::class.java)
+                                }.toMap().also {
+                                    recyclerView.adapter = MyRecyclerAdapter(context, userInfoMap, it)
+                                    recyclerView.adapter.notifyDataSetChanged()
+                                }
+                            }
+                        }
+                    }
+                    .addOnCompleteListener{hideProgressDialog()}
+        }
     }
 
 }
-
 

@@ -85,4 +85,9 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
     implementation 'nl.komponents.kovenant:kovenant-core:3.3.0'
 }
+androidExtensions {
+
+    // 실험실 기능을 활성화합니다.
+    experimental = true
+}
 apply plugin: 'com.google.gms.google-services'

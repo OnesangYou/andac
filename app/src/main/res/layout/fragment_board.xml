@@ -14,20 +14,53 @@
         tools:context=".MainActivity"
         android:orientation="vertical"
         >
-        <android.support.design.widget.TabLayout
-            android:id="@+id/layoutTab"
+        <RadioGroup
+            android:id="@+id/boardTabGroup"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/free_board"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/free_board"
+                />
+            <RadioButton
+                android:id="@+id/review_board"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/review_board"
+                />
+            <RadioButton
+                android:id="@+id/question_board"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/question_board"
+                />
+            <RadioButton
+                android:id="@+id/hot_board"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hot_board"
+                />
+
+        </RadioGroup>
         <include
             layout="@layout/layout_tag"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:layout_margin="3dp"
             android:padding="1dp"/>
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            tools:listitem="@layout/item_card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
