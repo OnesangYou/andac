@@ -15,5 +15,6 @@ data class BoardInfo(
         var contents: String = "",
         var pictureUrls: ArrayList<String>? = ArrayList(),
         var writeDate: Date? = null,
-        var modifyDate: Date? = null
+        var modifyDate: Date? = null,
+        var boardId : String = ""
 )

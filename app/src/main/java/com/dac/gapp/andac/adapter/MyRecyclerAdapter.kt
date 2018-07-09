@@ -1,14 +1,19 @@
 package com.dac.gapp.andac.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.dac.gapp.andac.BoardWriteActivity
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import kotlinx.android.extensions.LayoutContainer
@@ -31,6 +36,7 @@ class MyRecyclerAdapter
     override fun onBindViewHolder(holder: RepositoryHolder, position: Int) {
         val item = mDataList[position]
         val userInfo = userInfoMap[item.writerUid]
+
         with(holder){
             title_text.text = item.title //아이템을 홀더에 넣어주면 되요 지금 타이틀넣은것
             contents_text.text = item.contents //아이템을 홀더에 넣기 지금건 컨텐츠
@@ -58,35 +64,34 @@ class MyRecyclerAdapter
             button_writting.setOnClickListener {
                 Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()
             }
+
+            // 수정하기 버튼
+            modifyBtn.setOnClickListener {
+                (context as? BaseActivity)?.apply {
+                    startActivity(Intent(this, BoardWriteActivity::class.java).putExtra(BOARD_KEY, item.boardId))
+                }
+
+            }
         }
     }
 
-    // 어댑터가 가지고있는 아이템의 개수를 지정해주면 된다. mdatalist로 밖에서 데이타 들고오기때문에 그것에 크기에 맞춰주면 된다.
     override fun getItemCount(): Int {
         return mDataList.size
     }
 
     abstract class AndroidExtensionsViewHolder(override val containerView: View)
         : RecyclerView.ViewHolder(containerView), LayoutContainer
-//
-//    class ViewHolder(itemView: View) : AndroidExtensionsViewHolder(itemView) {
-//        var title : TextView = itemView.findViewById(R.id.title_text)
-//        var contents : TextView = itemView.findViewById(R.id.contents_text)
-//        var like : Button = itemView.findViewById(R.id.button_like)
-//        var writting : Button = itemView.findViewById(R.id.button_writting)
-//    }
 
     class RepositoryHolder(parent: ViewGroup) : AndroidExtensionsViewHolder(
             LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_card, parent, false)) {
 
-        // 각 뷰의 인스턴스를 저장하는 프로퍼티를 추가합니다.
-        // 생성자가 호출되는 시점에 뷰의 인스턴스가 할당됩니다.
-        val title_text = itemView.title_text!!
-        val contents_text = itemView.contents_text!!
-        val button_like = itemView.button_like!!
-        val button_writting = itemView.button_writting!!
-        val text_nickname = itemView.text_nickname!!
-        val date = itemView.date!!
+        val title_text: TextView = itemView.title_text
+        val contents_text: TextView = itemView.contents_text
+        val button_like: Button = itemView.button_like
+        val button_writting: Button = itemView.button_writting
+        val text_nickname: TextView = itemView.text_nickname
+        val date: TextView = itemView.date
+        val modifyBtn: Button = itemView.modifyBtn
     }
 }

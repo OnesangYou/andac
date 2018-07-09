@@ -3,10 +3,10 @@ package com.dac.gapp.andac
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import kotlinx.android.synthetic.main.activity_board_write.*
 import java.util.*
@@ -25,18 +25,48 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         var pictureUris : List<Uri>? = null
         val imageViews = Arrays.asList(picture_1, picture_2, picture_3)
 
+        // 수정 시 게시글 데이터 받아서 초기화
+        val boardSetTask = intent.getStringExtra(BOARD_KEY)?.let {key ->
+
+                getBoard(key).get().continueWith { it.result.toObject(BoardInfo::class.java) }
+                        .addOnSuccessListener {
+                    it?.apply {
+                        edit_text_title.setText(title)
+                        edit_text_contents.setText(contents)
+                        pictureUrls?.forEachIndexed { index, url ->
+                            Glide.with(this@BoardWriteActivity).load(url).into(imageViews[index])
+                        }
+
+                        radioGroupType.check(when(type) {
+                            getString(R.string.review_board) -> R.id.review_board
+                            getString(R.string.question_board) -> R.id.question_board
+                            getString(R.string.hot_board) -> R.id.hot_board
+                            else -> R.id.free_board
+                        })
+                    }
+                }
+                        // 병원명 가져오기
+                        .continueWithTask { info -> info.result?.let{ getHospital(it.hospitalUid).get() }}
+                        .addOnSuccessListener { hospital_search.setText(it.data.toString()) }
+        }
+
+        // Set User
+        val userSetTask = getUserInfo()?.addOnSuccessListener { userInfo ->
+            nickName.text = userInfo.nickName
+            Glide.with(this@BoardWriteActivity).load(userInfo.profilePicUrl).into(profilePic)
+        }
+
+        // Go Task
+        showProgressDialog()
+        Tasks.whenAll(arrayListOf(boardSetTask, userSetTask).filterNotNull()).addOnCompleteListener{hideProgressDialog()}
+//        Tasks.whenAll(boardSetTask, userSetTask).addOnCompleteListener{hideProgressDialog()}
+
+        // 병원 검색 버튼
         hospital_search.setOnClickListener {
-            // 병원 검색
             Intent(this@BoardWriteActivity, HospitalTextSearchActivity::class.java).let {
                 it.putExtra("filterStr", "approval=1")  // 승인된 병원만 보이도록
                 startActivityForResult(it, HOSPITAL_OBJECT_REQUEST)
             }
-        }
-
-        // Set User
-        getUserInfo()?.addOnSuccessListener { userInfo ->
-            nickName.text = userInfo.nickName
-            Glide.with(this@BoardWriteActivity).load(userInfo.profilePicUrl).into(profilePic)
         }
 
         // Pick Pictures
@@ -69,6 +99,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                 R.id.free_board -> boardInfo.type = getString(R.string.free_board)
                 R.id.review_board -> boardInfo.type = getString(R.string.review_board)
                 R.id.question_board -> boardInfo.type = getString(R.string.question_board)
+                R.id.hot_board -> boardInfo.type = getString(R.string.hot_board)
             }
         }
 

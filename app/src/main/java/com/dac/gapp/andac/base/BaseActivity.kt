@@ -1,8 +1,6 @@
 @file:Suppress("DEPRECATION")
 
 package com.dac.gapp.andac.base
-
-import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.ProgressDialog
@@ -34,53 +32,37 @@ import timber.log.Timber
 import java.io.File
 
 
-@Suppress("LABEL_NAME_CLASH")
-@SuppressLint("Registered")
-open class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity() {
+
 
     val KBJ = "KBJ"
     val GOTO_MYPAGE = "goToMyPage"
+    val BOARD_KEY = "boardKey"
 
     fun getUid() : String? {
         return getCurrentUser()?.uid
     }
 
-    fun getDb() : FirebaseFirestore {
-        return FirebaseFirestore.getInstance()
-    }
+    fun getDb() : FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    fun getHospitals(): CollectionReference {
-        return getDb().collection("hospitals")
-    }
+    fun getHospitals(): CollectionReference = getDb().collection("hospitals")
 
-    fun getHospital(): DocumentReference? {
-        return getUid()?.let { getHospitals().document(it) }
-    }
+    fun getHospital(): DocumentReference? = getUid()?.let { getHospitals().document(it) }
+
+    fun getHospital(key : String) = getHospitals().document(key)
 
 
-    fun getHospitalsStorageRef() : StorageReference {
-        return FirebaseStorage.getInstance().reference.child("hospitals")
-    }
+    fun getHospitalsStorageRef() : StorageReference = FirebaseStorage.getInstance().reference.child("hospitals")
 
-    fun getUsers() : CollectionReference {
-        return getDb().collection("users")
-    }
+    fun getUsers() : CollectionReference = getDb().collection("users")
 
-    fun getUser(): DocumentReference? {
-        return getUid()?.let { getUsers().document(it) }
-    }
+    fun getUser(): DocumentReference? = getUid()?.let { getUsers().document(it) }
 
-    fun getUser(uuid : String): DocumentReference? {
-        return getUsers().document(uuid)
-    }
+    fun getUser(uuid : String): DocumentReference? = getUsers().document(uuid)
 
-    fun getAuth(): FirebaseAuth? {
-        return FirebaseAuth.getInstance()
-    }
+    fun getAuth(): FirebaseAuth? = FirebaseAuth.getInstance()
 
-    fun getCurrentUser(): FirebaseUser? {
-        return getAuth()?.currentUser
-    }
+    fun getCurrentUser(): FirebaseUser? = getAuth()?.currentUser
 
     private var mProgressDialog: ProgressDialog? = null
 
@@ -97,9 +79,7 @@ open class BaseActivity : AppCompatActivity() {
 
     fun hideProgressDialog() {
         mProgressDialog?.let{
-            if(it.isShowing){
-                it.dismiss()
-            }
+            if(it.isShowing) it.dismiss()
         }
     }
 
@@ -147,44 +127,34 @@ open class BaseActivity : AppCompatActivity() {
         return getUser()?.get()?.continueWith { it.result.toObject(UserInfo::class.java) }
     }
 
-    fun isHospital(): Boolean {
-        return BuildConfig.FLAVOR == "hospital"
-    }
+    fun isHospital(): Boolean = BuildConfig.FLAVOR == "hospital"
 
-    fun isUser(): Boolean {
-        return BuildConfig.FLAVOR == "user"
-    }
+    fun isUser(): Boolean = BuildConfig.FLAVOR == "user"
 
-    private fun startAlbumMultiImage(limitCnt : Int) : Task<MutableCollection<AlbumFile>> {
-        return TaskCompletionSource<MutableCollection<AlbumFile>>().run{
+    private fun startAlbumMultiImage(limitCnt : Int) : Task<MutableCollection<AlbumFile>> =
+        TaskCompletionSource<MutableCollection<AlbumFile>>().run{
             kotlin.run {
-                if(limitCnt == 1) return@run Album.image(this@BaseActivity).singleChoice()
-                return@run Album.image(this@BaseActivity).multipleChoice().selectCount(limitCnt)
+                if(limitCnt == 1) Album.image(this@BaseActivity).singleChoice()
+                else Album.image(this@BaseActivity).multipleChoice().selectCount(limitCnt)
             }
                     .onResult { setResult(it) }
                     .start()
             task
         }
-    }
 
 
-    fun startAlbumImageUri(): Task<Uri> {
-        return startAlbumMultiImage(1).continueWith { Uri.fromFile(File(it.result.first().path)) }
-    }
+    fun startAlbumImageUri(): Task<Uri> = startAlbumMultiImage(1).continueWith { Uri.fromFile(File(it.result.first().path)) }
 
-    fun startAlbumImageUri(limitCnt : Int): Task<List<Uri>> {
-        return startAlbumMultiImage(limitCnt).continueWith {task ->
-            task.result.map { Uri.fromFile(File(it.path)) }
-        }
-    }
+    fun startAlbumImageUri(limitCnt : Int): Task<List<Uri>> =
+            startAlbumMultiImage(limitCnt).continueWith {task ->
+                task.result.map { Uri.fromFile(File(it.path)) }
+            }
 
-    fun getBoardStorageRef() : StorageReference {
-        return FirebaseStorage.getInstance().reference.child("boards")
-    }
+    fun getBoardStorageRef() : StorageReference = FirebaseStorage.getInstance().reference.child("boards")
 
-    fun getBoards(): CollectionReference {
-        return getDb().collection("boards")
-    }
+    fun getBoards(): CollectionReference = getDb().collection("boards")
+
+    fun getBoard(key : String): DocumentReference = getBoards().document(key)
 
     private fun restartApp() {
         val mStartActivity = Intent(this, SplashActivity::class.java)
