@@ -17,76 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/layoutTag"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_margin="3dp"
-        android:layout_marginTop="18dp"
-        android:padding="1dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="3dp">
-
-        <RadioGroup
-            android:id="@+id/radioGroupTag"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/imgBtnLasic"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:button="@drawable/selector_tag_lasic"
-                android:padding="0sp"
-                android:scaleType="fitEnd"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/guideline1"
-                tools:layout_editor_absoluteY="1dp" />
-
-            <RadioButton
-                android:id="@+id/imgBtnOldeye"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:button="@drawable/selector_tag_oldeye"/>
-
-            <RadioButton
-                android:id="@+id/imgBtnInsertLense"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:button="@drawable/selector_tag_insertlense"/>
-
-            <RadioButton
-                android:id="@+id/imgBtnWhiteeye"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:button="@drawable/selector_tag_whiteeye"/>
-
-            <RadioButton
-                android:id="@+id/imgBtnEyesick"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:button="@drawable/selector_tag_eyesick"/>
-
-
-        </RadioGroup>
-
-
-
-
-    </android.support.constraint.ConstraintLayout>
-
     <ImageView
         android:id="@+id/profilePic"
         android:layout_width="wrap_content"
@@ -95,7 +25,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/profilepic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutTag" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
 
     <TextView
@@ -108,7 +38,7 @@
         android:textSize="@dimen/_15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/profilePic"
-        app:layout_constraintTop_toBottomOf="@+id/layoutTag" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <RadioGroup
         android:id="@+id/radioGroupType"

@@ -13,14 +13,6 @@
         android:layout_height="wrap_content"
         app:tabMode="scrollable"/>
 
-    <include
-        layout="@layout/layout_tag"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_margin="3dp"
-        android:padding="1dp"
-        app:layout_constraintTop_toBottomOf="@id/layoutTab" />
-
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="0dp"
@@ -28,6 +20,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutTag" />
+        app:layout_constraintTop_toBottomOf="@id/layoutTab" />
 
 </android.support.constraint.ConstraintLayout>

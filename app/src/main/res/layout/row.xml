@@ -18,7 +18,6 @@
             android:layout_marginBottom="5dp"
             android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/layout_tags"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,46 +80,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
-        <LinearLayout
-            android:id="@+id/layout_tags"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgview_thumbnail">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/tag_lasic_off" />
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/tag_oldeye_off" />
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/tag_insertlense_off" />
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/tag_whiteeye_off" />
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/tag_eyesick_off" />
-
-        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -82,17 +82,6 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
         }
 
-        // Tag
-        radioGroupTag.setOnCheckedChangeListener { _, id ->
-            when(id) {
-                R.id.imgBtnLasic -> boardInfo.tag = "라식/라섹"
-                R.id.imgBtnOldeye -> boardInfo.tag = "노안수술"
-                R.id.imgBtnInsertLense -> boardInfo.tag = "렌즈삽입술"
-                R.id.imgBtnWhiteeye -> boardInfo.tag = "백내장수술"
-                R.id.imgBtnEyesick -> boardInfo.tag = "안구질환"
-            }
-        }
-
         // Type
         radioGroupType.setOnCheckedChangeListener { _, id ->
             when(id) {
