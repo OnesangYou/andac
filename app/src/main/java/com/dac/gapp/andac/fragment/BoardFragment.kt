@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +49,7 @@ class BoardFragment : BaseFragment() {
 
         // set boardTabGroup
         boardTabGroup.apply {
-            val listener = { _ : Any?, checkedId : Int ->
+            setOnCheckedChangeListener{ _ : Any?, checkedId : Int ->
                 when(checkedId) {
                     R.id.free_board     -> setAdapter(getString(R.string.free_board))
                     R.id.review_board   -> setAdapter(getString(R.string.review_board))
@@ -58,14 +57,13 @@ class BoardFragment : BaseFragment() {
                     R.id.hot_board      -> setAdapter(getString(R.string.hot_board))
                 }
             }
-            setOnCheckedChangeListener(listener)
-//            listener(checkedId = checkedRadioButtonId)
-            listener(null, checkedRadioButtonId)
-//            check(R.id.free_board)  // default
-//            free_board.performClick()
-//            Log.d("KBJ", "checkedRadioButtonId : ${checkedRadioButtonId}")
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(boardTabGroup.checkedRadioButtonId == -1) boardTabGroup.check(R.id.free_board)
     }
 
     private var registration: ListenerRegistration? = null
@@ -85,13 +83,13 @@ class BoardFragment : BaseFragment() {
                                                     .filter { it != null }
                                                     .map { it.id to it.toObject(UserInfo::class.java) }
                                                     .toMap().also {
-                                                        recyclerView.adapter = MyRecyclerAdapter(context, userInfoMap, it)
-//                                                        val adapter = recyclerView.adapter
-//                                                        if (adapter is MyRecyclerAdapter) {
-//                                                            adapter.setDataList(userInfoMap, it)
-//                                                        } else {
-//                                                            recyclerView.adapter = MyRecyclerAdapter(context, userInfoMap, it)
-//                                                        }
+//                                                        recyclerView.adapter = MyRecyclerAdapter(context, userInfoMap, it)
+                                                        val adapter = recyclerView.adapter
+                                                        if (adapter is MyRecyclerAdapter) {
+                                                            adapter.setDataList(userInfoMap, it)
+                                                        } else {
+                                                            recyclerView.adapter = MyRecyclerAdapter(context, userInfoMap, it)
+                                                        }
                                                     }
                                         }
                             }.addOnCompleteListener{hideProgressDialog()}

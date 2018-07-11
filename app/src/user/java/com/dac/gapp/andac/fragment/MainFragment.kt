@@ -22,20 +22,20 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        requestSurgery.setOnClickListener({
+        requestSurgery.setOnClickListener {
             val nextIntent = Intent(context, RequestSurgeryActivity::class.java)
             startActivity(nextIntent)
-        })
+        }
 
-        column.setOnClickListener({
+        column.setOnClickListener {
             val nextIntent = Intent(context, ColumnActivity::class.java)
             startActivity(nextIntent)
-        })
+        }
 
-        event.setOnClickListener({
+        event.setOnClickListener {
             val nextIntent = Intent(context, EventActivity::class.java)
             startActivity(nextIntent)
-        })
+        }
 
         findHospitalByText.setOnClickListener {
             startActivity(Intent(context, HospitalTextSearchActivity::class.java).putExtra("filterStr", "approval=1"))
