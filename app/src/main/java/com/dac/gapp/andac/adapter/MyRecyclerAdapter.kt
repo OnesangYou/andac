@@ -23,13 +23,19 @@ import kotlinx.android.synthetic.main.base_item_card.view.*
 class MyRecyclerAdapter
 //여기까지가  클릭리스너 끝나는 부분임. 만약에 외부에서 연결이 됬다고 한다면 실제로 클릭이일어나는 부분은 바인드뷰홀더에서 이루어져야한다.
 //외부에서 데이터를 받을 수 있게 컨스트럭터도 하나 만들어봄.
-(private val context : Context?, private val mDataList: List<BoardInfo>, private val userInfoMap: Map<String, UserInfo?>) : RecyclerView.Adapter<MyRecyclerAdapter.RepositoryHolder>() {
+(private val context : Context?, private var mDataList: List<BoardInfo>, private var userInfoMap: Map<String, UserInfo?>) : RecyclerView.Adapter<MyRecyclerAdapter.RepositoryHolder>() {
 
     override//뷰홀더를 만드는 부분이고 리턴을 해주면 바인더 부분으로 들어
     fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryHolder {
 //        val view = LayoutInflater.from(parent.context)
 //                .inflate(R.layout.item_card, parent, false)
         return RepositoryHolder(parent)
+    }
+
+    fun setDataList(mDataList: List<BoardInfo>, userInfoMap: Map<String, UserInfo?>){
+        this.mDataList = mDataList
+        this.userInfoMap = userInfoMap
+        this.notifyDataSetChanged()
     }
 
     //데이터를 바운드해주는 부분 데이터를 세팅해 줄 수 있다.

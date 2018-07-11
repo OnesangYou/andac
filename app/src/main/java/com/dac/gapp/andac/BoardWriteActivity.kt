@@ -1,13 +1,14 @@
 package com.dac.gapp.andac
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
-import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_board_write.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -47,7 +48,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                 }
                         // 병원명 가져오기
                         .continueWithTask { info -> info.result?.let{ getHospital(it.hospitalUid).get() }}
-                        .addOnSuccessListener { hospital_search.setText(it.data.toString()) }
+                        .addOnSuccessListener { hospital_search.setText(it.toObject(HospitalInfo::class.java)?.name) }
         }
 
         // Set User
@@ -112,19 +113,29 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                 return@setOnClickListener
             }
 
-            val boardInfoRef = getBoards().document()
+
+            val boardInfoRef = intent.getStringExtra(BOARD_KEY)?.let{
+                getBoards().document(it)
+            }?:let{
+                getBoards().document()
+            }
+
+            boardInfo.boardId = boardInfoRef.id
 
             // picture 업로드 후 uri 받아오기
             showProgressDialog()
             pictureUris.let{uris ->
-                if(uris != null) return@let uris.mapIndexed { index, uri  ->
-                                    getBoardStorageRef().child(boardInfoRef.id).child("picture$index.jpg").putFile(uri)
-                                            .continueWith{ it.result.downloadUrl.toString() }
-                                }
-                                .let { Tasks.whenAllSuccess<String>(it) }
-                                .addOnSuccessListener { boardInfo.pictureUrls = ArrayList(it) }
-                                .onSuccessTask { boardInfoRef.set(boardInfo) }
-                else return@let boardInfoRef.set(boardInfo)
+                if(uris != null) {
+                    return@let uris.mapIndexed { index, uri ->
+                        getBoardStorageRef().child(boardInfoRef.id).child("picture$index.jpg").putFile(uri)
+                                .continueWith { it.result.downloadUrl.toString() } }
+                            .let { Tasks.whenAllSuccess<String>(it) }
+                            .addOnSuccessListener { boardInfo.pictureUrls = ArrayList(it) }
+                            .onSuccessTask { boardInfoRef.set(boardInfo, SetOptions.merge()) }
+                }
+                else {
+                    return@let boardInfoRef.set(boardInfo, SetOptions.merge())
+                }
 
             }
                     .addOnSuccessListener{
@@ -140,10 +151,10 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
     private fun validate() : Boolean {
         // 태그
-        if(boardInfo.tag.isBlank()) {
-            toast("태그를 선택하세요")
-            return false
-        }
+//        if(boardInfo.tag.isBlank()) {
+//            toast("태그를 선택하세요")
+//            return false
+//        }
 
         // 타입
         if(boardInfo.type.isBlank()) {
