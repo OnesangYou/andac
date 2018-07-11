@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.BoardWriteActivity
 import com.dac.gapp.andac.R
-import com.dac.gapp.andac.adapter.MyRecyclerAdapter
+import com.dac.gapp.andac.adapter.BoardRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
@@ -83,12 +83,12 @@ class BoardFragment : BaseFragment() {
                                                     .filter { it != null }
                                                     .map { it.id to it.toObject(UserInfo::class.java) }
                                                     .toMap().also {
-//                                                        recyclerView.adapter = MyRecyclerAdapter(context, userInfoMap, it)
+//                                                        recyclerView.adapter = BoardRecyclerAdapter(context, userInfoMap, it)
                                                         val adapter = recyclerView.adapter
-                                                        if (adapter is MyRecyclerAdapter) {
+                                                        if (adapter is BoardRecyclerAdapter) {
                                                             adapter.setDataList(userInfoMap, it)
                                                         } else {
-                                                            recyclerView.adapter = MyRecyclerAdapter(context, userInfoMap, it)
+                                                            recyclerView.adapter = BoardRecyclerAdapter(context, userInfoMap, it)
                                                         }
                                                     }
                                         }
