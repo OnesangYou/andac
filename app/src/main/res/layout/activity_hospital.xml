@@ -42,7 +42,7 @@
             android:layout_height="25dp"
             android:layout_gravity="right"
             android:layout_marginEnd="20dp"
-            app:srcCompat="@drawable/bell"
+            app:srcCompat="@drawable/call"
             tools:ignore="ContentDescription,RtlHardcoded" />
 
     </android.support.v7.widget.Toolbar>
