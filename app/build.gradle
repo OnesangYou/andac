@@ -42,12 +42,14 @@ android {
             dimension "target"
             applicationIdSuffix ".user"
             manifestPlaceholders = [appLabel: "ANDAC USER"]
+            buildConfigField 'boolean', 'IS_USER', "true"
         }
 
         hospital {
             dimension "target"
             applicationIdSuffix ".hospital"
             manifestPlaceholders = [appLabel: "ANDAC HOSPITAL"]
+            buildConfigField 'boolean', 'IS_USER', "false"
         }
     }
 

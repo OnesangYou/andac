@@ -21,7 +21,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDkkpBXY7N4YbP0JSuOZJdma17MQ9k4g5E" />
-
         <activity android:name=".MainActivity" />
         <activity android:name=".RequestSurgeryActivity" />
         <activity android:name=".ColumnActivity" />
@@ -29,7 +28,6 @@
         <activity android:name=".ChatActivity" />
         <activity android:name=".HospitalActivity" />
         <activity android:name=".BoardWriteActivity" />
-
         <activity android:name=".HospitalTextSearchActivity" />
     </application>
 

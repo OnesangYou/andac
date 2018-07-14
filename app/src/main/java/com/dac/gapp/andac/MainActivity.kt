@@ -73,7 +73,7 @@ class MainActivity : BaseActivity() {
                 .add(R.id.fragment_container, firstFragment).commit()
 
         // Go to My Page
-        my_page.setOnClickListener({
+        my_page.setOnClickListener {
 
             // 로그인 상태 체크
             if(getCurrentUser() == null){
@@ -82,7 +82,7 @@ class MainActivity : BaseActivity() {
                 startActivity(Intent(this, MyPageActivity::class.java))
             }
 
-        })
+        }
     }
 
     private fun changeFragment(newFragment: Fragment) {
