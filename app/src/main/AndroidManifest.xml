@@ -22,18 +22,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDkkpBXY7N4YbP0JSuOZJdma17MQ9k4g5E" />
 
-        <activity
-            android:name=".SplashActivity"
-            android:label="${appLabel}"
-            android:theme="@style/SplashTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".MyPageActivity" />
         <activity android:name=".RequestSurgeryActivity" />
         <activity android:name=".ColumnActivity" />
         <activity android:name=".EventActivity" />
@@ -41,13 +30,7 @@
         <activity android:name=".HospitalActivity" />
         <activity android:name=".BoardWriteActivity" />
 
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity android:name=".JoinActivity" />
-        <activity
-            android:name=".HospitalTextSearchActivity"
-            android:label="@string/title_activity_hospital_text_search" />
+        <activity android:name=".HospitalTextSearchActivity" />
     </application>
 
 </manifest>
