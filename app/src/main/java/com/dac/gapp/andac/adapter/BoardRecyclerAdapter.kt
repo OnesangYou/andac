@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -48,7 +47,7 @@ class BoardRecyclerAdapter
             contents_text.text = item.contents //아이템을 홀더에 넣기 지금건 컨텐츠
 
 
-            val pictures = arrayListOf<ImageView>(picture_1, picture_2, picture_3)
+//            val pictures = arrayListOf<ImageView>(picture_1, picture_2, picture_3)
             item.pictureUrls?.forEachIndexed { index, url ->
                 Glide.with(context).load(url).into(pictures[index])
             }
@@ -128,5 +127,6 @@ class BoardRecyclerAdapter
         val text_nickname: TextView = itemView.text_nickname
         val date: TextView = itemView.date
         val modifyBtn: Button = itemView.modifyBtn
+        val pictures = arrayListOf(itemView.picture_1, itemView.picture_2, itemView.picture_3)
     }
 }
