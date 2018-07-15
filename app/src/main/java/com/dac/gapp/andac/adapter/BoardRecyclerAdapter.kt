@@ -46,10 +46,17 @@ class BoardRecyclerAdapter
             title_text.text = item.title //아이템을 홀더에 넣어주면 되요 지금 타이틀넣은것
             contents_text.text = item.contents //아이템을 홀더에 넣기 지금건 컨텐츠
 
-
 //            val pictures = arrayListOf<ImageView>(picture_1, picture_2, picture_3)
             item.pictureUrls?.forEachIndexed { index, url ->
                 Glide.with(context).load(url).into(pictures[index])
+            }
+
+            pictures.forEachIndexed { index, pic ->
+                if(item.pictureUrls != null && item.pictureUrls!!.size > index){
+                    Glide.with(context).load(item.pictureUrls!![index]).into(pic)
+                } else {
+                    pic.setImageResource(R.drawable.profilepic)
+                }
             }
 
             userInfo?.apply {

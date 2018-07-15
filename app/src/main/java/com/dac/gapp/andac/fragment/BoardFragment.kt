@@ -74,21 +74,21 @@ class BoardFragment : BaseFragment() {
             registration = getBoards().whereEqualTo("type", type)
                     .addSnapshotListener{ querySnapshot: QuerySnapshot?, _: FirebaseFirestoreException? ->
                         querySnapshot?.let {
-                            it.toObjects(BoardInfo::class.java).let { userInfoMap ->
-                                userInfoMap.groupBy { it.writerUid }
+                            it.toObjects(BoardInfo::class.java).let { boardInfos ->
+                                boardInfos.groupBy { it.writerUid }
                                         .map { getUser(it.key)?.get() }
                                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                                         .addOnSuccessListener {
                                             it
                                                     .filter { it != null }
                                                     .map { it.id to it.toObject(UserInfo::class.java) }
-                                                    .toMap().also {
+                                                    .toMap().also { userInfoMap ->
 //                                                        recyclerView.adapter = BoardRecyclerAdapter(context, userInfoMap, it)
                                                         val adapter = recyclerView.adapter
                                                         if (adapter is BoardRecyclerAdapter) {
-                                                            adapter.setDataList(userInfoMap, it)
+                                                            adapter.setDataList(boardInfos, userInfoMap)
                                                         } else {
-                                                            recyclerView.adapter = BoardRecyclerAdapter(context, userInfoMap, it)
+                                                            recyclerView.adapter = BoardRecyclerAdapter(context, boardInfos, userInfoMap)
                                                         }
                                                     }
                                         }
