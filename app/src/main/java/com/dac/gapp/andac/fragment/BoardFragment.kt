@@ -15,10 +15,7 @@ import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_board.*
 
 
@@ -72,6 +69,7 @@ class BoardFragment : BaseFragment() {
         context?.apply {
             showProgressDialog()
             registration = getBoards().whereEqualTo("type", type)
+                    .orderBy("writeDate", Query.Direction.DESCENDING)   // order
                     .addSnapshotListener{ querySnapshot: QuerySnapshot?, _: FirebaseFirestoreException? ->
                         querySnapshot?.let {
                             it.toObjects(BoardInfo::class.java).let { boardInfos ->

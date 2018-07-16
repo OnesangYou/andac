@@ -14,6 +14,7 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
+import com.dac.gapp.andac.util.Common
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.base_item_card.*
 import kotlinx.android.synthetic.main.base_item_card.view.*
@@ -45,6 +46,8 @@ class BoardRecyclerAdapter
         with(holder){
             title_text.text = item.title //아이템을 홀더에 넣어주면 되요 지금 타이틀넣은것
             contents_text.text = item.contents //아이템을 홀더에 넣기 지금건 컨텐츠
+            date.text = item.writeDate?.let { Common.getDateFormat(it) }
+
 
 //            val pictures = arrayListOf<ImageView>(picture_1, picture_2, picture_3)
             item.pictureUrls?.forEachIndexed { index, url ->
