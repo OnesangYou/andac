@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:id="@+id/my_page_scrollview"
+
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.dac.gapp.andac.MyPageActivity"
-    >
-
-<android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:ignore="ExtraText">
 
     <android.support.v7.widget.Toolbar
@@ -21,7 +16,6 @@
         android:layout_alignParentTop="true"
         android:background="@color/white"
         android:fitsSystemWindows="true"
-        android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <ImageView
@@ -85,328 +79,81 @@
             app:layout_constraintStart_toEndOf="@+id/profilePic"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/id_info_layout_button"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/myPageRadioGroup"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/profilePic"
             app:layout_constraintTop_toBottomOf="@+id/nameText">
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/setting"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/buttonstyle4">
-
-                <ImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:src="@drawable/setting_on"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-
-            <TextView
+            <RadioButton
+                android:id="@+id/accountSettingBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="계정설정"
-                android:textColor="@color/colorMain"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/setting" />
-        </android.support.constraint.ConstraintLayout>
-
-
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/id_info_layout_button_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintStart_toEndOf="@+id/id_info_layout_button"
-            app:layout_constraintTop_toBottomOf="@+id/nameText">
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/favorite"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/buttonstyle4">
-
-               </android.support.constraint.ConstraintLayout>
-
-            <TextView
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center_horizontal|top"
+                android:drawableTop="?android:attr/listChoiceIndicatorSingle"
+                android:textSize="@dimen/_10sp"
+                android:text="계정설정" />
+            <RadioButton
+                android:id="@+id/favoritBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="즐겨찾기"
-                android:textColor="@color/colorMain"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/favorite" />
-        </android.support.constraint.ConstraintLayout>
-
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/id_info_layout_button_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintStart_toEndOf="@+id/id_info_layout_button_2"
-            app:layout_constraintTop_toBottomOf="@+id/nameText">
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/cupon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/buttonstyle4">
-
-            </android.support.constraint.ConstraintLayout>
-
-            <TextView
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center_horizontal|top"
+                android:drawableTop="?android:attr/listChoiceIndicatorSingle"
+                android:textSize="@dimen/_10sp"
+                android:text="즐겨찾기" />
+            <RadioButton
+                android:id="@+id/myCouponBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="내쿠폰함"
-                android:textColor="@color/colorMain"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cupon" />
-        </android.support.constraint.ConstraintLayout>
-
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/id_info_layout_button_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintStart_toEndOf="@+id/id_info_layout_button_3"
-            app:layout_constraintTop_toBottomOf="@+id/nameText">
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/pay"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/buttonstyle4">
-
-            </android.support.constraint.ConstraintLayout>
-
-            <TextView
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center_horizontal|top"
+                android:drawableTop="?android:attr/listChoiceIndicatorSingle"
+                android:textSize="@dimen/_10sp"
+                android:text="내쿠폰함" />
+            <RadioButton
+                android:id="@+id/paymentHistoryBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="결제내역"
-                android:textColor="@color/colorMain"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pay" />
-        </android.support.constraint.ConstraintLayout>
-
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/id_info_layout_button_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintStart_toEndOf="@+id/id_info_layout_button_4"
-            app:layout_constraintTop_toBottomOf="@+id/nameText">
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/my_write"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="50dp"
-                android:background="@drawable/buttonstyle4">
-
-            </android.support.constraint.ConstraintLayout>
-
-            <TextView
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center_horizontal|top"
+                android:drawableTop="?android:attr/listChoiceIndicatorSingle"
+                android:textSize="@dimen/_10sp"
+                android:text="결재내역" />
+            <RadioButton
+                android:id="@+id/myBoardsBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="내가쓴글"
-                android:textColor="@color/colorMain"
-                android:textSize="10sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/my_write" />
-        </android.support.constraint.ConstraintLayout>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center_horizontal|top"
+                android:drawableTop="?android:attr/listChoiceIndicatorSingle"
+                android:textSize="@dimen/_10sp"
+                android:text="내가쓴글" />
 
 
-
-
+        </RadioGroup>
 
     </android.support.constraint.ConstraintLayout>
 
 
-
-    <LinearLayout
-        android:id="@+id/my_info_setting"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:background="@color/lightgray"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/my_profile"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="내계정 설정"
-            android:layout_gravity="center"
-            android:layout_marginLeft="16dp"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/my_info_setting_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/my_info_setting"
-        >
-
-        <TextView
-            android:id="@+id/profile_text_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="내정보 수정"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            />
-
-
-        <TextView
-            android:id="@+id/profile_text_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="비밀번호 변경"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="25dp"
-            />
-
-        <TextView
-            android:id="@+id/profile_text_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="프로필 사진 변경"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/settings"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:background="@color/lightgray"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/my_info_setting_layout"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="설정"
-            android:layout_gravity="center"
-            android:layout_marginLeft="16dp"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/setting_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/settings"
-        >
-
-        <TextView
-            android:id="@+id/setting_text_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="공지사항"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            />
-
-
-        <TextView
-            android:id="@+id/setting_text_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="고객센터 및 문의사항"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="25dp"
-            />
-
-        <TextView
-            android:id="@+id/setting_text_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="버전정보"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="25dp"
-            />
-
-        <TextView
-            android:id="@+id/setting_text_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="안닥 계약하"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="25dp"
-            />
-
-        <TextView
-            android:id="@+id/setting_text_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="이용약관"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="25dp"
-            />
-
-        <TextView
-            android:id="@+id/setting_text_6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="개인정보 취급방침"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            />
-
-
-    </LinearLayout>
-
-
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_profile" />
 
 
 </android.support.constraint.ConstraintLayout>
-
-
-</ScrollView>
