@@ -41,5 +41,7 @@
     <string name="review_board">후기게시판</string>
     <string name="question_board">질문게시판</string>
     <string name="hot_board">인기게시판</string>
+    <string name="hospital">병원</string>
+    <string name="event">이벤트</string>
 
 </resources>

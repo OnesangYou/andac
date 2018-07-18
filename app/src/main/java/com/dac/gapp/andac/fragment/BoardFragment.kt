@@ -81,13 +81,8 @@ class BoardFragment : BaseFragment() {
                                                     .filter { it != null }
                                                     .map { it.id to it.toObject(UserInfo::class.java) }
                                                     .toMap().also { userInfoMap ->
-//                                                        recyclerView.adapter = BoardRecyclerAdapter(context, userInfoMap, it)
-                                                        val adapter = recyclerView.adapter
-                                                        if (adapter is BoardRecyclerAdapter) {
-                                                            adapter.setDataList(boardInfos, userInfoMap)
-                                                        } else {
-                                                            recyclerView.adapter = BoardRecyclerAdapter(context, boardInfos, userInfoMap)
-                                                        }
+                                                        recyclerView.adapter = BoardRecyclerAdapter(context, boardInfos, userInfoMap)
+                                                        recyclerView.adapter.notifyDataSetChanged()
                                                     }
                                         }
                             }.addOnCompleteListener{hideProgressDialog()}
