@@ -153,8 +153,11 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getBoardStorageRef() : StorageReference = FirebaseStorage.getInstance().reference.child("boards")
 
     fun getBoards(): CollectionReference = getDb().collection("boards")
-
     fun getBoard(key : String): DocumentReference = getBoards().document(key)
+
+    // My Contents
+    private fun getMyContents(uid: String? = getUid()) = uid?.let { getDb().collection("myContents").document(it) }
+    fun getMyBoards() = getMyContents()?.collection("boards")
 
     private fun restartApp() {
         val mStartActivity = Intent(this, SplashActivity::class.java)
