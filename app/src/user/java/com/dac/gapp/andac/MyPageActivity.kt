@@ -6,6 +6,7 @@ import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseMyPageActivity
 import com.dac.gapp.andac.fragment.AccountSettingFragment
 import com.dac.gapp.andac.fragment.FavoritesFragment
+import com.dac.gapp.andac.fragment.MyBoardsFragment
 import com.dac.gapp.andac.model.firebase.UserInfo
 import kotlinx.android.synthetic.user.activity_my_page.*
 
@@ -28,6 +29,7 @@ open class MyPageActivity : BaseMyPageActivity() {
             when(id){
                 R.id.accountSettingBtn -> changeFragment(AccountSettingFragment())
                 R.id.favoritBtn -> changeFragment(FavoritesFragment())
+                R.id.myBoardsBtn -> changeFragment(MyBoardsFragment())
 
                 else -> {
 //                    accountSetting.visibility = View.INVISIBLE
