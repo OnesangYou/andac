@@ -26,7 +26,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         val imageViews = Arrays.asList(picture_1, picture_2, picture_3)
 
         // 수정 시 게시글 데이터 받아서 초기화
-        val boardSetTask = intent.getStringExtra(BOARD_KEY)?.let {key ->
+        val boardSetTask = intent.getStringExtra(OBJECT_KEY)?.let { key ->
 
                 getBoard(key).get().continueWith { it.result.toObject(BoardInfo::class.java) }
                         .addOnSuccessListener {
@@ -113,7 +113,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
             }
 
 
-            val boardInfoRef = intent.getStringExtra(BOARD_KEY)?.let{
+            val boardInfoRef = intent.getStringExtra(OBJECT_KEY)?.let{
                 getBoards().document(it)
             }?:let{
                 getBoards().document()
@@ -121,28 +121,20 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
             boardInfo.boardId = boardInfoRef.id
 
-            // picture 업로드 후 uri 받아오기
+            // picture 있을 경우 업로드 후 uri 받아오기, 데이터 업로드
             showProgressDialog()
-            pictureUris.let{uris ->
-                if(uris != null) {
-                    return@let uris.mapIndexed { index, uri ->
+            pictureUris.let{
+                it?.let{uris ->
+                    uris.mapIndexed { index, uri ->
                         getBoardStorageRef().child(boardInfoRef.id).child("picture$index.jpg").putFile(uri)
                                 .continueWith { it.result.downloadUrl.toString() } }
                             .let { Tasks.whenAllSuccess<String>(it) }
                             .addOnSuccessListener { boardInfo.pictureUrls = ArrayList(it) }
                             .onSuccessTask { boardInfoRef.set(boardInfo, SetOptions.merge()) }
-                }
-                else {
-                    return@let boardInfoRef.set(boardInfo, SetOptions.merge())
-                }
-
+                }?:let{ boardInfoRef.set(boardInfo, SetOptions.merge()) }
             }
-                    .addOnSuccessListener{
-                        toast("게시물 업로드 완료")
-                        finish()
-                    }
+                    .addOnSuccessListener{ toast("게시물 업로드 완료"); finish() }
                     .addOnCompleteListener{hideProgressDialog()}
-
 
         }
 

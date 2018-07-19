@@ -37,7 +37,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     val KBJ = "KBJ"
     val GOTO_MYPAGE = "goToMyPage"
-    val BOARD_KEY = "boardKey"
+    val OBJECT_KEY = "objectKey"
 
     fun getUid() : String? {
         return getCurrentUser()?.uid
@@ -150,10 +150,16 @@ abstract class BaseActivity : AppCompatActivity() {
                 task.result.map { Uri.fromFile(File(it.path)) }
             }
 
+    // Boards
     fun getBoardStorageRef() : StorageReference = FirebaseStorage.getInstance().reference.child("boards")
-
     fun getBoards(): CollectionReference = getDb().collection("boards")
     fun getBoard(key : String): DocumentReference = getBoards().document(key)
+
+    // Column
+    fun getColumnStorageRef() : StorageReference = FirebaseStorage.getInstance().reference.child("columns")
+    fun getColumns(): CollectionReference = getDb().collection("columns")
+    fun getColumn(key : String): DocumentReference = getBoards().document(key)
+
 
     // My Contents
     private fun getMyContents(uid: String? = getUid()) = uid?.let { getDb().collection("myContents").document(it) }

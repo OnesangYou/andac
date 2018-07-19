@@ -35,11 +35,13 @@
         <activity android:name=".ChatActivity" />
         <activity android:name=".HospitalActivity" />
         <activity android:name=".BoardWriteActivity" />
+        <activity android:name=".MyPageActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity android:name=".JoinActivity" />
-        <activity android:name=".SearchAddressActivity"></activity>
+        <activity android:name=".SearchAddressActivity" />
+        <activity android:name=".ColumnWriteActivity"></activity>
     </application>
 
 </manifest>

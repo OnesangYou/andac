@@ -7,10 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.ColumnActivity
-import com.dac.gapp.andac.EventActivity
+import com.dac.gapp.andac.ColumnWriteActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.RequestSurgeryActivity
-import com.dac.gapp.andac.HospitalTextSearchActivity
 import kotlinx.android.synthetic.hospital.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -22,15 +21,9 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        main_borad_view.setOnClickListener({
-            val nextIntent = Intent(context, RequestSurgeryActivity::class.java)
-            startActivity(nextIntent)
-        })
-
-        main_event.setOnClickListener({
-            val nextIntent = Intent(context, ColumnActivity::class.java)
-            startActivity(nextIntent)
-        })
+        main_borad_view.setOnClickListener { startActivity(Intent(context, RequestSurgeryActivity::class.java)) }
+        viewColumnsBtn.setOnClickListener { startActivity(Intent(context, ColumnActivity::class.java)) }
+        writeColumnBtn.setOnClickListener { startActivity(Intent(context, ColumnWriteActivity::class.java)) }
     }
 
 }

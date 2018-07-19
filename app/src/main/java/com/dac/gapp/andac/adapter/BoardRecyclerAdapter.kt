@@ -86,7 +86,7 @@ class BoardRecyclerAdapter
                 if(item.writerUid == ba.getUid()) {
                     modifyBtn.visibility = View.VISIBLE
                     modifyBtn.setOnClickListener {
-                        ba.startActivity(Intent(ba, BoardWriteActivity::class.java).putExtra(ba.BOARD_KEY, item.boardId))
+                        ba.startActivity(Intent(ba, BoardWriteActivity::class.java).putExtra(ba.OBJECT_KEY, item.boardId))
                     }
                     deleteBtn.visibility = View.VISIBLE
                     deleteBtn.setOnClickListener {
