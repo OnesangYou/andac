@@ -12,5 +12,6 @@ data class ColumnInfo(
         var pictureUrl: String = "",
         @ServerTimestamp var writeDate: Date? = null,
         var modifyDate: Date? = null,
-        var objectId : String = ""
+        var objectId : String = "",
+        var viewCount : Int = 0
 )
