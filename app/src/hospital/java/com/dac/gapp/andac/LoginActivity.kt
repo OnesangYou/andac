@@ -2,7 +2,6 @@ package com.dac.gapp.andac
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import com.dac.gapp.andac.base.BaseHospitalActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -38,7 +37,7 @@ class LoginActivity : BaseHospitalActivity() {
 
             // 병원 유저인지 체크
             showProgressDialog()
-            onCheckHospitalUser(emailEdit.text.toString(), { isHospitalUser ->
+            onCheckHospitalUser(emailEdit.text.toString()) { isHospitalUser ->
                 if(isHospitalUser){
                     // toast("회원가입 되있음")
                     mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())?.addOnCompleteListener{ task ->
@@ -58,7 +57,7 @@ class LoginActivity : BaseHospitalActivity() {
                     toast("병원 유저 회원가입이 안된 Email 입니다")
                     updateUI(null)
                 }
-            })
+            }
         }
     }
 
@@ -95,7 +94,7 @@ class LoginActivity : BaseHospitalActivity() {
             if(task.isSuccessful){
                 onSuccess(!task.result.isEmpty)
             } else {
-                Log.d(KBJ, task.exception.toString())
+                Timber.d(task.exception.toString())
             }
         }
     }

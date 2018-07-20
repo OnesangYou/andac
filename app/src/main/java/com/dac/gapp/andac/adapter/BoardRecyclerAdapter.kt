@@ -15,31 +15,18 @@ import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.Common
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.base_item_card.*
 import kotlinx.android.synthetic.main.base_item_card.view.*
 import org.jetbrains.anko.alert
 
 class BoardRecyclerAdapter
-//여기까지가  클릭리스너 끝나는 부분임. 만약에 외부에서 연결이 됬다고 한다면 실제로 클릭이일어나는 부분은 바인드뷰홀더에서 이루어져야한다.
-//외부에서 데이터를 받을 수 있게 컨스트럭터도 하나 만들어봄.
-(private val context : BaseActivity?, private var mDataList: List<BoardInfo>, private var userInfoMap: Map<String, UserInfo?>) : RecyclerView.Adapter<BoardRecyclerAdapter.RepositoryHolder>() {
+(private val context : BaseActivity?, private var mDataList: List<BoardInfo>, private var userInfoMap: Map<String, UserInfo?>) : RecyclerView.Adapter<BoardRecyclerAdapter.BoardHolder>() {
 
-    override//뷰홀더를 만드는 부분이고 리턴을 해주면 바인더 부분으로 들어
-    fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryHolder {
-//        val view = LayoutInflater.from(parent.context)
-//                .inflate(R.layout.item_card, parent, false)
-        return RepositoryHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardHolder {
+        return BoardHolder(parent)
     }
 
-    fun setDataList(mDataList: List<BoardInfo>, userInfoMap: Map<String, UserInfo?>){
-        this.mDataList = mDataList
-        this.userInfoMap = userInfoMap
-        this.notifyDataSetChanged()
-    }
-
-    //데이터를 바운드해주는 부분 데이터를 세팅해 줄 수 있다.
-    override fun onBindViewHolder(holder: RepositoryHolder, position: Int) {
+    override fun onBindViewHolder(holder: BoardHolder, position: Int) {
         val item = mDataList[position]
         val userInfo = userInfoMap[item.writerUid]
 
@@ -48,8 +35,6 @@ class BoardRecyclerAdapter
             contents_text.text = item.contents //아이템을 홀더에 넣기 지금건 컨텐츠
             date.text = item.writeDate?.let { Common.getDateFormat(it) }
 
-
-//            val pictures = arrayListOf<ImageView>(picture_1, picture_2, picture_3)
             item.pictureUrls?.forEachIndexed { index, url ->
                 Glide.with(context).load(url).into(pictures[index])
             }
@@ -123,10 +108,7 @@ class BoardRecyclerAdapter
         return mDataList.size
     }
 
-    abstract class AndroidExtensionsViewHolder(override val containerView: View)
-        : RecyclerView.ViewHolder(containerView), LayoutContainer
-
-    class RepositoryHolder(parent: ViewGroup) : AndroidExtensionsViewHolder(
+    class BoardHolder(parent: ViewGroup) : AndroidExtensionsViewHolder(
             LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_card, parent, false)) {
 
