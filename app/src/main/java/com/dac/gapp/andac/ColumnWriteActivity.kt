@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.google.firebase.firestore.SetOptions
-import kotlinx.android.synthetic.hospital.activity_column_write.*
+import kotlinx.android.synthetic.main.activity_column_write.*
 
 class ColumnWriteActivity : BaseActivity() {
 
@@ -18,13 +18,24 @@ class ColumnWriteActivity : BaseActivity() {
         setContentView(R.layout.activity_column_write)
         back.setOnClickListener { finish() }
 
+        // 수정 시 컬럼 데이터 받아서 초기화
+        intent.getStringExtra(OBJECT_KEY)?.let{ key ->
+            showProgressDialog()
+            getColumn(key)?.get()?.continueWith { it.result.toObject(ColumnInfo::class.java) }?.addOnSuccessListener { it?.apply {
+                titleText.setText(title)
+                contentsText.setText(contents)
+                Glide.with(this@ColumnWriteActivity).load(pictureUrl).into(pictureImage)
+
+            }}?.addOnCompleteListener { hideProgressDialog() }
+        }
+
         // Picture
-        pictureBtn.setOnClickListener {
+        pictureImage.setOnClickListener {
             startAlbumImageUri()
                     // save
                     .addOnSuccessListener { pictureUri = it }
                     // load image view
-                    .addOnSuccessListener { Glide.with(this@ColumnWriteActivity).load(it).into(pictureBtn) }
+                    .addOnSuccessListener { Glide.with(this@ColumnWriteActivity).load(it).into(pictureImage) }
         }
 
         // Upload
@@ -34,8 +45,8 @@ class ColumnWriteActivity : BaseActivity() {
 
             columnInfo.apply {
                 writerUid = getUid().toString()
-                title = titleEdit.text.toString()
-                contents = contentsEdit.text.toString()
+                title = titleText.text.toString()
+                contents = contentsText.text.toString()
             }
 
             val columnInfoRef = intent.getStringExtra(OBJECT_KEY)?.let{
@@ -44,9 +55,10 @@ class ColumnWriteActivity : BaseActivity() {
                 getColumns().document()
             }
 
+            columnInfo.objectId = columnInfoRef.id
+
             // picture 있을 경우 업로드 후 uri 받아오기, 데이터 업로드
             showProgressDialog()
-
             pictureUri.let{
                 it?.let { uri ->
                     getColumnStorageRef().child(columnInfoRef.id).child("picture0.jpg").putFile(uri)
@@ -59,19 +71,20 @@ class ColumnWriteActivity : BaseActivity() {
                     columnInfoRef.set(columnInfo, SetOptions.merge())
                 }
             }
-                    .addOnSuccessListener{ toast("칼럼 업로드 완료"); finish() }
                     .addOnCompleteListener{hideProgressDialog()}
+                    .addOnSuccessListener{ toast("칼럼 업로드 완료"); finish() }
+
         }
 
     }
 
     private fun validate() : Boolean {
-        if(titleEdit.text.isBlank()) {
+        if(titleText.text.isBlank()) {
             toast("제목을 입력하세요")
             return false
         }
 
-        if(contentsEdit.text.isBlank()) {
+        if(contentsText.text.isBlank()) {
             toast("내용을 입력하세요")
             return false
         }

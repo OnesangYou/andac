@@ -71,12 +71,12 @@ class BoardRecyclerAdapter
                 if(item.writerUid == ba.getUid()) {
                     modifyBtn.visibility = View.VISIBLE
                     modifyBtn.setOnClickListener {
-                        ba.startActivity(Intent(ba, BoardWriteActivity::class.java).putExtra(ba.OBJECT_KEY, item.boardId))
+                        ba.startActivity(Intent(ba, BoardWriteActivity::class.java).putExtra(ba.OBJECT_KEY, item.objectId))
                     }
                     deleteBtn.visibility = View.VISIBLE
                     deleteBtn.setOnClickListener {
                         // 삭제 다이얼로그
-                        ba.showDeleteBoardDialog(item.boardId)
+                        ba.showDeleteBoardDialog(item.objectId)
                     }
 
                 } else {
@@ -94,15 +94,12 @@ class BoardRecyclerAdapter
             positiveButton("YES"){
                 // 삭제 진행
                 showProgressDialog()
-                getBoard(boardId)
-                        .delete()
-                        .addOnCompleteListener { hideProgressDialog() }
+                getBoard(boardId)?.delete()?.addOnCompleteListener { hideProgressDialog() }
             }
 
-            negativeButton("NO"){}
+            negativeButton("NO"){hideProgressDialog()}
         }.show()
     }
-
 
     override fun getItemCount(): Int {
         return mDataList.size

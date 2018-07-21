@@ -32,9 +32,9 @@ class MyBoardsFragment : BaseFragment() {
     fun setBoardRecyclerAdapter() {
         (context as MyPageActivity).apply {
             showProgressDialog()
-            getMyBoards()?.get()?.addOnSuccessListener {querySnapshot ->
+            getUserBoards()?.get()?.addOnSuccessListener { querySnapshot ->
                 querySnapshot
-                        ?.let { it.map { getBoard(it.id).get()} }
+                        ?.let { it.map { getBoard(it.id)?.get() } }
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                         .addOnSuccessListener {
                             val boardInfos = it.filter { it != null }.map { it.toObject(BoardInfo::class.java)!! }

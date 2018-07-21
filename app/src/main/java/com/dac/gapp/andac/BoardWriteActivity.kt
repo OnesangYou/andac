@@ -28,26 +28,22 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         // 수정 시 게시글 데이터 받아서 초기화
         val boardSetTask = intent.getStringExtra(OBJECT_KEY)?.let { key ->
 
-                getBoard(key).get().continueWith { it.result.toObject(BoardInfo::class.java) }
-                        .addOnSuccessListener {
-                    it?.apply {
-                        edit_text_title.setText(title)
-                        edit_text_contents.setText(contents)
-                        pictureUrls?.forEachIndexed { index, url ->
-                            Glide.with(this@BoardWriteActivity).load(url).into(imageViews[index])
-                        }
-
-                        radioGroupType.check(when(type) {
-                            getString(R.string.review_board) -> R.id.review_board
-                            getString(R.string.question_board) -> R.id.question_board
-                            getString(R.string.hot_board) -> R.id.hot_board
-                            else -> R.id.free_board
-                        })
+            getBoard(key)?.get()?.continueWith { it.result.toObject(BoardInfo::class.java) }?.addOnSuccessListener {
+                it?.apply {
+                    edit_text_title.setText(title)
+                    edit_text_contents.setText(contents)
+                    pictureUrls?.forEachIndexed { index, url ->
+                        Glide.with(this@BoardWriteActivity).load(url).into(imageViews[index])
                     }
+
+                    radioGroupType.check(when(type) {
+                        getString(R.string.review_board) -> R.id.review_board
+                        getString(R.string.question_board) -> R.id.question_board
+                        getString(R.string.hot_board) -> R.id.hot_board
+                        else -> R.id.free_board
+                    })
                 }
-                        // 병원명 가져오기
-                        .continueWithTask { info -> info.result?.let{ getHospital(it.hospitalUid).get() }}
-                        .addOnSuccessListener { hospital_search.setText(it.toObject(HospitalInfo::class.java)?.name) }
+            }?.continueWithTask { info -> info.result?.let{ getHospital(it.hospitalUid).get() }}?.addOnSuccessListener { hospital_search.setText(it.toObject(HospitalInfo::class.java)?.name) }
         }
 
         // Set User
@@ -119,7 +115,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                 getBoards().document()
             }
 
-            boardInfo.boardId = boardInfoRef.id
+            boardInfo.objectId = boardInfoRef.id
 
             // picture 있을 경우 업로드 후 uri 받아오기, 데이터 업로드
             showProgressDialog()

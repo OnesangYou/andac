@@ -1,11 +1,14 @@
 package com.dac.gapp.andac.adapter
 
+import android.content.Intent
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.dac.gapp.andac.ColumnDetailActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.ColumnInfo
@@ -31,17 +34,23 @@ class ColumnRecyclerViewAdapter
             hospitalName.text = hospital?.name
             viewCount.text = item.viewCount.toString()
             Glide.with(context).load(item.pictureUrl).into(picture)
+            context.apply{
+                layout.setOnClickListener { startActivity(Intent(this@apply, ColumnDetailActivity::class.java).putExtra(OBJECT_KEY,item.objectId))}
+            }
+
         }
+
     }
+
 
     class ColumnHolder(parent: ViewGroup) : AndroidExtensionsViewHolder(
             LayoutInflater.from(parent.context)
                     .inflate(R.layout.column_item, parent, false)) {
-
         val titleText: TextView = itemView.titleText
-        val picture: ImageView = itemView.picture
+        val picture: ImageView = itemView.pictureImage
         val hospitalName: TextView = itemView.hospitalName
         val viewCount: TextView = itemView.viewCount
+        val layout: ConstraintLayout = itemView.layout
     }
 
 }

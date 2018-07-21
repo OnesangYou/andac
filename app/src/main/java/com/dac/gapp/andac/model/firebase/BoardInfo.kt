@@ -17,6 +17,6 @@ data class BoardInfo(
         var pictureUrls: ArrayList<String>? = ArrayList(),
         @ServerTimestamp var writeDate: Date? = null,
         var modifyDate: Date? = null,
-        var boardId : String = "",
+        var objectId : String = "",
         var viewCount : Int = 0
 )

@@ -5,7 +5,7 @@
 
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
@@ -17,10 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDkkpBXY7N4YbP0JSuOZJdma17MQ9k4g5E" />
+
         <activity android:name=".MainActivity" />
         <activity android:name=".RequestSurgeryActivity" />
         <activity android:name=".ColumnActivity" />
@@ -29,6 +29,8 @@
         <activity android:name=".HospitalActivity" />
         <activity android:name=".BoardWriteActivity" />
         <activity android:name=".HospitalTextSearchActivity" />
+        <activity android:name=".ColumnDetailActivity" />
+        <activity android:name=".ColumnWriteActivity" />
     </application>
 
 </manifest>

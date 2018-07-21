@@ -41,7 +41,6 @@
             android:label="@string/title_activity_login" />
         <activity android:name=".JoinActivity" />
         <activity android:name=".SearchAddressActivity" />
-        <activity android:name=".ColumnWriteActivity"></activity>
     </application>
 
 </manifest>

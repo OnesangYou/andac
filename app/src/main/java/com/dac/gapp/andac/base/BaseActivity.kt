@@ -153,17 +153,17 @@ abstract class BaseActivity : AppCompatActivity() {
     // Boards
     fun getBoardStorageRef() : StorageReference = FirebaseStorage.getInstance().reference.child("boards")
     fun getBoards(): CollectionReference = getDb().collection("boards")
-    fun getBoard(key : String): DocumentReference = getBoards().document(key)
+    fun getBoard(key : String): DocumentReference? = if(key.isEmpty()) null else getBoards().document(key)
 
     // Column
     fun getColumnStorageRef() : StorageReference = FirebaseStorage.getInstance().reference.child("columns")
     fun getColumns(): CollectionReference = getDb().collection("columns")
-    fun getColumn(key : String): DocumentReference = getBoards().document(key)
+    fun getColumn(key : String): DocumentReference? = if(key.isEmpty()) null else getColumns().document(key)
 
 
     // My Contents
-    private fun getMyContents(uid: String? = getUid()) = uid?.let { getDb().collection("myContents").document(it) }
-    fun getMyBoards() = getMyContents()?.collection("boards")
+    private fun getUserContents(uid: String? = getUid()) = uid?.let { getDb().collection("userContents").document(it) }
+    fun getUserBoards() = getUserContents()?.collection("boards")
 
     private fun restartApp() {
         val mStartActivity = Intent(this, SplashActivity::class.java)
