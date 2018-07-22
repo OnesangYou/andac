@@ -8,16 +8,16 @@ import android.view.View
 import android.widget.Toast
 import com.dac.gapp.andac.adapter.SurgeryTypeSelectPagerAdapter
 import com.dac.gapp.andac.base.BaseActivity
-import com.dac.gapp.andac.model.SurgeryInfo
+import com.dac.gapp.andac.model.ConsultInfo
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_request_surgery.*
+import kotlinx.android.synthetic.main.activity_request_consult.*
 
 class RequestSurgeryActivity : BaseActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_request_surgery)
+        setContentView(R.layout.activity_request_consult)
 
 
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
@@ -44,8 +44,8 @@ class RequestSurgeryActivity : BaseActivity() {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
         sumitButton.setOnClickListener {
-            var type : String
-            when(mTabLayout.selectedTabPosition){
+            var type: String
+            when (mTabLayout.selectedTabPosition) {
                 0 -> type = "open"
                 1 -> type = "select"
                 else -> {
@@ -58,16 +58,16 @@ class RequestSurgeryActivity : BaseActivity() {
             val name = nameEdit.text.toString()
             val phone = phoneEdit.text.toString()
             val range = "병원주소나, 병원이름"
-            val surgery = SurgeryInfo(tag, visualacuity, disease, name, phone,range)
+            val surgery = ConsultInfo(tag, visualacuity, disease, name, phone, range)
 
             getUid()?.let { mUri ->
                 db.collection("surgery_".plus(type)).document(mUri).set(surgery).addOnSuccessListener {
-                    Toast.makeText(this,"신청 성공",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
                     finish()
                 }.addOnCanceledListener {
-                    Toast.makeText(this,"신청 실패 다시시도",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "신청 실패 다시시도", Toast.LENGTH_SHORT).show()
                 }
-            }?:goToLogin()
+            } ?: goToLogin()
         }
     }
 }
