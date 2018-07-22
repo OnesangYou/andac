@@ -56,7 +56,7 @@ class MainFragment : Fragment() {
         (context as MainActivity).apply{
             showProgressDialog()
 
-            getColumns().orderBy("writeDate", Query.Direction.DESCENDING).get().addOnSuccessListener { querySnapshot ->
+            getColumns().orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
                 val columnInfos = mutableListOf<ColumnInfo>()
                 val hospitalInfoMap = mutableMapOf<String, HospitalInfo?>()
 
@@ -68,7 +68,7 @@ class MainFragment : Fragment() {
                         ?.let { it.map { getColumn(it.id)?.get() } }
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                         .addOnSuccessListener {
-                            it.filter { it != null }.take(4).forEach { columnInfos.add(it.toObject(ColumnInfo::class.java)!!) }
+                            it.filter { it != null }.forEach { columnInfos.add(it.toObject(ColumnInfo::class.java)!!) }
                         }
 
                 Tasks.whenAll(hospitalInfoMapTask, columnInfosTask)

@@ -20,31 +20,6 @@ class MyColumnListActivity : BaseActivity() {
         back.setOnClickListener { finish() }
     }
 
-//    private var registration: ListenerRegistration? = null
-
-//    private fun setAdapter() {
-//        showProgressDialog()
-//        registration = getColumns()
-//                .orderBy("writeDate", Query.Direction.DESCENDING)   // order
-//                .addSnapshotListener{ querySnapshot: QuerySnapshot?, _: FirebaseFirestoreException? ->
-//                    querySnapshot?.let {
-//                        it.toObjects(ColumnInfo::class.java).let { columnInfos ->
-//                            columnInfos.groupBy { it.writerUid }
-//                                    .map { getHospital(it.key).get() }
-//                                    .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-//                                    .addOnSuccessListener { it
-//                                            .filter { it != null }
-//                                            .map { it.id to it.toObject(HospitalInfo::class.java) }
-//                                            .toMap().also { hospitalInfoMap ->
-//                                                columnList.adapter = ColumnRecyclerViewAdapter(this, columnInfos, hospitalInfoMap)
-//                                                columnList.adapter.notifyDataSetChanged()
-//                                            }
-//                                    }
-//                        }.addOnCompleteListener{hideProgressDialog()}
-//                    }?:let{ hideProgressDialog() }
-//                }
-//    }
-
     private fun setColumnRecyclerAdapter() {
         showProgressDialog()
         getHospitalColumns()?.orderBy("createdDate", Query.Direction.DESCENDING)?.get()?.addOnSuccessListener { querySnapshot ->
@@ -69,10 +44,5 @@ class MyColumnListActivity : BaseActivity() {
                     }
                     .addOnCompleteListener{hideProgressDialog()}
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-//        registration?.remove()
     }
 }
