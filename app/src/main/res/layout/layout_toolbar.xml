@@ -2,10 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.dac.gapp.andac.MainActivity">
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -18,7 +16,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <ImageView
-            android:id="@+id/my_page"
+            android:id="@+id/imgviewLeft"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="left"
@@ -27,14 +25,26 @@
             tools:ignore="ContentDescription,RtlHardcoded" />
 
         <ImageView
-            android:id="@+id/logo"
+            android:id="@+id/imgviewTitle"
             android:layout_width="70dp"
             android:layout_height="23dp"
             android:layout_gravity="center"
-            android:background="@drawable/andac_font" />
+            android:background="@drawable/andac_font"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/txtviewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/andac"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="gone" />
 
         <ImageView
-            android:id="@+id/notification"
+            android:id="@+id/imgviewRight"
             android:layout_width="23dp"
             android:layout_height="25dp"
             android:layout_gravity="right"
@@ -45,33 +55,12 @@
 
     </android.support.v7.widget.Toolbar>
 
-
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/layoutFragmentContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@id/navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
-    </FrameLayout>
-
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:background="?android:attr/windowBackground"
-        app:itemBackground="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:itemIconTint="@color/nav_item_state_list"
-        app:itemTextColor="@color/nav_item_state_list"
-        app:menu="@menu/navigation" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 </android.support.constraint.ConstraintLayout>

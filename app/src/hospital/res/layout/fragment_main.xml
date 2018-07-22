@@ -1,75 +1,86 @@
-<ScrollView
-    android:id="@+id/main_scrollview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    >
+    android:id="@+id/main_scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/constraintLayout3"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="@color/black"
+            android:background="@color/colorMain"
             app:layout_constraintTop_toTopOf="parent">
 
-
-            <Button
-                android:id="@+id/main_consult_view"
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="252dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/buttonstyle3"
-                android:text="상담신청 게시판 보기"
-                android:maxLines="1"
-                android:textColor="@color/colorMain"
-                android:textSize="12dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+            <ImageView
+                android:id="@+id/imgview"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/model1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <Button
+                android:id="@+id/btnConsultingBoard"
+                android:layout_width="130dp"
+                android:layout_height="37dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/buttonstyle3"
+                android:text="@string/string_consulting_board"
+                android:textColor="@color/colorMain"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/main_event"
-                android:layout_width="100dp"
-                android:layout_height="36dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="268dp"
-                android:layout_marginTop="8dp"
+                android:id="@+id/btnHospitalEventManagement"
+                android:layout_width="130dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/buttonstyle3"
-                android:text="내 이벤트 관"
+                android:text="@string/hospital_event_management"
                 android:textColor="@color/colorMain"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/main_my_consulting"
-                tools:ignore="UnknownId" />
+                app:layout_constraintLeft_toLeftOf="@id/btnConsultingBoard"
+                app:layout_constraintTop_toBottomOf="@id/btnConsultingBoard" />
 
+            <Button
+                android:id="@+id/btnHospitalAdManagement"
+                android:layout_width="130dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/buttonstyle3"
+                android:text="@string/hospital_ad_management"
+                android:textColor="@color/colorMain"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/btnHospitalEventManagement"
+                app:layout_constraintTop_toBottomOf="@id/btnHospitalEventManagement" />
 
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="480dp"
-                android:layout_height="250dp"
-                android:src="@drawable/taek_splash"
+            <Button
+                android:id="@+id/btnHospitalAdApplication"
+                android:layout_width="0dp"
+                android:layout_height="37dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/buttonstyle3"
+                android:text="@string/hospital_ad_application"
+                android:textColor="@color/colorMain"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
 
         </android.support.constraint.ConstraintLayout>
 
@@ -196,8 +207,7 @@
                 android:layout_height="300dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/main_AD"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/main_AD">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -235,8 +245,7 @@
                 android:layout_height="300dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/main_best_board"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/main_best_board">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -322,7 +331,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/event" />
-
 
 
     </android.support.constraint.ConstraintLayout>

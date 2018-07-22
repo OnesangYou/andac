@@ -70,7 +70,7 @@ class MainActivity : BaseActivity() {
 
         // Add the fragment to the 'fragment_container' FrameLayout
         supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, firstFragment).commit()
+                .add(R.id.layoutFragmentContainer, firstFragment).commit()
 
         // Go to My Page
         my_page.setOnClickListener {
@@ -83,22 +83,6 @@ class MainActivity : BaseActivity() {
             }
 
         }
-    }
-
-    private fun changeFragment(newFragment: Fragment) {
-        // Create fragment and give it an argument specifying the article it should show
-        val args = Bundle()
-        newFragment.arguments = args
-
-        val transaction = supportFragmentManager.beginTransaction()
-
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, newFragment)
-        transaction.addToBackStack(null)
-
-        // Commit the transaction
-        transaction.commit()
     }
 
     internal object BottomNavigationViewHelper {

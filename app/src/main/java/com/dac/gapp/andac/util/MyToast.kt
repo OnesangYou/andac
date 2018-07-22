@@ -6,7 +6,7 @@ import timber.log.Timber
 
 class MyToast {
     companion object {
-        fun show(context: Context?, msg: String) {
+        fun showShort(context: Context?, msg: String) {
             if (context == null) {
                 Timber.e("context is null!!")
                 return

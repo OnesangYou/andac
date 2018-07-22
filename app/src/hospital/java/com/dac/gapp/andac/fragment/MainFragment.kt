@@ -6,10 +6,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dac.gapp.andac.ColumnActivity
-import com.dac.gapp.andac.ColumnWriteActivity
-import com.dac.gapp.andac.R
-import com.dac.gapp.andac.RequestSurgeryActivity
+import com.dac.gapp.andac.*
+import com.dac.gapp.andac.util.MyToast
 import kotlinx.android.synthetic.hospital.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -21,7 +19,11 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        main_consult_view.setOnClickListener { startActivity(Intent(context, RequestSurgeryActivity::class.java)) }
+        btnConsultingBoard.setOnClickListener { startActivity(Intent(context, RequestSurgeryActivity::class.java)) }
+        btnHospitalEventManagement.setOnClickListener { MyToast.showShort(requireContext(), "TODO: 병원 이벤트 관리") }
+        btnHospitalAdManagement.setOnClickListener { MyToast.showShort(requireContext(), "TODO: 병원 광고 관리") }
+        btnHospitalAdApplication.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntent(requireContext())) }
+
         viewColumnsBtn.setOnClickListener { startActivity(Intent(context, ColumnActivity::class.java)) }
         writeColumnBtn.setOnClickListener { startActivity(Intent(context, ColumnWriteActivity::class.java)) }
     }

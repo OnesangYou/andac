@@ -47,7 +47,7 @@ open class MyPageActivity : BaseMyPageActivity() {
     }
 
     private fun changeFragment(newFragment: Fragment) {
-        // Create fragment and give it an argument specifying the article it should show
+        // Create fragment and give it an argument specifying the article it should showShort
         val args = Bundle()
         newFragment.arguments = args
 

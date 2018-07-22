@@ -207,7 +207,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     }
 
     private fun searchHospital(aroundRadius: Int) {
-        MyToast.show(requireContext(), "($currentLatitude, $currentLongitude), ${aroundRadius / 1000}km")
+        MyToast.showShort(requireContext(), "($currentLatitude, $currentLongitude), ${aroundRadius / 1000}km")
         val query = Query()
                 .setAroundLatLng(AbstractQuery.LatLng(currentLatitude, currentLongitude))
                 .setAroundRadius(aroundRadius)
@@ -233,9 +233,9 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 Timber.d("currentLatitude, currentLatitude $currentLatitude, $currentLongitude")
                 Timber.d("lat, lng: $latLng")
                 Timber.d("algoliaException: $algoliaException")
-                MyToast.show(requireContext(), "근처 병원 ${hits.length()}개를 찾았습니다!!")
+                MyToast.showShort(requireContext(), "근처 병원 ${hits.length()}개를 찾았습니다!!")
             } else {
-                MyToast.show(requireContext(), "근처 병원이 없습니다!!")
+                MyToast.showShort(requireContext(), "근처 병원이 없습니다!!")
             }
             moveCamera(LatLng(currentLatitude, currentLongitude))
             context!!.hideProgressDialog()
@@ -275,7 +275,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
 //                                Timber.d("${hospitalInfo.name} ${hospitalInfo._geoloc}")
                             }
                             context!!.runOnUiThread({
-                                MyToast.show(requireContext(), "근처 병원 ${it.result.size()}개를 찾았습니다!!")
+                                MyToast.showShort(requireContext(), "근처 병원 ${it.result.size()}개를 찾았습니다!!")
                             })
                         } else {
                             Timber.w("Error getting documents. ${it.exception}")

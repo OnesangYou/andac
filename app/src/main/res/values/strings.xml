@@ -49,5 +49,33 @@
     <string name="consult_seleted_board">내 병원 게시판</string>
     <string name="consulting_board">상담중</string>
     <string name="consulted_board">상담완료</string>
-
+    <string name="string_consulting_board">상담신청 게시판</string>
+    <string name="hospital_event_management">병원 이벤트 관리</string>
+    <string name="hospital_ad_management">병원 광고 관리</string>
+    <string name="hospital_ad_application">안닥 병원 광고 신청</string>
+    <string name="apply_for_hospital_ad">병원 광고 신청하기</string>
+    <string name="paying_for_a_hospital_ad">병원 광고 결제하기</string>
+    <string name="apply_for_creative_production">광고 제작 신청하기</string>
+    <string name="apply_for_creative_production_description">배너광고 및 오늘의 병원 광고 포스터 이외 모든 광고물을 안닥에 직접 디자인을 요청합니다. 신청 내역 확인 후 병원관리자 전화로 상담 전화를 드립니다.</string>
+    <string name="main_popup_ad">1. 메인 팝업 광고</string>
+    <string name="main_popup_ad_description">로딩이 끝나자마자 팝업으로 생성되는 광고화면입니다.\n\n광고 해상도 : 300*500 dp\n유효기간 : 30일\n광고금액 : 1,000,000원</string>\
+    <string name="main_popup_ad_description2">메인화면 세로로 길게 제공되는 배너에 업로드 되는 광고입니다.\n배너의 6개의 자구중 1개에 삽입됩니다.</string>
+    <string name="apply_for_popup_ad">[팝업 광고] 신청하기</string>
+    <string name="main_banner_ad">2. 메인 배너 광고</string>
+    <string name="main_banner_ad_description">메인 배너부분에 세로로 길게 삽입되는 광고화면 입니다..\n\n광고 해상도 : 300*500 dp\n유효기간 : 30일\n광고금액 : 1,000,000원</string>
+    <string name="apply_for_banner_ad">[배너 광고] 신청하기</string>
+    <string name="todays_hospital_ad">3. 오늘의 병원 광고</string>
+    <string name="todays_hospital_ad_description">메인화면내 오늘의 병원 소개 광고판 내에 삽입되는 광고화면 입니다.</string>
+    <string name="apply_for_todays_hospital_ad">[오늘의 병원 광고] 신청하기</string>
+    <string name="click_to_upload_photos">클릭하여 사진을 업로드 합니다.</string>
+    <string name="upload_ad_form"><![CDATA[<업로드 광고 양식>]]></string>
+    <string name="upload_ad_form_description">광고형식 : [팝업 광고]\n광고 해상도 : 300*500 dp\n광고 형식 : png, jpg\n광고 기간 : 30일(광고 승인 후 count 됩니다.)</string>
+    <string name="cautions_when_uploading_ads">광고 업로드시 주의사항</string>
+    <string name="cautions_when_uploading_ads_description">1. 해상도를 맞추어 제작해주세요. 해상도가 다르면 광고 이미지가 상하좌우 양끝부분이 잘 보이지 않습니다.\n\n2. 광고 신청 후 유효기간 이내에는 배너사진 수정이 가능합니다.\n\n3. 배너 제작을 원하시면 광고배너 제작료가 따로 추가됩니다.\n\n4.지나치게 자극적인 광고, 지나친 비방광고는 삭제될 수 있습니다.</string>
+    <string name="ad_duration">광고기간</string>
+    <string name="amount_of_payment">결제금액</string>
+    <string name="days">일</string>
+    <string name="won">원</string>
+    <string name="make_a_payment">결제하기</string>
 </resources>
+
