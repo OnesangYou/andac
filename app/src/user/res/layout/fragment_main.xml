@@ -140,254 +140,22 @@
                 android:id="@+id/more_calum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:layout_marginEnd="16dp"
                 android:text="칼럼 더보기"
                 android:textColor="@color/gray"
                 android:textSize="10sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/best_calum_layout"
+                app:layout_constraintBottom_toBottomOf="@+id/best_calum_text"
                 app:layout_constraintEnd_toEndOf="parent" />
-
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/best_calum_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/best_calum_text">
-
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/calum_1_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/calum_1"
-                        android:layout_width="180dp"
-                        android:layout_height="142dp"
-                        android:background="@color/gray"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:id="@+id/calum_1_text"
-                        android:layout_width="180dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/calum_1">
-
-                        <TextView
-                            android:id="@+id/calum_1_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="calum_1_title"
-                            android:textSize="13sp" />
-
-                        <LinearLayout
-                            android:layout_width="180dp"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/calum_1_hospital"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left"
-                                android:text="calum_1_hospital"
-                                android:textColor="@color/colorMain"
-                                android:textSize="10sp" />
-
-                            <TextView
-                                android:id="@+id/calum_1_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="right"
-                                android:layout_marginStart="8dp"
-                                android:text="calum_1_조회수"
-                                android:textSize="10sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </android.support.constraint.ConstraintLayout>
-
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/calum_2_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    app:layout_constraintStart_toEndOf="@+id/calum_1_layout">
-
-                    <ImageView
-                        android:id="@+id/calum_2"
-                        android:layout_width="180dp"
-                        android:layout_height="140dp"
-                        android:background="@color/gray"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:id="@+id/calum_2_text"
-                        android:layout_width="180dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/calum_2">
-
-                        <TextView
-                            android:id="@+id/calum_2_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="calum_2_title"
-                            android:textSize="13sp" />
-
-                        <LinearLayout
-                            android:layout_width="180dp"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/calum_2_hospital"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left"
-                                android:text="calum_2_hospital"
-                                android:textColor="@color/colorMain"
-                                android:textSize="10sp" />
-
-                            <TextView
-                                android:id="@+id/calum_2_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="right"
-                                android:layout_marginStart="8dp"
-                                android:text="calum_2_조회수"
-                                android:textSize="10sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </android.support.constraint.ConstraintLayout>
-
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/calum_3_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/calum_1_layout">
-
-                    <ImageView
-                        android:id="@+id/calum_3"
-                        android:layout_width="180dp"
-                        android:layout_height="140dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/gray"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:id="@+id/calum_3_text"
-                        android:layout_width="180dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/calum_3">
-
-                        <TextView
-                            android:id="@+id/calum_3_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="calum_3_title"
-                            android:textSize="13sp" />
-
-                        <LinearLayout
-                            android:layout_width="180dp"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/calum_3_hospital"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left"
-                                android:text="calum_3_hospital"
-                                android:textColor="@color/colorMain"
-                                android:textSize="10sp" />
-
-                            <TextView
-                                android:id="@+id/calum_3_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="right"
-                                android:layout_marginStart="8dp"
-                                android:text="calum_3_조회수"
-                                android:textSize="10sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </android.support.constraint.ConstraintLayout>
-
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/calum_4_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    app:layout_constraintStart_toEndOf="@+id/calum_1_layout"
-                    app:layout_constraintTop_toBottomOf="@+id/calum_2_layout">
-
-                    <ImageView
-                        android:id="@+id/calum_4"
-                        android:layout_width="180dp"
-                        android:layout_height="140dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/gray"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <LinearLayout
-                        android:id="@+id/calum_4_text"
-                        android:layout_width="180dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/calum_4">
-
-                        <TextView
-                            android:id="@+id/calum_4_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="calum_4_title"
-                            android:textSize="13sp" />
-
-                        <LinearLayout
-                            android:layout_width="180dp"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/calum_4_hospital"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left"
-                                android:text="calum_4_hospital"
-                                android:textColor="@color/colorMain"
-                                android:textSize="10sp" />
-
-                            <TextView
-                                android:id="@+id/calum_4_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="right"
-                                android:layout_marginStart="8dp"
-                                android:text="calum_4_조회수"
-                                android:textSize="10sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </android.support.constraint.ConstraintLayout>
-
-            </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/todays_hospital_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/best_calum_layout">
+                app:layout_constraintTop_toBottomOf="@+id/columnList">
 
                 <TextView
                     android:id="@+id/textView2"
@@ -399,8 +167,7 @@
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/todays_hospital_pic"
@@ -742,7 +509,16 @@
 
             </android.support.constraint.ConstraintLayout>
 
-
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/columnList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/best_calum_text" />
 
 
         </android.support.constraint.ConstraintLayout>
