@@ -44,4 +44,10 @@
     <string name="hospital">병원</string>
     <string name="event">이벤트</string>
 
+
+    <string name="consult_open_board">오픈형 게시판</string>
+    <string name="consult_seleted_board">내 병원 게시판</string>
+    <string name="consulting_board">상담중</string>
+    <string name="consulted_board">상담완료</string>
+
 </resources>

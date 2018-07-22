@@ -21,7 +21,7 @@ class MainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        main_borad_view.setOnClickListener { startActivity(Intent(context, RequestSurgeryActivity::class.java)) }
+        main_consult_view.setOnClickListener { startActivity(Intent(context, RequestSurgeryActivity::class.java)) }
         viewColumnsBtn.setOnClickListener { startActivity(Intent(context, ColumnActivity::class.java)) }
         writeColumnBtn.setOnClickListener { startActivity(Intent(context, ColumnWriteActivity::class.java)) }
     }

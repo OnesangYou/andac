@@ -8,6 +8,7 @@ import com.dac.gapp.andac.base.BaseHospitalActivity
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.hospital.activity_my_page.*
 
+
 class MyPageActivity : BaseHospitalActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
