@@ -12,6 +12,7 @@ import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.user.fragment_my_boards.*
 
 
@@ -29,10 +30,10 @@ class MyBoardsFragment : BaseFragment() {
         setBoardRecyclerAdapter()
     }
 
-    fun setBoardRecyclerAdapter() {
+    private fun setBoardRecyclerAdapter() {
         (context as MyPageActivity).apply {
             showProgressDialog()
-            getUserBoards()?.get()?.addOnSuccessListener { querySnapshot ->
+            getUserBoards()?.orderBy("createdDate", Query.Direction.DESCENDING)?.get()?.addOnSuccessListener { querySnapshot ->
                 querySnapshot
                         ?.let { it.map { getBoard(it.id)?.get() } }
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }

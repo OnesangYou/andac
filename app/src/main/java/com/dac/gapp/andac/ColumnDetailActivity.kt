@@ -6,6 +6,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.ColumnInfo
+import com.dac.gapp.andac.util.Common
 import kotlinx.android.synthetic.main.activity_column_detail.*
 import org.jetbrains.anko.alert
 
@@ -23,7 +24,15 @@ class ColumnDetailActivity : BaseActivity() {
                 titleText.text = columnInfo.title
                 contentsText.text = columnInfo.contents
                 Glide.with(this@ColumnDetailActivity).load(columnInfo.pictureUrl).into(pictureImage)
+                writeDateText.text = columnInfo.writeDate?.let { it1 -> Common.getDateFormat(it1) }
+                viewCountText.text = columnInfo.viewCount.toString()
 
+                // 병원명
+                getHospitalInfo(columnInfo.writerUid).addOnSuccessListener {
+                    hospitalNameText.text = it?.name
+                }
+
+                // 글쓴이에게만 수정, 삭제 가능
                 if(columnInfo.writerUid == getUid()){
                     deleteBtn.visibility = View.VISIBLE
                     modifyBtn.visibility = View.VISIBLE
@@ -37,6 +46,7 @@ class ColumnDetailActivity : BaseActivity() {
 
             } }
         }
+
 
     }
 

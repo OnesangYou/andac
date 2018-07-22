@@ -16,6 +16,7 @@ import com.dac.gapp.andac.BuildConfig
 import com.dac.gapp.andac.LoginActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SplashActivity
+import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
@@ -154,16 +155,18 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getBoardStorageRef() : StorageReference = FirebaseStorage.getInstance().reference.child("boards")
     fun getBoards(): CollectionReference = getDb().collection("boards")
     fun getBoard(key : String): DocumentReference? = if(key.isEmpty()) null else getBoards().document(key)
+    private fun getUserContents(uid: String? = getUid()) = uid?.let { getDb().collection("userContents").document(it) }
+    fun getUserBoards() = getUserContents()?.collection("boards")
+
 
     // Column
     fun getColumnStorageRef() : StorageReference = FirebaseStorage.getInstance().reference.child("columns")
     fun getColumns(): CollectionReference = getDb().collection("columns")
     fun getColumn(key : String): DocumentReference? = if(key.isEmpty()) null else getColumns().document(key)
+    private fun getHospitalContents(uid: String? = getUid()) = uid?.let { getDb().collection("hospitalContents").document(it) }
+    fun getHospitalColumns() = getHospitalContents()?.collection("columns")
 
 
-    // My Contents
-    private fun getUserContents(uid: String? = getUid()) = uid?.let { getDb().collection("userContents").document(it) }
-    fun getUserBoards() = getUserContents()?.collection("boards")
 
     private fun restartApp() {
         val mStartActivity = Intent(this, SplashActivity::class.java)
@@ -180,5 +183,7 @@ abstract class BaseActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
         }
     }
+
+    fun getHospitalInfo(uid: String) = getHospital(uid).get().continueWith { it.result.toObject(HospitalInfo::class.java) }
 
 }
