@@ -55,26 +55,23 @@ class MainFragment : Fragment() {
     private fun setAdapter() {
         (context as MainActivity).apply{
             showProgressDialog()
-
             getColumns().orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
-                val columnInfos = mutableListOf<ColumnInfo>()
-                val hospitalInfoMap = mutableMapOf<String, HospitalInfo?>()
-
-                val hospitalInfoMapTask = getHospital()?.get()?.addOnSuccessListener {
-                    hospitalInfoMap[getUid().toString()] = it.toObject(HospitalInfo::class.java)
-                }
-
-                val columnInfosTask = querySnapshot
+                querySnapshot
                         ?.let { it.map { getColumn(it.id)?.get() } }
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-                        .addOnSuccessListener {
-                            it.filter { it != null }.forEach { columnInfos.add(it.toObject(ColumnInfo::class.java)!!) }
-                        }
-
-                Tasks.whenAll(hospitalInfoMapTask, columnInfosTask)
-                        .addOnSuccessListener {
-                            columnList.adapter = ColumnRecyclerViewAdapter(this, columnInfos, hospitalInfoMap)
-                            columnList.adapter.notifyDataSetChanged()
+                        .onSuccessTask {
+                            val columnInfos = it?.filter { it != null }?.map{it.toObject(ColumnInfo::class.java)!!}
+                            columnInfos?.groupBy { it.writerUid }
+                                    ?.map { getHospital(it.key).get() }
+                                    .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
+                                    .addOnSuccessListener { it
+                                            .filter { it != null }
+                                            .map { it.id to it.toObject(HospitalInfo::class.java) }
+                                            .toMap().also { hospitalInfoMap ->
+                                                columnList.adapter = ColumnRecyclerViewAdapter(this, columnInfos!!, hospitalInfoMap)
+                                                columnList.adapter.notifyDataSetChanged()
+                                            }
+                                    }
                         }
                         .addOnCompleteListener{hideProgressDialog()}
             }
