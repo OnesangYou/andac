@@ -41,7 +41,8 @@
             android:label="@string/title_activity_login" />
         <activity android:name=".JoinActivity" />
         <activity android:name=".SearchAddressActivity" />
-        <activity android:name=".HospitalAdApplicationActivity"/>
+        <activity android:name=".HospitalAdApplicationActivity" />
+        <activity android:name=".ChangeProfileActivity"></activity>
     </application>
 
 </manifest>
