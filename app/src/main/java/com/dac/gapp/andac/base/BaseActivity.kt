@@ -64,7 +64,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getUsers(): CollectionReference = getDb().collection("users")
 
-    fun getUser(): DocumentReference? = getUid()?.let { getUsers().document(it) }
+    private fun getUser(): DocumentReference? = getUid()?.let { getUsers().document(it) }
 
     fun getUser(uuid: String): DocumentReference? = getUsers().document(uuid)
 
@@ -165,6 +165,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getBoard(key: String): DocumentReference? = if (key.isEmpty()) null else getBoards().document(key)
     private fun getUserContents(uid: String? = getUid()) = uid?.let { getDb().collection("userContents").document(it) }
     fun getUserBoards() = getUserContents()?.collection("boards")
+    fun getViewedColumn() = getUserContents()?.collection("viewedColumns")
 
 
     // Column

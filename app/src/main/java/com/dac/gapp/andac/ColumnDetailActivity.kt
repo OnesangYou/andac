@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.util.Common
+import com.google.firebase.firestore.FieldValue
 import kotlinx.android.synthetic.main.activity_column_detail.*
 import org.jetbrains.anko.alert
 
@@ -20,6 +21,7 @@ class ColumnDetailActivity : BaseActivity() {
 
         // 병원 상세 정보 가져오기
         intent.getStringExtra(OBJECT_KEY)?.let{ objectId ->
+
             getColumn(objectId)?.get()?.continueWith { it.result.toObject(ColumnInfo::class.java) }?.addOnSuccessListener { it?.also { columnInfo ->
                 titleText.text = columnInfo.title
                 contentsText.text = columnInfo.contents
@@ -45,9 +47,19 @@ class ColumnDetailActivity : BaseActivity() {
                 }
 
             } }
+
+            // 내가 본 컬럼 추가
+            addViewedColumn(objectId)
         }
 
 
+
+    }
+
+    private fun addViewedColumn(columnId : String) {
+        if(!isUser()) return    // 유저만 추가
+
+        getViewedColumn()?.document(columnId)?.set(mapOf("createDate" to FieldValue.serverTimestamp()))
     }
 
     private fun showDeleteColumnDialog(objectId : String){
