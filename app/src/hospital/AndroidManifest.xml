@@ -39,10 +39,12 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".JoinActivity" />
+        <activity android:name=".JoinActivity"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            />
         <activity android:name=".SearchAddressActivity" />
         <activity android:name=".HospitalAdApplicationActivity" />
-        <activity android:name=".ChangeProfileActivity"></activity>
+        <activity android:name=".ChangeProfileActivity"/>
     </application>
 
 </manifest>

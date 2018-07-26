@@ -2,6 +2,7 @@ package com.dac.gapp.andac
 
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.view.View
@@ -9,6 +10,9 @@ import com.dac.gapp.andac.base.BaseJoinActivity
 import com.dac.gapp.andac.custom.SwipeViewPager
 import com.dac.gapp.andac.fragment.*
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import android.view.WindowManager
+
+
 
 class JoinActivity : BaseJoinActivity() {
 
@@ -27,11 +31,15 @@ class JoinActivity : BaseJoinActivity() {
 
         viewPager = findViewById<View>(R.id.viewpager) as SwipeViewPager
         viewPager!!.adapter = Adapter(supportFragmentManager)
+
+        // 키보드가 에디트 텍스트를 가려서 옵션 넣어줌
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+
     }
 
     private inner class Adapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-        override fun getItem(position: Int): JoinBaseFragment? {
+        override fun getItem(position: Int): Fragment? {
             if (position < 0 || MAX_PAGE <= position)
                 return null
             when (position) {
