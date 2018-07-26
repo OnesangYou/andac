@@ -10,11 +10,14 @@ import com.algolia.search.saas.Query
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.SearchHospitalRecyclerViewAdapter
 import com.dac.gapp.andac.base.BaseFragment
-import com.dac.gapp.andac.model.Algolia
+import com.dac.gapp.andac.enums.Algolia
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.fragment_search_hospital_for_list.*
+import timber.log.Timber
 
 class SearchHospitalFragmentForList : BaseFragment() {
+
+    private var hospitals: HashMap<String, HospitalInfo> = HashMap()
 
     var title: String = ""
 
@@ -66,26 +69,26 @@ class SearchHospitalFragmentForList : BaseFragment() {
 //                query.filters = "objectID:\"bNs9gcZFxhEQu1iRVXEs\""
 //        query.filters = "address1:전라북도 전주시 덕진구 덕진동1가 1267번지 27호"
         //강원도 삼척시 남양동 55-46번지 / 580 /
-        index.searchAsync(query) { jsonObject, _ ->
+        index.searchAsync(query, { jsonObject, AlgoliaException ->
             if (jsonObject == null) return@searchAsync
 
-//            Timber.d("jsonObject: ${jsonObject.toString(4)}")
+            Timber.d("jsonObject: ${jsonObject.toString(4)}")
 
             if (jsonObject.has(Algolia.HITS.value) && jsonObject.getJSONArray(Algolia.HITS.value).length() > 0) {
                 val itemList: ArrayList<HospitalInfo> = ArrayList()
-//                Timber.d("jsonObject: ${jsonObject.getJSONArray(Algolia.HITS.value).getJSONObject(0).getString(Algolia.NAME.value)}")
+                Timber.d("jsonObject: ${jsonObject.getJSONArray(Algolia.HITS.value).getJSONObject(0).getString(Algolia.NAME.value)}")
                 val hits = jsonObject.getJSONArray(Algolia.HITS.value)
                 var i = 0
                 while (i < hits.length()) {
                     val jo = hits.getJSONObject(i)
-//                    Timber.d("jsonObject[$i]: ${jo.toString(4)}")
+                    Timber.d("jsonObject[$i]: ${jo.toString(4)}")
                     itemList.add(HospitalInfo.create(jo))
                     i++
                 }
 
                 recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, itemList)
             }
-        }
+        })
 //        context!!.getHospitals()
 //                .get()
 //                .addOnCompleteListener({
