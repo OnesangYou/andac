@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.hospital.fragment_join_certi2.*
 import timber.log.Timber
@@ -98,6 +99,38 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                     }
 
                 }
+            }
+        }
+
+        // 메일 중복 확인
+        busiRegiUploadBtn.setOnClickListener {
+            val emailStr = emailEdit.text.toString()
+
+            context?.apply{
+                if(emailStr.isEmpty()){
+                    toast("이메일을 입력하세요")
+                    return@setOnClickListener
+                }
+
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
+                    toast("이메일 형식이 아닙니다")
+                    return@setOnClickListener
+                }
+
+                showProgressDialog()
+                Tasks.whenAllSuccess<QuerySnapshot>(
+                    getHospitals().whereEqualTo("email", emailStr).get(),
+                    getUsers().whereEqualTo("email", emailStr).get()
+                ).addOnSuccessListener {
+                    if(it.map { querySnapshot -> querySnapshot.isEmpty }.all { it }){
+                        toast("사용가능한 이메일입니다")
+                    } else {
+                        // 중복
+                        toast("중복된 이메일이 존재합니다")
+                        emailEdit.text.clear()
+                    }
+
+                }.addOnCompleteListener{hideProgressDialog()}
             }
         }
     }
