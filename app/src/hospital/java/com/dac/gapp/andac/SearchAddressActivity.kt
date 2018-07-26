@@ -1,15 +1,14 @@
 package com.dac.gapp.andac
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import com.dac.gapp.andac.base.BaseActivity
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.places.Place
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment
 import com.google.android.gms.location.places.ui.PlaceSelectionListener
-import android.content.Intent
-
+import timber.log.Timber
 
 
 class SearchAddressActivity : BaseActivity() {
@@ -18,11 +17,20 @@ class SearchAddressActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_address)
 
+
+
+
         val autocompleteFragment = fragmentManager.findFragmentById(R.id.place_autocomplete_fragment) as PlaceAutocompleteFragment
+
+        autocompleteFragment.setHint("병원명이나 병원 주소를 입력하세요")
+
+        intent.getStringExtra("hospitalName")?.let{hospitalName ->
+            autocompleteFragment.setText(hospitalName)
+        }
 
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
-                Log.i(localClassName, "Place : $place")
+                Timber.i(localClassName, "Place : $place")
 
                 Intent().let{
                     it.apply{
@@ -37,7 +45,7 @@ class SearchAddressActivity : BaseActivity() {
                 finish()
             }
             override fun onError(status: Status) {
-                Log.i(localClassName, "An error occurred: $status")
+                Timber.i(localClassName, "An error occurred: $status")
             }
         })
     }

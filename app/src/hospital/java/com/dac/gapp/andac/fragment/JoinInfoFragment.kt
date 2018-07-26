@@ -75,13 +75,8 @@ class JoinInfoFragment : JoinBaseFragment() {
         }
 
         // 주소 검색
-        View.OnClickListener {
-            Intent(context, SearchAddressActivity::class.java).let {
-                startActivityForResult(it, PICK_ADDRESS_REQUEST)
-            }
-        }.let {
-            addressEdit.setOnClickListener(it)
-            hospitalName.setOnClickListener(it)
+        addressEdit.setOnClickListener{
+            startActivityForResult(Intent(context, SearchAddressActivity::class.java).putExtra("hospitalName", hospitalName.text.toString()), PICK_ADDRESS_REQUEST)
         }
 
     }
@@ -94,14 +89,14 @@ class JoinInfoFragment : JoinBaseFragment() {
             // Get the URI that points to the selected contact
             data?.let {
                 val latLng = data.getParcelableExtra<LatLng>("latLng")
-                val name = data.getStringExtra("name")
+//                val name = data.getStringExtra("name")
                 val address = data.getStringExtra("address")
                 val phoneNumber = data.getStringExtra("phoneNumber")
 
 //                context!!.toast("latLng : $latLng, name : $name")
 
                 getJoinActivity().apply{
-                    hospitalName.setText(name)
+//                    hospitalName.setText(name)
                     addressEdit.setText(address)
                     phoneEdit.setText(phoneNumber)
                     hospitalInfo._geoloc.apply {

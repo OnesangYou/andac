@@ -85,7 +85,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:ems="10"
-                android:focusable="false"
                 android:inputType="textPersonName"
                 android:textSize="@dimen/_10sp"
                 app:layout_constraintEnd_toEndOf="parent"
