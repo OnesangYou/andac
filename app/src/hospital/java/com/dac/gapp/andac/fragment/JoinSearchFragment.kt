@@ -14,7 +14,7 @@ import com.algolia.instantsearch.helpers.Searcher
 import com.algolia.search.saas.Query
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
-import com.dac.gapp.andac.model.Algolia
+import com.dac.gapp.andac.enums.Algolia
 import kotlinx.android.synthetic.hospital.fragment_join_certi2.*
 import kotlinx.android.synthetic.main.activity_hospital_text_search.*
 

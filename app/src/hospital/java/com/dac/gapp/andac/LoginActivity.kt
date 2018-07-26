@@ -59,6 +59,7 @@ class LoginActivity : BaseHospitalActivity() {
                 }
             }
         }
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     override fun onStart() {

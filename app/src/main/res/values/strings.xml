@@ -62,10 +62,10 @@
     <string name="main_popup_ad_description2">메인화면 세로로 길게 제공되는 배너에 업로드 되는 광고입니다.\n배너의 6개의 자구중 1개에 삽입됩니다.</string>
     <string name="apply_for_popup_ad">[팝업 광고] 신청하기</string>
     <string name="main_banner_ad">2. 메인 배너 광고</string>
-    <string name="main_banner_ad_description">메인 배너부분에 세로로 길게 삽입되는 광고화면 입니다..\n\n광고 해상도 : 300*500 dp\n유효기간 : 30일\n광고금액 : 1,000,000원</string>
+    <string name="main_banner_ad_description">메인 배너부분에 세로로 길게 삽입되는 광고화면 입니다.\n\n광고 해상도 : 300*500 dp\n유효기간 : 30일\n광고금액 : 1,000,000원</string>
     <string name="apply_for_banner_ad">[배너 광고] 신청하기</string>
     <string name="todays_hospital_ad">3. 오늘의 병원 광고</string>
-    <string name="todays_hospital_ad_description">메인화면내 오늘의 병원 소개 광고판 내에 삽입되는 광고화면 입니다.</string>
+    <string name="todays_hospital_ad_description">메인화면내 오늘의 병원 소개 광고판 내에 삽입되는 광고화면 입니다.\n\n광고 해상도 : 300*500 dp\n유효기간 : 30일\n광고금액 : 1,000,000원</string>
     <string name="apply_for_todays_hospital_ad">[오늘의 병원 광고] 신청하기</string>
     <string name="click_to_upload_photos">클릭하여 사진을 업로드 합니다.</string>
     <string name="upload_ad_form"><![CDATA[<업로드 광고 양식>]]></string>
@@ -77,5 +77,7 @@
     <string name="days">일</string>
     <string name="won">원</string>
     <string name="make_a_payment">결제하기</string>
+    <string name="cancel">취소</string>
+    <string name="confirm">확인</string>
 </resources>
 

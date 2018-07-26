@@ -9,7 +9,7 @@ import com.algolia.instantsearch.helpers.InstantSearch
 import com.algolia.instantsearch.helpers.Searcher
 import com.algolia.search.saas.Query
 import com.dac.gapp.andac.base.BaseActivity
-import com.dac.gapp.andac.model.Algolia
+import com.dac.gapp.andac.enums.Algolia
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.activity_hospital_text_search.*
 

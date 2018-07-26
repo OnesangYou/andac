@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.dialog.MyDialog
 import com.dac.gapp.andac.util.MyToast
 import kotlinx.android.synthetic.main.fragment_apply_for_hospital_ad.*
 
@@ -26,10 +27,21 @@ class ApplyForHospitalAdFragment : BaseFragment() {
     }
 
     private fun setupEventsOnViewCreated() {
-        btnApplyForCreativeProduction.setOnClickListener(View.OnClickListener { MyToast.showShort(requireContext(), "TODO : 광고 제작 신청하기") })
-        btnApplyForPopupAd.setOnClickListener(View.OnClickListener { context!!.changeFragment(AdPaymentFragment()) })
-        btnApplyForBannerAd.setOnClickListener(View.OnClickListener { MyToast.showShort(requireContext(), "TODO : [배너 광고] 신청하기") })
-        btnApplyForTodaysHospitalAd.setOnClickListener(View.OnClickListener { MyToast.showShort(requireContext(), "TODO : [오늘의 병원 광고] 신청하기") })
+        btnApplyForCreativeProduction.setOnClickListener({
+            val dialog = MyDialog(requireContext())
+            dialog
+                    .setOnCancelListener(View.OnClickListener {
+                        dialog.dismiss()
+                    })
+                    .setOnConfirmListener(View.OnClickListener {
+                        MyToast.showShort(requireContext(), "TODO : 번호 저장 -> " + dialog.getText())
+                        dialog.dismiss()
+                    })
+                    .show()
+        })
+        btnApplyForPopupAd.setOnClickListener({ context!!.changeFragment(AdPaymentFragment.newInstance(getString(R.string.main_popup_ad))) })
+        btnApplyForBannerAd.setOnClickListener({ context!!.changeFragment(AdPaymentFragment.newInstance(getString(R.string.main_banner_ad))) })
+        btnApplyForTodaysHospitalAd.setOnClickListener({ context!!.changeFragment(AdPaymentFragment.newInstance(getString(R.string.todays_hospital_ad))) })
     }
 
 }

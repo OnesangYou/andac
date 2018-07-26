@@ -1,4 +1,4 @@
-package com.dac.gapp.andac.model
+package com.dac.gapp.andac.enums
 
 enum class Algolia(val value: String) {
     APP_ID("VUNTR162M6"),

@@ -2,9 +2,14 @@ package com.dac.gapp.andac
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.ExifInterface
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.fragment.*
 
 class HospitalAdApplicationActivity : BaseActivity() {
@@ -12,7 +17,7 @@ class HospitalAdApplicationActivity : BaseActivity() {
     private var current: Int = 0
 
     init {
-        fragments[R.id.navigation_main] = MainFragment()
+        fragments[R.id.navigation_main] = ApplyForHospitalAdFragment()
         fragments[R.id.navigation_search_hospital] = SearchHospitalFragment()
         fragments[R.id.navigation_chat] = ChatRoomFragment()
         fragments[R.id.navigation_board] = BoardFragment()

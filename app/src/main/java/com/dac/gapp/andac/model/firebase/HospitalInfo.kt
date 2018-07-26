@@ -1,6 +1,6 @@
 package com.dac.gapp.andac.model.firebase
 
-import com.dac.gapp.andac.model.Algolia
+import com.dac.gapp.andac.enums.Algolia
 import com.google.android.gms.maps.model.LatLng
 import org.json.JSONObject
 import java.io.Serializable

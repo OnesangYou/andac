@@ -15,7 +15,7 @@ import com.algolia.search.saas.Query
 import com.dac.gapp.andac.HospitalActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
-import com.dac.gapp.andac.model.Algolia
+import com.dac.gapp.andac.enums.Algolia
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.MyToast

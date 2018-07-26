@@ -10,12 +10,10 @@ import com.algolia.search.saas.Query
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.SearchHospitalRecyclerViewAdapter
 import com.dac.gapp.andac.base.BaseFragment
-import com.dac.gapp.andac.model.Algolia
+import com.dac.gapp.andac.enums.Algolia
 import com.dac.gapp.andac.model.firebase.HospitalInfo
-import com.dac.gapp.andac.util.MyToast
 import kotlinx.android.synthetic.main.fragment_search_hospital_for_list.*
 import timber.log.Timber
-import java.net.URLEncoder
 
 class SearchHospitalFragmentForList : BaseFragment() {
 
