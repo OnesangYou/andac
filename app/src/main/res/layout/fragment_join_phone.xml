@@ -96,7 +96,7 @@
                 android:inputType="phone"
                 android:textSize="@dimen/_10sp"
                 android:digits="0123456789"
-                app:layout_constraintEnd_toStartOf="@+id/button5"
+                app:layout_constraintEnd_toStartOf="@+id/sendCertiCodeBtn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
@@ -109,13 +109,13 @@
                 android:ems="10"
                 android:inputType="phone"
                 android:textSize="@dimen/_10sp"
-                app:layout_constraintEnd_toStartOf="@+id/button6"
+                app:layout_constraintEnd_toStartOf="@+id/ConfirmCertiCodeBtn"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/sendCertiCodeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginBottom="8dp"
@@ -129,7 +129,7 @@
                 app:layout_constraintTop_toTopOf="@+id/phoneEdit" />
 
             <Button
-                android:id="@+id/button6"
+                android:id="@+id/ConfirmCertiCodeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginBottom="8dp"
