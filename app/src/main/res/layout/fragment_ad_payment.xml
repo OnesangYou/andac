@@ -41,7 +41,8 @@
                 <ImageView
                     android:id="@+id/imgviewPhoto"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY" />
 
                 <TextView
                     android:id="@+id/txtviewUploadPhoto"
@@ -52,7 +53,8 @@
                     android:lineSpacingExtra="5dp"
                     android:text="@string/click_to_upload_photos"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
             </android.support.constraint.ConstraintLayout>
 

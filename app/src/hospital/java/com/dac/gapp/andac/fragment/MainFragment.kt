@@ -21,8 +21,8 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         btnConsultingBoard.setOnClickListener { startActivity(Intent(context, RequestSurgeryActivity::class.java)) }
         btnHospitalEventManagement.setOnClickListener { MyToast.showShort(requireContext(), "TODO: 병원 이벤트 관리") }
-        btnHospitalAdManagement.setOnClickListener { MyToast.showShort(requireContext(), "TODO: 병원 광고 관리") }
-        btnHospitalAdApplication.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntent(requireContext())) }
+        btnHospitalAdManagement.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdManagement(requireContext())) }
+        btnHospitalAdApplication.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdApplication(requireContext())) }
 
         viewColumnsBtn.setOnClickListener { startActivity(Intent(context, ColumnActivity::class.java)) }
         writeColumnBtn.setOnClickListener { startActivity(Intent(context, ColumnWriteActivity::class.java)) }

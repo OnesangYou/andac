@@ -85,7 +85,6 @@ class AdPaymentFragment : BaseFragment() {
         if (requestCode == RequestCode.GALLERY.value) {
             if (data != null)
                 uploadPhoto(data.data)
-            MyToast.showShort(requireContext(), "RequestCode.GALLERY")
         }
     }
 
@@ -96,7 +95,7 @@ class AdPaymentFragment : BaseFragment() {
         val exifDegree = exifOrientationToDegrees(exifOrientation)
         val bitmap = BitmapFactory.decodeFile(imagePath) //경로를 통해 비트맵으로 전환
         imgviewPhoto.setImageBitmap(rotate(bitmap, exifDegree)) //이미지 뷰에 비트맵 넣기
-        UiUtil.visibleOrGone(false, txtviewUploadPhoto)
+        txtviewUploadPhoto.setBackgroundResource(R.color.AF000000)
     }
 
     fun getRealPathFromURI(contentUri: Uri): String {

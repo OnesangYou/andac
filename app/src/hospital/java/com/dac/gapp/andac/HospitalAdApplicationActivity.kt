@@ -13,6 +13,24 @@ import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.fragment.*
 
 class HospitalAdApplicationActivity : BaseActivity() {
+    companion object {
+        const val EXTRA_AD_TYPE = "EXTRA_AD_TYPE"
+        const val EXTRA_AD_APPLICATION_TYPE = "EXTRA_AD_APPLICATION_TYPE"
+        const val EXTRA_AD_MANAGEMNET_TYPE = "EXTRA_AD_MANAGEMNET_TYPE"
+
+        fun createIntentForAdApplication(context: Context): Intent {
+            val intent = Intent(context, HospitalAdApplicationActivity::class.java)
+            intent.putExtra(EXTRA_AD_TYPE, EXTRA_AD_APPLICATION_TYPE)
+            return intent
+        }
+
+        fun createIntentForAdManagement(context: Context): Intent {
+            val intent = Intent(context, HospitalAdApplicationActivity::class.java)
+            intent.putExtra(EXTRA_AD_TYPE, EXTRA_AD_MANAGEMNET_TYPE)
+            return intent
+        }
+    }
+
     private var fragments: HashMap<Int, Fragment> = HashMap()
     private var current: Int = 0
 
@@ -24,12 +42,6 @@ class HospitalAdApplicationActivity : BaseActivity() {
         fragments[R.id.navigation_event] = EventListFragment()
     }
 
-    companion object {
-        fun createIntent(context: Context): Intent {
-            val intent = Intent(context, HospitalAdApplicationActivity::class.java)
-            return intent
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +51,11 @@ class HospitalAdApplicationActivity : BaseActivity() {
             return
         }
 
-        // Create a new Fragment to be placed in the activity layout
-        val firstFragment = ApplyForHospitalAdFragment()
+        val firstFragment =
+                if (intent.extras[EXTRA_AD_TYPE] == EXTRA_AD_APPLICATION_TYPE)
+                    ApplyForHospitalAdFragment()
+                else
+                    HospitalAdManagementFragment()
 
         // In case this activity was started with special instructions from an
         // Intent, pass the Intent's extras to the fragment as arguments
