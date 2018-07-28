@@ -172,6 +172,9 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                         Log.d(TAG, "onVerificationCompleted:$credential")
                         toast("onVerificationCompleted:$credential")
 
+//                        FirebaseAuth.getInstance().signInWithCredential(credential)
+//                                .addOnSuccessListener { toast("1it.additionalUserInfo.isNewUser : ${it.additionalUserInfo.isNewUser}") }
+
 //                    // [START_EXCLUDE silent]
 //                    mVerificationInProgress = false
 //                    // [END_EXCLUDE]
@@ -218,7 +221,16 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                         // now need to ask the user to enter the code and then construct a credential
                         // by combining the code with a verification ID.
                         Log.d(TAG, "onCodeSent:" + verificationId!!)
-                        toast("onCodeSent:" + verificationId!!)
+                        toast("onCodeSent:" + verificationId)
+
+                        ConfirmCertiCodeBtn.setOnClickListener {
+                            val code = certificationEdit.text.toString()
+                            val credential = PhoneAuthProvider.getCredential(verificationId, code)
+                            toast("credential : ${credential}")
+
+//                            FirebaseAuth.getInstance().signInWithCredential(credential)
+//                                    .addOnSuccessListener { toast("it.additionalUserInfo.isNewUser : ${it.additionalUserInfo.isNewUser}") }
+                        }
 
 //                    // Save verification ID and resending token so we can use them later
 //                    mVerificationId = verificationId

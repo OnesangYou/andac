@@ -8,7 +8,6 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -189,7 +188,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun goToLogin(gotoMyPage: Boolean = false) {
         Intent(this, LoginActivity::class.java).let {
             if (gotoMyPage) it.putExtra(GOTO_MYPAGE, true)
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(it)
         }
     }
 
