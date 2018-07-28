@@ -171,13 +171,13 @@
 
                 <ImageView
                     android:id="@+id/todays_hospital_pic"
-                    android:layout_width="360dp"
+                    android:layout_width="0dp"
                     android:layout_height="200dp"
                     android:layout_marginTop="8dp"
                     android:background="@color/gray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/searchText" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
             </android.support.constraint.ConstraintLayout>
 
 
