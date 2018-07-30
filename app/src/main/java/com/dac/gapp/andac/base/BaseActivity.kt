@@ -46,6 +46,11 @@ abstract class BaseActivity : AppCompatActivity() {
     val GOTO_MYPAGE = "goToMyPage"
     val OBJECT_KEY = "objectKey"
 
+    val profilePicJpgStr = "profilePic.jpg"
+    val bankAccountPicJpgStr = "bankAccountPic.jpg"
+    val busiRegiPicJpgStr = "busiRegiPic.jpg"
+
+
     fun getUid(): String? {
         return getCurrentUser()?.uid
     }
@@ -192,7 +197,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun getHospitalInfo(uid: String) = getHospital(uid).get().continueWith { it.result.toObject(HospitalInfo::class.java) }
+    fun getHospitalInfo(uid: String? = getUid()) = uid?.let { getHospital(it).get().continueWith { it.result.toObject(HospitalInfo::class.java) } }
 
 
     fun getToolBar(): ToolBar {

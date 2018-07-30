@@ -30,7 +30,7 @@ class ColumnDetailActivity : BaseActivity() {
                 viewCountText.text = columnInfo.viewCount.toString()
 
                 // 병원명
-                getHospitalInfo(columnInfo.writerUid).addOnSuccessListener {
+                getHospitalInfo(columnInfo.writerUid)?.addOnSuccessListener {
                     hospitalNameText.text = it?.name
                 }
 
