@@ -32,7 +32,7 @@
             android:layout_marginTop="24dp"
             android:text="2. 병원명을 입력해주세요."
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+            app:layout_constraintTop_toBottomOf="@+id/pictureImage" />
 
         <TextView
             android:id="@+id/textView30"
@@ -75,12 +75,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
             android:text="6. 병원에 대하여 설명해주세요.(2줄)"
             android:textSize="@dimen/_15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview" />
+            app:layout_constraintTop_toBottomOf="@+id/openHourText" />
 
         <Button
             android:id="@+id/completeBtn"
@@ -94,8 +94,7 @@
             app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
 
         <ImageView
-            android:id="@+id/imageView6"
-            android:background="@color/gray"
+            android:id="@+id/pictureImage"
             android:layout_width="0dp"
             android:layout_height="@dimen/album_dp_200"
             android:layout_marginEnd="8dp"
@@ -151,47 +150,15 @@
             app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
         <TextView
-            android:id="@+id/textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="오픈시간"
-            android:textSize="@dimen/_13sp"
-            app:layout_constraintStart_toStartOf="@+id/textView33"
-            app:layout_constraintTop_toBottomOf="@+id/textView33" />
-
-        <TextView
             android:id="@+id/openHourText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="00:00"
+            android:text="open 00:00 ~ close 12:00"
             android:textSize="@dimen/_13sp"
-            app:layout_constraintStart_toEndOf="@+id/textview"
+            app:layout_constraintStart_toStartOf="@+id/textView33"
             app:layout_constraintTop_toBottomOf="@+id/textView33" />
 
-        <TextView
-            android:id="@+id/closeHourText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="00:00"
-            android:textSize="@dimen/_13sp"
-            app:layout_constraintStart_toEndOf="@+id/text2"
-            app:layout_constraintTop_toBottomOf="@+id/textView33" />
-
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="9dp"
-            android:text="마감시간"
-            android:textSize="@dimen/_13sp"
-            app:layout_constraintStart_toEndOf="@+id/openHourText"
-            app:layout_constraintTop_toBottomOf="@+id/textView33" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

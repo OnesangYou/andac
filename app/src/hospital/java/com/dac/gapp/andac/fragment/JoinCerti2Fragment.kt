@@ -90,9 +90,9 @@ class JoinCerti2Fragment : JoinBaseFragment(){
 
                         // 사진 파일 한꺼번에 올리기
                         mutableListOf<Task<String>>().apply {
-                            profilePicUri?.let { uploadPicFileTask("profilePic.jpg", it)?.addOnSuccessListener { url -> hospitalInfo.profilePicUrl = url }?.let { it1 -> add(it1) } }
-                            bankAccountPicUri?.let { uploadPicFileTask("bankAccountPic.jpg", it)?.addOnSuccessListener { url -> hospitalInfo.bankAccountPicUrl = url }?.let { it1 -> add(it1) } }
-                            busiRegiPicUri?.let { uploadPicFileTask("busiRegiPic.jpg", it)?.addOnSuccessListener { url -> hospitalInfo.busiRegiPicUrl = url }?.let { it1 -> add(it1) } }
+                            profilePicUri?.let { uploadPicFileTask(profilePicJpgStr, it)?.addOnSuccessListener { url -> hospitalInfo.profilePicUrl = url }?.let { it1 -> add(it1) } }
+                            bankAccountPicUri?.let { uploadPicFileTask(bankAccountPicJpgStr, it)?.addOnSuccessListener { url -> hospitalInfo.bankAccountPicUrl = url }?.let { it1 -> add(it1) } }
+                            busiRegiPicUri?.let { uploadPicFileTask(busiRegiPicJpgStr, it)?.addOnSuccessListener { url -> hospitalInfo.busiRegiPicUrl = url }?.let { it1 -> add(it1) } }
                         }.let {
                             Tasks.whenAll(it).addOnSuccessListener {
                                 insertDB(user).onSuccessTask { deleteDB() }

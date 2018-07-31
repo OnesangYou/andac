@@ -2,10 +2,10 @@ package com.dac.gapp.andac
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseHospitalActivity
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.util.UiUtil
 import kotlinx.android.synthetic.hospital.activity_my_page.*
 import kotlinx.android.synthetic.main.row.*
 
@@ -19,11 +19,7 @@ class MyPageActivity : BaseHospitalActivity() {
         // Check Approval
         showProgressDialog()
         onCheckApproval { isApproval ->
-            if(isApproval){
-                approvalView.visibility = View.VISIBLE
-            } else {
-                approvalView.visibility = View.GONE
-            }
+            UiUtil.visibleOrGone(isApproval,scroll_mypage)
             hideProgressDialog()
         }
 
