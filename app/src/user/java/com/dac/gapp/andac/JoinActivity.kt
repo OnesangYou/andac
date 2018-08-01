@@ -9,7 +9,7 @@ import android.view.View
 import com.dac.gapp.andac.base.BaseJoinActivity
 import com.dac.gapp.andac.custom.SwipeViewPager
 import com.dac.gapp.andac.fragment.JoinInfoFragment
-import com.dac.gapp.andac.fragment.JoinPhoneFragment
+import com.dac.gapp.andac.fragment.JoinTermsFragment
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.user.fragment_join_info.*
@@ -33,14 +33,7 @@ class JoinActivity : BaseJoinActivity() {
 
     }
 
-    fun goToNextView(phoneNumber : String, isAgreeAlarm : Boolean){
-        //핸드폰번호 유효성
-        if (!Pattern.matches("^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$", phoneNumber)) {
-            toast("올바른 핸드폰 번호가 아닙니다.")
-            return
-        }
-
-        mUserInfo.phoneNumber = phoneNumber
+    fun goToNextView(isAgreeAlarm : Boolean){
         mUserInfo.isAgreeAlarm = isAgreeAlarm
         viewPager!!.apply { if(currentItem < MAX_PAGE) currentItem++ }
     }
@@ -117,7 +110,7 @@ class JoinActivity : BaseJoinActivity() {
             if (position < 0 || MAX_PAGE <= position)
                 return null
             when (position) {
-                0 -> cur_fragment = JoinPhoneFragment()
+                0 -> cur_fragment = JoinTermsFragment()
                 1 -> cur_fragment = JoinInfoFragment()
             }
             return cur_fragment

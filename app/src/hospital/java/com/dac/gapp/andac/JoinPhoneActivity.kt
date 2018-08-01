@@ -50,12 +50,12 @@ class JoinPhoneActivity : BaseActivity(), AnkoLogger {
                     override fun onCodeSent(verificationId: String?,
                                             token: PhoneAuthProvider.ForceResendingToken?) {
                         debug("onCodeSent:" + verificationId!!)
-                        toast("onCodeSent:$verificationId")
+                        toast("인증코드 전송 하였습니다")
 
                         ConfirmCertiCodeBtn.setOnClickListener {
                             val code = certificationEdit.text.toString()
                             val credential = PhoneAuthProvider.getCredential(verificationId, code)
-                            toast("credential : $credential")
+//                            toast("credential : $credential")
 
                             linkWithCredential(credential)
 

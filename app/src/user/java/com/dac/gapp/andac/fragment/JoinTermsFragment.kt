@@ -8,20 +8,20 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.JoinActivity
-import kotlinx.android.synthetic.main.fragment_join_phone.*
+import kotlinx.android.synthetic.main.fragment_terms_phone.*
 
-class JoinPhoneFragment : Fragment() {
+class JoinTermsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_join_phone, container, false)
+        return inflater.inflate(R.layout.fragment_terms_phone, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         nextBtn.setOnClickListener {
-            (activity as JoinActivity).goToNextView(phoneEdit.text.toString(), checkedAgreeAlarm.isChecked)
+            (activity as JoinActivity).goToNextView(checkedAgreeAlarm.isChecked)
         }
     }
 

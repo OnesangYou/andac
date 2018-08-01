@@ -12,6 +12,7 @@ import com.dac.gapp.andac.base.BaseLoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.user.activity_login.*
+import org.jetbrains.anko.startActivity
 import timber.log.Timber
 
 open class LoginActivity : BaseLoginActivity() {
@@ -82,7 +83,12 @@ open class LoginActivity : BaseLoginActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         hideProgressDialog()
-        currentUser?.let{
+        currentUser?.let{user ->
+            if(currentUser.phoneNumber.isNullOrEmpty()){
+                startActivity<JoinPhoneActivity>()
+                return
+            }
+
             toast(getString(R.string.successLogin))
             if(intent.getBooleanExtra(GOTO_MYPAGE, false)) startActivity(Intent(this, MyPageActivity::class.java))
             finish()

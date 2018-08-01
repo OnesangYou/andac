@@ -73,7 +73,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getUsers(): CollectionReference = getDb().collection("users")
 
-    private fun getUser(): DocumentReference? = getUid()?.let { getUsers().document(it) }
+    fun getUser(): DocumentReference? = getUid()?.let { getUsers().document(it) }
 
     fun getUser(uuid: String): DocumentReference? = getUsers().document(uuid)
 
