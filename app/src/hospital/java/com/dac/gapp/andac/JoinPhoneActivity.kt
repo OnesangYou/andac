@@ -6,7 +6,7 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.SetOptions
-import kotlinx.android.synthetic.main.fragment_join_phone.*
+import kotlinx.android.synthetic.hospital.activity_join_phone.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
 import org.jetbrains.anko.warn
