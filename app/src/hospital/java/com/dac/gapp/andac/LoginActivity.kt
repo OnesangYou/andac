@@ -13,6 +13,7 @@ import com.dac.gapp.andac.base.BaseHospitalActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.hospital.activity_login.*
+import org.jetbrains.anko.startActivity
 import timber.log.Timber
 
 class LoginActivity : BaseHospitalActivity() {
@@ -83,6 +84,12 @@ class LoginActivity : BaseHospitalActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if(currentUser != null){
+            // TODO : 폰번호 인증
+            if(currentUser.phoneNumber.isNullOrBlank()){
+                startActivity<JoinPhoneActivity>()
+                return
+            }
+
             // 관리자 승인 확인
             onCheckApproval { isCheck ->
                 if (isCheck) {

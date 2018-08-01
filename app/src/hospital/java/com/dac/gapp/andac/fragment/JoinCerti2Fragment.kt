@@ -34,10 +34,10 @@ class JoinCerti2Fragment : JoinBaseFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 받아온 경우 Set
-        getJoinActivity().hospitalInfo.apply {
-            if (cellPhone.isNotEmpty()) phoneEdit.setText(address2)
-        }
+//        // 받아온 경우 Set
+//        getJoinActivity().hospitalInfo.apply {
+//            if (cellPhone.isNotEmpty()) phoneEdit.setText(address2)
+//        }
 
         nextBtn.setOnClickListener {
             getJoinActivity().run {
@@ -45,7 +45,7 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                 val emailStr = emailEdit.text.toString()
                 val passwordStr = passwordEdit.text.toString()
                 val passwordConfirmStr = passwordConfirmEdit.text.toString()
-                val phoneStr = phoneEdit.text.toString()
+//                val phoneStr = phoneEdit.text.toString()
 
                 /* 유효성 검사 */
 
@@ -68,14 +68,14 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                 }
 
                 //핸드폰번호 유효성
-                if (!Pattern.matches("^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$", phoneStr)) {
-                    toast("올바른 핸드폰 번호가 아닙니다. $phoneStr")
-                    return@setOnClickListener
-                }
+//                if (!Pattern.matches("^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$", phoneStr)) {
+//                    toast("올바른 핸드폰 번호가 아닙니다. $phoneStr")
+//                    return@setOnClickListener
+//                }
 
                 hospitalInfo.apply {
                     email = emailStr
-                    cellPhone = phoneStr
+//                    cellPhone = phoneStr
                 }
 
                 // 파베 회원가입
@@ -144,116 +144,7 @@ class JoinCerti2Fragment : JoinBaseFragment(){
             }
         }
 
-        // TODO : 인증번호 발송
-        sendCertiCodeBtn.setOnClickListener {
-            context?.apply {
-                val TAG = "certiCodeBtn"
-                var phoneStr = phoneEdit.text.toString()
-                if(phoneStr.isEmpty()){
-                    toast("전화번호를 입력하세요")
-                    return@setOnClickListener
-                }
 
-                if(phoneStr.startsWith("010")){
-                    phoneStr = phoneStr.replace("010", "+82 10")
-                    Log.d(TAG, "phoneStr:$phoneStr")
-                }
-
-                var mCallbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-                    override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                        // This callback will be invoked in two situations:
-                        // 1 - Instant verification. In some cases the phone number can be instantly
-                        //     verified without needing to send or enter a verification code.
-                        // 2 - Auto-retrieval. On some devices Google Play services can automatically
-                        //     detect the incoming verification SMS and perform verification without
-                        //     user action.
-
-                        Log.d(TAG, "onVerificationCompleted:$credential")
-                        toast("onVerificationCompleted:$credential")
-
-//                        FirebaseAuth.getInstance().signInWithCredential(credential)
-//                                .addOnSuccessListener { toast("1it.additionalUserInfo.isNewUser : ${it.additionalUserInfo.isNewUser}") }
-
-//                    // [START_EXCLUDE silent]
-//                    mVerificationInProgress = false
-//                    // [END_EXCLUDE]
-//
-//                    // [START_EXCLUDE silent]
-//                    // Update the UI and attempt sign in with the phone credential
-//                    updateUI(STATE_VERIFY_SUCCESS, credential)
-//                    // [END_EXCLUDE]
-//                    signInWithPhoneAuthCredential(credential)
-                    }
-
-                    override fun onVerificationFailed(e: FirebaseException) {
-                        // This callback is invoked in an invalid request for verification is made,
-                        // for instance if the the phone number format is not valid.
-                        Log.w(TAG, "onVerificationFailed", e)
-                        toast("onVerificationFailed:$e")
-
-//                    // [START_EXCLUDE silent]
-//                    mVerificationInProgress = false
-//                    // [END_EXCLUDE]
-//
-//                    if (e is FirebaseAuthInvalidCredentialsException) {
-//                        // Invalid request
-//                        // [START_EXCLUDE]
-//                        mPhoneNumberField.setError("Invalid phone number.")
-//                        // [END_EXCLUDE]
-//                    } else if (e is FirebaseTooManyRequestsException) {
-//                        // The SMS quota for the project has been exceeded
-//                        // [START_EXCLUDE]
-//                        Snackbar.make(findViewById(android.R.id.content), "Quota exceeded.",
-//                                Snackbar.LENGTH_SHORT).show()
-//                        // [END_EXCLUDE]
-//                    }
-//
-//                    // Show a message and update the UI
-//                    // [START_EXCLUDE]
-//                    updateUI(STATE_VERIFY_FAILED)
-//                    // [END_EXCLUDE]
-                    }
-
-                    override fun onCodeSent(verificationId: String?,
-                                            token: PhoneAuthProvider.ForceResendingToken?) {
-                        // The SMS verification code has been sent to the provided phone number, we
-                        // now need to ask the user to enter the code and then construct a credential
-                        // by combining the code with a verification ID.
-                        Log.d(TAG, "onCodeSent:" + verificationId!!)
-                        toast("onCodeSent:" + verificationId)
-
-                        ConfirmCertiCodeBtn.setOnClickListener {
-                            val code = certificationEdit.text.toString()
-                            val credential = PhoneAuthProvider.getCredential(verificationId, code)
-                            toast("credential : ${credential}")
-
-//                            FirebaseAuth.getInstance().signInWithCredential(credential)
-//                                    .addOnSuccessListener { toast("it.additionalUserInfo.isNewUser : ${it.additionalUserInfo.isNewUser}") }
-                        }
-
-//                    // Save verification ID and resending token so we can use them later
-//                    mVerificationId = verificationId
-//                    mResendToken = token
-//
-//                    // [START_EXCLUDE]
-//                    // Update UI
-//                    updateUI(STATE_CODE_SENT)
-//                    // [END_EXCLUDE]
-                    }
-                }
-
-
-                PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                        phoneStr,        // Phone number to verify
-                        60,                 // Timeout duration
-                        TimeUnit.SECONDS,   // Unit of timeout
-                        context!!,               // Activity (for callback binding)
-                        mCallbacks)        // OnVerificationStateChangedCallbacks
-
-
-            }
-        }
     }
 
     private fun JoinActivity.uploadPicFileTask(fileName : String , picUri : Uri): Task<String>? {
