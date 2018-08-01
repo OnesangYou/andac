@@ -2,6 +2,7 @@
 
 package com.dac.gapp.andac.base
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.ProgressDialog
@@ -10,9 +11,13 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.InputType
+import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -239,5 +244,41 @@ abstract class BaseActivity : AppCompatActivity() {
 
         // Commit the transaction
         transaction.commit()
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun findPassword(){
+        val email = AutoCompleteTextView(this@BaseActivity)
+        email.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+        val builder = AlertDialog.Builder(this@BaseActivity)
+
+
+        val title = TextView(this@BaseActivity)
+        title.text = "[비밀번호 찾기]\n\n가입하신 메일을 알려주세요.\n비밀번호 변경 페이지를 메일로 보내드립니다."
+        title.gravity = Gravity.CENTER
+        title.setPadding(0, 90, 0, 40)
+        title.textSize = 15f
+
+        builder.setView(email)
+                .setCustomTitle(title)
+                .setPositiveButton("확인") { _, _ ->
+                    val emailAddress = email.text.toString()
+
+                    if (emailAddress != "") {
+                        val auth = FirebaseAuth.getInstance()
+                        auth.sendPasswordResetEmail(emailAddress)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        toast( "메일 전송 완료")
+                                    } else {
+                                        toast("메일 주소가 올바르지 않습니다")
+                                    }
+
+                                }
+                    } else {
+                        toast("다시 시도해주세요")
+                    }
+
+                }.show()
     }
 }

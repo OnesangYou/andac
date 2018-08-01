@@ -1,7 +1,14 @@
 package com.dac.gapp.andac
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import android.text.InputType
+import android.view.Gravity
+import android.widget.AutoCompleteTextView
+import android.widget.TextView
+import android.widget.Toast
 import com.dac.gapp.andac.base.BaseHospitalActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -11,6 +18,7 @@ import timber.log.Timber
 class LoginActivity : BaseHospitalActivity() {
     private var mAuth: FirebaseAuth? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -58,6 +66,10 @@ class LoginActivity : BaseHospitalActivity() {
                     updateUI(null)
                 }
             }
+        }
+
+        findPasswordBtn.setOnClickListener {
+            findPassword()
         }
     }
 

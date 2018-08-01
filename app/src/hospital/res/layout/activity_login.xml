@@ -106,7 +106,7 @@
 
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/findIdButton"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:layout_marginEnd="2dp"
@@ -115,11 +115,11 @@
         android:text="ID 찾기"
         android:textColor="@color/colorMain"
         android:textSize="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/button7"
+        app:layout_constraintEnd_toStartOf="@+id/findPasswordBtn"
         app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/findPasswordBtn"
         android:layout_width="50dp"
         android:layout_height="15dp"
         android:layout_marginEnd="32dp"

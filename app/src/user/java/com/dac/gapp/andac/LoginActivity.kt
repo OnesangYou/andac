@@ -1,8 +1,13 @@
 package com.dac.gapp.andac
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.support.v7.app.AlertDialog
+import android.text.InputType
+import android.view.Gravity
+import android.widget.AutoCompleteTextView
+import android.widget.TextView
 import com.dac.gapp.andac.base.BaseLoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -12,6 +17,7 @@ import timber.log.Timber
 open class LoginActivity : BaseLoginActivity() {
     private var mAuth: FirebaseAuth? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -40,7 +46,7 @@ open class LoginActivity : BaseLoginActivity() {
 
             // 유저인지 확인 (병원계정 접근 금지)
             showProgressDialog()
-            onCheckNormalUser(emailEdit.text.toString(), {isUser ->
+            onCheckNormalUser(emailEdit.text.toString()) { isUser ->
                 if(isUser){
                     mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())?.addOnCompleteListener{ task ->
                         if (task.isSuccessful) {
@@ -59,7 +65,11 @@ open class LoginActivity : BaseLoginActivity() {
                     toast("유저 회원가입이 안된 Email 입니다")
                     updateUI(null)
                 }
-            })
+            }
+        }
+
+        findPasswordBtn.setOnClickListener {
+            findPassword()
         }
     }
 
@@ -88,5 +98,6 @@ open class LoginActivity : BaseLoginActivity() {
             }
         }
     }
+
 
 }

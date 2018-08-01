@@ -82,7 +82,7 @@
         android:ems="10"
         android:hint="비밀번호를 입력해주세요"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/findIdBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -121,19 +121,19 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/findIdBtn"
         android:layout_width="70dp"
         android:layout_height="25dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/buttonstyle"
         android:text="ID 찾기"
         android:textColor="@color/colorMain"
-        app:layout_constraintBottom_toBottomOf="@+id/button7"
-        app:layout_constraintEnd_toStartOf="@+id/button7"
-        app:layout_constraintTop_toTopOf="@+id/button7" />
+        app:layout_constraintBottom_toBottomOf="@+id/findPasswordBtn"
+        app:layout_constraintEnd_toStartOf="@+id/findPasswordBtn"
+        app:layout_constraintTop_toTopOf="@+id/findPasswordBtn" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/findPasswordBtn"
         android:layout_width="70dp"
         android:layout_height="25dp"
         android:layout_marginBottom="72dp"
