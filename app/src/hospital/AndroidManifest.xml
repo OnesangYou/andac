@@ -48,7 +48,8 @@
             android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity android:name=".SearchAddressActivity" />
         <activity android:name=".HospitalAdApplicationActivity" />
-        <activity android:name=".ChangeProfileActivity" />
+        <activity android:name=".ChangeProfileActivity"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>

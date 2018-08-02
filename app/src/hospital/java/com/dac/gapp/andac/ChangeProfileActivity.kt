@@ -19,17 +19,33 @@ class ChangeProfileActivity : BaseActivity() {
         showProgressDialog()
         getHospitalInfo()?.addOnSuccessListener {it?.apply {
             Glide.with(this@ChangeProfileActivity).load(profilePicUrl).into(pictureImage)
-            hospitalText.text = name
-            phoneText.text = phone
-            addressText.text = address2
-            openHourText.text = openDate
-            descriptionText.text = description
+            hospitalText.setText(name)
+            phoneText.setText(phone)
+            addressText.setText(address2)
+            openHourText.setText(openDate)
+            descriptionText.setText(description)
         }
                 .apply { hospitalInfo = this@apply }}
                 ?.addOnCompleteListener {
                     hideProgressDialog()
                     setOnClickListener(hospitalInfo)
                 }
+
+        completeBtn.setOnClickListener {
+            hospitalInfo?.apply {
+                name = hospitalText.text.toString()
+                phone = phoneText.text.toString()
+                address2 = addressText.text.toString()
+                openDate = openHourText.text.toString()
+                description = descriptionText.text.toString()
+            }
+                    ?.let {
+                        showProgressDialog()
+                        getHospital()?.set(it)
+                    }
+                    ?.addOnCompleteListener { hideProgressDialog() }
+                    ?.addOnSuccessListener { toast("프로필 변경 완료되었습니다"); finish() }
+        }
     }
 
     private fun setOnClickListener(hospitalInfo: HospitalInfo?) {
