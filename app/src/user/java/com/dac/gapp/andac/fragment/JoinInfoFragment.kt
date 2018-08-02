@@ -2,20 +2,16 @@ package com.dac.gapp.andac.fragment
 
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import com.dac.gapp.andac.R
 import com.dac.gapp.andac.JoinActivity
+import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
 import kotlinx.android.synthetic.user.fragment_join_info.*
 
 
 class JoinInfoFragment : BaseFragment() {
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -38,23 +34,7 @@ class JoinInfoFragment : BaseFragment() {
             (activity as JoinActivity).join(emailEdit.text.toString(), nickNameEdit.text.toString())
         }
 
-        // 텍스트가 변하면 tag reset
-        val addTextChangedListener = {editText : EditText ->
-            editText.addTextChangedListener(object : TextWatcher {
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    // 입력되는 텍스트에 변화가 있을 때
-                    editText.tag = false
-                }
-                override fun afterTextChanged(arg0: Editable) {
-                    // 입력이 끝났을 때
-                }
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                    // 입력하기 전에
-                }
-            })
-        }
-
-        addTextChangedListener(emailEdit)
+        context?.apply { resetTagEditTextChanged(emailEdit) }
         checkEmailBtn.setOnClickListener {
             context?.apply {
                 val emailStr = emailEdit.text.toString()
@@ -82,7 +62,7 @@ class JoinInfoFragment : BaseFragment() {
             }
         }
 
-        addTextChangedListener(nickNameEdit)
+        context?.apply { resetTagEditTextChanged(nickNameEdit) }
         checkNickNameBtn.setOnClickListener {
             context?.apply {
                 val nickNameStr = nickNameEdit.text.toString()

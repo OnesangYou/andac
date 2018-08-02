@@ -48,6 +48,11 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                     return@setOnClickListener
                 }
 
+                if(emailEdit.tag != true){
+                    toast("이메일 중복체크 하세요")
+                    return@setOnClickListener
+                }
+
                 //비밀번호 유효성
                 if (passwordStr.length < 6) {
                     toast("비밀번호는 6자리 이상입니다")
@@ -120,6 +125,7 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                 checkDuplicatedEmail(emailStr)?.addOnSuccessListener { isPossible ->
                     if (isPossible) {
                         toast("사용가능한 이메일입니다")
+                        emailEdit.tag = true
                     } else {
                         // 중복
                         toast("중복된 이메일이 존재합니다")
@@ -129,6 +135,7 @@ class JoinCerti2Fragment : JoinBaseFragment(){
             }
         }
 
+        context?.apply {resetTagEditTextChanged(emailEdit)}
 
     }
 

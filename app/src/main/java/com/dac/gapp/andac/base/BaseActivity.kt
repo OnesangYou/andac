@@ -13,14 +13,13 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.AutoCompleteTextView
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.dac.gapp.andac.BuildConfig
 import com.dac.gapp.andac.LoginActivity
 import com.dac.gapp.andac.R
@@ -306,5 +305,21 @@ abstract class BaseActivity : AppCompatActivity() {
         )
                 .addOnCompleteListener { hideProgressDialog() }
                 .continueWith { it.result.map { querySnapshot -> querySnapshot.isEmpty }.all { it } }
+    }
+
+    // 텍스트가 변하면 tag reset
+    fun resetTagEditTextChanged(editText : EditText) {
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                // 입력되는 텍스트에 변화가 있을 때
+                editText.tag = false
+            }
+            override fun afterTextChanged(arg0: Editable) {
+                // 입력이 끝났을 때
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // 입력하기 전에
+            }
+        })
     }
 }
