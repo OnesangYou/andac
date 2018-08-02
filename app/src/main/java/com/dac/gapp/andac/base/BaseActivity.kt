@@ -80,6 +80,9 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getAuth(): FirebaseAuth? = FirebaseAuth.getInstance()
 
     fun getCurrentUser(): FirebaseUser? = getAuth()?.currentUser
+            ?.also{it.phoneNumber?.isEmpty()?.let{ isEmpty ->
+                if(isEmpty) goToLogin()
+            }} // 폰등록 안되 있는 경우는 login 이동
 
     private var mProgressDialog: ProgressDialog? = null
 
@@ -265,9 +268,9 @@ abstract class BaseActivity : AppCompatActivity() {
                     val emailAddress = email.text.toString()
 
                     if (emailAddress != "") {
-                        val auth = FirebaseAuth.getInstance()
-                        auth.sendPasswordResetEmail(emailAddress)
-                                .addOnCompleteListener { task ->
+                        val auth = getAuth()
+                        auth?.sendPasswordResetEmail(emailAddress)
+                                ?.addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
                                         toast( "메일 전송 완료")
                                     } else {

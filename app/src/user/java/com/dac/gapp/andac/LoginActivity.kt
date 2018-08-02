@@ -3,11 +3,6 @@ package com.dac.gapp.andac
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.text.InputType
-import android.view.Gravity
-import android.widget.AutoCompleteTextView
-import android.widget.TextView
 import com.dac.gapp.andac.base.BaseLoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -24,7 +19,7 @@ open class LoginActivity : BaseLoginActivity() {
         setContentView(R.layout.activity_login)
 
         // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance()
+        mAuth = getAuth()
 
         goToJoin.setOnClickListener{
             Intent(this@LoginActivity, JoinActivity::class.java).let {
