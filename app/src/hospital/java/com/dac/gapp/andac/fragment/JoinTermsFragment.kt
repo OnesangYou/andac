@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
-import kotlinx.android.synthetic.hospital.fragment_join_terms.*
+import kotlinx.android.synthetic.main.fragment_join_terms.*
 import java.util.*
 
 /**
