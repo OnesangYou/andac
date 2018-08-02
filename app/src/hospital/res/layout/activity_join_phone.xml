@@ -114,17 +114,4 @@
     </android.support.constraint.ConstraintLayout>
 
 
-    <Button
-        android:id="@+id/nextBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorMain"
-        android:text="인증완료"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-
 </android.support.constraint.ConstraintLayout>
