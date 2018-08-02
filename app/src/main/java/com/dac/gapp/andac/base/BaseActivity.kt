@@ -30,11 +30,13 @@ import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.UiUtil
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.yanzhenjie.album.Album
@@ -283,5 +285,26 @@ abstract class BaseActivity : AppCompatActivity() {
                     }
 
                 }.show()
+    }
+
+    // 중복 메일 검사
+    fun checkDuplicatedEmail(emailStr : String): Task<Boolean>? {
+        showProgressDialog()
+        return Tasks.whenAllSuccess<QuerySnapshot>(
+                getHospitals().whereEqualTo("email", emailStr).get(),
+                getUsers().whereEqualTo("email", emailStr).get()
+        )
+                .addOnCompleteListener { hideProgressDialog() }
+                .continueWith { it.result.map { querySnapshot -> querySnapshot.isEmpty }.all { it } }
+    }
+
+    // 중복 닉네임 검사
+    fun checkDuplicatedNickName(NickNameStr : String): Task<Boolean>? {
+        showProgressDialog()
+        return Tasks.whenAllSuccess<QuerySnapshot>(
+                getUsers().whereEqualTo("nickName", NickNameStr).get()
+        )
+                .addOnCompleteListener { hideProgressDialog() }
+                .continueWith { it.result.map { querySnapshot -> querySnapshot.isEmpty }.all { it } }
     }
 }

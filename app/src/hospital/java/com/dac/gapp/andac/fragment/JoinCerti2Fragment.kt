@@ -3,7 +3,6 @@ package com.dac.gapp.andac.fragment
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,16 +11,10 @@ import com.dac.gapp.andac.R
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.PhoneAuthCredential
-import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.hospital.fragment_join_certi2.*
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
-import java.util.regex.Pattern
 
 class JoinCerti2Fragment : JoinBaseFragment(){
     override fun onChangeFragment() {
@@ -110,12 +103,9 @@ class JoinCerti2Fragment : JoinBaseFragment(){
         }
 
         // 메일 중복 확인
-        busiRegiUploadBtn.setOnClickListener {
+        checkEmailBtn.setOnClickListener {
             context?.apply {
-
                 val emailStr = emailEdit.text.toString()
-
-
                 if (emailStr.isEmpty()) {
                     toast("이메일을 입력하세요")
                     return@setOnClickListener
@@ -123,24 +113,19 @@ class JoinCerti2Fragment : JoinBaseFragment(){
 
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
                     toast("이메일 형식이 아닙니다")
+                    emailEdit.text.clear()
                     return@setOnClickListener
                 }
 
-                showProgressDialog()
-                Tasks.whenAllSuccess<QuerySnapshot>(
-                        getHospitals().whereEqualTo("email", emailStr).get(),
-                        getUsers().whereEqualTo("email", emailStr).get()
-                ).addOnSuccessListener {
-                    if (it.map { querySnapshot -> querySnapshot.isEmpty }.all { it }) {
+                checkDuplicatedEmail(emailStr)?.addOnSuccessListener { isPossible ->
+                    if (isPossible) {
                         toast("사용가능한 이메일입니다")
                     } else {
                         // 중복
                         toast("중복된 이메일이 존재합니다")
                         emailEdit.text.clear()
                     }
-
-                }.addOnCompleteListener { hideProgressDialog() }
-
+                }
             }
         }
 

@@ -95,4 +95,11 @@ class JoinPhoneActivity : BaseActivity(), AnkoLogger {
 
         }
     }
+
+    override fun onBackPressed() {
+        getAuth()?.let{
+            it.signOut()
+            super.onBackPressed()
+        }
+    }
 }
