@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.util.Log
 import android.view.View
 import com.dac.gapp.andac.base.BaseJoinActivity
 import com.dac.gapp.andac.custom.SwipeViewPager
@@ -13,11 +12,12 @@ import com.dac.gapp.andac.fragment.JoinTermsFragment
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.user.fragment_join_info.*
-import java.util.regex.Pattern
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.debug
 
 
 @Suppress("NAME_SHADOWING")
-class JoinActivity : BaseJoinActivity() {
+class JoinActivity : BaseJoinActivity(), AnkoLogger {
 
     var MAX_PAGE = 2
     var cur_fragment = Fragment()
@@ -68,13 +68,13 @@ class JoinActivity : BaseJoinActivity() {
         mUserInfo.nickName = nickName
 
         // 회원가입 시도
-        Log.d(KBJ, "emailEdit : " + emailEdit.text)
+        debug("emailEdit : " + emailEdit.text)
         val mAuth = getAuth()
         showProgressDialog()
         mAuth?.createUserWithEmailAndPassword(mUserInfo.email, passwordEdit.text.toString())?.addOnCompleteListener{ task ->
             if (task.isSuccessful) {
                 // Sign in success, update UI with the signed-in user's information
-                Log.d(KBJ, "createUserWithEmail:success")
+                debug("createUserWithEmail:success")
                 val user = mAuth.currentUser
 
                 // DB insert
