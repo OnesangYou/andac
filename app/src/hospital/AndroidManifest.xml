@@ -5,7 +5,6 @@
 
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -48,8 +47,10 @@
             android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity android:name=".SearchAddressActivity" />
         <activity android:name=".HospitalAdApplicationActivity" />
-        <activity android:name=".ChangeProfileActivity"
+        <activity
+            android:name=".ChangeProfileActivity"
             android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".MyEventListActivity"></activity>
     </application>
 
 </manifest>
