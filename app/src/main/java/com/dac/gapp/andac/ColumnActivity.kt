@@ -1,9 +1,7 @@
 package com.dac.gapp.andac
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-import android.view.View
 import com.dac.gapp.andac.adapter.ColumnRecyclerViewAdapter
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.ColumnInfo
@@ -21,10 +19,6 @@ class ColumnActivity : BaseActivity() {
         setAdapter()
         back.setOnClickListener { finish() }
 
-        if(isHospital()) {
-            myColumnBtn.visibility = View.VISIBLE
-            myColumnBtn.setOnClickListener { startActivity(Intent(this, MyColumnListActivity::class.java)) }
-        }
     }
 
     private var registration: ListenerRegistration? = null
@@ -34,12 +28,13 @@ class ColumnActivity : BaseActivity() {
         registration = getColumns()
                 .orderBy("writeDate", Query.Direction.DESCENDING)   // order
                 .addSnapshotListener{ querySnapshot: QuerySnapshot?, _: FirebaseFirestoreException? ->
-                    querySnapshot?.let {
+                    querySnapshot?.let { it ->
                         it.toObjects(ColumnInfo::class.java).let { columnInfos ->
                             columnInfos.groupBy { it.writerUid }
                                     .map { getHospital(it.key).get() }
                                     .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-                                    .addOnSuccessListener { it
+                                    .addOnSuccessListener { it ->
+                                        it
                                         .filter { it != null }
                                         .map { it.id to it.toObject(HospitalInfo::class.java) }
                                         .toMap().also { hospitalInfoMap ->
@@ -48,9 +43,7 @@ class ColumnActivity : BaseActivity() {
                                         }
                                     }
                         }.addOnCompleteListener{hideProgressDialog()}
-                    }?:let{
-                        hideProgressDialog()
-                    }
+                    }?: hideProgressDialog()
                 }
 
 
