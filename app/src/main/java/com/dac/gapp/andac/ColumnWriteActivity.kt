@@ -2,12 +2,12 @@ package com.dac.gapp.andac
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_column_write.*
+import android.view.View
 import org.jetbrains.anko.alert
 
 class ColumnWriteActivity : BaseActivity() {
@@ -21,7 +21,7 @@ class ColumnWriteActivity : BaseActivity() {
         back.setOnClickListener { finish() }
 
         // 수정 시 컬럼 데이터 받아서 초기화
-        intent.getStringExtra(OBJECT_KEY)?.also{ key ->
+        intent.getStringExtra(OBJECT_KEY)?.let{ key ->
             showProgressDialog()
             getColumn(key)?.get()?.continueWith { it.result.toObject(ColumnInfo::class.java) }?.addOnSuccessListener { it?.apply {
                 titleText.setText(title)
@@ -30,60 +30,60 @@ class ColumnWriteActivity : BaseActivity() {
 
             }}?.addOnCompleteListener { hideProgressDialog() }
 
-            deleteBtn.apply {
-                visibility = View.VISIBLE
+            deleteBtn.apply{
                 setOnClickListener { showDeleteColumnDialog(columnInfo.objectId) }
-            }
-
-            // Picture
-            pictureImage.setOnClickListener { _ ->
-                startAlbumImageUri()
-                        // save
-                        .addOnSuccessListener { pictureUri = it }
-                        // load image view
-                        .addOnSuccessListener { Glide.with(this@ColumnWriteActivity).load(it).into(pictureImage) }
-            }
-
-            // Upload
-            uploadBtn.setOnClickListener { _ ->
-                // 유효성검사
-                if(!validate()) return@setOnClickListener
-
-                columnInfo.apply {
-                    writerUid = getUid().toString()
-                    title = titleText.text.toString()
-                    contents = contentsText.text.toString()
-                }
-
-                val columnInfoRef = intent.getStringExtra(OBJECT_KEY)?.let{
-                    getColumns().document(it)
-                }?:let{
-                    getColumns().document()
-                }
-
-                columnInfo.objectId = columnInfoRef.id
-
-                // picture 있을 경우 업로드 후 uri 받아오기, 데이터 업로드
-                showProgressDialog()
-                pictureUri.let{ pictureUri ->
-                    pictureUri?.let { uri ->
-                        getColumnStorageRef().child(columnInfoRef.id).child("picture0.jpg").putFile(uri)
-                                .continueWith { it.result.downloadUrl.toString() }
-                                .addOnSuccessListener { columnInfo.pictureUrl = it }
-                                .onSuccessTask {
-                                    columnInfoRef.set(columnInfo, SetOptions.merge())
-                                }
-                    }?:let {
-                        columnInfoRef.set(columnInfo, SetOptions.merge())
-                    }
-                }
-                        .addOnCompleteListener{hideProgressDialog()}
-                        .addOnSuccessListener{ toast("칼럼 업로드 완료"); finish() }
+                deleteBtn.visibility = View.VISIBLE
 
             }
+
         }
 
+        // Picture
+        pictureImage.setOnClickListener { it ->
+            startAlbumImageUri()
+                    // save
+                    .addOnSuccessListener { pictureUri = it }
+                    // load image view
+                    .addOnSuccessListener { Glide.with(this@ColumnWriteActivity).load(it).into(pictureImage) }
+        }
 
+        // Upload
+        uploadBtn.setOnClickListener { it ->
+            // 유효성검사
+            if(!validate()) return@setOnClickListener
+
+            columnInfo.apply {
+                writerUid = getUid().toString()
+                title = titleText.text.toString()
+                contents = contentsText.text.toString()
+            }
+
+            val columnInfoRef = intent.getStringExtra(OBJECT_KEY)?.let{
+                getColumns().document(it)
+            }?:let{
+                getColumns().document()
+            }
+
+            columnInfo.objectId = columnInfoRef.id
+
+            // picture 있을 경우 업로드 후 uri 받아오기, 데이터 업로드
+            showProgressDialog()
+            pictureUri.let{ pictureUri ->
+                pictureUri?.let { uri ->
+                    getColumnStorageRef().child(columnInfoRef.id).child("picture0.jpg").putFile(uri)
+                            .continueWith { it.result.downloadUrl.toString() }
+                            .addOnSuccessListener { columnInfo.pictureUrl = it }
+                            .onSuccessTask {
+                                columnInfoRef.set(columnInfo, SetOptions.merge())
+                            }
+                }?:let {
+                    columnInfoRef.set(columnInfo, SetOptions.merge())
+                }
+            }
+                    .addOnCompleteListener{hideProgressDialog()}
+                    .addOnSuccessListener{ toast("칼럼 업로드 완료"); finish() }
+
+        }
 
     }
 
@@ -101,10 +101,11 @@ class ColumnWriteActivity : BaseActivity() {
         return true
     }
 
+
     private fun showDeleteColumnDialog(objectId : String){
         showProgressDialog()
         alert(title = "게시물 삭제", message = "게시물을 삭제하시겠습니까?") {
-            positiveButton("YES"){ _ ->
+            positiveButton("YES"){ it ->
                 // 삭제 진행
                 showProgressDialog()
                 getColumn(objectId)?.delete()
@@ -115,4 +116,5 @@ class ColumnWriteActivity : BaseActivity() {
             negativeButton("NO"){}
         }.show()
     }
+
 }

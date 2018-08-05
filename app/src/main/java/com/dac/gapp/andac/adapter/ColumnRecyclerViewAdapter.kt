@@ -9,11 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.ColumnDetailActivity
+import com.dac.gapp.andac.ColumnWriteActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.column_item.view.*
+import org.jetbrains.anko.startActivity
 
 class ColumnRecyclerViewAdapter
 (var context : BaseActivity, private var mDataList :List<ColumnInfo>, private var hospitalInfoMap: Map<String, HospitalInfo?>) : RecyclerView.Adapter<ColumnRecyclerViewAdapter.ColumnHolder>(){
@@ -35,7 +37,10 @@ class ColumnRecyclerViewAdapter
             viewCount.text = item.viewCount.toString()
             Glide.with(context).load(item.pictureUrl).into(picture)
             context.apply{
-                layout.setOnClickListener { startActivity(Intent(this@apply, ColumnDetailActivity::class.java).putExtra(OBJECT_KEY,item.objectId))}
+                layout.setOnClickListener {
+                    if(item.writerUid == getUid()) startActivity<ColumnWriteActivity>(OBJECT_KEY to item.objectId)
+                    else startActivity(Intent(this@apply, ColumnDetailActivity::class.java).putExtra(OBJECT_KEY,item.objectId))
+                }
             }
         }
     }
