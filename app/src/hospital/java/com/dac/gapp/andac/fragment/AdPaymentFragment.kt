@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.enums.RequestCode
@@ -19,6 +20,7 @@ import com.dac.gapp.andac.util.MyToast
 import com.dac.gapp.andac.util.UiUtil
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import kotlinx.android.synthetic.main.activity_column_write.*
 import kotlinx.android.synthetic.main.fragment_ad_payment.*
 import java.util.Collections.rotate
 
@@ -52,12 +54,18 @@ class AdPaymentFragment : BaseFragment() {
         txtviewAd.text = arguments!!.getString(EXTRA_AD_NAME)
     }
 
+    private var photoUri: Uri? = null
+
     private fun setupEventsOnViewCreated() {
         layoutUploadPhoto.setOnClickListener({
             TedPermission.with(context)
                     .setPermissionListener(object : PermissionListener {
                         override fun onPermissionGranted() {
-                            startGalleryActivity()
+                            context?.startAlbumImageUri()
+                                    ?.addOnSuccessListener {
+                                        photoUri = it
+                                        Glide.with(this@AdPaymentFragment).load(it).into(imgviewPhoto)
+                                    }
                         }
 
                         override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
@@ -68,9 +76,23 @@ class AdPaymentFragment : BaseFragment() {
                     .setPermissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                     .check()
         })
-        btnPay.setOnClickListener({ MyToast.showShort(requireContext(), "TODO : 광고 결제하기") })
-    }
+        btnPay.setOnClickListener({
+            MyToast.showShort(requireContext(), "TODO : 광고 결제하기")
+            context?.showProgressDialog()
+            photoUri?.let { uri ->
+                context?.getUid()?.let {
+                    context?.getAdStorageRef()?.child(it)?.putFile(uri)
+                }
 
+            }
+                    ?.addOnSuccessListener { MyToast.showShort(context, "광고 결제 완료"); }
+                    ?.addOnCompleteListener {
+                        context?.hideProgressDialog()
+                        fragmentManager?.popBackStack()
+                    }
+        })
+
+    }
 
     private fun startGalleryActivity() {
         val intent = Intent(Intent.ACTION_PICK)
