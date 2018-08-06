@@ -50,7 +50,9 @@
         <activity
             android:name=".ChangeProfileActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".MyEventListActivity"></activity>
+        <activity android:name=".MyEventListActivity" />
+        <activity android:name=".HospitalEventListActivity" />
+        <activity android:name=".EventWriteActivity"></activity>
     </application>
 
 </manifest>
