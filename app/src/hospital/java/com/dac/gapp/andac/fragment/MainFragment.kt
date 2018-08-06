@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.*
 import com.dac.gapp.andac.base.BaseFragment
-import com.dac.gapp.andac.util.MyToast
 import kotlinx.android.synthetic.hospital.fragment_main.*
 import org.jetbrains.anko.startActivity
 
@@ -21,7 +20,7 @@ class MainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         btnConsultingBoard.setOnClickListener { startActivity(Intent(context, RequestSurgeryActivity::class.java)) }
-        btnHospitalEventManagement.setOnClickListener { MyToast.showShort(requireContext(), "TODO: 병원 이벤트 관리") }
+        btnHospitalEventManagement.setOnClickListener { context?.startActivity<HospitalEventListActivity>() }
         btnHospitalAdManagement.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdManagement(requireContext())) }
         btnHospitalAdApplication.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdApplication(requireContext())) }
 
