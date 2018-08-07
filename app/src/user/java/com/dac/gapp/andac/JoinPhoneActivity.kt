@@ -88,8 +88,8 @@ class JoinPhoneActivity : BaseActivity(), AnkoLogger {
                             finish()
                         }
             } else {
+                toast(task.exception?.message.toString())
                 warn("linkWithCredential:failure", task.exception)
-                toast("인증번호가 틀렸습니다")
             }
 
         }
