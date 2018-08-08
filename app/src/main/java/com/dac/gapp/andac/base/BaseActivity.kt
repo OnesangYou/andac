@@ -69,6 +69,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getHospital(key: String) = getHospitals().document(key)
 
+    fun getAdRequests(): CollectionReference = getDb().collection("adRequests")
+
+    fun getAdRequest(): DocumentReference? = getUid()?.let { getAdRequests().document(it) }
+
+    fun getAds(): CollectionReference = getDb().collection("ads")
+
+    fun getAd(): DocumentReference? = getUid()?.let { getAds().document(it) }
 
     fun getHospitalsStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("hospitals")
 
@@ -170,6 +177,9 @@ abstract class BaseActivity : AppCompatActivity() {
             startAlbumMultiImage(limitCnt).continueWith { task ->
                 task.result.map { Uri.fromFile(File(it.path)) }
             }
+
+    // Ads
+    fun getAdStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("ads")
 
     // Boards
     fun getBoardStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("boards")

@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.dialog.MyDialog
-import com.dac.gapp.andac.util.MyToast
+import com.dac.gapp.andac.enums.Ad
+import com.dac.gapp.andac.model.AdReqeustInfo
 import kotlinx.android.synthetic.main.fragment_apply_for_hospital_ad.*
 
 class ApplyForHospitalAdFragment : BaseFragment() {
@@ -27,21 +29,27 @@ class ApplyForHospitalAdFragment : BaseFragment() {
     }
 
     private fun setupEventsOnViewCreated() {
-        btnApplyForCreativeProduction.setOnClickListener({
+        btnApplyForCreativeProduction.setOnClickListener {
             val dialog = MyDialog(requireContext())
             dialog
                     .setOnCancelListener(View.OnClickListener {
                         dialog.dismiss()
                     })
                     .setOnConfirmListener(View.OnClickListener {
-                        MyToast.showShort(requireContext(), "TODO : 번호 저장 -> " + dialog.getText())
+                        context?.getUid()?.let {
+                            context?.getAdRequests()?.document(it)?.set(AdReqeustInfo(it, dialog.getText()))?.addOnSuccessListener {
+                                Toast.makeText(context, "번호 저장 성공", Toast.LENGTH_SHORT).show()
+                            }?.addOnCanceledListener {
+                                Toast.makeText(context, "번호 저장 실패", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                         dialog.dismiss()
                     })
                     .show()
-        })
-        btnApplyForPopupAd.setOnClickListener({ context!!.changeFragment(AdPaymentFragment.newInstance(getString(R.string.main_popup_ad))) })
-        btnApplyForBannerAd.setOnClickListener({ context!!.changeFragment(AdPaymentFragment.newInstance(getString(R.string.main_banner_ad))) })
-        btnApplyForTodaysHospitalAd.setOnClickListener({ context!!.changeFragment(AdPaymentFragment.newInstance(getString(R.string.todays_hospital_ad))) })
+        }
+        btnApplyForMainPopupAd.setOnClickListener { context!!.changeFragment(AdPaymentFragment.newInstance(Ad.MAIN_POPUP)) }
+        btnApplyForMainBannerAd.setOnClickListener { context!!.changeFragment(AdPaymentFragment.newInstance(Ad.MAIN_BANNER)) }
+        btnApplyForMainTodaysHospitalAd.setOnClickListener { context!!.changeFragment(AdPaymentFragment.newInstance(Ad.MAIN_TODAY_HOSPITAL)) }
+        btnApplyForLoginBannerAd.setOnClickListener { context!!.changeFragment(AdPaymentFragment.newInstance(Ad.LOGIN_BANNER)) }
     }
-
 }
