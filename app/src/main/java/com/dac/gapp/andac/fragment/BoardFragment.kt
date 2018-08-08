@@ -13,6 +13,7 @@ import com.dac.gapp.andac.adapter.BoardRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
+import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_board.*
@@ -59,41 +60,42 @@ class BoardFragment : BaseFragment() {
         if(boardTabGroup.checkedRadioButtonId == -1) boardTabGroup.check(R.id.free_board)
     }
 
-    private var registration: ListenerRegistration? = null
-
     private fun setAdapter(type : String) {
         context?.apply {
             showProgressDialog()
-            registration = getBoards().whereEqualTo("type", type)
-                    .orderBy("writeDate", Query.Direction.DESCENDING)   // order
-                    .addSnapshotListener{ querySnapshot: QuerySnapshot?, _: FirebaseFirestoreException? ->
-                        querySnapshot?.let {
-                            it.toObjects(BoardInfo::class.java).let { boardInfos ->
-                                boardInfos.groupBy { it.writerUid }
-                                        .map { getUser(it.key)?.get() }
-                                        .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-                                        .addOnSuccessListener {
-                                            it
-                                                    .filter { it != null }
-                                                    .map { it.id to it.toObject(UserInfo::class.java) }
-                                                    .toMap().also { userInfoMap ->
-                                                        recyclerView.adapter = BoardRecyclerAdapter(context, boardInfos, userInfoMap)
-                                                        recyclerView.adapter.notifyDataSetChanged()
-                                                    }
-                                        }
-                            }.addOnCompleteListener{hideProgressDialog()}
-                        }?:let{
-                            hideProgressDialog()
+            getPairDataTask(type)
+                    ?.addOnSuccessListener {
+                        it.first?.let {boardInfos->
+                            recyclerView.adapter = BoardRecyclerAdapter(context, boardInfos, it.second)
+                            recyclerView.adapter.notifyDataSetChanged()
                         }
-                    }
+                    }?.addOnCompleteListener { hideProgressDialog() }
+        }
 
+    }
+
+    private fun getPairDataTask(type : String) : Task<Pair<List<BoardInfo>?, Map<String, UserInfo?>>>? {
+        return context?.run {
+            var boardInfos : List<BoardInfo>? = null
+            getBoards().whereEqualTo("type", type)
+                    .orderBy("writeDate", Query.Direction.DESCENDING)   // order
+                    .get()
+                    .continueWith {
+                        it.result.toObjects(BoardInfo::class.java)
+                    }.continueWithTask { it ->
+                        boardInfos = it.result
+                        boardInfos?.groupBy { it.writerUid }
+                                ?.map { getUser(it.key)?.get() }
+                                .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
+                    }.continueWith { it ->
+                        it.result
+                                .filter { it != null }
+                                .map { it.id to it.toObject(UserInfo::class.java) }
+                                .toMap().let { userInfoMap ->
+                                    boardInfos to userInfoMap
+                                }
+                    }
         }
     }
-
-    override fun onStop() {
-        super.onStop()
-        registration?.remove()
-    }
-
 }
 
