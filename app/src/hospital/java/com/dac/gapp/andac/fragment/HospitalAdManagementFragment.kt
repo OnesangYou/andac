@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.dialog.MyDialog
+import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.util.MyToast
 import kotlinx.android.synthetic.main.fragment_hospital_ad_management.*
 
@@ -27,7 +28,7 @@ class HospitalAdManagementFragment : BaseFragment() {
     }
 
     private fun setupEventsOnViewCreated() {
-        btnApplyForCreativeProduction.setOnClickListener({
+        btnApplyForCreativeProduction.setOnClickListener {
             val dialog = MyDialog(requireContext())
             dialog
                     .setOnCancelListener(View.OnClickListener {
@@ -38,9 +39,10 @@ class HospitalAdManagementFragment : BaseFragment() {
                         dialog.dismiss()
                     })
                     .show()
-        })
-        imgviewPhoto.setOnClickListener({ context!!.changeFragment(AdPaymentFragment.newInstance("병원 광고 관리에서 넘어옴.")) })
+        }
 
+        MyToast.showShort(requireContext(), "TODO 어느 광고에서 넘어왔는지 수정")
+        imgviewPhoto.setOnClickListener { context?.changeFragment(AdPaymentFragment.newInstance(Ad.MAIN_POPUP)) }
     }
 
 }

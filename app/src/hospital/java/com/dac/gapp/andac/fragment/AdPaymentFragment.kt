@@ -1,6 +1,5 @@
 package com.dac.gapp.andac.fragment
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,31 +11,36 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.enums.RequestCode
+import com.dac.gapp.andac.model.AdInfo
+import com.dac.gapp.andac.model.AdReqeustInfo
 import com.dac.gapp.andac.util.MyToast
 import com.dac.gapp.andac.util.UiUtil
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
-import kotlinx.android.synthetic.main.activity_column_write.*
 import kotlinx.android.synthetic.main.fragment_ad_payment.*
-import java.util.Collections.rotate
 
 class AdPaymentFragment : BaseFragment() {
 
     companion object {
-        private const val EXTRA_AD_NAME = "EXTRA_AD_NAME"
+        private const val EXTRA_AD = "EXTRA_AD"
 
-        fun newInstance(adName: String): AdPaymentFragment {
+        fun newInstance(ad: Ad): AdPaymentFragment {
             val fragment = AdPaymentFragment()
             val bundle = Bundle()
-            bundle.putString(EXTRA_AD_NAME, adName)
+            bundle.putSerializable(EXTRA_AD, ad)
             fragment.arguments = bundle
             return fragment
         }
     }
+
+    private var ad: Ad? = null
+    private var photoUri: Uri? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -45,19 +49,27 @@ class AdPaymentFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        arguments?.let {
+            ad = it.getSerializable(EXTRA_AD) as Ad
+        }
         prepareUi()
         setupEventsOnViewCreated()
     }
 
     private fun prepareUi() {
         context!!.getToolBar().setTitle(getString(R.string.paying_for_a_hospital_ad))
-        txtviewAd.text = arguments!!.getString(EXTRA_AD_NAME)
+        ad?.let {
+            txtviewAd.text = getString(it.titleResId)
+            UiUtil.visibleOrGone(it.isAdTypeEvent(), btnSelectMyEvent)
+        }
     }
 
-    private var photoUri: Uri? = null
-
     private fun setupEventsOnViewCreated() {
-        layoutUploadPhoto.setOnClickListener({
+        btnSelectMyEvent.setOnClickListener {
+            MyToast.showShort(requireContext(), "TODO : 원상아~ 광고중에 이벤트 관련한건 맨 나중에 해주라 그거 이벤트 리스트가 필요하자너 ㅎ")
+        }
+
+        layoutUploadPhoto.setOnClickListener {
             TedPermission.with(context)
                     .setPermissionListener(object : PermissionListener {
                         override fun onPermissionGranted() {
@@ -65,6 +77,7 @@ class AdPaymentFragment : BaseFragment() {
                                     ?.addOnSuccessListener {
                                         photoUri = it
                                         Glide.with(this@AdPaymentFragment).load(it).into(imgviewPhoto)
+                                        txtviewUploadPhoto.setBackgroundResource(R.color.AF000000)
                                     }
                         }
 
@@ -75,22 +88,31 @@ class AdPaymentFragment : BaseFragment() {
                     .setDeniedMessage("해당 권한이 없을 경우 이미지를 업로드 할 수 없습니다!!")
                     .setPermissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                     .check()
-        })
-        btnPay.setOnClickListener({
-            MyToast.showShort(requireContext(), "TODO : 광고 결제하기")
+        }
+
+        btnPay.setOnClickListener {
+            // TODO 광고 결제 모듈은 어떻게??
+            MyToast.showShort(requireContext(), "TODO : 광고 결제 완료 후 사진 업로드 및 광고 기한 업로드 !!")
             context?.showProgressDialog()
             photoUri?.let { uri ->
-                context?.getUid()?.let {
-                    context?.getAdStorageRef()?.child(it)?.putFile(uri)
+                context?.getUid()?.let { uid ->
+                    ad?.uploadFileName?.let { uploadFileName -> context?.getAdStorageRef()?.child(uid)?.child(uploadFileName)?.putFile(uri) }
                 }
 
-            }
-                    ?.addOnSuccessListener { MyToast.showShort(context, "광고 결제 완료"); }
-                    ?.addOnCompleteListener {
-                        context?.hideProgressDialog()
-                        fragmentManager?.popBackStack()
+                context?.getUid()?.let {
+                    context?.getAds()?.document(it)?.set(AdInfo(it, "시작일", "종료일"))?.addOnSuccessListener {
+                        Toast.makeText(context, "광고 정보 저장 성공", Toast.LENGTH_SHORT).show()
+                    }?.addOnCanceledListener {
+                        Toast.makeText(context, "광고 정보 저장 실패", Toast.LENGTH_SHORT).show()
                     }
-        })
+                }
+            }?.addOnSuccessListener {
+                MyToast.showShort(context, "광고 결제 완료")
+            }?.addOnCompleteListener {
+                context?.hideProgressDialog()
+                fragmentManager?.popBackStack()
+            }
+        }
 
     }
 

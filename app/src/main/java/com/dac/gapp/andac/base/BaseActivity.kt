@@ -73,6 +73,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getAdRequest(): DocumentReference? = getUid()?.let { getAdRequests().document(it) }
 
+    fun getAds(): CollectionReference = getDb().collection("ads")
+
+    fun getAd(): DocumentReference? = getUid()?.let { getAds().document(it) }
+
     fun getHospitalsStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("hospitals")
 
     fun getUsers(): CollectionReference = getDb().collection("users")
