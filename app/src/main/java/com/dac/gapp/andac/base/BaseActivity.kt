@@ -56,6 +56,8 @@ abstract class BaseActivity : AppCompatActivity() {
     val bankAccountPicJpgStr = "bankAccountPic.jpg"
     val busiRegiPicJpgStr = "busiRegiPic.jpg"
 
+    val PageListSize : Long = 3
+
 
     fun getUid(): String? {
         return getCurrentUser()?.uid
