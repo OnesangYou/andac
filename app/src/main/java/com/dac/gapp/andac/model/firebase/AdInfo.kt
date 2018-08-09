@@ -1,5 +1,6 @@
 package com.dac.gapp.andac.model.firebase
 
+import com.dac.gapp.andac.enums.AdType
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
@@ -8,6 +9,7 @@ import java.util.*
  */
 data class AdInfo(
         var hospitalUid: String = "",
+        var adType: String = "",
         @ServerTimestamp var startDate: Date? = null,
         @ServerTimestamp var endDate: Date? = null
 )

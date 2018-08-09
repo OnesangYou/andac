@@ -8,6 +8,7 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.SetOptions
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.fragment_ad_payment.*
+import timber.log.Timber
 import java.util.*
 
 class AdPaymentFragment : BaseFragment() {
@@ -41,7 +43,7 @@ class AdPaymentFragment : BaseFragment() {
         }
     }
 
-    private var ad: Ad? = null
+    private lateinit var ad: Ad
     private var photoUri: Uri? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,14 +55,17 @@ class AdPaymentFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.let {
             ad = it.getSerializable(EXTRA_AD) as Ad
+            prepareUi()
+            setupEventsOnViewCreated()
+        } ?: run {
+            Timber.e("필수 파라미터 누락")
+            fragmentManager?.popBackStack()
         }
-        prepareUi()
-        setupEventsOnViewCreated()
     }
 
     private fun prepareUi() {
         context!!.getToolBar().setTitle(getString(R.string.paying_for_a_hospital_ad))
-        ad?.let {
+        ad.let {
             txtviewAd.text = getString(it.titleResId)
             UiUtil.visibleOrGone(it.isAdTypeEvent(), btnSelectMyEvent)
         }
@@ -98,11 +103,11 @@ class AdPaymentFragment : BaseFragment() {
             context?.showProgressDialog()
             photoUri?.let { uri ->
                 context?.getUid()?.let { uid ->
-                    ad?.uploadFileName?.let { uploadFileName -> context?.getAdStorageRef()?.child(uid)?.child(uploadFileName)?.putFile(uri) }
+                    ad.uploadFileName.let { uploadFileName -> context?.getAdStorageRef()?.child(uid)?.child(uploadFileName)?.putFile(uri) }
                 }
 
                 context?.getUid()?.let {
-                    context?.getAds()?.document(it)?.set(AdInfo(it, Date(), Common.getDate(2018, 8, 30)), SetOptions.merge())?.addOnSuccessListener {
+                    context?.getAds()?.document(it)?.set(AdInfo(it, ad.adType.name, Date(), Common.getDate(2018, 8, 30)), SetOptions.merge())?.addOnSuccessListener {
                         Toast.makeText(context, "광고 정보 저장 성공", Toast.LENGTH_SHORT).show()
                     }?.addOnCanceledListener {
                         Toast.makeText(context, "광고 정보 저장 실패", Toast.LENGTH_SHORT).show()
