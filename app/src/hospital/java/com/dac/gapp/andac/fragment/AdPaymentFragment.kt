@@ -17,13 +17,15 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.enums.RequestCode
-import com.dac.gapp.andac.model.AdInfo
-import com.dac.gapp.andac.model.AdReqeustInfo
+import com.dac.gapp.andac.model.firebase.AdInfo
+import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.MyToast
 import com.dac.gapp.andac.util.UiUtil
+import com.google.firebase.firestore.SetOptions
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.fragment_ad_payment.*
+import java.util.*
 
 class AdPaymentFragment : BaseFragment() {
 
@@ -100,7 +102,7 @@ class AdPaymentFragment : BaseFragment() {
                 }
 
                 context?.getUid()?.let {
-                    context?.getAds()?.document(it)?.set(AdInfo(it, "시작일", "종료일"))?.addOnSuccessListener {
+                    context?.getAds()?.document(it)?.set(AdInfo(it, Date(), Common.getDate(2018, 8, 30)), SetOptions.merge())?.addOnSuccessListener {
                         Toast.makeText(context, "광고 정보 저장 성공", Toast.LENGTH_SHORT).show()
                     }?.addOnCanceledListener {
                         Toast.makeText(context, "광고 정보 저장 실패", Toast.LENGTH_SHORT).show()
