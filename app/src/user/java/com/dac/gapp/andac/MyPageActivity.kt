@@ -1,7 +1,6 @@
 package com.dac.gapp.andac
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseMyPageActivity
 import com.dac.gapp.andac.fragment.AccountSettingFragment
@@ -25,6 +24,7 @@ open class MyPageActivity : BaseMyPageActivity() {
             finish()
         }
 
+        // 버튼 그룹 리스너
         myPageRadioGroup.setOnCheckedChangeListener { _, id ->
             when(id){
                 R.id.accountSettingBtn -> changeFragment(AccountSettingFragment())
@@ -37,6 +37,9 @@ open class MyPageActivity : BaseMyPageActivity() {
                 }
             }
         }
+
+        // 디폴트 화면
+        accountSettingBtn.performClick()
 
         // Set Profile
         getUserInfo()?.addOnSuccessListener { userInfo ->
