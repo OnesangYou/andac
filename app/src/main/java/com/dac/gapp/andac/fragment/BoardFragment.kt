@@ -25,6 +25,10 @@ import kotlinx.android.synthetic.main.fragment_board.*
 @Suppress("DEPRECATION")
 class BoardFragment : BaseFragment() {
 
+    val list = mutableListOf<BoardInfo>()
+    val map = mutableMapOf<String, UserInfo>()
+    private var lastVisible : DocumentSnapshot? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_board, container, false)
@@ -51,7 +55,7 @@ class BoardFragment : BaseFragment() {
             // default
             if(checkedRadioButtonId == -1) {
                 check(R.id.free_board)
-                setAdapter(getString(R.string.free_board))
+                setAdapter()
             }
 
             setOnCheckedChangeListener{ _ : Any?, checkedId : Int ->
@@ -65,11 +69,7 @@ class BoardFragment : BaseFragment() {
         }
     }
 
-    val list = mutableListOf<BoardInfo>()
-    val map = mutableMapOf<String, UserInfo?>()
-    private var lastVisible : DocumentSnapshot? = null
-
-    private fun setAdapter(type : String) {
+    private fun setAdapter(type : String = getString(R.string.free_board)) {
 
         // reset data
         list.clear()
@@ -97,27 +97,22 @@ class BoardFragment : BaseFragment() {
                     getBoards()
                             .whereEqualTo("type", type)
                             .orderBy("writeDate", Query.Direction.DESCENDING)
-                            .let { query ->
-                                lastVisible?.let { query.startAfter(it) } ?: query
-                            }
+                            .let { query -> lastVisible?.let { query.startAfter(it) } ?: query }    // 쿼리 커서 시작 위치 지정
                             .limit(PageListSize)   // 페이지 단위
             )
                     ?.addOnSuccessListener {
-                        it.first?.let { boardInfos ->
-                            list.addAll(boardInfos)
-                            map.putAll(it.second)
-                            lastVisible = it.third
-                            recyclerView.adapter.notifyDataSetChanged()
-
-                        }
+                        list.addAll(it.first)
+                        map.putAll(it.second)
+                        lastVisible = it.third
+                        recyclerView.adapter.notifyDataSetChanged()
                     }
                     ?.addOnCompleteListener { hideProgressDialog() }
         }
     }
 
-    private fun getTripleDataTask(query : Query) : Task<Triple<List<BoardInfo>?, Map<String, UserInfo?>, DocumentSnapshot?>>? {
+    private fun getTripleDataTask(query : Query) : Task<Triple<List<BoardInfo>, Map<String, UserInfo>, DocumentSnapshot?>>? {
         return context?.run {
-            var boardInfos : List<BoardInfo>? = null
+            var boardInfos : List<BoardInfo> = listOf()
             var lastVisible : DocumentSnapshot? = null
                     query.get()
                     .continueWith { it ->
@@ -126,13 +121,15 @@ class BoardFragment : BaseFragment() {
                     }.continueWithTask { it ->
                         boardInfos = it.result
                         boardInfos?.groupBy { it.writerUid }
-                                ?.map { getUser(it.key)?.get() }
+                                .map { getUser(it.key)?.get() }
                                 .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-                    }.continueWith { it ->
-                                Triple(boardInfos, it.result
-                            .filter { it != null }
-                            .map { it.id to it.toObject(UserInfo::class.java) }
-                            .toMap(), lastVisible)
+                    }.continueWith { it -> it.result
+                                    .filter { it != null }
+                                    .map { it.id to it.toObject(UserInfo::class.java)!!}
+                                    .toMap()
+                                    .let { userInfoMap ->
+                                        Triple(boardInfos, userInfoMap, lastVisible)
+                                    }
                     }
         }
     }

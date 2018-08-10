@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.base_item_card.view.*
 import org.jetbrains.anko.alert
 
 class BoardRecyclerAdapter
-(private val context : BaseActivity?, private var mDataList: List<BoardInfo>, private var userInfoMap: Map<String, UserInfo?>) : RecyclerView.Adapter<BoardRecyclerAdapter.BoardHolder>() {
+(private val context : BaseActivity?, private var mDataList: List<BoardInfo>, private var userInfoMap: Map<String, UserInfo>) : RecyclerView.Adapter<BoardRecyclerAdapter.BoardHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardHolder {
         return BoardHolder(parent)
