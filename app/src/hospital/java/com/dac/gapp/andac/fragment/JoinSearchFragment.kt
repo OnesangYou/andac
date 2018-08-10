@@ -47,7 +47,9 @@ class JoinSearchFragment : JoinBaseFragment() {
             searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, Algolia.INDEX_NAME_HOSPITAL.value)
             InstantSearch(context, searcher) // Initialize InstantSearch in this activity with searcher
             searcher
-                    .setQuery(Query().setFilters("approval=0")) // 승인 안된 병원 목록
+                    .setQuery(Query()
+//                            .setFilters("approval!=0 AND approval!=1")) // 승인 안된 병원 목록
+                            .setFilters("approval!=0 AND approval!=1")) // 승인 안된 병원 목록
                     .search(context.intent) // Show results for empty query (on app launch) / voice query (from intent)
 
             hits.setOnItemClickListener{ recyclerView: RecyclerView, i: Int, view1: View ->
