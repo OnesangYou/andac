@@ -198,7 +198,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getColumns(): CollectionReference = getDb().collection("columns")
     fun getColumn(key: String): DocumentReference? = if (key.isEmpty()) null else getColumns().document(key)
-    private fun getHospitalContents(uid: String? = getUid()) = uid?.let { getDb().collection("hospitalContents").document(it) }
+    private fun getHospitalContents(uid: String? = getUid()) = uid?.let {
+        getDb().collection("hospitalContents").document(it)
+    }
     fun getHospitalColumns() = getHospitalContents()?.collection("columns")
 
 

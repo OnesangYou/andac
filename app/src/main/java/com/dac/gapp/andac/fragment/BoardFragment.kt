@@ -112,24 +112,21 @@ class BoardFragment : BaseFragment() {
 
     private fun getTripleDataTask(query : Query) : Task<Triple<List<BoardInfo>, Map<String, UserInfo>, DocumentSnapshot?>>? {
         return context?.run {
-            var boardInfos : List<BoardInfo> = listOf()
+            var infos : List<BoardInfo> = listOf()
             var lastVisible : DocumentSnapshot? = null
                     query.get()
                     .continueWith { it ->
                         lastVisible = it.result.documents.let { it[it.size-1] }
                         it.result.toObjects(BoardInfo::class.java)
                     }.continueWithTask { it ->
-                        boardInfos = it.result
-                        boardInfos?.groupBy { it.writerUid }
+                        infos = it.result
+                        infos.groupBy { it.writerUid }
                                 .map { getUser(it.key)?.get() }
                                 .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-                    }.continueWith { it -> it.result
-                                    .filter { it != null }
-                                    .map { it.id to it.toObject(UserInfo::class.java)!!}
-                                    .toMap()
-                                    .let { userInfoMap ->
-                                        Triple(boardInfos, userInfoMap, lastVisible)
-                                    }
+                    }.continueWith { it ->
+                                Triple(infos, it.result.filterNotNull()
+                            .map { it.id to it.toObject(UserInfo::class.java)!!}
+                            .toMap(), lastVisible)
                     }
         }
     }

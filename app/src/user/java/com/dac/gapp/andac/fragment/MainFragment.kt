@@ -57,15 +57,16 @@ class MainFragment : Fragment() {
             showProgressDialog()
             getColumns().orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
                 querySnapshot
-                        ?.let { it.map { getColumn(it.id)?.get() } }
+                        ?.let { it -> it.map { getColumn(it.id)?.get() } }
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-                        .onSuccessTask {
-                            val columnInfos = it?.filter { it != null }?.map{it.toObject(ColumnInfo::class.java)!!}
+                        .onSuccessTask { it ->
+                            val columnInfos = it?.filterNotNull()?.map{it.toObject(ColumnInfo::class.java)!!}
                             columnInfos?.groupBy { it.writerUid }
                                     ?.map { getHospital(it.key).get() }
                                     .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-                                    .addOnSuccessListener { it
-                                            .filter { it != null }
+                                    .addOnSuccessListener { mutableList ->
+                                        mutableList
+                                            .filterNotNull()
                                             .map { it.id to it.toObject(HospitalInfo::class.java) }
                                             .toMap().also { hospitalInfoMap ->
                                                 columnList.adapter = ColumnRecyclerViewAdapter(this, columnInfos!!, hospitalInfoMap)

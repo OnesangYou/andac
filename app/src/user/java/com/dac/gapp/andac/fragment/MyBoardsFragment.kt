@@ -19,6 +19,7 @@ import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.user.fragment_my_boards.*
 
 
+@Suppress("DEPRECATION")
 class MyBoardsFragment : BaseFragment() {
     val list = mutableListOf<BoardInfo>()
     val map = mutableMapOf<String, UserInfo>()
@@ -81,12 +82,12 @@ class MyBoardsFragment : BaseFragment() {
         return (context as MyPageActivity).run {
             var lastVisible: DocumentSnapshot? = null
 
-            query.get().continueWithTask {
-                lastVisible = it.result.documents.let { it[it.size-1] }
-                it.result.map{ getBoard(it.id)?.get() }
+            query.get().continueWithTask { task ->
+                lastVisible = task.result.documents.let { it[it.size-1] }
+                task.result.map{ getBoard(it.id)?.get() }
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-            }.continueWith {
-                val boardInfos = it.result.filter { it != null }.map { it.toObject(BoardInfo::class.java)!! }
+            }.continueWith { task ->
+                val boardInfos = task.result.filterNotNull().map { it.toObject(BoardInfo::class.java)!! }
                 val userInfoMap = mapOf(getUid().toString() to userInfo!!)
                 Triple(boardInfos, userInfoMap, lastVisible)
             }
