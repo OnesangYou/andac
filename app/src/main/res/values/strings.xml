@@ -84,5 +84,10 @@
     <string name="confirm">확인</string>
     <string name="change_photo">배너 이미지를 클릭하여 사진 변경하기</string>
     <string name="select_my_event">내 이벤트 선택</string>
+
+    <string name="buy_count">buy_count</string>
+    <string name="price">price</string>
+    <string name="distance">distance</string>
+
 </resources>
 

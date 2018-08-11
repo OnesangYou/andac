@@ -65,11 +65,14 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getDb(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
+    // hospital
     fun getHospitals(): CollectionReference = getDb().collection("hospitals")
-
     fun getHospital(): DocumentReference? = getUid()?.let { getHospitals().document(it) }
-
     fun getHospital(key: String) = getHospitals().document(key)
+    fun getHospitalsStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("hospitals")
+    private fun getHospitalContents(uid: String? = getUid()) = uid?.let {
+        getDb().collection("hospitalContents").document(it)
+    }
 
     fun getAdRequests(): CollectionReference = getDb().collection("adRequests")
 
@@ -79,7 +82,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getAd(): DocumentReference? = getUid()?.let { getAds().document(it) }
 
-    fun getHospitalsStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("hospitals")
+
 
     fun getUsers(): CollectionReference = getDb().collection("users")
 
@@ -195,13 +198,15 @@ abstract class BaseActivity : AppCompatActivity() {
 
     // Column
     fun getColumnStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("columns")
-
     fun getColumns(): CollectionReference = getDb().collection("columns")
     fun getColumn(key: String): DocumentReference? = if (key.isEmpty()) null else getColumns().document(key)
-    private fun getHospitalContents(uid: String? = getUid()) = uid?.let {
-        getDb().collection("hospitalContents").document(it)
-    }
     fun getHospitalColumns() = getHospitalContents()?.collection("columns")
+
+    // Event
+    fun getEventStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("events")
+    fun getEvents(): CollectionReference = getDb().collection("events")
+    fun getEvent(key: String): DocumentReference? = if (key.isEmpty()) null else getEvents().document(key)
+    fun getHospitalEvents() = getHospitalContents()?.collection("events")
 
 
     private fun restartApp() {

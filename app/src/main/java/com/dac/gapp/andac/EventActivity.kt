@@ -1,5 +1,6 @@
 package com.dac.gapp.andac
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -30,19 +31,19 @@ class EventActivity : BaseActivity() {
 
         setInfo()
         setDialog()
-        event_submit.setOnClickListener({v: View ->
+        event_submit.setOnClickListener { v: View ->
             dialog!!.show()
-        })
-        hospital.setOnClickListener({v:View ->
-            val intent = Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+"123-4567-1234"));
+        }
+        hospital.setOnClickListener { v:View ->
+            val intent = Intent(Intent.ACTION_DIAL,Uri.parse("tel:"+"123-4567-1234"))
             startActivity(intent)
             println("dsadsa")
-        })
+        }
     }
 
     fun setInfo(){
         if (intent.hasExtra("EventInfo")) {
-            var eventDetail = intent.getParcelableExtra<EventDetail>("EventInfo")
+            val eventDetail = intent.getParcelableExtra<EventDetail>("EventInfo")
             event_title.text = eventDetail.title
             sub_title.text = eventDetail.sub_title
             body.text=eventDetail.body
@@ -52,15 +53,16 @@ class EventActivity : BaseActivity() {
         }
     }
 
+    @SuppressLint("InflateParams")
     fun setDialog(){
         val builder = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.event_request_dialog, null)
-        dialog = builder!!.setView(dialogView)
+        dialog = builder.setView(dialogView)
                 .setPositiveButton("확인") { dialogInterface, i ->
 
-                    var name = dialogView.event_name.text.toString()
-                    var phone = dialogView.event_phone.text.toString()
-                    var time = dialogView.event_time.text.toString()
+                    val name = dialogView.event_name.text.toString()
+                    val phone = dialogView.event_phone.text.toString()
+                    val time = dialogView.event_time.text.toString()
                     Toast.makeText(this,name+"/"+phone+"/"+time,Toast.LENGTH_SHORT ).show()
                 }
                 .setNegativeButton("취소") { dialogInterface, i ->
