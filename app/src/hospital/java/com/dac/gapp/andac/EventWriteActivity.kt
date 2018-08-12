@@ -81,14 +81,12 @@ class EventWriteActivity : BaseActivity() {
             arrayListOf(
                 pictureUri?.let{uri ->
                     getEventStorageRef().child(eventInfoRef.id).child("picture0.jpg").putFile(uri)
-                            .continueWith { it.result.downloadUrl.toString() }
-                            .addOnSuccessListener { eventInfo.pictureUrl = it }
+                            .continueWith { eventInfo.pictureUrl = it.result.downloadUrl.toString() }
                 }
                 ,
                 detailPictureUri?.let{uri ->
                     getEventStorageRef().child(eventInfoRef.id).child("detailPictureUrl0.jpg").putFile(uri)
-                            .continueWith { it.result.downloadUrl.toString() }
-                            .addOnSuccessListener { eventInfo.detailPictureUrl = it }
+                            .continueWith { eventInfo.detailPictureUrl = it.result.downloadUrl.toString() }
                 }
             ).filterNotNull().let {
                 Tasks.whenAllSuccess<String>(it)
