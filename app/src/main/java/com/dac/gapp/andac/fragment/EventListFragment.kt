@@ -13,7 +13,7 @@ import com.dac.gapp.andac.EventDetailActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
-import com.dac.gapp.andac.model.EventInfo
+import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.OnItemClickListener
 import com.dac.gapp.andac.util.addOnItemClickListener

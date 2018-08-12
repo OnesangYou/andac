@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
-import com.dac.gapp.andac.model.EventInfo
+import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.viewholder.EventInfoViewHolder
 
 class EventInfoRecyclerviewAdapter(var context: Context?, var list: List<EventInfo>) : RecyclerView.Adapter<EventInfoViewHolder>() {

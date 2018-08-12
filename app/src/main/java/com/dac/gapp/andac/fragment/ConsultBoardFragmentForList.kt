@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.ConsultBoardRecytclerViewAdapter
-import com.dac.gapp.andac.model.EventInfo
 import kotlinx.android.synthetic.main.fragment_consult_board_list.*
 
 class ConsultBoardFragmentForList : Fragment(){

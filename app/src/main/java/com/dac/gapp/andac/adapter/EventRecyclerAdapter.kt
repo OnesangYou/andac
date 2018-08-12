@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
-import com.dac.gapp.andac.model.EventInfo
+import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.event_row.view.*
 

@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.EventInfoRecyclerviewAdapter
 import com.dac.gapp.andac.base.BaseFragment
-import com.dac.gapp.andac.model.EventInfo
+import com.dac.gapp.andac.model.firebase.EventInfo
 import kotlinx.android.synthetic.main.fragment_event_list_for_list.*
 
 class EventListFragmentForList : BaseFragment(){
