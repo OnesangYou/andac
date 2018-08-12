@@ -80,13 +80,13 @@ class EventWriteActivity : BaseActivity() {
             showProgressDialog()
             arrayListOf(
                 pictureUri?.let{uri ->
-                    getEventStorageRef().child(eventInfoRef.id).child("picture.jpg").putFile(uri)
+                    getEventStorageRef().child(eventInfoRef.id).child("picture0.jpg").putFile(uri)
                             .continueWith { it.result.downloadUrl.toString() }
                             .addOnSuccessListener { eventInfo.pictureUrl = it }
                 }
                 ,
                 detailPictureUri?.let{uri ->
-                    getEventStorageRef().child(eventInfoRef.id).child("picture.jpg").putFile(uri)
+                    getEventStorageRef().child(eventInfoRef.id).child("detailPictureUrl0.jpg").putFile(uri)
                             .continueWith { it.result.downloadUrl.toString() }
                             .addOnSuccessListener { eventInfo.detailPictureUrl = it }
                 }
