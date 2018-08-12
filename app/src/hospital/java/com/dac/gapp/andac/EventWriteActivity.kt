@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
-import com.dac.gapp.andac.model.EventInfo
+import com.dac.gapp.andac.model.firebase.EventInfo
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.hospital.activity_event_write.*
