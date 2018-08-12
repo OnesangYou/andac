@@ -44,14 +44,18 @@ class EventDetailActivity : BaseActivity() {
 
                             // Set hospital Btn
                             hospital.setOnClickListener {
+                                if(!isUser()) {
+                                    toast("유저가 아니면 이벤트 신청이 불가능 합니다")
+                                    return@setOnClickListener
+                                }
                                 startActivity(HospitalActivity.createIntent(this@EventDetailActivity, hospitalInfo))
+
                             }
                         }}
 
                     } }
                     ?.addOnCompleteListener { hideProgressDialog() }
         }
-
 
 
         // event_submit
@@ -62,17 +66,32 @@ class EventDetailActivity : BaseActivity() {
 
     @SuppressLint("InflateParams")
     fun showDialog(){
-        val builder = AlertDialog.Builder(this)
-        val dialogView = layoutInflater.inflate(R.layout.event_request_dialog, null)
-        builder.setView(dialogView)
-                .setPositiveButton("확인") { _, _ ->
-                    val name = dialogView.event_name.text.toString()
-                    val phone = dialogView.event_phone.text.toString()
-                    val time = dialogView.event_time.text.toString()
-                    toast("이벤트신청이 완료되었습니다.\n내이벤트목록을 확인하세요");
-                }
-                .setNegativeButton("취소") { _, _ ->
-                }.create().show()
+        getUserInfo()?.addOnSuccessListener {it?.let{userInfo ->
+            val builder = AlertDialog.Builder(this)
+            val dialogView = layoutInflater.inflate(R.layout.event_request_dialog, null)
+                    // 유저 정보 가져와서 기본값 셋팅
+                    .apply {
+                        event_name.setText(userInfo.nickName)
+                        event_phone.setText(userInfo.cellPhone)
+                    }
+
+            builder.setView(dialogView)
+                    .setPositiveButton("확인") { _, _ ->
+
+                        if(!dialogView.event_name.agreePersonalInfoCheckBox.isChecked) {
+                            toast("개인정보 이용 동의하지 않으면 신청 불가능합니다")
+                            return@setPositiveButton
+                        }
+                        val name = dialogView.event_name.text.toString()
+                        val phone = dialogView.event_phone.text.toString()
+                        val time = dialogView.event_time.text.toString()
+                        toast("이벤트신청이 완료되었습니다.\n내이벤트목록을 확인하세요")
+                    }
+                    .setNegativeButton("취소") { _, _ ->
+                    }.create().show()
+        } }
+
+
     }
 
 }
