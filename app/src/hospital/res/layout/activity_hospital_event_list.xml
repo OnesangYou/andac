@@ -17,11 +17,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
-        <ImageButton
+        <ImageView
             android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/back"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="left"
+            android:layout_marginStart="20dp"
+            app:srcCompat="@drawable/back"
+            tools:ignore="ContentDescription,RtlHardcoded"
             />
 
         <TextView
@@ -34,17 +37,18 @@
             tools:layout_editor_absoluteY="19dp" />
 
         <Button
-            android:id="@+id/addEventBtn"
+            android:id="@+id/writeEventBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:background="#00ff0000"
-            android:text="이벤트 등록"
+            android:text="이벤트 작성하기"
             tools:layout_editor_absoluteX="296dp"
             tools:layout_editor_absoluteY="4dp" />
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

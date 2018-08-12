@@ -1,12 +1,16 @@
 package com.dac.gapp.andac
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.dac.gapp.andac.adapter.ColumnRecyclerViewAdapter
+import android.view.View
+import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.util.OnItemClickListener
+import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
@@ -26,7 +30,14 @@ class ColumnActivity : BaseActivity() {
 
         // recyclerView
         recyclerView.layoutManager = GridLayoutManager(this,2)
-        recyclerView.adapter = ColumnRecyclerViewAdapter(this@ColumnActivity, list, map)
+        recyclerView.adapter = ColumnRecyclerAdapter(this@ColumnActivity, list, map)
+        recyclerView.addOnItemClickListener(object: OnItemClickListener {
+            override fun onItemClicked(position: Int, view: View) {
+                // 디테일
+                startActivity(Intent(this@ColumnActivity, ColumnDetailActivity::class.java).putExtra(OBJECT_KEY,list[position].objectId))
+            }
+        })
+
         setAdapter()
 
         // back

@@ -23,6 +23,8 @@ class EventWriteActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_write)
 
+        back.setOnClickListener { finish() }
+
         // 수정 시 데이터 받아서 초기화
         intent.getStringExtra(OBJECT_KEY)?.let{ key ->
             showProgressDialog()
@@ -31,6 +33,7 @@ class EventWriteActivity : BaseActivity() {
                 titleText.setText(title)
                 bodyText.setText(body)
                 Glide.with(this@EventWriteActivity).load(pictureUrl).into(topImage)
+                Glide.with(this@EventWriteActivity).load(detailPictureUrl).into(bottomImage)
 
             }}?.addOnCompleteListener { hideProgressDialog() }
             deleteBtn.apply{
@@ -75,6 +78,8 @@ class EventWriteActivity : BaseActivity() {
             }?:let{
                 getEvents().document()
             }
+
+            eventInfo.objectId = eventInfoRef.id
 
             // picture 있을 경우 업로드 후 url 받아오기, 데이터 업로드
             showProgressDialog()

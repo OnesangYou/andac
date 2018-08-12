@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.dac.gapp.andac.EventActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.event_row.view.*
-import org.jetbrains.anko.startActivity
 
 class EventRecyclerAdapter
 (private val context : BaseActivity?, private var mDataList: List<EventInfo>, private var writerInfoMap: Map<String, HospitalInfo>) : RecyclerView.Adapter<EventRecyclerAdapter.EventHolder>() {
@@ -41,7 +39,10 @@ class EventRecyclerAdapter
             context?.apply{
                 layout.setOnClickListener {
                     // go to evnet detail
-                    startActivity<EventActivity>()
+//                    startActivity<EventDetailActivity>()
+
+//                    if(item.writerUid == getUid()) startActivity<EventWriteActivity>(OBJECT_KEY to item.objectId)
+//                    else startActivity(Intent(this@apply, EventDetailActivity::class.java).putExtra(OBJECT_KEY,item.objectId))
                 }
             }
 

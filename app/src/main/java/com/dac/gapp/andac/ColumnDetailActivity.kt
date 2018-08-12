@@ -19,7 +19,9 @@ class ColumnDetailActivity : BaseActivity() {
         // 병원 상세 정보 가져오기
         intent.getStringExtra(OBJECT_KEY)?.let{ objectId ->
 
-            getColumn(objectId)?.get()?.continueWith { it.result.toObject(ColumnInfo::class.java) }?.addOnSuccessListener { it?.also { columnInfo ->
+            showProgressDialog()
+            getColumn(objectId)?.get()?.continueWith { it.result.toObject(ColumnInfo::class.java) }?.addOnSuccessListener { it ->
+                it?.also { columnInfo ->
                 titleText.text = columnInfo.title
                 contentsText.text = columnInfo.contents
                 Glide.with(this@ColumnDetailActivity).load(columnInfo.pictureUrl).into(pictureImage)
@@ -31,7 +33,7 @@ class ColumnDetailActivity : BaseActivity() {
                     hospitalNameText.text = it?.name
                 }
 
-            } }
+            } }?.addOnCompleteListener { hideProgressDialog() }
 
             // 내가 본 컬럼 추가
             addViewedColumn(objectId)

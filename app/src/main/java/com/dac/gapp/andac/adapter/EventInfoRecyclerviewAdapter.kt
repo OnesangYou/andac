@@ -1,14 +1,10 @@
 package com.dac.gapp.andac.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import com.dac.gapp.andac.EventActivity
 import com.dac.gapp.andac.R
-import com.dac.gapp.andac.model.EventDetail
 import com.dac.gapp.andac.model.EventInfo
 import com.dac.gapp.andac.viewholder.EventInfoViewHolder
 
@@ -30,13 +26,5 @@ class EventInfoRecyclerviewAdapter(var context: Context?, var list: List<EventIn
         holder.deal_kind.text = item.deal_kind
         holder.price.text = item.price.toString()
         holder.buy_count.text = item.buy_count.toString()
-
-        var eventDetail = EventDetail(item.title, item.sub_title, item.body, item.deal_kind, item.price.toString(), item.buy_count.toString())
-
-        holder.itemView.setOnClickListener { v: View ->
-            val nextIntent = Intent(context, EventActivity::class.java)
-            nextIntent.putExtra("EventInfo", eventDetail)
-            context!!.startActivity(nextIntent)
-        }
     }
 }

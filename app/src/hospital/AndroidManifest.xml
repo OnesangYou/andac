@@ -34,7 +34,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".RequestSurgeryActivity" />
         <activity android:name=".ColumnActivity" />
-        <activity android:name=".EventActivity" />
+        <activity android:name=".EventDetailActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".HospitalActivity" />
         <activity android:name=".BoardWriteActivity" />
@@ -50,7 +50,6 @@
         <activity
             android:name=".ChangeProfileActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".MyEventListActivity" />
         <activity android:name=".HospitalEventListActivity" />
         <activity android:name=".EventWriteActivity"></activity>
     </application>

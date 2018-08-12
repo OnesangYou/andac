@@ -17,8 +17,8 @@ import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.column_item.view.*
 import org.jetbrains.anko.startActivity
 
-class ColumnRecyclerViewAdapter
-(var context : BaseActivity, private var mDataList :List<ColumnInfo>, private var hospitalInfoMap: Map<String, HospitalInfo?>) : RecyclerView.Adapter<ColumnRecyclerViewAdapter.ColumnHolder>(){
+class ColumnRecyclerAdapter
+(var context : BaseActivity, private var mDataList :List<ColumnInfo>, private var hospitalInfoMap: Map<String, HospitalInfo?>) : RecyclerView.Adapter<ColumnRecyclerAdapter.ColumnHolder>(){
     override fun getItemCount(): Int {
         return mDataList.size
     }

@@ -24,7 +24,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".RequestSurgeryActivity" />
         <activity android:name=".ColumnActivity" />
-        <activity android:name=".EventActivity" />
+        <activity android:name=".EventDetailActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".HospitalActivity" />
         <activity android:name=".BoardWriteActivity" />

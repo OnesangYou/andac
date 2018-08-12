@@ -7,7 +7,7 @@ data class EventInfo(
         var title :String = "",
         var sub_title : String = "",
         var body : String = "",
-        var deal_kind : String = "",
+        var deal_kind : String = "할인가",
         var price : Int = 0,
         var buy_count : Int = 0,
         var writerUid : String = "",
@@ -25,4 +25,5 @@ data class EventInfo(
             }
         }.let{null}
     }
+    var objectId: String? = null
 }

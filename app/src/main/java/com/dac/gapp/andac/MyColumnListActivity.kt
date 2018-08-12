@@ -3,10 +3,13 @@ package com.dac.gapp.andac
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.dac.gapp.andac.adapter.ColumnRecyclerViewAdapter
+import android.view.View
+import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.util.OnItemClickListener
+import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
@@ -25,14 +28,20 @@ class MyColumnListActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_column_list)
 
-        // recyclerView
-        recyclerView.layoutManager = GridLayoutManager(this@MyColumnListActivity,2)
-        recyclerView.adapter = ColumnRecyclerViewAdapter(this@MyColumnListActivity, list, map)
-        setAdapter()
-
-
         back.setOnClickListener { finish() }
         writeColumnBtn.setOnClickListener { startActivity<ColumnWriteActivity>() }
+
+        // recyclerView
+        recyclerView.layoutManager = GridLayoutManager(this@MyColumnListActivity,2)
+        recyclerView.adapter = ColumnRecyclerAdapter(this@MyColumnListActivity, list, map)
+        recyclerView.addOnItemClickListener(object: OnItemClickListener {
+            override fun onItemClicked(position: Int, view: View) {
+                // 수정하기
+                if(list[position].writerUid == getUid()) startActivity<ColumnWriteActivity>(OBJECT_KEY to list[position].objectId)
+            }
+        })
+
+        setAdapter()
     }
 
     private fun setAdapter() {

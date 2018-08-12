@@ -50,12 +50,6 @@ import java.io.File
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        findViewById<View>(R.id.back).setOnClickListener { finish() }
-    }
-
-
     val KBJ = "KBJ"
     val GOTO_MYPAGE = "goToMyPage"
     val OBJECT_KEY = "objectKey"
@@ -352,7 +346,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun showDeleteObjectDialog(objectStr : String, objectRef : DocumentReference){
 
-        showProgressDialog()
         alert(title = "$objectStr 삭제", message = "${objectStr}을 삭제하시겠습니까?") {
             positiveButton("YES"){ it ->
                 // 삭제 진행
