@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.model.firebase.EventApplyInfo
 import com.dac.gapp.andac.model.firebase.EventInfo
+import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_event.*
 import kotlinx.android.synthetic.main.event_request_dialog.view.*
 
@@ -55,18 +57,21 @@ class EventDetailActivity : BaseActivity() {
 
                     } }
                     ?.addOnCompleteListener { hideProgressDialog() }
+
+            // event_submit
+            event_submit.setOnClickListener { showDialog(objectId) }
+
         }
 
 
-        // event_submit
-        event_submit.setOnClickListener { showDialog() }
 
 
     }
 
     @SuppressLint("InflateParams")
-    fun showDialog(){
-        getUserInfo()?.addOnSuccessListener {it?.let{userInfo ->
+    fun showDialog(eventId : String){
+        getUserInfo()?.addOnSuccessListener { it ->
+            it?.let{ userInfo ->
             val builder = AlertDialog.Builder(this)
             val dialogView = layoutInflater.inflate(R.layout.event_request_dialog, null)
                     // 유저 정보 가져와서 기본값 셋팅
@@ -78,14 +83,24 @@ class EventDetailActivity : BaseActivity() {
             builder.setView(dialogView)
                     .setPositiveButton("확인") { _, _ ->
 
-                        if(!dialogView.event_name.agreePersonalInfoCheckBox.isChecked) {
+                        if(!dialogView.agreePersonalInfoCheckBox.isChecked) {
                             toast("개인정보 이용 동의하지 않으면 신청 불가능합니다")
                             return@setPositiveButton
                         }
-                        val name = dialogView.event_name.text.toString()
-                        val phone = dialogView.event_phone.text.toString()
-                        val time = dialogView.event_time.text.toString()
-                        toast("이벤트신청이 완료되었습니다.\n내이벤트목록을 확인하세요")
+
+                        val eventApplyInfo = EventApplyInfo(
+                            name = dialogView.event_name.text.toString(),
+                            phone = dialogView.event_phone.text.toString(),
+                            possibleTime = dialogView.event_time.text.toString(),
+                            writerUid = getUid()!!
+                        ).apply { objectId = getUid()!! }
+
+                        showProgressDialog()
+                        getEventApplicant(eventId)?.set(eventApplyInfo, SetOptions.merge())
+                                ?.addOnSuccessListener { toast("이벤트신청이 완료되었습니다.\n내이벤트목록을 확인하세요") }
+                                ?.addOnCompleteListener { hideProgressDialog() }
+
+
                     }
                     .setNegativeButton("취소") { _, _ ->
                     }.create().show()

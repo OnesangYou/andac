@@ -51,6 +51,10 @@ class EventListFragment : BaseFragment() {
             }
         })
 
+    }
+
+    override fun onStart() {
+        super.onStart()
         // set boardTabGroup
         boardTabGroup.apply {
             // default
@@ -59,6 +63,7 @@ class EventListFragment : BaseFragment() {
                 setAdapter()
             }
 
+            // set Listener
             setOnCheckedChangeListener{ _ : Any?, checkedId : Int ->
                 when(checkedId) {
                     R.id.popular_order     -> setAdapter(getString(R.string.buy_count))

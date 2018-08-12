@@ -50,6 +50,10 @@ class BoardFragment : BaseFragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = BoardRecyclerAdapter(context, list, map)
 
+    }
+
+    override fun onStart() {
+        super.onStart()
         // set boardTabGroup
         boardTabGroup.apply {
             // default

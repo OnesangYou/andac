@@ -210,6 +210,10 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getEvent(key: String): DocumentReference? = if (key.isEmpty()) null else getEvents().document(key)
     fun getHospitalEvents() = getHospitalContents()?.collection("events")
 
+    // Event Applicants
+    fun getEventApplicants(eventKey: String) = getEvent(eventKey)?.collection("applicants")
+    fun getEventApplicant(eventKey: String) = getUid()?.let { getEventApplicants(eventKey)?.document(it) }
+
 
     private fun restartApp() {
         val mStartActivity = Intent(this, SplashActivity::class.java)
