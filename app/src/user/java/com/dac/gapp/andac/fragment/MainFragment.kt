@@ -8,13 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.*
-import com.dac.gapp.andac.adapter.ColumnRecyclerViewAdapter
+import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.user.fragment_main.*
+import org.jetbrains.anko.toast
 
 class MainFragment : Fragment() {
 
@@ -36,8 +37,9 @@ class MainFragment : Fragment() {
         }
 
         event.setOnClickListener {
-            val nextIntent = Intent(context, EventActivity::class.java)
-            startActivity(nextIntent)
+            // TODO : 이벤트 신청내역
+            context?.toast("이벤트 신청내역")
+
         }
 
         findHospitalByText.setOnClickListener {
@@ -69,7 +71,7 @@ class MainFragment : Fragment() {
                                             .filterNotNull()
                                             .map { it.id to it.toObject(HospitalInfo::class.java) }
                                             .toMap().also { hospitalInfoMap ->
-                                                columnList.adapter = ColumnRecyclerViewAdapter(this, columnInfos!!, hospitalInfoMap)
+                                                columnList.adapter = ColumnRecyclerAdapter(this, columnInfos!!, hospitalInfoMap)
                                                 columnList.adapter.notifyDataSetChanged()
                                             }
                                     }
