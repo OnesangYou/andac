@@ -34,9 +34,9 @@ class EventRecyclerAdapter
             Glide.with(context).load(item.pictureUrl).into(picture)
             bodyText.text = item.body
             dealKindText.text = item.deal_kind
-            priceText.text = item.price
+            priceText.text = item.price.toString()
             hospitalName.text = hospital?.name
-            buyCount.text = item.buy_count
+            buyCount.text = item.buy_count.toString()
 
             context?.apply{
                 layout.setOnClickListener {

@@ -9,6 +9,8 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
@@ -41,11 +43,17 @@ import com.google.firebase.storage.StorageReference
 import com.yanzhenjie.album.Album
 import com.yanzhenjie.album.AlbumFile
 import kotlinx.android.synthetic.main.layout_toolbar.*
+import org.jetbrains.anko.alert
 import timber.log.Timber
 import java.io.File
 
 
 abstract class BaseActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+        findViewById<View>(R.id.back).setOnClickListener { finish() }
+    }
 
 
     val KBJ = "KBJ"
@@ -340,5 +348,19 @@ abstract class BaseActivity : AppCompatActivity() {
                 // 입력하기 전에
             }
         })
+    }
+
+    fun showDeleteObjectDialog(objectStr : String, objectRef : DocumentReference){
+
+        showProgressDialog()
+        alert(title = "$objectStr 삭제", message = "${objectStr}을 삭제하시겠습니까?") {
+            positiveButton("YES"){ it ->
+                // 삭제 진행
+                showProgressDialog()
+                objectRef.delete().addOnCompleteListener { hideProgressDialog() }.addOnSuccessListener { finish() }
+            }
+
+            negativeButton("NO"){}
+        }.show()
     }
 }

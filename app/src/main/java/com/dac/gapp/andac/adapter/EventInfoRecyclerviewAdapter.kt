@@ -28,15 +28,15 @@ class EventInfoRecyclerviewAdapter(var context: Context?, var list: List<EventIn
         holder.sub_title.text = item.sub_title
         holder.body.text = item.body
         holder.deal_kind.text = item.deal_kind
-        holder.price.text = item.price
-        holder.buy_count.text = item.buy_count
+        holder.price.text = item.price.toString()
+        holder.buy_count.text = item.buy_count.toString()
 
-        var eventDetail = EventDetail(item.title, item.sub_title, item.body, item.deal_kind, item.price, item.buy_count)
+        var eventDetail = EventDetail(item.title, item.sub_title, item.body, item.deal_kind, item.price.toString(), item.buy_count.toString())
 
-        holder.itemView.setOnClickListener({ v: View ->
+        holder.itemView.setOnClickListener { v: View ->
             val nextIntent = Intent(context, EventActivity::class.java)
             nextIntent.putExtra("EventInfo", eventDetail)
             context!!.startActivity(nextIntent)
-        })
+        }
     }
 }

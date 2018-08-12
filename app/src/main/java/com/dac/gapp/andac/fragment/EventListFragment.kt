@@ -111,7 +111,7 @@ class EventListFragment : BaseFragment() {
                     }.continueWithTask { it ->
                         infos = it.result
                         infos.groupBy { it.writerUid }
-                                .map { getUser(it.key)?.get() }
+                                .map { getHospital(it.key).get() }
                                 .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                     }.continueWith { it ->
                         Triple(infos, it.result.filterNotNull()

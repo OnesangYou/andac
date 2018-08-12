@@ -13,7 +13,7 @@ import org.jetbrains.anko.alert
 class ColumnWriteActivity : BaseActivity() {
 
     private var pictureUri: Uri? = null
-    private val columnInfo = ColumnInfo()
+    private var columnInfo = ColumnInfo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +23,9 @@ class ColumnWriteActivity : BaseActivity() {
         // 수정 시 컬럼 데이터 받아서 초기화
         intent.getStringExtra(OBJECT_KEY)?.let{ key ->
             showProgressDialog()
-            getColumn(key)?.get()?.continueWith { it.result.toObject(ColumnInfo::class.java) }?.addOnSuccessListener { it?.apply {
+            getColumn(key)?.get()?.continueWith { it.result.toObject(ColumnInfo::class.java) }
+                    ?.addOnSuccessListener { it?.apply {
+                        columnInfo = this
                 titleText.setText(title)
                 contentsText.setText(contents)
                 Glide.with(this@ColumnWriteActivity).load(pictureUrl).into(pictureImage)
@@ -31,7 +33,7 @@ class ColumnWriteActivity : BaseActivity() {
             }}?.addOnCompleteListener { hideProgressDialog() }
 
             deleteBtn.apply{
-                setOnClickListener { showDeleteColumnDialog(columnInfo.objectId) }
+                setOnClickListener { showDeleteColumnDialog(key) }
                 deleteBtn.visibility = View.VISIBLE
 
             }
@@ -101,20 +103,5 @@ class ColumnWriteActivity : BaseActivity() {
         return true
     }
 
-
-    private fun showDeleteColumnDialog(objectId : String){
-        showProgressDialog()
-        alert(title = "게시물 삭제", message = "게시물을 삭제하시겠습니까?") {
-            positiveButton("YES"){ it ->
-                // 삭제 진행
-                showProgressDialog()
-                getColumn(objectId)?.delete()
-                        ?.addOnCompleteListener { hideProgressDialog() }
-                        ?.addOnSuccessListener { finish() }
-            }
-
-            negativeButton("NO"){}
-        }.show()
-    }
-
+    private fun showDeleteColumnDialog(objectId : String) = getColumn(objectId)?.let{ showDeleteObjectDialog("게시물", it) }
 }
