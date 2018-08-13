@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import com.dac.gapp.andac.*
 import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.adapter.AdPagerAdapter
-import com.dac.gapp.andac.adapter.ColumnRecyclerViewAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.model.firebase.AdInfo
@@ -20,7 +19,6 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.user.fragment_main.*
-import org.jetbrains.anko.toast
 import timber.log.Timber
 import java.util.*
 
