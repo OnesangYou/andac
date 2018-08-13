@@ -97,30 +97,34 @@ class AdPaymentFragment : BaseFragment() {
                     .check()
         }
 
-        btnPay.setOnClickListener {
+        btnPay.setOnClickListener { view ->
             // TODO 광고 결제 모듈은 어떻게??
             MyToast.showShort(requireContext(), "TODO : 광고 결제 완료 후 사진 업로드 및 광고 기한 업로드 !!")
-            context?.showProgressDialog()
-            photoUri?.let { uri ->
-                context?.getUid()?.let { uid ->
-                    ad.uploadFileName.let { uploadFileName -> context?.getAdStorageRef()?.child(uid)?.child(uploadFileName)?.putFile(uri) }
-                }
-
-                context?.getUid()?.let {
-                    context?.getAds()?.document(it)?.set(AdInfo(it, ad.adType.name, Date(), Common.getDate(2018, 8, 30)), SetOptions.merge())?.addOnSuccessListener {
-                        Toast.makeText(context, "광고 정보 저장 성공", Toast.LENGTH_SHORT).show()
-                    }?.addOnCanceledListener {
-                        Toast.makeText(context, "광고 정보 저장 실패", Toast.LENGTH_SHORT).show()
+            context?.let { context ->
+                context.getUid()?.let { uid ->
+                    photoUri?.let { uri ->
+                        context.showProgressDialog()
+                        context.getAdStorageRef().child(uid).child(ad.uploadFileName).putFile(uri)
+                                .continueWith {
+                                    it.result.downloadUrl.toString()
+                                }
+                                .addOnSuccessListener { photoUrl ->
+                                    context.getAds().document(uid).set(AdInfo(uid, ad.adType.name, photoUrl, Date(), Common.getDate(2018, 8, 30)), SetOptions.merge())
+                                            .addOnSuccessListener {
+                                                Toast.makeText(context, "광고 정보 저장 성공", Toast.LENGTH_SHORT).show()
+                                            }
+                                            .addOnFailureListener {
+                                                Toast.makeText(context, "광고 정보 저장 실패", Toast.LENGTH_SHORT).show()
+                                            }
+                                }.addOnCompleteListener {
+                                    context.hideProgressDialog()
+                                    fragmentManager?.popBackStack()
+                                }
                     }
                 }
-            }?.addOnSuccessListener {
-                MyToast.showShort(context, "광고 결제 완료")
-            }?.addOnCompleteListener {
-                context?.hideProgressDialog()
-                fragmentManager?.popBackStack()
+
             }
         }
-
     }
 
     private fun startGalleryActivity() {

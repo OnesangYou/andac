@@ -10,6 +10,7 @@ import java.util.*
 data class AdInfo(
         var hospitalUid: String = "",
         var adType: String = "",
+        var photoUrl: String = "",
         @ServerTimestamp var startDate: Date? = null,
         @ServerTimestamp var endDate: Date? = null
 )
