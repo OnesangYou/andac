@@ -14,6 +14,7 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.BoardRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.model.firebase.BoardInfo
+import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -27,6 +28,7 @@ class BoardFragment : BaseFragment() {
 
     val list = mutableListOf<BoardInfo>()
     val map = mutableMapOf<String, UserInfo>()
+    val hospitalInfoMap = mutableMapOf<String, HospitalInfo>()
     private var lastVisible : DocumentSnapshot? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -48,7 +50,7 @@ class BoardFragment : BaseFragment() {
 
         // set recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = BoardRecyclerAdapter(context, list, map)
+        recyclerView.adapter = BoardRecyclerAdapter(context, list, map, hospitalInfoMap)
 
     }
 
@@ -78,6 +80,7 @@ class BoardFragment : BaseFragment() {
         // reset data
         list.clear()
         map.clear()
+        hospitalInfoMap.clear()
         lastVisible = null
         recyclerView.adapter.notifyDataSetChanged()
 
@@ -107,28 +110,47 @@ class BoardFragment : BaseFragment() {
                     ?.addOnSuccessListener {
                         list.addAll(it.first)
                         map.putAll(it.second)
+                        hospitalInfoMap.putAll(it.third)
                         recyclerView.adapter.notifyDataSetChanged()
                     }
                     ?.addOnCompleteListener { hideProgressDialog() }
         }
     }
 
-    private fun getTripleDataTask(query : Query) : Task<Triple<List<BoardInfo>, Map<String, UserInfo>, DocumentSnapshot?>>? {
+    private fun getTripleDataTask(query : Query) : Task<Triple<List<BoardInfo>, Map<String, UserInfo>, Map<String, HospitalInfo>>>? {
+
+        var boardInfos = listOf<BoardInfo>()
+        var userInfoMap = mapOf<String, UserInfo>()
+        var hospitalInfoMap = mapOf<String, HospitalInfo>()
+
         return context?.run {
-            var infos : List<BoardInfo> = listOf()
                     query.get()
                     .continueWith { it ->
                         lastVisible = it.result.documents.let { it[it.size-1] }
                         it.result.toObjects(BoardInfo::class.java)
                     }.continueWithTask { it ->
-                        infos = it.result
-                        infos.groupBy { it.writerUid }
-                                .map { getUser(it.key)?.get() }
-                                .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-                    }.continueWith { it ->
-                                Triple(infos, it.result.filterNotNull()
-                            .map { it.id to it.toObject(UserInfo::class.java)!!}
-                            .toMap(), lastVisible)
+                                boardInfos = it.result
+
+                                Tasks.whenAllComplete(
+                                        // set userInfoMap
+                                        boardInfos.mapNotNull {
+                                            getUserInfo(it.writerUid)?.continueWith { task-> it.writerUid to task.result }
+                                        }.let {
+                                            Tasks.whenAllSuccess<Pair<String, UserInfo>>(it)
+                                        }.addOnSuccessListener { userInfoMap = it.toMap() }
+                                                ,
+                                        // set hospitalInfoMap
+                                        boardInfos.mapNotNull {
+                                            getHospitalInfo(it.hospitalUid)?.continueWith { task-> it.hospitalUid to task.result }
+                                        }.let {
+                                            Tasks.whenAllSuccess<Pair<String, HospitalInfo>>(it)
+                                        }.addOnSuccessListener { hospitalInfoMap = it.toMap() }
+                                )
+
+                    }.continueWith {
+                                Triple(boardInfos,
+                                        userInfoMap,
+                                        hospitalInfoMap)
                     }
         }
     }

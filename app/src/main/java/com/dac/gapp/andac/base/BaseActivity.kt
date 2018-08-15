@@ -158,8 +158,8 @@ abstract class BaseActivity : AppCompatActivity() {
         toast("한번 더 누르면 종료됩니다.")
     }
 
-    fun getUserInfo(): Task<UserInfo>? {
-        return getUser()?.get()?.continueWith { it.result.toObject(UserInfo::class.java) }
+    fun getUserInfo(uid : String? = getUid()): Task<UserInfo>? {
+        return uid?.let { it -> getUser(it)?.get()?.continueWith { it.result.toObject(UserInfo::class.java) } }
     }
 
     fun isHospital(): Boolean = BuildConfig.FLAVOR == "hospital"

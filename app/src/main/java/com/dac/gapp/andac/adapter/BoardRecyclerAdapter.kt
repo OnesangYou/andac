@@ -13,6 +13,7 @@ import com.dac.gapp.andac.BoardWriteActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.BoardInfo
+import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.Common
 import kotlinx.android.synthetic.main.base_item_card.*
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.base_item_card.view.*
 import org.jetbrains.anko.alert
 
 class BoardRecyclerAdapter
-(private val context : BaseActivity?, private var mDataList: List<BoardInfo>, private var userInfoMap: Map<String, UserInfo>) : RecyclerView.Adapter<BoardRecyclerAdapter.BoardHolder>() {
+(private val context : BaseActivity?, private var mDataList: List<BoardInfo>, private var userInfoMap: Map<String, UserInfo>, private var hospitalInfoMap: Map<String, HospitalInfo>) : RecyclerView.Adapter<BoardRecyclerAdapter.BoardHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardHolder {
         return BoardHolder(parent)
@@ -85,13 +86,17 @@ class BoardRecyclerAdapter
 
                 }
             }
+
+            // hospital_hashtag
+            hospital_hashtag.text = hospitalInfoMap[item.hospitalUid]?.name
+
         }
     }
 
     private fun BaseActivity.showDeleteBoardDialog(boardId : String){
         showProgressDialog()
         alert(title = "게시물 삭제", message = "게시물을 삭제하시겠습니까?") {
-            positiveButton("YES"){
+            positiveButton("YES"){ _ ->
                 // 삭제 진행
                 showProgressDialog()
                 getBoard(boardId)?.delete()?.addOnCompleteListener { hideProgressDialog() }
@@ -117,5 +122,6 @@ class BoardRecyclerAdapter
         val date: TextView = itemView.date
         val modifyBtn: Button = itemView.modifyBtn
         val pictures = arrayListOf(itemView.picture_1, itemView.picture_2, itemView.picture_3)
+        val hospital_hashtag: TextView = itemView.hospital_hashtag
     }
 }
