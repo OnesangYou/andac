@@ -2,11 +2,18 @@ package com.dac.gapp.andac.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.*
+import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.model.firebase.ColumnInfo
+import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.hospital.fragment_main.*
 import org.jetbrains.anko.startActivity
 
@@ -24,8 +31,41 @@ class MainFragment : BaseFragment() {
         btnHospitalAdManagement.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdManagement(requireContext())) }
         btnHospitalAdApplication.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdApplication(requireContext())) }
 
-        viewColumnsBtn.setOnClickListener { startActivity(Intent(context, ColumnActivity::class.java)) }
         myColumnsBtn.setOnClickListener { context?.startActivity<MyColumnListActivity>() }
+
+        columnList.layoutManager = GridLayoutManager(context, 2)
+        setAdapter()
+
+        more_calum.setOnClickListener {
+            context?.startActivity<ColumnActivity>()
+        }
+    }
+
+    private fun setAdapter() {
+        (context as MainActivity).apply {
+            showProgressDialog()
+            getColumns().orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
+                querySnapshot
+                        ?.let { it -> it.map { getColumn(it.id)?.get() } }
+                        .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
+                        .onSuccessTask { it ->
+                            val columnInfos = it?.filterNotNull()?.map { it.toObject(ColumnInfo::class.java)!! }
+                            columnInfos?.groupBy { it.writerUid }
+                                    ?.map { getHospital(it.key).get() }
+                                    .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
+                                    .addOnSuccessListener { mutableList ->
+                                        mutableList
+                                                .filterNotNull()
+                                                .map { it.id to it.toObject(HospitalInfo::class.java) }
+                                                .toMap().also { hospitalInfoMap ->
+                                                    columnList.adapter = ColumnRecyclerAdapter(this, columnInfos!!, hospitalInfoMap)
+                                                    columnList.adapter.notifyDataSetChanged()
+                                                }
+                                    }
+                        }
+                        .addOnCompleteListener { hideProgressDialog() }
+            }
+        }
     }
 
 }
