@@ -43,8 +43,6 @@ class BoardRecyclerAdapter
             pictures.forEachIndexed { index, pic ->
                 if(item.pictureUrls != null && item.pictureUrls!!.size > index){
                     Glide.with(context).load(item.pictureUrls!![index]).into(pic)
-                } else {
-                    pic.setImageResource(R.drawable.profilepic)
                 }
             }
 
