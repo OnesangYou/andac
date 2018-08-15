@@ -12,8 +12,11 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.fragment.*
+import com.dac.gapp.andac.model.ActivityResultEvent
+import com.dac.gapp.andac.util.RxBus
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
+
 
 class MainActivity : BaseActivity() {
     private var fragments: HashMap<Int, Fragment> = HashMap()
@@ -114,4 +117,9 @@ class MainActivity : BaseActivity() {
         backPressed()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // 이벤트 전달
+        RxBus.publish(ActivityResultEvent(requestCode, resultCode, data))
+    }
 }

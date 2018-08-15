@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,12 @@ import com.dac.gapp.andac.BoardWriteActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.BoardRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.enums.RequestCode
+import com.dac.gapp.andac.model.ActivityResultEvent
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
+import com.dac.gapp.andac.util.RxBus
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
@@ -29,6 +33,8 @@ class BoardFragment : BaseFragment() {
     val list = mutableListOf<BoardInfo>()
     val map = mutableMapOf<String, UserInfo>()
     val hospitalInfoMap = mutableMapOf<String, HospitalInfo>()
+
+    var type : String? = null
     private var lastVisible : DocumentSnapshot? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,7 +46,10 @@ class BoardFragment : BaseFragment() {
 
         context?.apply {
             if(isUser()) fabWriteBoard.setOnClickListener { _ ->
-                getCurrentUser()?.let{ startActivity(Intent(context, BoardWriteActivity::class.java)) }
+                getCurrentUser()?.let{
+                    activity?.startActivityForResult(Intent(context, BoardWriteActivity::class.java), RequestCode.BOARD_ADD.value)
+//                    startActivity(Intent(context, BoardWriteActivity::class.java))
+                }
                 ?:goToLogin()
             }
             else {
@@ -52,6 +61,15 @@ class BoardFragment : BaseFragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = BoardRecyclerAdapter(context, list, map, hospitalInfoMap)
 
+        // RxBus Listen
+        RxBus.listen(ActivityResultEvent::class.java).subscribe {
+            it?.apply {
+                if(requestCode == RequestCode.BOARD_ADD.value){
+                    Log.d("KBJ", "EVENT Add!!")
+                    type?.let{setAdapter(it)}
+                }
+            }
+        }
     }
 
     override fun onStart() {
@@ -75,7 +93,14 @@ class BoardFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        Log.d("KBJ", "BoardFragment resume!!")
+    }
+
     private fun setAdapter(type : String = getString(R.string.free_board)) {
+        this.type = type
 
         // reset data
         list.clear()
@@ -154,5 +179,6 @@ class BoardFragment : BaseFragment() {
                     }
         }
     }
+
 }
 
