@@ -107,7 +107,6 @@ class BoardFragment : BaseFragment() {
                     ?.addOnSuccessListener {
                         list.addAll(it.first)
                         map.putAll(it.second)
-                        lastVisible = it.third
                         recyclerView.adapter.notifyDataSetChanged()
                     }
                     ?.addOnCompleteListener { hideProgressDialog() }
@@ -117,7 +116,6 @@ class BoardFragment : BaseFragment() {
     private fun getTripleDataTask(query : Query) : Task<Triple<List<BoardInfo>, Map<String, UserInfo>, DocumentSnapshot?>>? {
         return context?.run {
             var infos : List<BoardInfo> = listOf()
-            var lastVisible : DocumentSnapshot? = null
                     query.get()
                     .continueWith { it ->
                         lastVisible = it.result.documents.let { it[it.size-1] }

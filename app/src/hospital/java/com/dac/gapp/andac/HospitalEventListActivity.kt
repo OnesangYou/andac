@@ -78,7 +78,6 @@ class HospitalEventListActivity : BaseActivity() {
                 ?.addOnSuccessListener {
                     list.addAll(it.first)
                     map.putAll(it.second)
-                    lastVisible = it.third
                     recyclerView.adapter.notifyDataSetChanged()
                 }
                 ?.addOnCompleteListener { hideProgressDialog() }
@@ -87,7 +86,6 @@ class HospitalEventListActivity : BaseActivity() {
 
     private fun getTripleDataTask(query : Query) : Task<Triple<List<EventInfo>, Map<String, HospitalInfo>, DocumentSnapshot?>>? {
         var infos : List<EventInfo> = listOf()
-        var lastVisible : DocumentSnapshot? = null
         return query.get()
                 .continueWithTask { it ->
                     lastVisible = it.result.documents.let { it[it.size - 1] }

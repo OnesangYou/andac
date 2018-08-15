@@ -75,7 +75,6 @@ class ColumnActivity : BaseActivity() {
                 ?.addOnSuccessListener {
                     list.addAll(it.first)
                     map.putAll(it.second)
-                    lastVisible = it.third
                     recyclerView.adapter.notifyDataSetChanged()
                 }
                 ?.addOnCompleteListener { hideProgressDialog() }
@@ -83,7 +82,6 @@ class ColumnActivity : BaseActivity() {
 
     private fun getTripleDataTask(query : Query) : Task<Triple<List<ColumnInfo>, Map<String, HospitalInfo>, DocumentSnapshot?>>? {
         var infos : List<ColumnInfo> = listOf()
-        var lastVisible : DocumentSnapshot? = null
         return query.get()
                 .continueWith { it ->
                     lastVisible = it.result.documents.let { it[it.size-1] }

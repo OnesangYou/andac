@@ -71,7 +71,6 @@ class MyBoardsFragment : BaseFragment() {
                     ?.addOnSuccessListener {
                         list.addAll(it.first)
                         map.putAll(it.second)
-                        lastVisible = it.third
                         recyclerView.adapter.notifyDataSetChanged()
                     }
         }
@@ -80,7 +79,6 @@ class MyBoardsFragment : BaseFragment() {
     private fun getTripleDataTask(query : Query) : Task<Triple<List<BoardInfo>, Map<String, UserInfo>, DocumentSnapshot?>>
     {
         return (context as MyPageActivity).run {
-            var lastVisible: DocumentSnapshot? = null
 
             query.get().continueWithTask { task ->
                 lastVisible = task.result.documents.let { it[it.size-1] }
