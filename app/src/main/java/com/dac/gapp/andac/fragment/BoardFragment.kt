@@ -1,6 +1,7 @@
 package com.dac.gapp.andac.fragment
 
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -47,7 +48,7 @@ class BoardFragment : BaseFragment() {
         context?.apply {
             if(isUser()) fabWriteBoard.setOnClickListener { _ ->
                 getCurrentUser()?.let{
-                    activity?.startActivityForResult(Intent(context, BoardWriteActivity::class.java), RequestCode.BOARD_ADD.value)
+                    activity?.startActivityForResult(Intent(context, BoardWriteActivity::class.java), RequestCode.OBJECT_ADD.value)
 //                    startActivity(Intent(context, BoardWriteActivity::class.java))
                 }
                 ?:goToLogin()
@@ -62,9 +63,9 @@ class BoardFragment : BaseFragment() {
         recyclerView.adapter = BoardRecyclerAdapter(context, list, map, hospitalInfoMap)
 
         // RxBus Listen
-        RxBus.listen(ActivityResultEvent::class.java).subscribe {
-            it?.apply {
-                if(requestCode == RequestCode.BOARD_ADD.value){
+        RxBus.listen(ActivityResultEvent::class.java).subscribe { activityResultEvent ->
+            activityResultEvent?.apply {
+                if(requestCode == RequestCode.OBJECT_ADD.value && resultCode == Activity.RESULT_OK){
                     Log.d("KBJ", "EVENT Add!!")
                     type?.let{setAdapter(it)}
                 }

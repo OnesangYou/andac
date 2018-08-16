@@ -1,10 +1,10 @@
 package com.dac.gapp.andac
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import com.bumptech.glide.Glide
-import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.google.android.gms.tasks.Tasks
@@ -130,13 +130,17 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                             .onSuccessTask { boardInfoRef.set(boardInfo, SetOptions.merge()) }
                 }?:let{ boardInfoRef.set(boardInfo, SetOptions.merge()) }
             }
-                    .addOnSuccessListener{ toast("게시물 업로드 완료"); setResult(RequestCode.BOARD_ADD.value); finish() }
+                    .addOnSuccessListener{
+                        toast("게시물 업로드 완료");
+//                        setResult(RequestCode.OBJECT_ADD.value);
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }
                     .addOnCompleteListener{hideProgressDialog()}
 
         }
 
         back.setOnClickListener { finish() }
-
     }
 
     private fun validate() : Boolean {

@@ -1,5 +1,6 @@
 package com.dac.gapp.andac.adapter
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,10 +13,13 @@ import com.bumptech.glide.Glide
 import com.dac.gapp.andac.BoardWriteActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.enums.RequestCode
+import com.dac.gapp.andac.model.ActivityResultEvent
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.Common
+import com.dac.gapp.andac.util.RxBus
 import kotlinx.android.synthetic.main.base_item_card.*
 import kotlinx.android.synthetic.main.base_item_card.view.*
 import org.jetbrains.anko.alert
@@ -70,7 +74,7 @@ class BoardRecyclerAdapter
                 if(item.writerUid == ba.getUid()) {
                     modifyBtn.visibility = View.VISIBLE
                     modifyBtn.setOnClickListener {
-                        ba.startActivity(Intent(ba, BoardWriteActivity::class.java).putExtra(ba.OBJECT_KEY, item.objectId))
+                        ba.startActivityForResult(Intent(ba, BoardWriteActivity::class.java).putExtra(ba.OBJECT_KEY, item.objectId), RequestCode.OBJECT_ADD.value)
                     }
                     deleteBtn.visibility = View.VISIBLE
                     deleteBtn.setOnClickListener {
@@ -97,7 +101,13 @@ class BoardRecyclerAdapter
             positiveButton("YES"){ _ ->
                 // 삭제 진행
                 showProgressDialog()
-                getBoard(boardId)?.delete()?.addOnCompleteListener { hideProgressDialog() }
+                getBoard(boardId)?.delete()?.addOnCompleteListener {
+                    hideProgressDialog()
+                    RxBus.publish(ActivityResultEvent(
+                            requestCode = RequestCode.OBJECT_ADD.value,
+                            resultCode = Activity.RESULT_OK
+                    ))
+                }
             }
 
             negativeButton("NO"){hideProgressDialog()}
