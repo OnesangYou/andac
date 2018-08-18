@@ -1,11 +1,15 @@
 package com.dac.gapp.andac
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.OnItemClickListener
@@ -15,7 +19,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.hospital.activity_hospital_event_list.*
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 
 
 @Suppress("DEPRECATION")
@@ -30,7 +34,7 @@ class HospitalEventListActivity : BaseActivity() {
         setContentView(R.layout.activity_hospital_event_list)
 
         back.setOnClickListener { finish() }
-        writeEventBtn.setOnClickListener { startActivity<EventWriteActivity>() }
+        writeEventBtn.setOnClickListener { startActivityForResult<EventWriteActivity>(RequestCode.OBJECT_ADD.value) }
 
         // recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this@HospitalEventListActivity)
@@ -38,7 +42,7 @@ class HospitalEventListActivity : BaseActivity() {
         recyclerView.addOnItemClickListener(object: OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 // 수정하기
-                if(list[position].writerUid == getUid()) startActivity<EventWriteActivity>(OBJECT_KEY to list[position].objectId)
+                if(list[position].writerUid == getUid()) startActivityForResult<EventWriteActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to list[position].objectId)
             }
         })
 
@@ -100,6 +104,13 @@ class HospitalEventListActivity : BaseActivity() {
                     }
                 }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == RequestCode.OBJECT_ADD.value && resultCode == Activity.RESULT_OK){
+            Handler().postDelayed({ setAdapter() }, 2000)   // 클라우드 펑션으로 생성에 딜레이가 있음, 2초 뒤에 실행
+        }
     }
 
 }

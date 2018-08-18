@@ -1,5 +1,6 @@
 package com.dac.gapp.andac
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -98,7 +99,7 @@ class EventWriteActivity : BaseActivity() {
             }.let{ task ->
                 task
                     .onSuccessTask { eventInfoRef.set(eventInfo, SetOptions.merge()) }
-                    .addOnSuccessListener { toast("$objectTypeStr 업로드 완료"); finish() }
+                    .addOnSuccessListener { toast("$objectTypeStr 업로드 완료"); setResult(Activity.RESULT_OK); finish() }
                     .addOnCompleteListener { hideProgressDialog() }
             }
         }
