@@ -15,6 +15,7 @@ import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.model.firebase.AdInfo
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.util.toast
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
