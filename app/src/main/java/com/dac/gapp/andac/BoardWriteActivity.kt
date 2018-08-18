@@ -131,8 +131,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                 }?:let{ boardInfoRef.set(boardInfo, SetOptions.merge()) }
             }
                     .addOnSuccessListener{
-                        toast("게시물 업로드 완료");
-//                        setResult(RequestCode.OBJECT_ADD.value);
+                        toast("게시물 업로드 완료")
                         setResult(Activity.RESULT_OK)
                         finish()
                     }

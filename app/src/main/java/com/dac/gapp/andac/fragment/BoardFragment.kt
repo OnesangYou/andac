@@ -66,7 +66,6 @@ class BoardFragment : BaseFragment() {
         RxBus.listen(ActivityResultEvent::class.java).subscribe { activityResultEvent ->
             activityResultEvent?.apply {
                 if(requestCode == RequestCode.OBJECT_ADD.value && resultCode == Activity.RESULT_OK){
-                    Log.d("KBJ", "EVENT Add!!")
                     type?.let{setAdapter(it)}
                 }
             }
