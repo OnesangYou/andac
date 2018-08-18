@@ -8,7 +8,6 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,6 @@ import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.firebase.AdInfo
-import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.MyToast
 import com.dac.gapp.andac.util.UiUtil
 import com.google.firebase.firestore.SetOptions
@@ -109,7 +107,8 @@ class AdPaymentFragment : BaseFragment() {
                                     it.result.downloadUrl.toString()
                                 }
                                 .addOnSuccessListener { photoUrl ->
-                                    context.getAds().document(uid).set(AdInfo(uid, ad.adType.name, photoUrl, Date(), Common.getDate(2018, 8, 30)), SetOptions.merge())
+                                    // TODO 광고 시작일, 종료일 은 관리자가 결정!!
+                                    context.getDb().collection(ad.collectionName).document(uid).set(AdInfo(photoUrl, Date(), Date()), SetOptions.merge())
                                             .addOnSuccessListener {
                                                 Toast.makeText(context, "광고 정보 저장 성공", Toast.LENGTH_SHORT).show()
                                             }

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
-import com.dac.gapp.andac.dialog.MyDialog
+import com.dac.gapp.andac.dialog.PhoneNumberDialog
 import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.util.MyToast
 import kotlinx.android.synthetic.main.fragment_hospital_ad_management.*
@@ -29,7 +29,7 @@ class HospitalAdManagementFragment : BaseFragment() {
 
     private fun setupEventsOnViewCreated() {
         btnApplyForCreativeProduction.setOnClickListener {
-            val dialog = MyDialog(requireContext())
+            val dialog = PhoneNumberDialog(requireContext())
             dialog
                     .setOnCancelListener(View.OnClickListener {
                         dialog.dismiss()
