@@ -44,7 +44,7 @@ class ColumnDetailActivity : BaseActivity() {
     private fun addViewedColumn(columnId : String) {
         if(!isUser()) return    // 유저만 추가
 
-        getViewedColumn()?.document(columnId)?.set(mapOf("createDate" to FieldValue.serverTimestamp()))
+        getViewedColumn()?.document(columnId)?.set(mapOf("createdDate" to FieldValue.serverTimestamp()))
     }
 
 

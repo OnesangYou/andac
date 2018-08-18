@@ -3,14 +3,13 @@
 package com.dac.gapp.andac.base
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
@@ -72,9 +71,12 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getHospital(): DocumentReference? = getUid()?.let { getHospitals().document(it) }
     fun getHospital(key: String) = getHospitals().document(key)
     fun getHospitalsStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("hospitals")
-    private fun getHospitalContents(uid: String? = getUid()) = uid?.let {
+    fun getHospitalContents(uid: String? = getUid()) = uid?.let {
         getDb().collection("hospitalContents").document(it)
     }
+    fun getHospitalEvent(eventKey: String) = getHospitalEvents()?.document(eventKey)
+
+    fun getHospitalColumn(columnKey: String) = getHospitalColumns()?.document(columnKey)
 
     fun getAdRequests(): CollectionReference = getDb().collection("adRequests")
 
@@ -354,10 +356,14 @@ abstract class BaseActivity : AppCompatActivity() {
             positiveButton("YES"){ it ->
                 // 삭제 진행
                 showProgressDialog()
-                objectRef.delete().addOnCompleteListener { hideProgressDialog() }.addOnSuccessListener { finish() }
+                objectRef.delete().addOnCompleteListener { hideProgressDialog() }.addOnSuccessListener { setResult(Activity.RESULT_OK); finish() }
             }
 
             negativeButton("NO"){}
         }.show()
     }
+
+    fun isObjectModify() = !intent.getStringExtra(OBJECT_KEY).isNullOrBlank()
+    fun dateFieldStr() = if(isObjectModify()) "updatedDate" else "createdDate"
+
 }

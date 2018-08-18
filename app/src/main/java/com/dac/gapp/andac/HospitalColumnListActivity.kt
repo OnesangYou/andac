@@ -3,7 +3,6 @@ package com.dac.gapp.andac
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -107,7 +106,7 @@ class HospitalColumnListActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RequestCode.OBJECT_ADD.value && resultCode == Activity.RESULT_OK){
-            Handler().postDelayed({ setAdapter() }, 2000)   // 클라우드 펑션으로 생성에 딜레이가 있음, 2초 뒤에 실행
+            setAdapter()
         }
     }
 }
