@@ -1,5 +1,6 @@
 package com.dac.gapp.andac
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import com.bumptech.glide.Glide
@@ -83,7 +84,7 @@ class ColumnWriteActivity : BaseActivity() {
                 }
             }
                     .addOnCompleteListener{hideProgressDialog()}
-                    .addOnSuccessListener{ toast("칼럼 업로드 완료"); finish() }
+                    .addOnSuccessListener{ toast("칼럼 업로드 완료"); setResult(Activity.RESULT_OK); finish() }
 
         }
 

@@ -31,7 +31,7 @@
         <activity android:name=".HospitalTextSearchActivity" />
         <activity android:name=".ColumnDetailActivity" />
         <activity android:name=".ColumnWriteActivity" />
-        <activity android:name=".MyColumnListActivity" />
+        <activity android:name=".HospitalColumnListActivity" />
         <activity android:name=".JoinPhoneActivity" />
     </application>
 

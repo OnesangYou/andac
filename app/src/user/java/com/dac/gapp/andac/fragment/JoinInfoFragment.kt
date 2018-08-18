@@ -22,12 +22,12 @@ class JoinInfoFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         joinBtn.setOnClickListener {
             if(emailEdit.tag != true) {
-                context?.toast("Email 중복검사 하세요")
+                toast("Email 중복검사 하세요")
                 return@setOnClickListener
             }
 
             if(nickNameEdit.tag != true) {
-                context?.toast("NickName 중복검사 하세요")
+                toast("NickName 중복검사 하세요")
                 return@setOnClickListener
             }
 

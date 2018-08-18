@@ -51,7 +51,7 @@ class MainFragment : BaseFragment() {
 
         event.setOnClickListener {
             // TODO : 이벤트 신청내역
-            context?.toast("이벤트 신청내역")
+            toast("이벤트 신청내역")
 
         }
 

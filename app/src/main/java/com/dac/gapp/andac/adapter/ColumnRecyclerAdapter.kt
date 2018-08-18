@@ -12,10 +12,11 @@ import com.dac.gapp.andac.ColumnDetailActivity
 import com.dac.gapp.andac.ColumnWriteActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.column_item.view.*
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 
 class ColumnRecyclerAdapter
 (var context : BaseActivity, private var mDataList :List<ColumnInfo>, private var hospitalInfoMap: Map<String, HospitalInfo?>) : RecyclerView.Adapter<ColumnRecyclerAdapter.ColumnHolder>(){
@@ -38,7 +39,7 @@ class ColumnRecyclerAdapter
             Glide.with(context).load(item.pictureUrl).into(picture)
             context.apply{
                 layout.setOnClickListener {
-                    if(item.writerUid == getUid()) startActivity<ColumnWriteActivity>(OBJECT_KEY to item.objectId)
+                    if(item.writerUid == getUid()) startActivityForResult<ColumnWriteActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to item.objectId)
                     else startActivity(Intent(this@apply, ColumnDetailActivity::class.java).putExtra(OBJECT_KEY,item.objectId))
                 }
             }

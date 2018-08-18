@@ -31,7 +31,7 @@ class MainFragment : BaseFragment() {
         btnHospitalAdManagement.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdManagement(requireContext())) }
         btnHospitalAdApplication.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdApplication(requireContext())) }
 
-        myColumnsBtn.setOnClickListener { context?.startActivity<MyColumnListActivity>() }
+        myColumnsBtn.setOnClickListener { context?.startActivity<HospitalColumnListActivity>() }
 
         columnList.layoutManager = GridLayoutManager(context, 2)
         setAdapter()
