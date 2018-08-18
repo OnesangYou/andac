@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.dac.gapp.andac.*
 import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.adapter.AdPagerAdapter
@@ -121,6 +122,20 @@ class MainFragment : BaseFragment() {
                     }
                     .addOnFailureListener {
                         Timber.e("MAIN_POPUP 광고 로드 실패 : ${it.localizedMessage}")
+                    }
+
+            context.getDb().collection(Ad.MAIN_TODAY_HOSPITAL.collectionName)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val photoUrls = ArrayList<String>()
+                            for (document in task.result) {
+                                val adInfo = document.toObject(AdInfo::class.java)
+                                Timber.d("photoUrl: ${adInfo.photoUrl}")
+                                photoUrls.add(adInfo.photoUrl)
+                            }
+                            Glide.with(context).load(photoUrls[0]).into(imgviewTodaysHospitalAd)
+                        }
                     }
         }
 
