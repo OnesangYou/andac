@@ -15,6 +15,7 @@ import com.dac.gapp.andac.BoardWriteActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.BoardRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.ActivityResultEvent
 import com.dac.gapp.andac.model.firebase.BoardInfo
@@ -130,7 +131,7 @@ class BoardFragment : BaseFragment() {
                             .whereEqualTo("type", type)
                             .orderBy("writeDate", Query.Direction.DESCENDING)
                             .let { query -> lastVisible?.let { query.startAfter(it) } ?: query }    // 쿼리 커서 시작 위치 지정
-                            .limit(PageListSize)   // 페이지 단위
+                            .limit(PageSize.board.value)   // 페이지 단위
             )
                     ?.addOnSuccessListener {
                         list.addAll(it.first)

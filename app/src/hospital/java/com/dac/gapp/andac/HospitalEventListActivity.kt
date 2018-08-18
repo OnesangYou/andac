@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
@@ -78,7 +79,7 @@ class HospitalEventListActivity : BaseActivity() {
                 .let { query ->
                     lastVisible?.let { query?.startAfter(it) } ?: query
                 }    // 쿼리 커서 시작 위치 지정
-                ?.limit(PageListSize)  // 페이지 단위
+                ?.limit(PageSize.event.value)  // 페이지 단위
                 ?.let { it -> getTripleDataTask(it)}
                 ?.addOnSuccessListener {
                     list.addAll(it.first)

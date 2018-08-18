@@ -13,6 +13,7 @@ import com.dac.gapp.andac.EventDetailActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.OnItemClickListener
@@ -103,7 +104,7 @@ class EventListFragment : BaseFragment() {
                     getEvents()
                             .orderBy(type, direction)
                             .let { query -> lastVisible?.let { query.startAfter(it) } ?: query }    // 쿼리 커서 시작 위치 지정
-                            .limit(PageListSize)   // 페이지 단위
+                            .limit(PageSize.event.value)   // 페이지 단위
             )
                     ?.addOnSuccessListener {
                         list.addAll(it.first)
