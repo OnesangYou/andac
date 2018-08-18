@@ -106,6 +106,7 @@
                 android:layout_marginEnd="4dp"
                 android:layout_marginTop="8dp"
                 android:text="삭제하기"
+                android:textStyle="bold"
                 android:textSize="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -142,6 +143,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="@color/gray"
             >
 
             <Button
@@ -150,6 +152,7 @@
                 android:layout_height="wrap_content"
                 android:text="좋아요"
                 android:layout_weight="1"
+                android:background="@color/white"
                 />
 
             <Button
@@ -158,6 +161,7 @@
                 android:layout_height="wrap_content"
                 android:text="댓글쓰기"
                 android:layout_weight="1"
+                android:background="@color/white"
                 />
 
         </LinearLayout>
