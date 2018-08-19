@@ -36,6 +36,8 @@ class MyBoardsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        resetData()
+
         // set recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = BoardRecyclerAdapter(context, list, map, hospitalInfoMap)
@@ -45,10 +47,8 @@ class MyBoardsFragment : BaseFragment() {
     private fun setAdapter() {
 
         // reset data
-        list.clear()
-        map.clear()
-        hospitalInfoMap.clear()
-        lastVisible = null
+        resetData()
+
         recyclerView.adapter.notifyDataSetChanged()
 
         // add Data
@@ -63,6 +63,13 @@ class MyBoardsFragment : BaseFragment() {
             }
         })
 
+    }
+
+    fun resetData() {
+        list.clear()
+        map.clear()
+        hospitalInfoMap.clear()
+        lastVisible = null
     }
 
     fun addDataToRecycler() {

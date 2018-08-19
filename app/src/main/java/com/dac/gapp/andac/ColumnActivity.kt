@@ -29,6 +29,8 @@ class ColumnActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_column)
 
+        resetData()
+
         // recyclerView
         recyclerView.layoutManager = GridLayoutManager(this,2)
         recyclerView.adapter = ColumnRecyclerAdapter(this@ColumnActivity, list, map)
@@ -47,9 +49,8 @@ class ColumnActivity : BaseActivity() {
 
     private fun setAdapter() {
         // reset data
-        list.clear()
-        map.clear()
-        lastVisible = null
+        resetData()
+
         recyclerView.adapter.notifyDataSetChanged()
 
         // add Data
@@ -63,6 +64,12 @@ class ColumnActivity : BaseActivity() {
                 }
             }
         })
+    }
+
+    fun resetData() {
+        list.clear()
+        map.clear()
+        lastVisible = null
     }
 
     fun addDataToRecycler() {

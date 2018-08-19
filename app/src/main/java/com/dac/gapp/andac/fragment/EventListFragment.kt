@@ -43,6 +43,8 @@ class EventListFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        resetData()
+
         // set recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = EventRecyclerAdapter(context, list, map)
@@ -79,10 +81,7 @@ class EventListFragment : BaseFragment() {
     private fun setAdapter(type : String = getString(R.string.buy_count), direction : Query.Direction = Query.Direction.DESCENDING) {
 
         // reset data
-        list.clear()
-        map.clear()
-        lastVisible = null
-
+        resetData()
 
         // add Data
         addDataToRecycler(type, direction)
@@ -95,6 +94,12 @@ class EventListFragment : BaseFragment() {
                 }
             }
         })
+    }
+
+    fun resetData() {
+        list.clear()
+        map.clear()
+        lastVisible = null
     }
 
     fun addDataToRecycler(type: String, direction : Query.Direction = Query.Direction.DESCENDING) {

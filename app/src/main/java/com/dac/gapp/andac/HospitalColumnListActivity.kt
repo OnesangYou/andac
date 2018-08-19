@@ -35,6 +35,8 @@ class HospitalColumnListActivity : BaseActivity() {
         back.setOnClickListener { finish() }
         writeColumnBtn.setOnClickListener { startActivityForResult<ColumnWriteActivity>(RequestCode.OBJECT_ADD.value) }
 
+        resetData()
+
         // recyclerView
         recyclerView.layoutManager = GridLayoutManager(this@HospitalColumnListActivity,2)
         recyclerView.adapter = ColumnRecyclerAdapter(this@HospitalColumnListActivity, list, map)
@@ -50,9 +52,8 @@ class HospitalColumnListActivity : BaseActivity() {
 
     private fun setAdapter() {
         // reset data
-        list.clear()
-        map.clear()
-        lastVisible = null
+        resetData()
+
         recyclerView.adapter.notifyDataSetChanged()
 
         // add Data
@@ -66,6 +67,12 @@ class HospitalColumnListActivity : BaseActivity() {
                 }
             }
         })
+    }
+
+    fun resetData() {
+        list.clear()
+        map.clear()
+        lastVisible = null
     }
 
     fun addDataToRecycler() {

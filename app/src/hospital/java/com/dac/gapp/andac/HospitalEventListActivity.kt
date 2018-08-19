@@ -3,7 +3,6 @@ package com.dac.gapp.andac
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -38,6 +37,8 @@ class HospitalEventListActivity : BaseActivity() {
         back.setOnClickListener { finish() }
         writeEventBtn.setOnClickListener { startActivityForResult<EventWriteActivity>(RequestCode.OBJECT_ADD.value) }
 
+        resetData()
+
         // recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this@HospitalEventListActivity)
         recyclerView.adapter = EventRecyclerAdapter(this@HospitalEventListActivity, list, map)
@@ -54,9 +55,8 @@ class HospitalEventListActivity : BaseActivity() {
 
     private fun setAdapter() {
         // reset data
-        list.clear()
-        map.clear()
-        lastVisible = null
+        resetData()
+
         recyclerView.adapter.notifyDataSetChanged()
 
         // add Data
@@ -70,6 +70,12 @@ class HospitalEventListActivity : BaseActivity() {
                 }
             }
         })
+    }
+
+    fun resetData() {
+        list.clear()
+        map.clear()
+        lastVisible = null
     }
 
     fun addDataToRecycler() {
