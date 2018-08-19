@@ -3,10 +3,13 @@ package com.dac.gapp.andac
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.EventApplyInfo
 import com.dac.gapp.andac.model.firebase.EventInfo
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_event.*
 import kotlinx.android.synthetic.main.event_request_dialog.view.*
@@ -24,7 +27,7 @@ class EventDetailActivity : BaseActivity() {
 
 
         // 병원 상세 정보 가져오기
-        intent.getStringExtra(OBJECT_KEY)?.let{ objectId ->
+        intent.getStringExtra(OBJECT_KEY)?.also{ objectId ->
 
             showProgressDialog()
             getEvent(objectId)?.get()?.continueWith { it.result.toObject(EventInfo::class.java) }
@@ -58,18 +61,24 @@ class EventDetailActivity : BaseActivity() {
                     } }
                     ?.addOnCompleteListener { hideProgressDialog() }
 
-            // event_submit
-            event_submit.setOnClickListener { showDialog(objectId) }
 
+            // 내가 신청한 이벤트 인지 알아보기
+            getUserEvent(objectId)?.get()?.addOnSuccessListener { documentSnapshot ->
+
+                // event btn click event
+                event_submit.setOnClickListener { showEventSubmitDialog(objectId) {visibleEventCancelBtn()} }
+                event_cancel.setOnClickListener { eventCancelDialog(objectId) {visibleEventSubmitBtn()} }
+
+                documentSnapshot.data?.let {
+                    visibleEventCancelBtn()
+                }?: visibleEventSubmitBtn()
+            }
         }
-
-
-
 
     }
 
     @SuppressLint("InflateParams")
-    fun showDialog(eventId : String){
+    fun showEventSubmitDialog(eventId: String, function: () -> Unit){
         getUserInfo()?.addOnSuccessListener { it ->
             it?.let{ userInfo ->
             val builder = AlertDialog.Builder(this)
@@ -96,9 +105,14 @@ class EventDetailActivity : BaseActivity() {
                         ).apply { objectId = getUid()!! }
 
                         showProgressDialog()
-                        getEventApplicant(eventId)?.set(eventApplyInfo, SetOptions.merge())
-                                ?.addOnSuccessListener { toast("이벤트신청이 완료되었습니다.\n내이벤트목록을 확인하세요") }
-                                ?.addOnCompleteListener { hideProgressDialog() }
+
+                        FirebaseFirestore.getInstance().batch().run {
+                            getEventApplicant(eventId)?.let { set(it, eventApplyInfo, SetOptions.merge()) }
+                            getUserEvent(eventId)?.let { set(it, mapOf("createdDate" to FieldValue.serverTimestamp()), SetOptions.merge()) }
+                            commit()
+                        }
+                                .addOnSuccessListener { toast("이벤트신청이 완료되었습니다.\n내이벤트목록을 확인하세요"); function.invoke() }
+                                .addOnCompleteListener { hideProgressDialog() }
 
 
                     }
@@ -106,6 +120,17 @@ class EventDetailActivity : BaseActivity() {
                     }.create().show()
         } }
 
+
+    }
+
+    private fun visibleEventSubmitBtn() {
+        event_submit.visibility = View.VISIBLE
+        event_cancel.visibility = View.GONE
+    }
+
+    private fun visibleEventCancelBtn() {
+        event_submit.visibility = View.GONE
+        event_cancel.visibility = View.VISIBLE
 
     }
 

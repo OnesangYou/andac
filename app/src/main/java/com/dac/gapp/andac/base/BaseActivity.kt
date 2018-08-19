@@ -197,7 +197,9 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getBoard(key: String): DocumentReference? = if (key.isEmpty()) null else getBoards().document(key)
     private fun getUserContents(uid: String? = getUid()) = uid?.let { getDb().collection("userContents").document(it) }
     fun getUserBoards() = getUserContents()?.collection("boards")
-    fun getViewedColumn() = getUserContents()?.collection("viewedColumns")
+    fun getViewedColumns() = getUserContents()?.collection("viewedColumns")
+    fun getUserEvents() = getUserContents()?.collection("events")
+    fun getUserEvent(eventKey: String) = getUserEvents()?.document(eventKey)
 
 
     // Column
@@ -214,7 +216,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     // Event Applicants
     fun getEventApplicants(eventKey: String) = getEvent(eventKey)?.collection("applicants")
-    fun getEventApplicant(eventKey: String) = getUid()?.let { getEventApplicants(eventKey)?.document(it) }
+    fun getEventApplicant(eventKey: String) = getUid()?.let { getEventApplicants(eventKey)?.document(it) }  // user 용
 
 
     private fun restartApp() {
@@ -366,4 +368,19 @@ abstract class BaseActivity : AppCompatActivity() {
     fun isObjectModify() = !intent.getStringExtra(OBJECT_KEY).isNullOrBlank()
     fun dateFieldStr() = if(isObjectModify()) "updatedDate" else "createdDate"
 
+    fun eventCancelDialog(objectId: String, function: () -> Unit) {
+        alert(title = "이벤트 신청 취소", message = "이벤트 신청 취소하시겠습니까?") {
+            positiveButton("YES") { _ ->
+                showProgressDialog()
+                FirebaseFirestore.getInstance().batch().run {
+                    getUserEvent(objectId)?.let { delete(it) }
+                    getEventApplicant(objectId)?.let { delete(it) }
+                    commit()
+                }
+                        .addOnSuccessListener { function.invoke() }
+                        .addOnCompleteListener { hideProgressDialog() }
+            }
+            negativeButton("NO"){}
+        }.show()
+    }
 }
