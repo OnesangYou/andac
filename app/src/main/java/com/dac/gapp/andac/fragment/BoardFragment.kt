@@ -62,7 +62,7 @@ class BoardFragment : BaseFragment() {
 
         // set recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-
+        recyclerView.adapter = BoardRecyclerAdapter(context, list, map, hospitalInfoMap)
 
         // RxBus Listen
         RxBus.listen(ActivityResultEvent::class.java).subscribe { activityResultEvent ->
@@ -110,7 +110,7 @@ class BoardFragment : BaseFragment() {
         map.clear()
         hospitalInfoMap.clear()
         lastVisible = null
-        recyclerView.adapter = BoardRecyclerAdapter(context, list, map, hospitalInfoMap)
+
 
         // add Data
         addDataToRecycler(type)

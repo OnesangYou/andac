@@ -45,6 +45,7 @@ class EventListFragment : BaseFragment() {
 
         // set recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = EventRecyclerAdapter(context, list, map)
 
         recyclerView.addOnItemClickListener(object: OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
@@ -81,7 +82,7 @@ class EventListFragment : BaseFragment() {
         list.clear()
         map.clear()
         lastVisible = null
-        recyclerView.adapter = EventRecyclerAdapter(context, list, map)
+
 
         // add Data
         addDataToRecycler(type, direction)

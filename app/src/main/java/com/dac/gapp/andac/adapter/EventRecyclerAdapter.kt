@@ -14,7 +14,7 @@ import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.event_row.view.*
 
 class EventRecyclerAdapter
-(private val context : BaseActivity?, private var mDataList: List<EventInfo>, private var writerInfoMap: Map<String, HospitalInfo>) : RecyclerView.Adapter<EventRecyclerAdapter.EventHolder>() {
+(private val context : BaseActivity?, private val mDataList: List<EventInfo>, private val writerInfoMap: Map<String, HospitalInfo>) : RecyclerView.Adapter<EventRecyclerAdapter.EventHolder>() {
     override fun getItemCount(): Int {
         return mDataList.size
     }
