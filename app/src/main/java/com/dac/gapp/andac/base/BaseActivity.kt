@@ -57,7 +57,7 @@ abstract class BaseActivity : AppCompatActivity() {
     val bankAccountPicJpgStr = "bankAccountPic.jpg"
     val busiRegiPicJpgStr = "busiRegiPic.jpg"
 
-    val PageListSize : Long = 3
+    val PageListSize: Long = 3
 
 
     fun getUid(): String? {
@@ -68,6 +68,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     // hospital
     fun getHospitals(): CollectionReference = getDb().collection("hospitals")
+
     fun getHospital(): DocumentReference? = getUid()?.let { getHospitals().document(it) }
     fun getHospital(key: String) = getHospitals().document(key)
     fun getHospitalsStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("hospitals")
@@ -82,12 +83,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getAdRequest(): DocumentReference? = getUid()?.let { getAdRequests().document(it) }
 
-    fun getAds(): CollectionReference = getDb().collection("ads")
-
-    fun getAd(): DocumentReference? = getUid()?.let { getAds().document(it) }
-
-
-
     fun getUsers(): CollectionReference = getDb().collection("users")
 
     fun getUser(): DocumentReference? = getUid()?.let { getUsers().document(it) }
@@ -97,9 +92,11 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getAuth(): FirebaseAuth? = FirebaseAuth.getInstance()
 
     fun getCurrentUser(): FirebaseUser? = getAuth()?.currentUser
-            ?.also{it.phoneNumber?.isEmpty()?.let{ isEmpty ->
-                if(isEmpty) goToLogin()
-            }} // 폰등록 안되 있는 경우는 login 이동
+            ?.also {
+                it.phoneNumber?.isEmpty()?.let { isEmpty ->
+                    if (isEmpty) goToLogin()
+                }
+            } // 폰등록 안되 있는 경우는 login 이동
 
     private var mProgressDialog: ProgressDialog? = null
 
@@ -160,7 +157,7 @@ abstract class BaseActivity : AppCompatActivity() {
         toast("한번 더 누르면 종료됩니다.")
     }
 
-    fun getUserInfo(uid : String? = getUid()): Task<UserInfo>? {
+    fun getUserInfo(uid: String? = getUid()): Task<UserInfo>? {
         return uid?.let { it -> getUser(it)?.get()?.continueWith { it.result.toObject(UserInfo::class.java) } }
     }
 
@@ -204,12 +201,14 @@ abstract class BaseActivity : AppCompatActivity() {
 
     // Column
     fun getColumnStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("columns")
+
     fun getColumns(): CollectionReference = getDb().collection("columns")
     fun getColumn(key: String): DocumentReference? = if (key.isEmpty()) null else getColumns().document(key)
     fun getHospitalColumns() = getHospitalContents()?.collection("columns")
 
     // Event
     fun getEventStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("events")
+
     fun getEvents(): CollectionReference = getDb().collection("events")
     fun getEvent(key: String): DocumentReference? = if (key.isEmpty()) null else getEvents().document(key)
     fun getHospitalEvents() = getHospitalContents()?.collection("events")
@@ -280,7 +279,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    fun findPassword(){
+    fun findPassword() {
         val email = AutoCompleteTextView(this@BaseActivity)
         email.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
         val builder = AlertDialog.Builder(this@BaseActivity)
@@ -302,7 +301,7 @@ abstract class BaseActivity : AppCompatActivity() {
                         auth?.sendPasswordResetEmail(emailAddress)
                                 ?.addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
-                                        toast( "메일 전송 완료")
+                                        toast("메일 전송 완료")
                                     } else {
                                         toast("메일 주소가 올바르지 않습니다")
                                     }
@@ -316,7 +315,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     // 중복 메일 검사
-    fun checkDuplicatedEmail(emailStr : String): Task<Boolean>? {
+    fun checkDuplicatedEmail(emailStr: String): Task<Boolean>? {
         showProgressDialog()
         return Tasks.whenAllSuccess<QuerySnapshot>(
                 getHospitals().whereEqualTo("email", emailStr).get(),
@@ -327,7 +326,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     // 중복 닉네임 검사
-    fun checkDuplicatedNickName(NickNameStr : String): Task<Boolean>? {
+    fun checkDuplicatedNickName(NickNameStr: String): Task<Boolean>? {
         showProgressDialog()
         return Tasks.whenAllSuccess<QuerySnapshot>(
                 getUsers().whereEqualTo("nickName", NickNameStr).get()
@@ -337,31 +336,33 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     // 텍스트가 변하면 tag reset
-    fun resetTagEditTextChanged(editText : EditText) {
+    fun resetTagEditTextChanged(editText: EditText) {
         editText.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 // 입력되는 텍스트에 변화가 있을 때
                 editText.tag = false
             }
+
             override fun afterTextChanged(arg0: Editable) {
                 // 입력이 끝났을 때
             }
+
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
                 // 입력하기 전에
             }
         })
     }
 
-    fun showDeleteObjectDialog(objectStr : String, objectRef : DocumentReference){
+    fun showDeleteObjectDialog(objectStr: String, objectRef: DocumentReference) {
 
         alert(title = "$objectStr 삭제", message = "${objectStr}을 삭제하시겠습니까?") {
-            positiveButton("YES"){ it ->
+            positiveButton("YES") { it ->
                 // 삭제 진행
                 showProgressDialog()
                 objectRef.delete().addOnCompleteListener { hideProgressDialog() }.addOnSuccessListener { setResult(Activity.RESULT_OK); finish() }
             }
 
-            negativeButton("NO"){}
+            negativeButton("NO") {}
         }.show()
     }
 
