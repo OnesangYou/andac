@@ -151,7 +151,6 @@ class JoinCerti2Fragment : JoinBaseFragment(){
     private fun JoinActivity.insertDB(user: FirebaseUser?): Task<Void> {
         return getHospitals().document(user?.uid!!).set(hospitalInfo, SetOptions.merge()).addOnCompleteListener { task2 ->
             if (task2.isSuccessful) {
-                toast("KBJ, insertDB Complete")
                 updateUI(user)
             } else {
                 this.toast("회원가입 실패")

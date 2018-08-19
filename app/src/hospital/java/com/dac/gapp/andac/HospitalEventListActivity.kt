@@ -99,7 +99,7 @@ class HospitalEventListActivity : BaseActivity() {
     private fun getTripleDataTask(query : Query) : Task<Triple<List<EventInfo>, Map<String, HospitalInfo>, DocumentSnapshot?>>? {
         var infos : List<EventInfo> = listOf()
         return query.get()
-                .continueWithTask { it -> Log.d(KBJ, "listSize : ${it.result.size()}")
+                .continueWithTask { it ->
                     lastVisible = it.result.documents.let { it[it.size - 1] }
                     it.result.map { getEvent(it.id)?.get() }
                             .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }

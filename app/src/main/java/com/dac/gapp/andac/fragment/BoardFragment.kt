@@ -98,12 +98,6 @@ class BoardFragment : BaseFragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        Log.d("KBJ", "BoardFragment resume!!")
-    }
-
     private fun setAdapter(type : String = getString(R.string.free_board)) {
         this.type = type
 
