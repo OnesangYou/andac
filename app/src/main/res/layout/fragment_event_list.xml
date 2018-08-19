@@ -4,52 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <RadioGroup
-        android:id="@+id/boardTabGroup"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RadioButton
+        <android.support.design.widget.TabItem
             android:id="@+id/popular_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="인기상품" />
+            android:text="@string/popular_order" />
 
-        <RadioButton
+        <android.support.design.widget.TabItem
             android:id="@+id/low_price_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="낮은 가격순" />
+            android:text="@string/low_price_order" />
 
-        <RadioButton
+        <android.support.design.widget.TabItem
             android:id="@+id/high_price_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="높은 가격순" />
-
-        <RadioButton
+            android:text="@string/high_price_order" />
+        <android.support.design.widget.TabItem
             android:id="@+id/distance_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="근거리 순" />
-
-    </RadioGroup>
+            android:text="@string/distance_order" />
+    </android.support.design.widget.TabLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/boardTabGroup"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
         tools:listitem="@layout/event_row" />
 
 

@@ -98,10 +98,9 @@ class MyBoardsFragment : BaseFragment() {
                 boardInfos = task.result.filterNotNull().map { it.toObject(BoardInfo::class.java)!! }
                 userInfoMap = mapOf(getUid().toString() to userInfo!!)
 
-
                 // set boardInfos
-                boardInfos .mapNotNull {
-                    getHospitalInfo(it.hospitalUid)?.continueWith { task-> it.hospitalUid to task.result }
+                boardInfos.groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
+                    getHospitalInfo(it.key)?.continueWith { task-> it.key to task.result }
                 }.let {
                     Tasks.whenAllSuccess<Pair<String, HospitalInfo>>(it)
                 }.addOnSuccessListener { hospitalInfoMap = it.toMap() }

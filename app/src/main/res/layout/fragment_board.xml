@@ -14,41 +14,35 @@
         tools:context=".MainActivity"
         android:orientation="vertical"
         >
-        <RadioGroup
-            android:id="@+id/boardTabGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton
-                android:id="@+id/free_board"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/free_board"
-                />
-            <RadioButton
-                android:id="@+id/review_board"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/review_board"
-                />
-            <RadioButton
-                android:id="@+id/question_board"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/question_board"
-                />
-            <RadioButton
-                android:id="@+id/hot_board"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hot_board"
-                />
 
-        </RadioGroup>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/free_board"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/free_board" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/review_board"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/review_board" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/question_board"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/question_board" />
+            <android.support.design.widget.TabItem
+                android:id="@+id/hot_board"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hot_board" />
+        </android.support.design.widget.TabLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
