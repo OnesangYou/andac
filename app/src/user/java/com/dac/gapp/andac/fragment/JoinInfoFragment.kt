@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.util.toast
 import kotlinx.android.synthetic.user.fragment_join_info.*
 
 

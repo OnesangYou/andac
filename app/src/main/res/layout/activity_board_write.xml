@@ -71,13 +71,6 @@
             android:textSize="@dimen/_10sp"
             android:layout_weight="1"
             android:text="@string/question_board"/>
-        <RadioButton
-            android:id="@+id/hot_board"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/_10sp"
-            android:layout_weight="1"
-            android:text="@string/hot_board"/>
 
     </RadioGroup>
 

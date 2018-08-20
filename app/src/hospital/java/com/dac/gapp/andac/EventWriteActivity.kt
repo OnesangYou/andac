@@ -1,5 +1,6 @@
 package com.dac.gapp.andac
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -7,6 +8,8 @@ import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.hospital.activity_event_write.*
 
@@ -44,7 +47,7 @@ class EventWriteActivity : BaseActivity() {
         }
 
         // Top Picture
-        topImage.setOnClickListener { it ->
+        topImage.setOnClickListener { _ ->
             startAlbumImageUri()
                     // save
                     .addOnSuccessListener { pictureUri = it }
@@ -81,6 +84,8 @@ class EventWriteActivity : BaseActivity() {
 
             eventInfo.objectId = eventInfoRef.id
 
+
+
             // picture 있을 경우 업로드 후 url 받아오기, 데이터 업로드
             showProgressDialog()
             arrayListOf(
@@ -93,13 +98,18 @@ class EventWriteActivity : BaseActivity() {
                     getEventStorageRef().child(eventInfoRef.id).child("detailPictureUrl0.jpg").putFile(uri)
                             .continueWith { eventInfo.detailPictureUrl = it.result.downloadUrl.toString() }
                 }
-            ).filterNotNull().let {
-                Tasks.whenAllSuccess<String>(it)
-            }.let{ task ->
-                task
-                    .onSuccessTask { eventInfoRef.set(eventInfo, SetOptions.merge()) }
-                    .addOnSuccessListener { toast("$objectTypeStr 업로드 완료"); finish() }
-                    .addOnCompleteListener { hideProgressDialog() }
+            ).filterNotNull().let { list ->
+                Tasks.whenAllSuccess<String>(list)
+                .onSuccessTask { _ ->
+                    FirebaseFirestore.getInstance().batch().run {
+                        getHospitalEvent(eventInfoRef.id)
+                                ?.let { set(it, mapOf(dateFieldStr() to FieldValue.serverTimestamp()), SetOptions.merge()) }
+                        set(eventInfoRef, eventInfo, SetOptions.merge())
+                        commit()
+                    }
+                }
+                .addOnSuccessListener { toast("$objectTypeStr 업로드 완료"); setResult(Activity.RESULT_OK); finish() }
+                .addOnCompleteListener { hideProgressDialog() }
             }
         }
 

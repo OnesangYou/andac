@@ -10,6 +10,7 @@ import com.dac.gapp.andac.MyPageActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.BoardRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
@@ -35,6 +36,8 @@ class MyBoardsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        resetData()
+
         // set recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = BoardRecyclerAdapter(context, list, map, hospitalInfoMap)
@@ -44,10 +47,8 @@ class MyBoardsFragment : BaseFragment() {
     private fun setAdapter() {
 
         // reset data
-        list.clear()
-        map.clear()
-        hospitalInfoMap.clear()
-        lastVisible = null
+        resetData()
+
         recyclerView.adapter.notifyDataSetChanged()
 
         // add Data
@@ -64,12 +65,19 @@ class MyBoardsFragment : BaseFragment() {
 
     }
 
+    fun resetData() {
+        list.clear()
+        map.clear()
+        hospitalInfoMap.clear()
+        lastVisible = null
+    }
+
     fun addDataToRecycler() {
         (context as MyPageActivity).apply {
             getUserBoards()
                     ?.orderBy("createdDate", Query.Direction.DESCENDING)
                     ?.let { query -> lastVisible?.let { query.startAfter(it) } ?: query }   // 쿼리 커서 시작 위치 지정
-                    ?.limit(PageListSize)   // 페이지 단위
+                    ?.limit(PageSize.board.value)   // 페이지 단위
                     ?.let { getTripleDataTask(it) }
                     ?.addOnSuccessListener {
                         list.addAll(it.first)
@@ -97,10 +105,9 @@ class MyBoardsFragment : BaseFragment() {
                 boardInfos = task.result.filterNotNull().map { it.toObject(BoardInfo::class.java)!! }
                 userInfoMap = mapOf(getUid().toString() to userInfo!!)
 
-
                 // set boardInfos
-                boardInfos .mapNotNull {
-                    getHospitalInfo(it.hospitalUid)?.continueWith { task-> it.hospitalUid to task.result }
+                boardInfos.groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
+                    getHospitalInfo(it.key)?.continueWith { task-> it.key to task.result }
                 }.let {
                     Tasks.whenAllSuccess<Pair<String, HospitalInfo>>(it)
                 }.addOnSuccessListener { hospitalInfoMap = it.toMap() }

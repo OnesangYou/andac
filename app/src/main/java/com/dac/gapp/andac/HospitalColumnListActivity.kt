@@ -3,12 +3,12 @@ package com.dac.gapp.andac
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
@@ -35,6 +35,8 @@ class HospitalColumnListActivity : BaseActivity() {
         back.setOnClickListener { finish() }
         writeColumnBtn.setOnClickListener { startActivityForResult<ColumnWriteActivity>(RequestCode.OBJECT_ADD.value) }
 
+        resetData()
+
         // recyclerView
         recyclerView.layoutManager = GridLayoutManager(this@HospitalColumnListActivity,2)
         recyclerView.adapter = ColumnRecyclerAdapter(this@HospitalColumnListActivity, list, map)
@@ -50,9 +52,8 @@ class HospitalColumnListActivity : BaseActivity() {
 
     private fun setAdapter() {
         // reset data
-        list.clear()
-        map.clear()
-        lastVisible = null
+        resetData()
+
         recyclerView.adapter.notifyDataSetChanged()
 
         // add Data
@@ -68,6 +69,12 @@ class HospitalColumnListActivity : BaseActivity() {
         })
     }
 
+    fun resetData() {
+        list.clear()
+        map.clear()
+        lastVisible = null
+    }
+
     fun addDataToRecycler() {
         showProgressDialog()
         getHospitalColumns()
@@ -75,7 +82,7 @@ class HospitalColumnListActivity : BaseActivity() {
                 .let { query ->
                     lastVisible?.let { query?.startAfter(it) } ?: query
                 }    // 쿼리 커서 시작 위치 지정
-                ?.limit(PageListSize)  // 페이지 단위
+                ?.limit(PageSize.column.value)  // 페이지 단위
                 ?.let { it -> getTripleDataTask(it)}
                 ?.addOnSuccessListener {
                     list.addAll(it.first)
@@ -107,7 +114,7 @@ class HospitalColumnListActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == RequestCode.OBJECT_ADD.value && resultCode == Activity.RESULT_OK){
-            Handler().postDelayed({ setAdapter() }, 2000)   // 클라우드 펑션으로 생성에 딜레이가 있음, 2초 뒤에 실행
+            setAdapter()
         }
     }
 }

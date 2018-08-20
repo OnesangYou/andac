@@ -3,6 +3,7 @@ package com.dac.gapp.andac.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -13,6 +14,7 @@ import com.dac.gapp.andac.EventDetailActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.OnItemClickListener
@@ -41,9 +43,12 @@ class EventListFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        resetData()
+
         // set recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = EventRecyclerAdapter(context, list, map)
+
         recyclerView.addOnItemClickListener(object: OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 // 디테일 뷰
@@ -51,37 +56,32 @@ class EventListFragment : BaseFragment() {
             }
         })
 
-    }
-
-    override fun onStart() {
-        super.onStart()
-        // set boardTabGroup
-        boardTabGroup.apply {
-            // default
-            if(checkedRadioButtonId == -1) {
-                check(R.id.popular_order)
-                setAdapter()
-            }
-
-            // set Listener
-            setOnCheckedChangeListener{ _ : Any?, checkedId : Int ->
-                when(checkedId) {
-                    R.id.popular_order     -> setAdapter(getString(R.string.buy_count))
-                    R.id.low_price_order   -> setAdapter(getString(R.string.price), Query.Direction.ASCENDING)
-                    R.id.high_price_order -> setAdapter(getString(R.string.price), Query.Direction.DESCENDING)
-                    R.id.distance_order      -> setAdapter(getString(R.string.distance))  // TODO : 병원의 거리 순으로 변경해야함
+        // set tabLayout click listener
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when(tab.text){
+                    getString(R.string.popular_order) -> setAdapter(getString(R.string.buy_count))
+                    getString(R.string.low_price_order) -> setAdapter(getString(R.string.price), Query.Direction.ASCENDING)
+                    getString(R.string.high_price_order) -> setAdapter(getString(R.string.price), Query.Direction.DESCENDING)
+                    getString(R.string.distance_order) -> setAdapter(getString(R.string.distance))  // TODO : 병원의 거리 순으로 변경해야함
                 }
             }
-        }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+            }
+        })
+
+        // default
+        setAdapter(getString(R.string.buy_count))
     }
 
     private fun setAdapter(type : String = getString(R.string.buy_count), direction : Query.Direction = Query.Direction.DESCENDING) {
 
         // reset data
-        list.clear()
-        map.clear()
-        lastVisible = null
-        recyclerView.adapter.notifyDataSetChanged()
+        resetData()
 
         // add Data
         addDataToRecycler(type, direction)
@@ -96,6 +96,12 @@ class EventListFragment : BaseFragment() {
         })
     }
 
+    fun resetData() {
+        list.clear()
+        map.clear()
+        lastVisible = null
+    }
+
     fun addDataToRecycler(type: String, direction : Query.Direction = Query.Direction.DESCENDING) {
         context?.apply {
             showProgressDialog()
@@ -103,7 +109,7 @@ class EventListFragment : BaseFragment() {
                     getEvents()
                             .orderBy(type, direction)
                             .let { query -> lastVisible?.let { query.startAfter(it) } ?: query }    // 쿼리 커서 시작 위치 지정
-                            .limit(PageListSize)   // 페이지 단위
+                            .limit(PageSize.event.value)   // 페이지 단위
             )
                     ?.addOnSuccessListener {
                         list.addAll(it.first)
@@ -124,7 +130,8 @@ class EventListFragment : BaseFragment() {
                     }.continueWithTask { it ->
                         infos = it.result
                         infos.groupBy { it.writerUid }
-                                .map { getHospital(it.key).get() }
+                                .filter { !it.key.isEmpty() }
+                                .mapNotNull { getHospital(it.key).get() }
                                 .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                     }.continueWith { it ->
                         Triple(infos, it.result.filterNotNull()

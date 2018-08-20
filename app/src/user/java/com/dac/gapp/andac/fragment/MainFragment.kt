@@ -7,14 +7,18 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.dac.gapp.andac.*
 import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.adapter.AdPagerAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.dialog.MainPopupDialog
 import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.model.firebase.AdInfo
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.util.toast
+import com.dac.gapp.andac.util.MyToast
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -68,19 +72,69 @@ class MainFragment : BaseFragment() {
     }
 
     private fun prepareUi() {
-        context?.let { baseActivity ->
-            baseActivity.getAds()
-                    .whereEqualTo("adType", Ad.MAIN_BANNER.adType.name)
+        context?.let { context ->
+            context.getDb().collection(Ad.MAIN_BANNER.collectionName)
                     .get()
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
                             val photoUrls = ArrayList<String>()
-                            for (document in it.result) {
+                            for (document in task.result) {
                                 val adInfo = document.toObject(AdInfo::class.java)
                                 Timber.d("photoUrl: ${adInfo.photoUrl}")
                                 photoUrls.add(adInfo.photoUrl)
                             }
-                            viewPagerMainBannerAd.adapter = AdPagerAdapter(baseActivity, photoUrls)
+                            viewPagerMainBannerAd.adapter = AdPagerAdapter(context, photoUrls)
+                        }
+                    }
+                    .addOnFailureListener {
+                        Timber.e("MAIN_BANNER 광고 로드 실패 : ${it.localizedMessage}")
+                    }
+
+            context.getDb().collection(Ad.MAIN_POPUP.collectionName)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val photoUrls = ArrayList<String>()
+                            for (document in task.result) {
+                                val adInfo = document.toObject(AdInfo::class.java)
+                                Timber.d("photoUrl: ${adInfo.photoUrl}")
+                                photoUrls.add(adInfo.photoUrl)
+                            }
+
+                            // TODO 팝업 광고 랜덤으로 띄워야됨!!
+                            if (photoUrls.size > 0) {
+                                val dialog = MainPopupDialog(requireContext())
+                                dialog
+                                        .setImageUrl(photoUrls[0])
+                                        .setOnImageClickListener(View.OnClickListener {
+                                            MyToast.showShort(context, "TODO: go to event page")
+                                            dialog.dismiss()
+                                        })
+                                        .setOnCancelListener(View.OnClickListener {
+                                            MyToast.showShort(context, "TODO: go to event page")
+                                            dialog.dismiss()
+                                        })
+                                        .setOnConfirmListener(View.OnClickListener {
+                                            dialog.dismiss()
+                                        }).show()
+                            }
+                        }
+                    }
+                    .addOnFailureListener {
+                        Timber.e("MAIN_POPUP 광고 로드 실패 : ${it.localizedMessage}")
+                    }
+
+            context.getDb().collection(Ad.MAIN_TODAY_HOSPITAL.collectionName)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val photoUrls = ArrayList<String>()
+                            for (document in task.result) {
+                                val adInfo = document.toObject(AdInfo::class.java)
+                                Timber.d("photoUrl: ${adInfo.photoUrl}")
+                                photoUrls.add(adInfo.photoUrl)
+                            }
+                            Glide.with(context).load(photoUrls[0]).into(imgviewTodaysHospitalAd)
                         }
                     }
         }

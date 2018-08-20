@@ -20,7 +20,6 @@ import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.RxBus
-import kotlinx.android.synthetic.main.base_item_card.*
 import kotlinx.android.synthetic.main.base_item_card.view.*
 import org.jetbrains.anko.alert
 
@@ -129,6 +128,7 @@ class BoardRecyclerAdapter
         val text_nickname: TextView = itemView.text_nickname
         val date: TextView = itemView.date
         val modifyBtn: Button = itemView.modifyBtn
+        val deleteBtn: Button = itemView.deleteBtn
         val pictures = arrayListOf(itemView.picture_1, itemView.picture_2, itemView.picture_3)
         val hospital_hashtag: TextView = itemView.hospital_hashtag
     }

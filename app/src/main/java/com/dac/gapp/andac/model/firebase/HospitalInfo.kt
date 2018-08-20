@@ -45,7 +45,7 @@ class HospitalInfo : Serializable {
     var cellPhone: String = ""
     var isAgreeAlarm: Boolean = false
     var isApproval: Boolean = false
-    var createDate: Date? = null
+    var createdDate: Date? = null
     var thumbnail: Int = 0
 
     var profilePicUrl: String = ""

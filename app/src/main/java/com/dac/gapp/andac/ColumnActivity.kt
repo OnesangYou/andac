@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.OnItemClickListener
@@ -28,6 +29,8 @@ class ColumnActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_column)
 
+        resetData()
+
         // recyclerView
         recyclerView.layoutManager = GridLayoutManager(this,2)
         recyclerView.adapter = ColumnRecyclerAdapter(this@ColumnActivity, list, map)
@@ -46,9 +49,8 @@ class ColumnActivity : BaseActivity() {
 
     private fun setAdapter() {
         // reset data
-        list.clear()
-        map.clear()
-        lastVisible = null
+        resetData()
+
         recyclerView.adapter.notifyDataSetChanged()
 
         // add Data
@@ -64,13 +66,19 @@ class ColumnActivity : BaseActivity() {
         })
     }
 
+    fun resetData() {
+        list.clear()
+        map.clear()
+        lastVisible = null
+    }
+
     fun addDataToRecycler() {
         showProgressDialog()
         getTripleDataTask(
                 getColumns()
                         .orderBy("writeDate", Query.Direction.DESCENDING)
                         .let { query -> lastVisible?.let { query.startAfter(it) } ?: query }    // 쿼리 커서 시작 위치 지정
-                        .limit(PageListSize)   // 페이지 단위
+                        .limit(PageSize.column.value)   // 페이지 단위
         )
                 ?.addOnSuccessListener {
                     list.addAll(it.first)

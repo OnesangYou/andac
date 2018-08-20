@@ -4,6 +4,7 @@ package com.dac.gapp.andac.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING
@@ -15,6 +16,7 @@ import com.dac.gapp.andac.BoardWriteActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.BoardRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.ActivityResultEvent
 import com.dac.gapp.andac.model.firebase.BoardInfo
@@ -58,6 +60,8 @@ class BoardFragment : BaseFragment() {
             }
         }
 
+        resetData()
+
         // set recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = BoardRecyclerAdapter(context, list, map, hospitalInfoMap)
@@ -70,27 +74,28 @@ class BoardFragment : BaseFragment() {
                 }
             }
         }
-    }
 
-    override fun onStart() {
-        super.onStart()
-        // set boardTabGroup
-        boardTabGroup.apply {
-            // default
-            if(checkedRadioButtonId == -1) {
-                check(R.id.free_board)
-                setAdapter()
-            }
-
-            setOnCheckedChangeListener{ _ : Any?, checkedId : Int ->
-                when(checkedId) {
-                    R.id.free_board     -> setAdapter(getString(R.string.free_board))
-                    R.id.review_board   -> setAdapter(getString(R.string.review_board))
-                    R.id.question_board -> setAdapter(getString(R.string.question_board))
-                    R.id.hot_board      -> setAdapter(getString(R.string.hot_board))
+        // set tabLayout click listener
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when(tab.text){
+                    getString(R.string.free_board) -> setAdapter(getString(R.string.free_board))
+                    getString(R.string.review_board) -> setAdapter(getString(R.string.review_board))
+                    getString(R.string.question_board) -> setAdapter(getString(R.string.question_board))
+                    getString(R.string.hot_board) -> setAdapter(getString(R.string.hot_board))
                 }
             }
-        }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+            }
+        })
+
+        // default
+        setAdapter(getString(R.string.free_board))
+
     }
 
     override fun onResume() {
@@ -103,11 +108,7 @@ class BoardFragment : BaseFragment() {
         this.type = type
 
         // reset data
-        list.clear()
-        map.clear()
-        hospitalInfoMap.clear()
-        lastVisible = null
-        recyclerView.adapter.notifyDataSetChanged()
+        resetData()
 
         // add Data
         addDataToRecycler(type)
@@ -122,6 +123,13 @@ class BoardFragment : BaseFragment() {
         })
     }
 
+    fun resetData() {
+        list.clear()
+        map.clear()
+        hospitalInfoMap.clear()
+        lastVisible = null
+    }
+
     fun addDataToRecycler(type: String) {
         context?.apply {
             showProgressDialog()
@@ -130,7 +138,7 @@ class BoardFragment : BaseFragment() {
                             .whereEqualTo("type", type)
                             .orderBy("writeDate", Query.Direction.DESCENDING)
                             .let { query -> lastVisible?.let { query.startAfter(it) } ?: query }    // 쿼리 커서 시작 위치 지정
-                            .limit(PageListSize)   // 페이지 단위
+                            .limit(PageSize.board.value)   // 페이지 단위
             )
                     ?.addOnSuccessListener {
                         list.addAll(it.first)
@@ -153,30 +161,34 @@ class BoardFragment : BaseFragment() {
                     .continueWith { it ->
                         lastVisible = it.result.documents.let { it[it.size-1] }
                         it.result.toObjects(BoardInfo::class.java)
-                    }.continueWithTask { it ->
-                                boardInfos = it.result
-
-                                Tasks.whenAllComplete(
+                    }.continueWithTask { task ->
+                                boardInfos = task.result
+                                Tasks.whenAllSuccess<Void>(
                                         // set userInfoMap
-                                        boardInfos.mapNotNull {
-                                            getUserInfo(it.writerUid)?.continueWith { task-> it.writerUid to task.result }
+                                        boardInfos.groupBy { it.writerUid }.filter { !it.key.isEmpty() }.mapNotNull {
+                                            getUserInfo(it.key)?.continueWith { task-> it.key to task.result }
                                         }.let {
                                             Tasks.whenAllSuccess<Pair<String, UserInfo>>(it)
-                                        }.addOnSuccessListener { userInfoMap = it.toMap() }
-                                                ,
+                                        }.continueWith {
+                                            userInfoMap = it.result.toMap()
+                                        }
+                                        ,
                                         // set hospitalInfoMap
-                                        boardInfos.mapNotNull {
-                                            getHospitalInfo(it.hospitalUid)?.continueWith { task-> it.hospitalUid to task.result }
+                                        boardInfos.groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
+                                            getHospitalInfo(it.key)?.continueWith { task-> it.key to task.result }
                                         }.let {
                                             Tasks.whenAllSuccess<Pair<String, HospitalInfo>>(it)
-                                        }.addOnSuccessListener { hospitalInfoMap = it.toMap() }
+                                        }.continueWith {
+                                            hospitalInfoMap = it.result.toMap()
+                                        }
                                 )
 
-                    }.continueWith {
+                    }
+                            .continueWith {
                                 Triple(boardInfos,
                                         userInfoMap,
                                         hospitalInfoMap)
-                    }
+                            }
         }
     }
 
