@@ -18,83 +18,290 @@
             android:paddingBottom="10dp"
             android:paddingTop="10dp">
 
-            <!-- 광고 제작 신청하기 -->
-            <Button
-                android:id="@+id/btnApplyForCreativeProduction"
+            <!-- login banner ad -->
+            <LinearLayout
+                android:id="@+id/layoutLoginBannerAd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorMain"
-                android:lineSpacingExtra="5dp"
-                android:text="@string/apply_for_creative_production"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <TextView
+                <TextView
+                    android:id="@+id/txtviewLoginBannerAd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/login_banner_ad_days"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imgviewLoginBannerAd"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:layout_marginTop="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/usermain1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/change_photo"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/txtviewLoginBannerAdValidityPeriodDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/ad_validity_period_days"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtviewLoginBannerAdClicks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ad_clicks"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/layoutLoginBannerAdResponseGraph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="광고 호응도 그래프"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </LinearLayout>
+
+            <!-- main popup ad -->
+            <LinearLayout
+                android:id="@+id/layoutMainPopupAd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/apply_for_creative_production_description"
-                android:textSize="11sp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtviewMainPopupAd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/main_popup_ad_days"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imgviewMainPopupAd"
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    android:layout_marginTop="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/event1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/change_photo"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/txtviewMainPopupAdValidityPeriodDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/ad_validity_period_days"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtviewMainPopupAdClicks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ad_clicks"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
 
-            <TextView
-                android:id="@+id/txtviewAd1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/main_popup_ad"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/layoutMainPopupAdResponseGraph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/imgviewPhoto"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="광고 호응도 그래프"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </LinearLayout>
+
+            <!-- main banner ad -->
+            <LinearLayout
+                android:id="@+id/layoutMainBannerAd"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/button_upload"
-                android:scaleType="fitXY" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <TextView
+                <TextView
+                    android:id="@+id/txtviewMainBannerAd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/main_banner_ad_days"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imgviewMainBannerAd"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ad21" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/change_photo"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/txtviewMainBannerAdValidityPeriodDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/ad_validity_period_days"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtviewMainBannerAdClicks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ad_clicks"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/layoutMainBannerAdResponseGraph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="광고 호응도 그래프"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </LinearLayout>
+
+            <!-- main todays hospital ad -->
+            <LinearLayout
+                android:id="@+id/layoutMainTodaysHospitalAd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/change_photo"
-                android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="광고 유효기간 : 17일"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txtviewMainTodaysHospitalAd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/main_todays_hosptial_ad_days"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="광고 클릭수  : 1124회"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/imgviewMainTodaysHospitalAd"
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    android:layout_marginTop="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/event2" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="광고 호응도 그래프"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/change_photo"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/layoutAdsResponseGraph"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/txtviewMainTodaysHospitalAdValidityPeriodDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/ad_validity_period_days"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-            </android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:id="@+id/txtviewMainTodaysHospitalAdClicks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ad_clicks"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/layoutMainTodaysHospitalAdResponseGraph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="광고 호응도 그래프"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>

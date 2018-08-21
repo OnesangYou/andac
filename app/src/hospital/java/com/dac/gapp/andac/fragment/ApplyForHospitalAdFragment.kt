@@ -51,10 +51,10 @@ class ApplyForHospitalAdFragment : BaseFragment() {
                         })
                         .show()
             }
-            btnApplyForMainPopupAd.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstance(Ad.MAIN_POPUP)) }
-            btnApplyForMainBannerAd.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstance(Ad.MAIN_BANNER)) }
-            btnApplyForMainTodaysHospitalAd.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstance(Ad.MAIN_TODAY_HOSPITAL)) }
-            btnApplyForLoginBannerAd.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstance(Ad.LOGIN_BANNER)) }
+            btnApplyForMainPopupAd.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstanceForPay(Ad.MAIN_POPUP)) }
+            btnApplyForMainBannerAd.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstanceForPay(Ad.MAIN_BANNER)) }
+            btnApplyForMainTodaysHospitalAd.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstanceForPay(Ad.MAIN_TODAY_HOSPITAL)) }
+            btnApplyForLoginBannerAd.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstanceForPay(Ad.LOGIN_BANNER)) }
         }
 
     }
