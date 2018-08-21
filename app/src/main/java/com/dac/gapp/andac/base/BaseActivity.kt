@@ -27,6 +27,7 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SplashActivity
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
+import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.UiUtil
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
@@ -41,10 +42,10 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.yanzhenjie.album.Album
 import com.yanzhenjie.album.AlbumFile
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.jetbrains.anko.alert
 import timber.log.Timber
-import java.io.File
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -177,12 +178,29 @@ abstract class BaseActivity : AppCompatActivity() {
             }
 
 
-    fun startAlbumImageUri(): Task<Uri> = startAlbumMultiImage(1).continueWith { Uri.fromFile(File(it.result.first().path)) }
+    private val RC_TAKE_PICTURE = 101
+    fun getAlbumImage(): Observable<Uri>? {
+        // Pick an image from storage
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        startActivityForResult(intent, RC_TAKE_PICTURE)
 
-    fun startAlbumImageUri(limitCnt: Int): Task<List<Uri>> =
-            startAlbumMultiImage(limitCnt).continueWith { task ->
-                task.result.map { Uri.fromFile(File(it.path)) }
+        return RxBus.listen(Uri::class.java).take(1)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_TAKE_PICTURE) {
+            if (resultCode == Activity.RESULT_OK) {
+                data?.data?.let {mFileUri ->
+                    RxBus.publish(mFileUri)
+                }
+            } else {
+                toast("Taking picture failed.")
             }
+        }
+    }
 
     // Ads
     fun getAdStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("ads")
@@ -234,7 +252,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun getHospitalInfo(uid: String? = getUid()) = uid?.let { getHospital(it).get().continueWith { it.result.toObject(HospitalInfo::class.java) } }
+    fun getHospitalInfo(uid: String? = getUid()) = uid?.let { s -> getHospital(s).get().continueWith { it.result.toObject(HospitalInfo::class.java) } }
 
 
     fun getToolBar(): ToolBar {
@@ -266,7 +284,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    public fun changeFragment(newFragment: Fragment) {
+    fun changeFragment(newFragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
 
         // Replace whatever is in the fragment_container view with this fragment,

@@ -35,6 +35,7 @@ class EventWriteActivity : BaseActivity() {
                 eventInfo = this
                 titleText.setText(title)
                 bodyText.setText(body)
+                priceText.setText(price.toString())
                 Glide.with(this@EventWriteActivity).load(pictureUrl).into(topImage)
                 Glide.with(this@EventWriteActivity).load(detailPictureUrl).into(bottomImage)
 
@@ -48,24 +49,22 @@ class EventWriteActivity : BaseActivity() {
 
         // Top Picture
         topImage.setOnClickListener { _ ->
-            startAlbumImageUri()
-                    // save
-                    .addOnSuccessListener { pictureUri = it }
-                    // load image view
-                    .addOnSuccessListener { Glide.with(this@EventWriteActivity).load(it).into(topImage) }
+            getAlbumImage()?.subscribe {
+                pictureUri = it
+                Glide.with(this@EventWriteActivity).load(it).into(topImage)
+            }
         }
 
         // Bottom Picture
-        bottomImage.setOnClickListener { it ->
-            startAlbumImageUri()
-                    // save
-                    .addOnSuccessListener { detailPictureUri = it }
-                    // load image view
-                    .addOnSuccessListener { Glide.with(this@EventWriteActivity).load(it).into(bottomImage) }
+        bottomImage.setOnClickListener { _ ->
+            getAlbumImage()?.subscribe {
+                detailPictureUri = it
+                Glide.with(this@EventWriteActivity).load(it).into(bottomImage)
+            }
         }
 
         // Upload
-        uploadBtn.setOnClickListener { it ->
+        uploadBtn.setOnClickListener { _ ->
             // 유효성검사
             if(!validate()) return@setOnClickListener
 

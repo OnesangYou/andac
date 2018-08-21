@@ -78,12 +78,11 @@ class AdPaymentFragment : BaseFragment() {
             TedPermission.with(context)
                     .setPermissionListener(object : PermissionListener {
                         override fun onPermissionGranted() {
-                            context?.startAlbumImageUri()
-                                    ?.addOnSuccessListener {
-                                        photoUri = it
-                                        Glide.with(this@AdPaymentFragment).load(it).into(imgviewPhoto)
-                                        txtviewUploadPhoto.setBackgroundResource(R.color.AF000000)
-                                    }
+                            context?.getAlbumImage()?.subscribe {
+                                photoUri = it
+                                Glide.with(this@AdPaymentFragment).load(it).into(imgviewPhoto)
+                                txtviewUploadPhoto.setBackgroundResource(R.color.AF000000)
+                            }
                         }
 
                         override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
@@ -17,20 +18,21 @@ import kotlin.collections.ArrayList
 class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
     private val HOSPITAL_OBJECT_REQUEST = 0
-    private val boardInfo = BoardInfo()
+    private var boardInfo = BoardInfo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_write)
 
-        var pictureUris : List<Uri>? = null
         val imageViews = Arrays.asList(picture_1, picture_2, picture_3)
+        val mapImageViewUri = mutableMapOf<ImageView, Uri?>(picture_1 to null, picture_2 to null, picture_3 to null)
 
         // 수정 시 게시글 데이터 받아서 초기화
         val boardSetTask = intent.getStringExtra(OBJECT_KEY)?.let { key ->
 
             getBoard(key)?.get()?.continueWith { it.result.toObject(BoardInfo::class.java) }?.addOnSuccessListener {
                 it?.apply {
+                    boardInfo = it
                     edit_text_title.setText(title)
                     edit_text_contents.setText(contents)
                     pictureUrls?.forEachIndexed { index, url ->
@@ -59,7 +61,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 //        Tasks.whenAll(boardSetTask, userSetTask).addOnCompleteListener{hideProgressDialog()}
 
         // 병원 검색 버튼
-        hospital_search.setOnClickListener {
+        hospital_search.setOnClickListener { _ ->
             Intent(this@BoardWriteActivity, HospitalTextSearchActivity::class.java).let {
                 it.putExtra("filterStr", "approval=1")  // 승인된 병원만 보이도록
                 startActivityForResult(it, HOSPITAL_OBJECT_REQUEST)
@@ -67,16 +69,14 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         }
 
         // Pick Pictures
-        button_picture_upload.setOnClickListener {
-            startAlbumImageUri(3)
-                    // save
-                    .addOnSuccessListener { pictureUris = it }
-                    // load image view
-                    .addOnSuccessListener {uris ->
-                        imageViews.forEachIndexed { index, imageView -> Glide.with(this@BoardWriteActivity).load(
-                                if(index < uris.size) uris[index] else R.drawable.profilepic).into(imageView) }
-                    }
+        mapImageViewUri.forEach { imageView, _ ->
+            imageView.setOnClickListener { _ ->
+                getAlbumImage()?.subscribe {uri ->
+                    Glide.with(this@BoardWriteActivity).load(uri).into(imageView)
+                    mapImageViewUri[imageView] = uri
 
+                }
+            }
         }
 
         // Type
@@ -90,7 +90,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         }
 
         // Upload
-        uploadBtn.setOnClickListener {
+        uploadBtn.setOnClickListener { _ ->
 
             // set boardInfo
             getUid()?.let {
@@ -120,16 +120,21 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
             // picture 있을 경우 업로드 후 uri 받아오기, 데이터 업로드
             showProgressDialog()
-            pictureUris.let{
-                it?.let{uris ->
-                    uris.mapIndexed { index, uri ->
-                        getBoardStorageRef().child(boardInfoRef.id).child("picture$index.jpg").putFile(uri)
-                                .continueWith { it.result.downloadUrl.toString() } }
-                            .let { Tasks.whenAllSuccess<String>(it) }
-                            .addOnSuccessListener { boardInfo.pictureUrls = ArrayList(it) }
-                            .onSuccessTask { boardInfoRef.set(boardInfo, SetOptions.merge()) }
-                }?:let{ boardInfoRef.set(boardInfo, SetOptions.merge()) }
+
+            mapImageViewUri.values.filterNotNull().let{ uris ->
+                uris.mapIndexed { index, uri ->
+                    getBoardStorageRef()
+                            .child(boardInfoRef.id).child("picture$index.jpg")
+                            .putFile(uri)
+                            .continueWith { it.result.downloadUrl.toString() }
+                }
+                        .let { Tasks.whenAllSuccess<String>(it) }
+                        .onSuccessTask {
+                            boardInfo.pictureUrls = ArrayList(it)
+                            boardInfoRef.set(boardInfo, SetOptions.merge())
+                        }
             }
+
                     .addOnSuccessListener{
                         toast("게시물 업로드 완료")
                         setResult(Activity.RESULT_OK)

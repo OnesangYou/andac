@@ -31,7 +31,7 @@ class ChangeProfileActivity : BaseActivity() {
                     setOnClickListener(hospitalInfo)
                 }
 
-        completeBtn.setOnClickListener {
+        completeBtn.setOnClickListener { _ ->
             hospitalInfo?.apply {
                 name = hospitalText.text.toString()
                 phone = phoneText.text.toString()
@@ -50,11 +50,11 @@ class ChangeProfileActivity : BaseActivity() {
 
     private fun setOnClickListener(hospitalInfo: HospitalInfo?) {
         // 사진버튼
-        pictureImage.setOnClickListener {
-            startAlbumImageUri().addOnSuccessListener { picUri ->
-                getUid()?.let {
+        pictureImage.setOnClickListener { _ ->
+            getAlbumImage()?.subscribe {picUri ->
+                getUid()?.let { s ->
                     showProgressDialog()
-                    getHospitalsStorageRef().child(it).child(profilePicJpgStr).putFile(picUri).continueWith {
+                    getHospitalsStorageRef().child(s).child(profilePicJpgStr).putFile(picUri).continueWith {
                         toast("uploadPicFile Complete")
                         it.result.downloadUrl.toString()
                     }

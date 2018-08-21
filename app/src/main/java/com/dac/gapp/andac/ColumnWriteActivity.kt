@@ -44,11 +44,10 @@ class ColumnWriteActivity : BaseActivity() {
 
         // Picture
         pictureImage.setOnClickListener { _ ->
-            startAlbumImageUri()
-                    // save
-                    .addOnSuccessListener { pictureUri = it }
-                    // load image view
-                    .addOnSuccessListener { Glide.with(this@ColumnWriteActivity).load(it).into(pictureImage) }
+            getAlbumImage()?.subscribe {
+                pictureUri = it
+                Glide.with(this@ColumnWriteActivity).load(it).into(pictureImage)
+            }
         }
 
         // Upload
