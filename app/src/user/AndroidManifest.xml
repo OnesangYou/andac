@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.dac.gapp.andac">
 
     <!-- To access Google+ APIs: -->
-    <!--<uses-permission android:name="android.permission.INTERNET" />-->
-
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -21,12 +19,14 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".MyPageActivity" />
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".JoinActivity"/>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".JoinActivity" />
+        <activity android:name=".UserEventApplyListActivity"></activity>
     </application>
 
 </manifest>

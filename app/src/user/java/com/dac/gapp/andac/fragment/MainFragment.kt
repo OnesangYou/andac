@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.user.fragment_main.*
+import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import java.util.*
 
@@ -48,27 +49,16 @@ class MainFragment : BaseFragment() {
             startActivity(nextIntent)
         }
 
-        column.setOnClickListener {
-            val nextIntent = Intent(context, ColumnActivity::class.java)
-            startActivity(nextIntent)
-        }
-
-        event.setOnClickListener {
-            // TODO : 이벤트 신청내역
-            toast("이벤트 신청내역")
-
-        }
-
-        findHospitalByText.setOnClickListener {
-            startActivity(Intent(context, HospitalTextSearchActivity::class.java).putExtra("filterStr", "approval=1"))
-        }
-
         more_calum.setOnClickListener {
             startActivity(Intent(context, ColumnActivity::class.java))
         }
 
         columnList.layoutManager = GridLayoutManager(context, 2)
         setAdapter()
+
+        main_my_event.setOnClickListener {
+            context?.startActivity<UserEventApplyListActivity>()
+        }
     }
 
     private fun prepareUi() {

@@ -18,33 +18,29 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.hospital.activity_hospital_event_list.*
-import org.jetbrains.anko.startActivityForResult
-
+import kotlinx.android.synthetic.user.activity_user_event_apply_list.*
 
 @Suppress("DEPRECATION")
-class HospitalEventListActivity : BaseActivity() {
-
+class UserEventApplyListActivity : BaseActivity() {
     val list = mutableListOf<EventInfo>()
     val map = mutableMapOf<String, HospitalInfo>()
     private var lastVisible : DocumentSnapshot? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_hospital_event_list)
+        setContentView(R.layout.activity_user_event_apply_list)
 
         back.setOnClickListener { finish() }
-        writeEventBtn.setOnClickListener { startActivityForResult<EventWriteActivity>(RequestCode.OBJECT_ADD.value) }
 
         resetData()
 
         // recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this@HospitalEventListActivity)
-        recyclerView.adapter = EventRecyclerAdapter(this@HospitalEventListActivity, list, map)
+        recyclerView.layoutManager = LinearLayoutManager(this@UserEventApplyListActivity)
+        recyclerView.adapter = EventRecyclerAdapter(this@UserEventApplyListActivity, list, map)
         recyclerView.addOnItemClickListener(object: OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
-                // 수정하기
-                if(list[position].writerUid == getUid()) startActivityForResult<EventWriteActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to list[position].objectId)
+                // 디테일 뷰
+                startActivity(Intent(this@UserEventApplyListActivity, EventDetailActivity::class.java).putExtra(OBJECT_KEY,list[position].objectId))
             }
         })
 
@@ -79,7 +75,7 @@ class HospitalEventListActivity : BaseActivity() {
 
     fun addDataToRecycler() {
         showProgressDialog()
-        getHospitalEvents()
+        getUserEvents()
                 ?.orderBy("createdDate", Query.Direction.DESCENDING)
                 .let { query ->
                     lastVisible?.let { query?.startAfter(it) } ?: query
