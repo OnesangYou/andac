@@ -31,28 +31,47 @@ class AdPaymentFragment : BaseFragment() {
 
     companion object {
         private const val EXTRA_AD = "EXTRA_AD"
+        private const val EXTRA_FOR_WHAT = "EXTRA_FOR_WHAT"
+        private const val EXTRA_FOR_PAY = "EXTRA_FOR_PAY"
+        private const val EXTRA_FOR_EDIT = "EXTRA_FOR_EDIT"
+        private const val EXTRA_PHOTO_URL = "EXTRA_PHOTO_URL"
 
-        fun newInstance(ad: Ad): AdPaymentFragment {
+        fun newInstanceForPay(ad: Ad): AdPaymentFragment {
             val fragment = AdPaymentFragment()
             val bundle = Bundle()
             bundle.putSerializable(EXTRA_AD, ad)
+            bundle.putSerializable(EXTRA_FOR_WHAT, EXTRA_FOR_PAY)
+            fragment.arguments = bundle
+            return fragment
+        }
+
+
+        fun newInstanceForEdit(ad: Ad, photoUrl: String?): AdPaymentFragment {
+            val fragment = AdPaymentFragment()
+            val bundle = Bundle()
+            bundle.putSerializable(EXTRA_AD, ad)
+            bundle.putSerializable(EXTRA_FOR_WHAT, EXTRA_FOR_EDIT)
+            bundle.putSerializable(EXTRA_PHOTO_URL, photoUrl)
             fragment.arguments = bundle
             return fragment
         }
     }
 
     private lateinit var ad: Ad
+    private lateinit var forWhat: String
+    private var photoUrl: String? = null
     private var photoUri: Uri? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_ad_payment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.let {
             ad = it.getSerializable(EXTRA_AD) as Ad
+            forWhat = it.getSerializable(EXTRA_FOR_WHAT) as String
+            photoUrl = it.getSerializable(EXTRA_PHOTO_URL) as String
             prepareUi()
             setupEventsOnViewCreated()
         } ?: run {
@@ -62,10 +81,24 @@ class AdPaymentFragment : BaseFragment() {
     }
 
     private fun prepareUi() {
-        context!!.getToolBar().setTitle(getString(R.string.paying_for_a_hospital_ad))
-        ad.let {
-            txtviewAd.text = getString(it.titleResId)
-            UiUtil.visibleOrGone(it.isAdTypeEvent(), btnSelectMyEvent)
+        context?.let { context ->
+            forWhat.let { forWhat ->
+                ad.let { ad ->
+                    txtviewAd.text = getString(ad.titleResId)
+                    UiUtil.visibleOrGone(ad.isAdTypeEvent(), btnSelectMyEvent)
+                    if (forWhat == EXTRA_FOR_PAY) {
+                        context.getToolBar().setTitle(getString(R.string.paying_for_a_hospital_ad))
+                        btnNext.text = getString(R.string.make_a_payment)
+                    } else if (forWhat == EXTRA_FOR_EDIT) {
+                        context.getToolBar().setTitle(getString(R.string.edit_for_hospital_ad))
+                        btnNext.text = getString(R.string.edit)
+                        photoUrl?.let {
+                            Glide.with(this).load(it).into(imgviewPhoto)
+                            txtviewUploadPhoto.setBackgroundResource(R.color.AF000000)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -94,7 +127,7 @@ class AdPaymentFragment : BaseFragment() {
                     .check()
         }
 
-        btnPay.setOnClickListener { view ->
+        btnNext.setOnClickListener { view ->
             // TODO 광고 결제 모듈은 어떻게??
             MyToast.showShort(requireContext(), "TODO : 광고 결제 완료 후 사진 업로드 및 광고 기한 업로드 !!")
             context?.let { context ->

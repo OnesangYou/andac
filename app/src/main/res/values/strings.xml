@@ -55,10 +55,12 @@
     <string name="hospital_ad_application">광고 신청</string>
     <string name="apply_for_hospital_ad">병원 광고 신청하기</string>
     <string name="paying_for_a_hospital_ad">병원 광고 결제하기</string>
+    <string name="edit_for_hospital_ad">병원 광고 수정하기</string>
     <string name="apply_for_creative_production">광고 제작 신청하기</string>
     <string name="apply_for_creative_production_description">배너광고 및 오늘의 병원 광고 포스터 이외 모든 광고물을 안닥에 직접 디자인을 요청합니다. 신청 내역 확인 후 병원관리자 전화로 상담 전화를 드립니다.</string>
     <string name="main_popup_ad">1. 메인 팝업 광고</string>
-    <string name="main_popup_ad_description">로딩이 끝나자마자 팝업으로 생성되는 광고 화면입니다.\n\n광고 해상도 : 300*500 dp\n유효기간 : 30일\n광고금액 : 1,000,000원</string>\
+    <string name="main_popup_ad_description">로딩이 끝나자마자 팝업으로 생성되는 광고 화면입니다.\n\n광고 해상도 : 300*500 dp\n유효기간 : 30일\n광고금액 : 1,000,000원</string>
+    \
     <string name="main_popup_ad_description2">메인화면 세로로 길게 제공되는 배너에 업로드 되는 광고입니다.\n배너의 6개의 자구중 1개에 삽입됩니다.</string>
     <string name="apply_for_main_popup_ad">[팝업 광고] 신청하기</string>
     <string name="main_banner_ad">2. 메인 배너 광고</string>
@@ -80,6 +82,7 @@
     <string name="days">일</string>
     <string name="won">원</string>
     <string name="make_a_payment">결제하기</string>
+    <string name="edit">수정하기</string>
     <string name="cancel">취소</string>
     <string name="confirm">확인</string>
     <string name="change_photo">배너 이미지를 클릭하여 사진 변경하기</string>
@@ -93,6 +96,12 @@
     <string name="low_price_order">낮은 가격순</string>
     <string name="high_price_order">높은 가격순</string>
     <string name="distance_order">근거리 순</string>
+    <string name="login_banner_ad_days">로그인 배너 광고 %1$d일</string>
+    <string name="main_popup_ad_days">메인 팝업 광고 %1$d일</string>
+    <string name="main_banner_ad_days">메인 배너 광고 %1$d일</string>
+    <string name="main_todays_hosptial_ad_days">오늘의 병원 광고 %1$d일</string>
+    <string name="ad_validity_period_days">광고 유효기간 : %1$d일</string>
+    <string name="ad_clicks">광고 클릭수 : %1$d회</string>
 
 </resources>
 
