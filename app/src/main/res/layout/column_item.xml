@@ -22,6 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="제목"
+            android:textSize="@dimen/_13sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pictureImage" />
@@ -43,6 +45,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:text="조회수"
+            android:textSize="@dimen/_8sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
@@ -53,6 +56,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
             android:text="병원명"
+            android:textSize="@dimen/_8sp"
             android:textColor="@color/colorMain"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/textView"
@@ -64,6 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:text="조회"
+            android:textSize="@dimen/_8sp"
             app:layout_constraintEnd_toStartOf="@+id/viewCount"
             app:layout_constraintTop_toTopOf="@+id/viewCount" />
 

@@ -101,6 +101,7 @@
                 android:drawableTop="@drawable/radio_button_selector"
                 android:gravity="center_horizontal|top"
                 android:text="계정설정"
+                android:textAlignment="center"
                 android:textSize="@dimen/_12sp" />
 
             <RadioButton
@@ -113,6 +114,7 @@
                 android:drawableTop="@drawable/radio_button_selector"
                 android:gravity="center_horizontal|top"
                 android:text="즐겨찾기"
+                android:textAlignment="center"
                 android:textSize="@dimen/_12sp" />
 
             <RadioButton
@@ -125,6 +127,7 @@
                 android:drawableTop="@drawable/radio_button_selector"
                 android:gravity="center_horizontal|top"
                 android:text="내쿠폰함"
+                android:textAlignment="center"
                 android:textSize="@dimen/_12sp" />
 
             <RadioButton
@@ -137,6 +140,8 @@
                 android:drawableTop="@drawable/radio_button_selector"
                 android:gravity="center_horizontal|top"
                 android:text="결재내역"
+                android:textAlignment="center"
+
                 android:textSize="@dimen/_12sp" />
 
             <RadioButton
@@ -149,6 +154,7 @@
                 android:drawableTop="@drawable/radio_button_selector"
                 android:gravity="center_horizontal|top"
                 android:text="내가쓴글"
+                android:textAlignment="center"
                 android:textSize="@dimen/_12sp" />
 
 

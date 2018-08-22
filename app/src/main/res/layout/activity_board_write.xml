@@ -44,9 +44,11 @@
         android:id="@+id/radioGroupType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/profilePic"
         app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="@+id/nickName"
         app:layout_constraintTop_toBottomOf="@+id/nickName">
 
@@ -55,22 +57,36 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="@dimen/_10sp"
-            android:text="@string/free_board"/>
+            android:button="@null"
+            android:drawableTop="@drawable/radio_button_selector"
+            android:padding="8dp"
+            android:text="@string/free_board"
+            android:textAlignment="center"
+            android:textSize="@dimen/_12sp" />
+
         <RadioButton
             android:id="@+id/review_board"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="@dimen/_10sp"
-            android:text="@string/review_board"/>
+            android:button="@null"
+            android:drawableTop="@drawable/radio_button_selector"
+            android:padding="8dp"
+            android:text="@string/review_board"
+            android:textAlignment="center"
+            android:textSize="@dimen/_12sp" />
+
         <RadioButton
             android:id="@+id/question_board"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_10sp"
             android:layout_weight="1"
-            android:text="@string/question_board"/>
+            android:button="@null"
+            android:drawableTop="@drawable/radio_button_selector"
+            android:padding="8dp"
+            android:text="@string/question_board"
+            android:textAlignment="center"
+            android:textSize="@dimen/_12sp" />
 
     </RadioGroup>
 
