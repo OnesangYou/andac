@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="18dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/profilePic"
@@ -96,52 +96,60 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:button="@drawable/radio_button_selector"
+                android:button="@null"
+                android:drawablePadding="8dp"
+                android:drawableTop="@drawable/radio_button_selector"
                 android:gravity="center_horizontal|top"
-                android:drawableTop="?android:attr/listChoiceIndicatorSingle"
-                android:textSize="@dimen/_10sp"
-                android:text="계정설정" />
+                android:text="계정설정"
+                android:textSize="@dimen/_12sp" />
+
             <RadioButton
                 android:id="@+id/favoritBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:button="@drawable/radio_button_selector"
+                android:button="@null"
+                android:drawablePadding="8dp"
+                android:drawableTop="@drawable/radio_button_selector"
                 android:gravity="center_horizontal|top"
-                android:drawableTop="?android:attr/listChoiceIndicatorSingle"
-                android:textSize="@dimen/_10sp"
                 android:text="즐겨찾기"
-                />
+                android:textSize="@dimen/_12sp" />
+
             <RadioButton
                 android:id="@+id/myCouponBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:button="@drawable/radio_button_selector"
+                android:button="@null"
+                android:drawablePadding="8dp"
+                android:drawableTop="@drawable/radio_button_selector"
                 android:gravity="center_horizontal|top"
-                android:drawableTop="?android:attr/listChoiceIndicatorSingle"
-                android:textSize="@dimen/_10sp"
-                android:text="내쿠폰함" />
+                android:text="내쿠폰함"
+                android:textSize="@dimen/_12sp" />
+
             <RadioButton
                 android:id="@+id/paymentHistoryBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:button="@drawable/radio_button_selector"
+                android:button="@null"
+                android:drawablePadding="8dp"
+                android:drawableTop="@drawable/radio_button_selector"
                 android:gravity="center_horizontal|top"
-                android:drawableTop="?android:attr/listChoiceIndicatorSingle"
-                android:textSize="@dimen/_10sp"
-                android:text="결재내역" />
+                android:text="결재내역"
+                android:textSize="@dimen/_12sp" />
+
             <RadioButton
                 android:id="@+id/myBoardsBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:button="@drawable/radio_button_selector"
+                android:button="@null"
+                android:drawablePadding="8dp"
+                android:drawableTop="@drawable/radio_button_selector"
                 android:gravity="center_horizontal|top"
-                android:drawableTop="?android:attr/listChoiceIndicatorSingle"
-                android:textSize="@dimen/_10sp"
-                android:text="내가쓴글" />
+                android:text="내가쓴글"
+                android:textSize="@dimen/_12sp" />
 
 
         </RadioGroup>
