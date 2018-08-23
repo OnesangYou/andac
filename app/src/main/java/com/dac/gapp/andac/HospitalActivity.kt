@@ -75,7 +75,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
             }
 
             startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))
-//            startActivity(Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+hospitalInfo.phone)))
         }
     }
 
