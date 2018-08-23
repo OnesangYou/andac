@@ -37,7 +37,7 @@
             android:textSize="20sp" />
 
         <ImageView
-            android:id="@+id/notification"
+            android:id="@+id/phoneCall"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="right"

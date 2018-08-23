@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.ColumnInfo
-import com.dac.gapp.andac.util.Common
+import com.dac.gapp.andac.util.getFullFormat
 import com.google.firebase.firestore.FieldValue
 import kotlinx.android.synthetic.main.activity_column_detail.*
 
@@ -25,7 +25,7 @@ class ColumnDetailActivity : BaseActivity() {
                 titleText.text = columnInfo.title
                 contentsText.text = columnInfo.contents
                 Glide.with(this@ColumnDetailActivity).load(columnInfo.pictureUrl).into(pictureImage)
-                writeDateText.text = columnInfo.writeDate?.let { it1 -> Common.getDateFormat(it1) }
+                writeDateText.text = columnInfo.writeDate?.getFullFormat()
                 viewCountText.text = columnInfo.viewCount.toString()
 
                 // 병원명

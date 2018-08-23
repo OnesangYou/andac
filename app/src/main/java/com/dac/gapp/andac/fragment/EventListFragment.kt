@@ -114,7 +114,8 @@ class EventListFragment : BaseFragment() {
                     ?.addOnSuccessListener {
                         list.addAll(it.first)
                         map.putAll(it.second)
-                        recyclerView.adapter.notifyDataSetChanged()
+                        if(recyclerView.adapter == null) recyclerView.adapter = EventRecyclerAdapter(context, list, map)
+                        else recyclerView.adapter.notifyDataSetChanged()
                     }
                     ?.addOnCompleteListener { hideProgressDialog() }
         }

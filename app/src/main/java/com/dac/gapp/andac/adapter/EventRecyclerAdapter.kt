@@ -36,16 +36,6 @@ class EventRecyclerAdapter
             hospitalName.text = hospital?.name
             buyCount.text = item.buy_count.toString()
 
-            context?.apply{
-                layout.setOnClickListener {
-                    // go to evnet detail
-//                    startActivity<EventDetailActivity>()
-
-//                    if(item.writerUid == getUid()) startActivity<EventWriteActivity>(OBJECT_KEY to item.objectId)
-//                    else startActivity(Intent(this@apply, EventDetailActivity::class.java).putExtra(OBJECT_KEY,item.objectId))
-                }
-            }
-
         }
     }
 

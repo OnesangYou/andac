@@ -1,6 +1,8 @@
 package com.dac.gapp.andac
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.View
@@ -17,7 +19,7 @@ import kotlinx.android.synthetic.main.event_request_dialog.view.*
 class EventDetailActivity : BaseActivity() {
 
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event)
@@ -44,17 +46,19 @@ class EventDetailActivity : BaseActivity() {
 
                         // 병원명
                         getHospitalInfo(eventInfo.writerUid)?.addOnSuccessListener { it ->
-                            it?.let { hospitalInfo ->
+                            it?.also { hospitalInfo ->
                             toolbarTitle.text = "${hospitalInfo.name} 병원 이벤트"
 
                             // Set hospital Btn
-                            hospital.setOnClickListener {
-                                if(!isUser()) {
-                                    toast("유저가 아니면 이벤트 신청이 불가능 합니다")
+                            hospital.setOnClickListener { startActivity(HospitalActivity.createIntent(this@EventDetailActivity, hospitalInfo)) }
+
+                            phoneCall.setOnClickListener {
+                                if(isHospital()) {
+                                    toast("병원계정은 사용할 수 없습니다")
                                     return@setOnClickListener
                                 }
-                                startActivity(HospitalActivity.createIntent(this@EventDetailActivity, hospitalInfo))
 
+                                startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))
                             }
                         }}
 
@@ -66,7 +70,13 @@ class EventDetailActivity : BaseActivity() {
             getUserEvent(objectId)?.get()?.addOnSuccessListener { documentSnapshot ->
 
                 // event btn click event
-                event_submit.setOnClickListener { showEventSubmitDialog(objectId) {visibleEventCancelBtn()} }
+                event_submit.setOnClickListener {
+                    if(!isUser()) {
+                        toast("유저가 아니면 이벤트 신청이 불가능 합니다")
+                        return@setOnClickListener
+                    }
+                    showEventSubmitDialog(objectId) {visibleEventCancelBtn()}
+                }
                 event_cancel.setOnClickListener { eventCancelDialog(objectId) {visibleEventSubmitBtn()} }
 
                 documentSnapshot.data?.let {

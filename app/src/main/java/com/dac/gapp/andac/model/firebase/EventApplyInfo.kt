@@ -8,7 +8,8 @@ data class EventApplyInfo(
         var phone : String = "",
         var possibleTime : String = "",
         var writerUid : String = "",
-        @ServerTimestamp var writeDate: Date? = null
+        @ServerTimestamp var writeDate: Date? = null,
+        var confirmDate: Date? = null
 ) {
     var objectId: String? = null
 }

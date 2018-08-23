@@ -11,6 +11,8 @@ import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.util.OnItemClickListener
+import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -43,6 +45,7 @@ class MainFragment : BaseFragment() {
 
     private fun setAdapter() {
         (context as MainActivity).apply {
+
             showProgressDialog()
             getColumns().orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
                 querySnapshot
@@ -60,6 +63,12 @@ class MainFragment : BaseFragment() {
                                                 .toMap().also { hospitalInfoMap ->
                                                     columnList.adapter = ColumnRecyclerAdapter(this, columnInfos!!, hospitalInfoMap)
                                                     columnList.adapter.notifyDataSetChanged()
+                                                    columnList.addOnItemClickListener(object: OnItemClickListener {
+                                                        override fun onItemClicked(position: Int, view: View) {
+                                                            // 디테일
+                                                            startActivity(Intent(this@apply, ColumnDetailActivity::class.java).putExtra(OBJECT_KEY,columnInfos[position].objectId))
+                                                        }
+                                                    })
                                                 }
                                     }
                         }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="5dp">
+
+
+    <TextView
+        android:id="@+id/writeDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="18.08.12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nameText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/nameText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="백병수"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/writeDateText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/possibleStartTime"
+        android:layout_width="0dp"
+        android:layout_height="19dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:text="09:00"
+        android:textSize="@dimen/_11sp"
+        app:layout_constraintBottom_toTopOf="@+id/possibleEndTime"
+        app:layout_constraintEnd_toStartOf="@+id/phoneBtn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/nameText"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/phoneBtn"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@color/gray"
+        android:text="010-1234-1234"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/confirmBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/confirmBtn"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorMain"
+        android:textColor="@color/white"
+        android:textOff="미확인"
+        android:textOn="확인"
+        android:textSize="@dimen/_11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/possibleEndTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="21:00"
+        android:textSize="@dimen/_11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/possibleStartTime"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/possibleStartTime"
+        app:layout_constraintTop_toBottomOf="@+id/possibleStartTime" />
+</android.support.constraint.ConstraintLayout>

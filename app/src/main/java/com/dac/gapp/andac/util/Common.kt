@@ -18,11 +18,6 @@ class Common {
             return null
         }
 
-        fun getDateFormat(date: Date): String {
-            val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.KOREA)
-            return sdf.format(date)
-        }
-
         fun getDate(year: Int, month: Int, date: Int): Date {
             val calendar = Calendar.getInstance()
             calendar.set(year, month - 1, date, 0, 0, 0)

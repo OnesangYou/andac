@@ -38,7 +38,7 @@
             android:textAlignment="center" />
 
         <ImageView
-            android:id="@+id/call"
+            android:id="@+id/phoneCall"
             android:layout_width="31dp"
             android:layout_height="31dp"
             android:layout_gravity="right"

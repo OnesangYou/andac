@@ -18,8 +18,8 @@ import com.dac.gapp.andac.model.ActivityResultEvent
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
-import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.RxBus
+import com.dac.gapp.andac.util.getFullFormat
 import kotlinx.android.synthetic.main.base_item_card.view.*
 import org.jetbrains.anko.alert
 
@@ -37,7 +37,7 @@ class BoardRecyclerAdapter
         with(holder){
             title_text.text = item.title //아이템을 홀더에 넣어주면 되요 지금 타이틀넣은것
             contents_text.text = item.contents //아이템을 홀더에 넣기 지금건 컨텐츠
-            date.text = item.writeDate?.let { Common.getDateFormat(it) }
+            date.text = item.writeDate?.getFullFormat()
 
             item.pictureUrls?.forEachIndexed { index, url ->
                 Glide.with(context).load(url).into(pictures[index])
