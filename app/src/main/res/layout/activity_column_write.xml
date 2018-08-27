@@ -76,7 +76,8 @@
         android:background="@color/gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleText"
-        app:srcCompat="@drawable/album_ic_add_photo_white" />
+        app:srcCompat="@drawable/album_ic_add_photo_white"
+        />
 
     <Button
         android:id="@+id/uploadBtn"
