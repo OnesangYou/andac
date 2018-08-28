@@ -65,11 +65,10 @@ class MainActivity : BaseActivity() {
         }
 
         // Create a new Fragment to be placed in the activity layout
-        val firstFragment = MainFragment()
-
+        val firstFragment = fragments[R.id.navigation_main]
         // In case this activity was started with special instructions from an
         // Intent, pass the Intent's extras to the fragment as arguments
-        firstFragment.arguments = intent.extras
+        firstFragment?.arguments = intent.extras
 
         // Add the fragment to the 'fragment_container' FrameLayout
         supportFragmentManager.beginTransaction()

@@ -31,9 +31,12 @@ import java.util.*
 class MainFragment : BaseFragment() {
 
     companion object {
+        const val IS_FIRST_MAIN_POPUP_AD = "isFirstMainPopupAd"
         const val DELAY_MS: Long = 500
         const val PERIOD_MS: Long = 3000
     }
+
+    private var mIsMainPopupAdFirst: Boolean = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -80,39 +83,43 @@ class MainFragment : BaseFragment() {
                         Timber.e("MAIN_BANNER 광고 로드 실패 : ${it.localizedMessage}")
                     }
 
-            context.getDb().collection(Ad.MAIN_POPUP.collectionName)
-                    .get()
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val photoUrls = ArrayList<String>()
-                            for (document in task.result) {
-                                val adInfo = document.toObject(AdInfo::class.java)
-                                Timber.d("photoUrl: ${adInfo.photoUrl}")
-                                photoUrls.add(adInfo.photoUrl)
-                            }
 
-                            // TODO 팝업 광고 랜덤으로 띄워야됨!!
-                            if (photoUrls.size > 0) {
-                                val dialog = MainPopupDialog(requireContext())
-                                dialog
-                                        .setImageUrl(photoUrls[0])
-                                        .setOnImageClickListener(View.OnClickListener {
-                                            MyToast.showShort(context, "TODO: go to event page")
-                                            dialog.dismiss()
-                                        })
-                                        .setOnCancelListener(View.OnClickListener {
-                                            MyToast.showShort(context, "TODO: go to event page")
-                                            dialog.dismiss()
-                                        })
-                                        .setOnConfirmListener(View.OnClickListener {
-                                            dialog.dismiss()
-                                        }).show()
+            if (mIsMainPopupAdFirst) {
+                mIsMainPopupAdFirst = false
+                context.getDb().collection(Ad.MAIN_POPUP.collectionName)
+                        .get()
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val photoUrls = ArrayList<String>()
+                                for (document in task.result) {
+                                    val adInfo = document.toObject(AdInfo::class.java)
+                                    Timber.d("photoUrl: ${adInfo.photoUrl}")
+                                    photoUrls.add(adInfo.photoUrl)
+                                }
+
+                                // TODO 팝업 광고 랜덤으로 띄워야됨!!
+                                if (photoUrls.size > 0) {
+                                    val dialog = MainPopupDialog(requireContext())
+                                    dialog
+                                            .setImageUrl(photoUrls[0])
+                                            .setOnImageClickListener(View.OnClickListener {
+                                                MyToast.showShort(context, "TODO: go to event page")
+                                                dialog.dismiss()
+                                            })
+                                            .setOnCancelListener(View.OnClickListener {
+                                                MyToast.showShort(context, "TODO: go to event page")
+                                                dialog.dismiss()
+                                            })
+                                            .setOnConfirmListener(View.OnClickListener {
+                                                dialog.dismiss()
+                                            }).show()
+                                }
                             }
                         }
-                    }
-                    .addOnFailureListener {
-                        Timber.e("MAIN_POPUP 광고 로드 실패 : ${it.localizedMessage}")
-                    }
+                        .addOnFailureListener {
+                            Timber.e("MAIN_POPUP 광고 로드 실패 : ${it.localizedMessage}")
+                        }
+            }
 
             context.getDb().collection(Ad.MAIN_TODAY_HOSPITAL.collectionName)
                     .get()
@@ -183,5 +190,6 @@ class MainFragment : BaseFragment() {
         super.onPause()
         mTimer?.cancel()
     }
+
 }
 
