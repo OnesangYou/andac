@@ -155,7 +155,7 @@ class MainFragment : BaseFragment() {
                                                 .filterNotNull()
                                                 .map { it.id to it.toObject(HospitalInfo::class.java) }
                                                 .toMap().also { hospitalInfoMap ->
-                                                    columnList.adapter = ColumnRecyclerAdapter(this, columnInfos!!, hospitalInfoMap)
+                                                    columnList.swapAdapter(ColumnRecyclerAdapter(this, columnInfos!!, hospitalInfoMap), false)
                                                     columnList.adapter.notifyDataSetChanged()
                                                 }
                                     }

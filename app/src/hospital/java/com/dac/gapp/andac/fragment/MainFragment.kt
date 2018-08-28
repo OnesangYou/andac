@@ -61,8 +61,7 @@ class MainFragment : BaseFragment() {
                                                 .filterNotNull()
                                                 .map { it.id to it.toObject(HospitalInfo::class.java) }
                                                 .toMap().also { hospitalInfoMap ->
-                                                    columnList.adapter = ColumnRecyclerAdapter(this, columnInfos!!, hospitalInfoMap)
-                                                    columnList.adapter.notifyDataSetChanged()
+                                                    columnList.swapAdapter(ColumnRecyclerAdapter(this, columnInfos!!, hospitalInfoMap), false)
                                                     columnList.addOnItemClickListener(object: OnItemClickListener {
                                                         override fun onItemClicked(position: Int, view: View) {
                                                             // 디테일

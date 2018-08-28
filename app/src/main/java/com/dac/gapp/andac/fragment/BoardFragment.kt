@@ -8,7 +8,6 @@ import android.support.design.widget.TabLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,7 +63,7 @@ class BoardFragment : BaseFragment() {
 
         // set recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = BoardRecyclerAdapter(context, list, map, hospitalInfoMap)
+        recyclerView.swapAdapter(BoardRecyclerAdapter(context, list, map, hospitalInfoMap), false)
 
         // RxBus Listen
         RxBus.listen(ActivityResultEvent::class.java).subscribe { activityResultEvent ->

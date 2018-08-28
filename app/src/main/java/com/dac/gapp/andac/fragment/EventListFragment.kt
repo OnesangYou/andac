@@ -47,7 +47,7 @@ class EventListFragment : BaseFragment() {
 
         // set recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = EventRecyclerAdapter(context, list, map)
+        recyclerView.swapAdapter(EventRecyclerAdapter(context, list, map), false)
 
         recyclerView.addOnItemClickListener(object: OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
@@ -114,8 +114,7 @@ class EventListFragment : BaseFragment() {
                     ?.addOnSuccessListener {
                         list.addAll(it.first)
                         map.putAll(it.second)
-                        if(recyclerView.adapter == null) recyclerView.adapter = EventRecyclerAdapter(context, list, map)
-                        else recyclerView.adapter.notifyDataSetChanged()
+                        recyclerView.adapter.notifyDataSetChanged()
                     }
                     ?.addOnCompleteListener { hideProgressDialog() }
         }
