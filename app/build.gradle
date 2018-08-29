@@ -5,6 +5,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    signingConfigs {
+        config {
+            storeFile file('/Users/gimbyeongjin/release_key2.jks')
+            storePassword '1q2w3e'
+            keyAlias 'release_key2'
+            keyPassword '1q2w3e'
+        }
+    }
     dataBinding.enabled true
     compileSdkVersion 27
     defaultConfig {
@@ -21,21 +29,19 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
-
     buildTypes {
         debug {
             minifyEnabled false // Proguard on/off
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true // BuildConfig.DEBUG
         }
-
         release {
-            minifyEnabled true // Proguard on/off
+            minifyEnabled false // Proguard on/off
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false // BuildConfig.DEBUG
+            debuggable true // BuildConfig.DEBUG
+            signingConfig signingConfigs.config
         }
     }
-
     flavorDimensions "target"
     productFlavors {
         user {
@@ -52,17 +58,14 @@ android {
             buildConfigField 'boolean', 'IS_USER', "false"
         }
     }
-
     defaultConfig {
         resConfigs "kr"
         multiDexEnabled true
     }
-
     dexOptions {
         jumboMode true
         javaMaxHeapSize "4g"
     }
-
 }
 
 dependencies {
@@ -87,7 +90,7 @@ dependencies {
     implementation rootProject.ext.libs.cardview
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
     implementation 'nl.komponents.kovenant:kovenant-core:3.3.0'
-    implementation "org.jetbrains.anko:anko-commons:0.10.5"
+    implementation 'org.jetbrains.anko:anko-commons:0.10.5'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
 }
 androidExtensions {

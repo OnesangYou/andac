@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "528201396768",
+    "firebase_url": "https://andac-200802.firebaseio.com",
+    "project_id": "andac-200802",
+    "storage_bucket": "andac-200802.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528201396768:android:6c044d29453165c5",
+        "android_client_info": {
+          "package_name": "com.dac.gapp.andac.hospital"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528201396768-q2md8thdp46vcciok7s4h25hpk276mve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNY1NOYvzvMcWT5M5AzFmB2WXNJUZNxo0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528201396768:android:85cb214226eaf88d",
+        "android_client_info": {
+          "package_name": "com.dac.gapp.andac.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528201396768-q2md8thdp46vcciok7s4h25hpk276mve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNY1NOYvzvMcWT5M5AzFmB2WXNJUZNxo0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

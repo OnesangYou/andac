@@ -126,6 +126,7 @@ class MainFragment : BaseFragment() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val photoUrls = ArrayList<String>()
+                            if(task.result.size() == 0) return@addOnCompleteListener
                             for (document in task.result) {
                                 val adInfo = document.toObject(AdInfo::class.java)
                                 Timber.d("photoUrl: ${adInfo.photoUrl}")
