@@ -71,7 +71,7 @@ class AdPaymentFragment : BaseFragment() {
         arguments?.let {
             ad = it.getSerializable(EXTRA_AD) as Ad
             forWhat = it.getSerializable(EXTRA_FOR_WHAT) as String
-            photoUrl = it.getSerializable(EXTRA_PHOTO_URL) as String
+            photoUrl = it.getSerializable(EXTRA_PHOTO_URL) as String?
             prepareUi()
             setupEventsOnViewCreated()
         } ?: run {
