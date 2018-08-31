@@ -20,6 +20,7 @@ class HospitalInfo : Serializable {
             hospitalInfo.phone = jo.getString(Algolia.PHONE.value)
             hospitalInfo.status = jo.getString(Algolia.STATUS.value)
             hospitalInfo.type = jo.getString(Algolia.TYPE.value)
+            hospitalInfo.profilePicUrl = if (jo.has("profilePicUrl")) jo.getString("profilePicUrl") else ""
             val geoLocation = GeoLocation()
             geoLocation.lat = jo.getJSONObject(Algolia.GEOLOC.value).getDouble(Algolia.LAT.value)
             geoLocation.lng = jo.getJSONObject(Algolia.GEOLOC.value).getDouble(Algolia.LNG.value)

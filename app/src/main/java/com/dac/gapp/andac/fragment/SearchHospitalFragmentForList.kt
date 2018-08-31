@@ -69,7 +69,7 @@ class SearchHospitalFragmentForList : BaseFragment() {
 //                query.filters = "objectID:\"bNs9gcZFxhEQu1iRVXEs\""
 //        query.filters = "address1:전라북도 전주시 덕진구 덕진동1가 1267번지 27호"
         //강원도 삼척시 남양동 55-46번지 / 580 /
-        index.searchAsync(query, { jsonObject, AlgoliaException ->
+        index.searchAsync(query) { jsonObject, AlgoliaException ->
             if (jsonObject == null) return@searchAsync
 
             Timber.d("jsonObject: ${jsonObject.toString(4)}")
@@ -88,7 +88,7 @@ class SearchHospitalFragmentForList : BaseFragment() {
 
                 recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, itemList)
             }
-        })
+        }
 //        context!!.getHospitals()
 //                .get()
 //                .addOnCompleteListener({

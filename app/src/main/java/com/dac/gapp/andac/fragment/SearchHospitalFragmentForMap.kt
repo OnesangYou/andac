@@ -75,12 +75,12 @@ class SearchHospitalFragmentForMap : BaseFragment() {
         context!!.showProgressDialog()
         val view = inflater.inflate(R.layout.fragment_search_hospital_for_map, container, false)
         mapView = view.findViewById<View>(R.id.map) as MapView
-        mapView!!.getMapAsync({
+        mapView!!.getMapAsync {
             it.isMyLocationEnabled = true
             googleMap = it
-            googleMap!!.setOnMarkerClickListener {
+            googleMap!!.setOnMarkerClickListener { marker ->
                 layoutHospitalInfo.visibility = View.VISIBLE
-                val hospitalInfo = hospitals[it.tag.toString()]
+                val hospitalInfo = hospitals[marker.tag.toString()]
                 // 병원 이미지는 일단 임시로
                 layoutHospitalInfo.imgview_thumbnail.setBackgroundResource(R.drawable.wook1_plash)
                 layoutHospitalInfo.txtview_title.text = hospitalInfo!!.name
@@ -88,13 +88,13 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 layoutHospitalInfo.txtview_phone.text = hospitalInfo.phone
                 // 병원 하트 카운트는 어디서??
                 layoutHospitalInfo.heart_count.text = "1"
-                layoutHospitalInfo.setOnClickListener({
+                layoutHospitalInfo.setOnClickListener {
                     startActivity(HospitalActivity.createIntent(thisActivity(), hospitalInfo))
-                })
+                }
                 true
             }
 //            showAllHospitals()
-        })
+        }
         return view
     }
 
@@ -160,7 +160,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                                                  * If no resolution is available, display a dialog to the
                                                  * user with the error.
                                                  */
-                        Log.e("Error", "Location services connection failed with code " + connectionResult.getErrorCode())
+                        Timber.e("Location services connection failed with code %s", connectionResult.errorCode)
                     }
                 }
                 //fourth line adds the LocationServices API endpoint from GooglePlayServices
@@ -175,13 +175,13 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     }
 
     private fun setupEventsOnCreate() {
-        btnClearMarkers.setOnClickListener({
+        btnClearMarkers.setOnClickListener {
             googleMap!!.clear()
-        })
-        btnShowAllHospitals.setOnClickListener({
+        }
+        btnShowAllHospitals.setOnClickListener {
             showAllHospitals()
-        })
-        btnSetRadius.setOnClickListener({
+        }
+        btnSetRadius.setOnClickListener {
             try {
                 val aroundRadius = Integer.parseInt(etAddress.text.toString())
                 searchHospital(aroundRadius)
@@ -189,8 +189,8 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 Toast.makeText(requireContext(), "error: ${e.message}", Toast.LENGTH_SHORT).show()
                 e.printStackTrace()
             }
-        })
-        btnGetLocation.setOnClickListener({
+        }
+        btnGetLocation.setOnClickListener {
             val address = Common.getFromLocationName(context, etAddress.text.toString())
             if (address != null) {
                 val latLng = LatLng(address.latitude, address.longitude)
@@ -203,7 +203,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
             } else {
                 Toast.makeText(context, "주소가 올바르지 않습니다!!", Toast.LENGTH_SHORT).show()
             }
-        })
+        }
     }
 
     private fun searchHospital(aroundRadius: Int) {
@@ -213,7 +213,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 .setAroundRadius(aroundRadius)
                 .setHitsPerPage(1000) // default 20, maximum 1000
         val searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, Algolia.INDEX_NAME_HOSPITAL.value)
-        searcher.searchable.searchAsync(query, { jsonObject, algoliaException ->
+        searcher.searchable.searchAsync(query) { jsonObject, algoliaException ->
             val latLng = jsonObject.getString("params").split("&")[0].split("=")[1].split("%2C")
             Timber.d("jsonObject: ${jsonObject.toString(4)}")
 
@@ -239,7 +239,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
             }
             moveCamera(LatLng(currentLatitude, currentLongitude))
             context!!.hideProgressDialog()
-        })
+        }
     }
 
     private fun thisActivity(): Activity {
@@ -247,12 +247,12 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     }
 
     private fun addMarker(id: String, latLng: LatLng) {
-        context!!.runOnUiThread({
+        context!!.runOnUiThread {
             val markerOptions = MarkerOptions()
             markerOptions.position(latLng)
             val marker = googleMap!!.addMarker(markerOptions)
             marker.tag = id
-        })
+        }
     }
 
     private fun moveCamera(latLng: LatLng) {
@@ -263,25 +263,25 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     private fun showAllHospitals() {
         context!!.getHospitals()
                 .get()
-                .addOnCompleteListener({
-                    Thread({
+                .addOnCompleteListener {
+                    Thread {
                         if (it.isSuccessful) {
                             for (document in it.result) {
-//                            Timber.d(document.id + " => " + document.data)
+                                //                            Timber.d(document.id + " => " + document.data)
                                 hospitals[document.id] = document.toObject(HospitalInfo::class.java)
                                 val hospitalInfo = hospitals[document.id]
                                 val address = if (hospitalInfo!!.address1 != "") hospitalInfo.address1 else hospitalInfo.address2
                                 addMarker(document.id, hospitalInfo.getLatLng())
-//                                Timber.d("${hospitalInfo.name} ${hospitalInfo._geoloc}")
+                                //                                Timber.d("${hospitalInfo.name} ${hospitalInfo._geoloc}")
                             }
-                            context!!.runOnUiThread({
+                            context!!.runOnUiThread {
                                 MyToast.showShort(requireContext(), "근처 병원 ${it.result.size()}개를 찾았습니다!!")
-                            })
+                            }
                         } else {
                             Timber.w("Error getting documents. ${it.exception}")
                         }
-                    }).start()
-                })
+                    }.start()
+                }
     }
 
     // activity 가 아닌 fragment 에서 google map 을 사용할 때 lifecycle 마다 정의 해줘야 하는 것 같음...
