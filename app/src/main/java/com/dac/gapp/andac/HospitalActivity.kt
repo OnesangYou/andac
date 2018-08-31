@@ -69,17 +69,12 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     private fun setupEvents() {
         phoneCall.setOnClickListener { v ->
-            if (isHospital()) {
+            if(isHospital()) {
                 toast("병원계정은 사용할 수 없습니다")
                 return@setOnClickListener
             }
 
             startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))
-        }
-
-        imgBtnRequestForCounseling.setOnClickListener {
-            val nextIntent = Intent(this, RequestSurgeryActivity::class.java)
-            startActivity(nextIntent)
         }
     }
 
