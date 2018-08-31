@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="15dp"
             android:text="상담받을 태그신청"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -62,42 +62,64 @@
             android:id="@+id/tagLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tagText"
             tools:ignore="MissingConstraints">
 
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:background="@drawable/request_lasiclasex_off" />
+            <RadioGroup
+                android:id="@+id/radiogroup_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/request_insertlense_off" />
+                <RadioButton
+                    android:id="@+id/tag_1"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="@drawable/request_lasiclasex_btn"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center" />
 
+                <RadioButton
+                    android:id="@+id/tag_2"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="@drawable/request_insertlense_btn"
+                    android:button="@null"
+                    android:layout_marginLeft="4dp"
+                    android:gravity="center" />
 
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/request_whiteeye_off" />
+                <RadioButton
+                    android:id="@+id/tag_3"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="@drawable/request_whiteeye_btn"
+                    android:button="@null"
+                    android:layout_marginLeft="4dp"
+                    android:gravity="center" />
 
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/request_oldeye_off" />
+                <RadioButton
+                    android:id="@+id/tag_4"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="@drawable/request_oldeye_btn"
+                    android:layout_marginLeft="4dp"
+                    android:button="@null"
+                    android:gravity="center" />
 
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/request_eyesick_off" />
+                <RadioButton
+                    android:id="@+id/tag_5"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="@drawable/request_eyesick_btn"
+                    android:layout_marginLeft="4dp"
+                    android:button="@null"
+                    android:gravity="center" />
+            </RadioGroup>
 
 
         </LinearLayout>
@@ -106,7 +128,7 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="20dp"
             android:background="@color/lightgray"
             app:layout_constraintTop_toBottomOf="@+id/tagLayout" />
 
@@ -119,7 +141,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="7dp"
             android:backgroundTint="@color/non"
-            android:hint="교정전 시력을 입력해주세요."
+            android:hint="교정전 시력을 입력해주세요. (우안 / 좌안)"
             android:textSize="@dimen/_15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -159,7 +181,7 @@
         <EditText
             android:id="@+id/nameEdit"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="7dp"
@@ -184,6 +206,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="7dp"
+
             android:hint="연락받으실 핸드폰번호를 입력해주세요"
             android:backgroundTint="@color/non"
             android:textSize="@dimen/_15sp"
@@ -208,7 +232,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="7dp"
-            android:hint="상담신청서 본문 내용을 작성해 주세요."
+            android:hint="상담신청서 본문 내용을 작성해 주세요.\n\n"
             android:backgroundTint="@color/non"
             android:textSize="@dimen/_15sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -222,21 +246,33 @@
             android:layout_height="1px"
             android:layout_marginTop="7dp"
             android:background="@color/lightgray"
-            app:layout_constraintTop_toBottomOf="@+id/insert_text_Edit" />
+            app:layout_constraintTop_toBottomOf="@+id/insert_text_Edit"
+            />
+
+        <TextView
+            android:id="@+id/text_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="14dp"
+            android:text="부가설명이 필요한부분은 사진을 업로드하세요"
+
+            android:textSize="@dimen/_12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
 
 
         <ImageView
             android:id="@+id/insert_picture_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/album_dp_200"
             android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="7dp"
             android:background="@color/gray"
+            android:minHeight="@dimen/album_dp_200"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view6"
-            app:srcCompat="@drawable/album_ic_add_photo_white"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/text_pic"
+            app:srcCompat="@drawable/album_ic_add_photo_white" />
 
 
         <CheckBox
