@@ -166,18 +166,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun isUser(): Boolean = BuildConfig.FLAVOR == "user"
 
-    private fun startAlbumMultiImage(limitCnt: Int): Task<MutableCollection<AlbumFile>> =
-            TaskCompletionSource<MutableCollection<AlbumFile>>().run {
-                kotlin.run {
-                    if (limitCnt == 1) Album.image(this@BaseActivity).singleChoice()
-                    else Album.image(this@BaseActivity).multipleChoice().selectCount(limitCnt)
-                }
-                        .onResult { setResult(it) }
-                        .start()
-                task
-            }
-
-
     private val RC_TAKE_PICTURE = 101
     fun getAlbumImage(): Observable<Uri>? {
         // Pick an image from storage
