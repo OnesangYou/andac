@@ -32,7 +32,7 @@ class JoinCerti2Fragment : JoinBaseFragment(){
 //            if (cellPhone.isNotEmpty()) phoneEdit.setText(address2)
 //        }
 
-        nextBtn.setOnClickListener {
+        nextBtn.setOnClickListener { _ ->
             getJoinActivity().run {
 
                 val emailStr = emailEdit.text.toString()
@@ -80,30 +80,31 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                 // 회원가입 시도
                 val mAuth = getAuth()
                 showProgressDialog()
-                mAuth?.createUserWithEmailAndPassword(emailStr, passwordStr)?.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Timber.d("createU serWithEmail:success")
-                        val user = mAuth.currentUser
+                mAuth?.createUserWithEmailAndPassword(emailStr, passwordStr)?.onSuccessTask { _ ->
 
-                        // 사진 파일 한꺼번에 올리기
-                        mutableListOf<Task<String>>().apply {
-                            profilePicUri?.let { uploadPicFileTask(profilePicJpgStr, it)?.addOnSuccessListener { url -> hospitalInfo.profilePicUrl = url }?.let { it1 -> add(it1) } }
-                            bankAccountPicUri?.let { uploadPicFileTask(bankAccountPicJpgStr, it)?.addOnSuccessListener { url -> hospitalInfo.bankAccountPicUrl = url }?.let { it1 -> add(it1) } }
-                            busiRegiPicUri?.let { uploadPicFileTask(busiRegiPicJpgStr, it)?.addOnSuccessListener { url -> hospitalInfo.busiRegiPicUrl = url }?.let { it1 -> add(it1) } }
-                        }.let {
-                            Tasks.whenAll(it).addOnSuccessListener {
-                                insertDB(user).onSuccessTask { deleteDB() }
-                            }
-                        }
+                    // Sign in success, update UI with the signed-in user's information
+                    Timber.d("createU serWithEmail:success")
+                    val user = mAuth.currentUser
 
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        toast("Authentication failed." + task.exception as Any?)
-                        updateUI(null)
+                    // 사진 파일 한꺼번에 올리기
+                    listOfNotNull(
+                            profilePicUri?.let { it1 -> uploadPicFileTask(profilePicJpgStr, it1)?.continueWith { hospitalInfo.profilePicUrl = it.result } },
+                            bankAccountPicUri?.let { it1 -> uploadPicFileTask(bankAccountPicJpgStr, it1)?.continueWith { hospitalInfo.bankAccountPicUrl = it.result } },
+                            busiRegiPicUri?.let { it1 -> uploadPicFileTask(busiRegiPicJpgStr, it1)?.continueWith { hospitalInfo.busiRegiPicUrl = it.result } }
+
+                    ).let { list ->
+                        Tasks.whenAll(list)
+                                .continueWithTask {insertDB(user)}
+                                .continueWithTask { deleteDB() }
                     }
-
                 }
+                        ?.addOnSuccessListener { updateUI(getCurrentUser()) }
+                        ?.addOnFailureListener {
+                            // If sign in fails, display a message to the user.
+                            Timber.d("Authentication failed.%s", it.message)
+                            toast("Authentication failed." + it.message)
+                            updateUI(null)
+                        }
             }
         }
 
@@ -140,8 +141,8 @@ class JoinCerti2Fragment : JoinBaseFragment(){
     }
 
     private fun JoinActivity.uploadPicFileTask(fileName : String , picUri : Uri): Task<String>? {
-        return getUid()?.let {
-            getHospitalsStorageRef().child(it).child(fileName).putFile(picUri).continueWith {
+        return getUid()?.let { uid ->
+            getHospitalsStorageRef().child(uid).child(fileName).putFile(picUri).continueWith {
                 toast("uploadPicFile Complete")
                 it.result.downloadUrl.toString()
             }
@@ -149,19 +150,12 @@ class JoinCerti2Fragment : JoinBaseFragment(){
     }
 
     private fun JoinActivity.insertDB(user: FirebaseUser?): Task<Void> {
-        return getHospitals().document(user?.uid!!).set(hospitalInfo, SetOptions.merge()).addOnCompleteListener { task2 ->
-            if (task2.isSuccessful) {
-                updateUI(user)
-            } else {
-                this.toast("회원가입 실패")
-                updateUI(null)
-            }
-        }
+        return getHospitals().document(user?.uid!!).set(hospitalInfo, SetOptions.merge())
     }
 
     private fun JoinActivity.deleteDB(): Task<Void> {
         return if(hospitalKey.isNotEmpty()) getHospitals().document(hospitalKey).delete()
-        else TaskCompletionSource<Void>().task
+        else TaskCompletionSource<Void>().run { setResult(null); task }
     }
 
     private fun updateUI(user: FirebaseUser?) {

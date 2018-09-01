@@ -3,7 +3,6 @@ package com.dac.gapp.andac.fragment
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -13,7 +12,6 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SearchAddressActivity
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.hospital.fragment_join_info.*
-import java.io.File
 
 
 /**
@@ -43,7 +41,7 @@ class JoinInfoFragment : JoinBaseFragment() {
         uploadProfilePicBtn.setOnClickListener{
             // Image File 가져옴
             context?.getAlbumImage()?.subscribe{albumFile ->
-                getJoinActivity().profilePicUri = Uri.fromFile(File(albumFile.path))
+                getJoinActivity().profilePicUri = albumFile
             }
         }
 

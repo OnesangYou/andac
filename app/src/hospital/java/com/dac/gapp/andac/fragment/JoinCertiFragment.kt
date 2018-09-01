@@ -1,7 +1,6 @@
 package com.dac.gapp.andac.fragment
 
 
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import kotlinx.android.synthetic.hospital.fragment_join_certi.*
-import java.io.File
 
 
 /**
@@ -31,14 +29,14 @@ class JoinCertiFragment : JoinBaseFragment() {
         bankAccountUploadBtn.setOnClickListener{
             // Image File 가져옴
             context?.getAlbumImage()?.subscribe { albumFile ->
-                getJoinActivity().bankAccountPicUri = Uri.fromFile(File(albumFile.path)) }
+                getJoinActivity().bankAccountPicUri = albumFile }
 
         }
 
         // 사업자등록증 업로드
         busiRegiUploadBtn.setOnClickListener {
             context?.getAlbumImage()?.subscribe {albumFile ->
-                getJoinActivity().busiRegiPicUri = Uri.fromFile(File(albumFile.path))
+                getJoinActivity().busiRegiPicUri = albumFile
             }
         }
 
