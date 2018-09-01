@@ -85,6 +85,7 @@ open class LoginActivity : BaseLoginActivity() {
                             Timber.d("photoUrl: ${adInfo.photoUrl}")
                             photoUrls.add(adInfo.photoUrl)
                         }
+                        if(task.result.size() == 0) return@addOnCompleteListener
                         Glide.with(this).load(photoUrls[0]).into(imgviewLoginBannerAd)
                     }
                 }
