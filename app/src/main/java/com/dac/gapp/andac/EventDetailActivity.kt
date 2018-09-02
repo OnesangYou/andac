@@ -53,10 +53,6 @@ class EventDetailActivity : BaseActivity() {
                             hospital.setOnClickListener { startActivity(HospitalActivity.createIntent(this@EventDetailActivity, hospitalInfo)) }
 
                             phoneCall.setOnClickListener {
-                                if(isHospital()) {
-                                    toast("병원계정은 사용할 수 없습니다")
-                                    return@setOnClickListener
-                                }
                                 startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))
                             }
                         }}
