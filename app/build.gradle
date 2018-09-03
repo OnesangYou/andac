@@ -34,7 +34,6 @@ android {
             minifyEnabled false // Proguard on/off
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false // BuildConfig.DEBUG
-            signingConfig signingConfigs.config
             buildConfigField 'String', 'ALGOLIA_APP_ID', "\"H9Q32H274M\""
             buildConfigField 'String', 'ALGOLIA_SEARCH_API_KEY', "\"96c3b64fabaf0a7bdeca95fd7788ace3\""
         }
