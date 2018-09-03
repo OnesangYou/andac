@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -69,22 +70,23 @@ class BoardRecyclerAdapter
             // 수정하기 버튼
 
             context?.let {ba->
-
                 if(item.writerUid == ba.getUid()) {
-                    modifyBtn.visibility = View.VISIBLE
-                    modifyBtn.setOnClickListener {
-                        ba.startActivityForResult(Intent(ba, BoardWriteActivity::class.java).putExtra(ba.OBJECT_KEY, item.objectId), RequestCode.OBJECT_ADD.value)
-                    }
-                    deleteBtn.visibility = View.VISIBLE
-                    deleteBtn.setOnClickListener {
-                        // 삭제 다이얼로그
-                        ba.showDeleteBoardDialog(item.objectId)
-                    }
+                    menu.visibility = View.VISIBLE
+                    menu.setOnClickListener {
+                        PopupMenu(context, it).apply {
+                            menuInflater.inflate(R.menu.board_menu, this.menu)
+                            setOnMenuItemClickListener { menuItem ->
+                                when (menuItem.itemId) {
+                                    R.id.modifyBtn -> ba.startActivityForResult(Intent(ba, BoardWriteActivity::class.java).putExtra(ba.OBJECT_KEY, item.objectId), RequestCode.OBJECT_ADD.value)
+                                    R.id.deleteBtn -> ba.showDeleteBoardDialog(item.objectId)
+                                }
+                                false
+                            }
+                        }.show()
 
+                    }
                 } else {
-                    modifyBtn.visibility = View.INVISIBLE
-                    deleteBtn.visibility = View.INVISIBLE
-
+                    menu.visibility = View.INVISIBLE
                 }
             }
 
@@ -127,9 +129,8 @@ class BoardRecyclerAdapter
         val button_writting: Button = itemView.button_writting
         val text_nickname: TextView = itemView.text_nickname
         val date: TextView = itemView.date
-        val modifyBtn: Button = itemView.modifyBtn
-        val deleteBtn: Button = itemView.deleteBtn
         val pictures = arrayListOf(itemView.picture_1, itemView.picture_2, itemView.picture_3)
         val hospital_hashtag: TextView = itemView.hospital_hashtag
+        val menu: Button = itemView.menu
     }
 }

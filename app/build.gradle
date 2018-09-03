@@ -5,14 +5,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-//    signingConfigs {
-//        config {
-//            storeFile file('/Users/gimbyeongjin/release_key2.jks')
-//            storePassword '1q2w3e'
-//            keyAlias 'release_key2'
-//            keyPassword '1q2w3e'
-//        }
-//    }
     dataBinding.enabled true
     compileSdkVersion 27
     defaultConfig {

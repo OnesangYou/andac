@@ -26,7 +26,9 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_search_hospital_for_map.*
 import kotlinx.android.synthetic.main.row.view.*
@@ -70,6 +72,8 @@ class SearchHospitalFragmentForMap : BaseFragment() {
         googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(10f))
     }
 
+    private var prevMarker: Marker? = null
+
     @SuppressLint("MissingPermission")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         context!!.showProgressDialog()
@@ -78,7 +82,9 @@ class SearchHospitalFragmentForMap : BaseFragment() {
         mapView!!.getMapAsync {
             it.isMyLocationEnabled = true
             googleMap = it
-            googleMap!!.setOnMarkerClickListener { marker ->
+            googleMap?.setOnMarkerClickListener { marker ->
+                prevMarker?.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_on))
+                marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_clickpin))
                 layoutHospitalInfo.visibility = View.VISIBLE
                 val hospitalInfo = hospitals[marker.tag.toString()]
                 // 병원 이미지는 일단 임시로
@@ -91,6 +97,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 layoutHospitalInfo.setOnClickListener {
                     startActivity(HospitalActivity.createIntent(thisActivity(), hospitalInfo))
                 }
+                prevMarker = marker
                 true
             }
 //            showAllHospitals()
@@ -247,11 +254,17 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     }
 
     private fun addMarker(id: String, latLng: LatLng) {
-        context!!.runOnUiThread {
-            val markerOptions = MarkerOptions()
-            markerOptions.position(latLng)
-            val marker = googleMap!!.addMarker(markerOptions)
-            marker.tag = id
+        context?.let {
+            it.runOnUiThread {
+                googleMap?.let {
+                    it.addMarker(MarkerOptions().apply {
+                        icon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_on))
+                        position(latLng)
+                    }).apply {
+                        tag = id
+                    }
+                }
+            }
         }
     }
 
