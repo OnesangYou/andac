@@ -86,7 +86,9 @@ class SearchHospitalFragmentForList : BaseFragment() {
                     i++
                 }
 
-                recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, itemList)
+                recyclerView?.apply {
+                    adapter = SearchHospitalRecyclerViewAdapter(context, itemList)
+                }
             }
         }
 //        context!!.getHospitals()
