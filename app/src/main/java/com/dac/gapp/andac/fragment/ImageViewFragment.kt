@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.dac.gapp.andac.HospitalActivity
 import com.dac.gapp.andac.R
 import kotlinx.android.synthetic.main.fragment_image_view.*
@@ -13,13 +14,22 @@ import kotlinx.android.synthetic.main.fragment_search_hospital_for_map.*
 
 class ImageViewFragment : Fragment() {
 
-    var image: Int = 0
+    var imageUrl: String? = null
+    var imageResId: Int? = null
 
     // static method
     companion object {
-        fun create(image: Int): ImageViewFragment {
+        fun createForUrl(image: String): ImageViewFragment {
             val f = ImageViewFragment()
-            f.image = image
+            f.imageUrl = image
+            val args = Bundle()
+            f.arguments = args
+            return f
+        }
+
+        fun createForResId(image: Int): ImageViewFragment {
+            val f = ImageViewFragment()
+            f.imageResId = image
             val args = Bundle()
             f.arguments = args
             return f
@@ -32,6 +42,11 @@ class ImageViewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        imageView.setBackgroundResource(image)
+        imageUrl?.let {
+            Glide.with(this).load(it).into(imageView)
+        }
+        imageResId?.let {
+            imageView.setBackgroundResource(it)
+        }
     }
 }

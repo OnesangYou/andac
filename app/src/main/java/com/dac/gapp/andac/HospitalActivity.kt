@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.View
+import com.bumptech.glide.Glide
 import com.dac.gapp.andac.adapter.HospitalActivityPagerAdapter
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.HospitalInfo
@@ -14,6 +15,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_hospital.*
 
@@ -57,9 +59,14 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         txtviewBusinessHours.text = hospitalInfo.openDate
         txtviewDescription.text = hospitalInfo.description
 
-        val images = ArrayList<Int>()
-        images.addAll(arrayOf(R.drawable.heart, R.drawable.heart_fill, R.drawable.heart, R.drawable.heart_fill))
-        viewPager.adapter = HospitalActivityPagerAdapter(this, supportFragmentManager, images)
+        val profilePicUrls = ArrayList<String>().apply {
+            if (hospitalInfo.profilePicUrl.isNotEmpty())
+                add(hospitalInfo.profilePicUrl)
+            else {
+                viewPager.setBackgroundResource(R.drawable.defult_pic_1)
+            }
+        }
+        viewPager.adapter = HospitalActivityPagerAdapter(this, supportFragmentManager, profilePicUrls)
 
         val fragmentManager = fragmentManager
         val mapFragment = fragmentManager.findFragmentById(R.id.map) as MapFragment
@@ -74,13 +81,16 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(map: GoogleMap?) {
-        val markerOptions = MarkerOptions()
-        markerOptions.position(hospitalInfo.getLatLng())
-        map!!.addMarker(markerOptions)
-
-        map.moveCamera(CameraUpdateFactory.newLatLng(hospitalInfo.getLatLng()))
-        map.animateCamera(CameraUpdateFactory.zoomTo(15f))
-
-        googleMap = map
+        map?.let {
+            it.addMarker(
+                    MarkerOptions().apply {
+                        icon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_on))
+                        position(hospitalInfo.getLatLng())
+                    }
+            )
+            it.moveCamera(CameraUpdateFactory.newLatLng(hospitalInfo.getLatLng()))
+            it.animateCamera(CameraUpdateFactory.zoomTo(15f))
+            googleMap = it
+        }
     }
 }

@@ -11,12 +11,12 @@ import com.dac.gapp.andac.fragment.ImageViewFragment
 import com.dac.gapp.andac.fragment.SearchHospitalFragmentForList
 import com.dac.gapp.andac.fragment.SearchHospitalFragmentForMap
 
-class HospitalActivityPagerAdapter(val context: Context, fm: FragmentManager, images: ArrayList<Int>) : FragmentPagerAdapter(fm) {
+class HospitalActivityPagerAdapter(val context: Context, fm: FragmentManager, images: ArrayList<String>) : FragmentPagerAdapter(fm) {
     private var fragments: ArrayList<Fragment> = ArrayList()
 
     init {
-        images.stream().forEach {
-            fragments.add(ImageViewFragment.create(it))
+        for (image in images) {
+            fragments.add(ImageViewFragment.createForUrl(image))
         }
     }
 

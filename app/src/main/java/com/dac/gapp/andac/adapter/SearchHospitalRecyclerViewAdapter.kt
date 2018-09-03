@@ -22,10 +22,9 @@ class SearchHospitalRecyclerViewAdapter(private var context: Context?, private v
     override fun onBindViewHolder(holder: SearchHospitalViewHolder, position: Int) {
         val item = itemList[position]
         if (item.profilePicUrl.isNotEmpty()) {
-            MyToast.showShort(context, item.name)
             Glide.with(context).load(item.profilePicUrl).into(holder.thumbnail)
         } else {
-            Glide.with(context).load(R.drawable.pro_logo).into(holder.thumbnail)
+            Glide.with(context).load(R.drawable.defult_pic_1).into(holder.thumbnail)
         }
         holder.title.text = item.name
         holder.address.text = item.address1
