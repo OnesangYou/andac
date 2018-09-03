@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.View
-import com.bumptech.glide.Glide
 import com.dac.gapp.andac.adapter.HospitalActivityPagerAdapter
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.HospitalInfo
@@ -41,6 +40,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         hospitalInfo = intent.getSerializableExtra(EXTRA_HOSPITAL_INFO) as HospitalInfo
         prepareUi()
         setupEvents()
+        back.setOnClickListener { finish() }
     }
 
     private fun prepareUi() {
