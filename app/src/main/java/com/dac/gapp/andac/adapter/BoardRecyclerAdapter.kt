@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.base_item_card.view.*
 import org.jetbrains.anko.alert
 
 class BoardRecyclerAdapter
-(private val context : BaseActivity?, private var mDataList: List<BoardInfo>, private var userInfoMap: Map<String, UserInfo>, private var hospitalInfoMap: Map<String, HospitalInfo>) : RecyclerView.Adapter<BoardRecyclerAdapter.BoardHolder>() {
+(private val context : BaseActivity?, private var mDataList: List<BoardInfo>, private var userInfoMap: Map<String, UserInfo>, private var hospitalInfoMap: Map<String, HospitalInfo>, var onItemClickListener : ((BoardInfo, UserInfo) -> Unit)? = null) : RecyclerView.Adapter<BoardRecyclerAdapter.BoardHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardHolder {
         return BoardHolder(parent)
@@ -33,7 +33,7 @@ class BoardRecyclerAdapter
 
     override fun onBindViewHolder(holder: BoardHolder, position: Int) {
         val item = mDataList[position]
-        val userInfo = userInfoMap[item.writerUid]
+        val userInfo = userInfoMap[item.writerUid]?:return
 
         with(holder){
             title_text.text = item.title //아이템을 홀더에 넣어주면 되요 지금 타이틀넣은것
@@ -54,10 +54,7 @@ class BoardRecyclerAdapter
                 text_nickname.text = nickName
             }
 
-
-            itemView.setOnClickListener {
-                Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()
-            }
+            itemView.setOnClickListener{onItemClickListener?.invoke(item, userInfo)}
 
             button_like.setOnClickListener {
                 Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.model.firebase.BoardInfo
@@ -81,9 +82,13 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
 
         // Type
         radioGroupType.setOnCheckedChangeListener { _, id ->
+            hospital_search.visibility = View.GONE
             when(id) {
                 R.id.free_board -> boardInfo.type = getString(R.string.free_board)
-                R.id.review_board -> boardInfo.type = getString(R.string.review_board)
+                R.id.review_board -> {
+                    boardInfo.type = getString(R.string.review_board)
+                    hospital_search.visibility = View.VISIBLE
+                }
                 R.id.question_board -> boardInfo.type = getString(R.string.question_board)
                 R.id.hot_board -> boardInfo.type = getString(R.string.hot_board)
             }
@@ -161,7 +166,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         }
 
         // 병원명
-        if(hospital_search.text.isBlank()) {
+        if(hospital_search.visibility == View.VISIBLE && hospital_search.text.isBlank()) {
             toast("병원을 선택하세요")
             return false
         }

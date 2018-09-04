@@ -22,6 +22,7 @@ import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.RxBus
+import com.dac.gapp.andac.util.toast
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
@@ -63,7 +64,11 @@ class BoardFragment : BaseFragment() {
 
         // set recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.swapAdapter(BoardRecyclerAdapter(context, list, map, hospitalInfoMap), false)
+        recyclerView.swapAdapter(BoardRecyclerAdapter(context, list, map, hospitalInfoMap) { boardInfo, userInfo ->
+            toast(boardInfo.toString())
+            toast(userInfo.toString())
+        }, false)
+
 
         // RxBus Listen
         RxBus.listen(ActivityResultEvent::class.java).subscribe { activityResultEvent ->
