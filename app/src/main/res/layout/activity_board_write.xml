@@ -91,30 +91,21 @@
     </RadioGroup>
 
 
-    <TextView
-        android:id="@+id/text_hospital_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="14dp"
-        android:text="병원명"
-        android:textSize="@dimen/_15sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePic" />
-
     <EditText
         android:id="@+id/hospital_search"
-        android:layout_width="220dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:textColor="@color/black"
         android:enabled="true"
         android:focusable="false"
+        android:hint="병원명"
+        android:textColor="@color/black"
         android:textSize="@dimen/_10sp"
-        android:hint="병원검색"
-        app:layout_constraintBottom_toBottomOf="@+id/text_hospital_search"
-        app:layout_constraintStart_toEndOf="@+id/text_hospital_search"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePic" />
 
     <EditText
