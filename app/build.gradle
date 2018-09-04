@@ -89,10 +89,13 @@ dependencies {
     implementation 'nl.komponents.kovenant:kovenant-core:3.3.0'
     implementation 'org.jetbrains.anko:anko-commons:0.10.5'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
+    kapt "com.android.databinding:compiler:3.1.4"
 }
 androidExtensions {
 
     // 실험실 기능을 활성화합니다.
     experimental = true
 }
+
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
