@@ -18,5 +18,7 @@ data class BoardInfo(
         @ServerTimestamp var writeDate: Date? = null,
         var modifyDate: Date? = null,
         var objectId : String = "",
-        var viewCount : Int = 0
+        var viewCount : Int = 0,
+        var likeCount : Int = 0,
+        var replyCount : Int = 0
 )

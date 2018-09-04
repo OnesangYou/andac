@@ -1,5 +1,6 @@
 package com.dac.gapp.andac.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
@@ -25,20 +26,23 @@ import kotlinx.android.synthetic.main.base_item_card.view.*
 import org.jetbrains.anko.alert
 
 class BoardRecyclerAdapter
-(private val context : BaseActivity?, private var mDataList: List<BoardInfo>, private var userInfoMap: Map<String, UserInfo>, private var hospitalInfoMap: Map<String, HospitalInfo>) : RecyclerView.Adapter<BoardRecyclerAdapter.BoardHolder>() {
+(private val context : BaseActivity?, private var mDataList: List<BoardInfo>, private var userInfoMap: Map<String, UserInfo>, private var hospitalInfoMap: Map<String, HospitalInfo>, private var onItemClickListener : ((BoardInfo, UserInfo) -> Unit)? = null) : RecyclerView.Adapter<BoardRecyclerAdapter.BoardHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardHolder {
         return BoardHolder(parent)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BoardHolder, position: Int) {
         val item = mDataList[position]
-        val userInfo = userInfoMap[item.writerUid]
+        val userInfo = userInfoMap[item.writerUid]?:return
 
         with(holder){
             title_text.text = item.title //아이템을 홀더에 넣어주면 되요 지금 타이틀넣은것
             contents_text.text = item.contents //아이템을 홀더에 넣기 지금건 컨텐츠
             date.text = item.writeDate?.getFullFormat()
+            replyText.text = "댓글 ${item.replyCount} 개"
+            likeText.text = "좋아요 ${item.likeCount} 개"
 
             item.pictureUrls?.forEachIndexed { index, url ->
                 Glide.with(context).load(url).into(pictures[index])
@@ -50,14 +54,11 @@ class BoardRecyclerAdapter
                 }
             }
 
-            userInfo?.apply {
+            userInfo.apply {
                 text_nickname.text = nickName
             }
 
-
-            itemView.setOnClickListener {
-                Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()
-            }
+            itemView.setOnClickListener{onItemClickListener?.invoke(item, userInfo)}
 
             button_like.setOnClickListener {
                 Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()
@@ -132,5 +133,7 @@ class BoardRecyclerAdapter
         val pictures = arrayListOf(itemView.picture_1, itemView.picture_2, itemView.picture_3)
         val hospital_hashtag: TextView = itemView.hospital_hashtag
         val menu: Button = itemView.menu
+        val replyText = itemView.replyText
+        val likeText = itemView.likeText
     }
 }
