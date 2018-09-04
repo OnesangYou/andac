@@ -28,7 +28,7 @@ class MainFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        btnConsultingBoard.setOnClickListener { startActivity(Intent(context, RequestSurgeryActivity::class.java)) }
+        btnConsultingBoard.setOnClickListener { startActivity(Intent(context, ConsultBoardActivity::class.java)) }
         btnHospitalEventManagement.setOnClickListener { context?.startActivity<HospitalEventListActivity>() }
         btnHospitalAdManagement.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdManagement(requireContext())) }
         btnHospitalAdApplication.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdApplication(requireContext())) }

@@ -36,6 +36,7 @@
         <activity android:name=".ColumnWriteActivity" />
         <activity android:name=".HospitalColumnListActivity" />
         <activity android:name=".JoinPhoneActivity" />
+        <activity android:name=".ConsultBoardActivity" />
     </application>
 
 </manifest>
