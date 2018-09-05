@@ -3,12 +3,14 @@ package com.dac.gapp.andac
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.dac.gapp.andac.adapter.HospitalActivityPagerAdapter
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.databinding.ActivityHospitalBinding
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -24,7 +26,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     private lateinit var hospitalInfo: HospitalInfo
     private lateinit var googleMap: GoogleMap
-
+    private lateinit var binding : ActivityHospitalBinding
     // static method
     companion object {
         fun createIntent(context: Context, hospitalInfo: HospitalInfo?): Intent {
@@ -36,7 +38,9 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_hospital)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_hospital)
+        binding.activity = this
+
         hospitalInfo = intent.getSerializableExtra(EXTRA_HOSPITAL_INFO) as HospitalInfo
         prepareUi()
         setupEvents()
@@ -92,5 +96,9 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
             it.animateCamera(CameraUpdateFactory.zoomTo(15f))
             googleMap = it
         }
+    }
+
+    fun onClickConsult(view: View) {
+        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen",false).putExtra("documentId",hospitalInfo.documentId))
     }
 }

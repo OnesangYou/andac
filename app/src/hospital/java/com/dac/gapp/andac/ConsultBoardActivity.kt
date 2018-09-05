@@ -27,6 +27,7 @@ class ConsultBoardActivity : BaseActivity() {
         actionBar.setDisplayHomeAsUpEnabled(false) // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
 
         viewPager.adapter = ConsultBoardFragmentPagerAdapter(this, supportFragmentManager)
+        viewPager.offscreenPageLimit = 4
         boardTab.setupWithViewPager(viewPager)
     }
 

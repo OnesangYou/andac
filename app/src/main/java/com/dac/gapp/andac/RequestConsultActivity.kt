@@ -1,27 +1,32 @@
 package com.dac.gapp.andac
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
 import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
-import com.dac.gapp.andac.adapter.SurgeryTypeSelectPagerAdapter
 import com.dac.gapp.andac.base.BaseActivity
-import com.dac.gapp.andac.model.ConsultInfo
+import com.dac.gapp.andac.databinding.ActivityRequestConsultBinding
+import com.dac.gapp.andac.model.firebase.ConsultInfo
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_request_consult.*
+import timber.log.Timber
 
 class RequestSurgeryActivity : BaseActivity() {
-
+    private lateinit var binding: ActivityRequestConsultBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_request_consult)
-
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_request_consult)
+        binding.activity = this
 
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
+        intent.getBooleanExtra("isOpen", true).let {
+            binding.isOpen = it
+        }
         // Get the ActionBar here to configure the way it behaves.
         val actionBar = supportActionBar
         actionBar!!.setDisplayShowCustomEnabled(true) //커스터마이징 하기 위해 필요
@@ -32,42 +37,57 @@ class RequestSurgeryActivity : BaseActivity() {
         toolbar.setNavigationOnClickListener() { view ->
             onBackPressed()
         }
-        val mViewPager: ViewPager = tabViwePager
-        mViewPager.adapter = SurgeryTypeSelectPagerAdapter(supportFragmentManager)
+    }
 
-        val mTabLayout: TabLayout = tablayout
-        mTabLayout.setupWithViewPager(mViewPager)
+    fun createConsult(): ConsultInfo? {
+        val id: Int = radiogroup_tag.checkedRadioButtonId
+        val radio: RadioButton = findViewById(id)
+        val tag = radio.text.toString()
+        val visualacuity = visualacuityEdit.text.toString()
+        val disease = diseaseEdit.text.toString()
+        val name = nameEdit.text.toString()
+        val phone = phoneEdit.text.toString()
+        val text = insert_text_Edit.text.toString()
+        val range = regionSpinner.selectedItem.toString()
+        val surgery = ConsultInfo(tag, visualacuity, disease, name, phone, range, text)
+        return surgery
+    }
 
-        mTabLayout.getTabAt(0)!!.setText("오픈형")
-        mTabLayout.getTabAt(1)!!.setText("지정형")
-
+    fun onClickOpen(view: View) {
+        Timber.d("Open")
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        getUid()?.let { uid ->
+            val batch = db.batch()
+            val dr = db.collection("openConsult").document(uid)
 
-        sumitButton.setOnClickListener {
-            var type: String
-            when (mTabLayout.selectedTabPosition) {
-                0 -> type = "open"
-                1 -> type = "select"
-                else -> {
-                    return@setOnClickListener
-                }
+            FieldValue.serverTimestamp().let { batch.set(dr, mapOf("createdDate" to it)) }
+            createConsult()?.let { batch.set(dr.collection("content").document(uid), it) }
+
+            batch.commit().addOnSuccessListener {
+                Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
+                finish()
+            }.addOnCanceledListener {
+                Toast.makeText(this, "신청 실패 다시시도", Toast.LENGTH_SHORT).show()
             }
-            val tag = tagText.text.toString()
-            val visualacuity = visualacuityEdit.text.toString()
-            val disease = diseaseEdit.text.toString()
-            val name = nameEdit.text.toString()
-            val phone = phoneEdit.text.toString()
-            val range = "병원주소나, 병원이름"
-            val surgery = ConsultInfo(tag, visualacuity, disease, name, phone, range)
+        } ?: goToLogin()
+    }
 
-            getUid()?.let { mUri ->
-                db.collection("surgery_".plus(type)).document(mUri).set(surgery).addOnSuccessListener {
-                    Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
-                    finish()
-                }.addOnCanceledListener {
-                    Toast.makeText(this, "신청 실패 다시시도", Toast.LENGTH_SHORT).show()
-                }
-            } ?: goToLogin()
-        }
+    fun onClickSelecet(view: View) {
+        Timber.d("Select")
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        getUid()?.let { uid ->
+            val batch = db.batch()
+            val dr = db.collection("selectConsult").document(intent.getStringExtra("documentId")).collection("users").document(uid)
+
+            FieldValue.serverTimestamp().let { batch.set(dr, mapOf("createdDate" to it)) }
+            createConsult()?.let { batch.set(dr.collection("content").document(uid), it) }
+
+            batch.commit().addOnSuccessListener {
+                Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
+                finish()
+            }.addOnCanceledListener {
+                Toast.makeText(this, "신청 실패 다시시도", Toast.LENGTH_SHORT).show()
+            }
+        } ?: goToLogin()
     }
 }
