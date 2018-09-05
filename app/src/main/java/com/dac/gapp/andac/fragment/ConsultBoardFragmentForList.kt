@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.ConsultBoardRecytclerViewAdapter
 import com.dac.gapp.andac.base.BaseFragment
-import com.dac.gapp.andac.dialog.ConsultContentDialog
 import com.dac.gapp.andac.model.OpenConsultInfo
-import com.dac.gapp.andac.model.firebase.ConsultInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_consult_board_list.*
@@ -56,6 +54,8 @@ class ConsultBoardFragmentForList : BaseFragment() {
     }
 
     fun openData() {
+        val uid = getUid() ?: return
+
         val db = FirebaseFirestore.getInstance()
         db.collection("openConsult")
                 .get()
@@ -66,7 +66,7 @@ class ConsultBoardFragmentForList : BaseFragment() {
                                 .get()
                                 .addOnSuccessListener { querySnapshot ->
                                     val user = querySnapshot.toObject(UserInfo::class.java)!!
-                                    datalist.add(OpenConsultInfo(user, data["createdDate"] as Date,querySnapshot.id))
+                                    datalist.add(OpenConsultInfo(user, data["createdDate"] as Date, querySnapshot.id, uid,true))
                                     recycler_view?.adapter?.notifyDataSetChanged()
                                     Timber.d(user.toString())
                                 }
@@ -89,7 +89,7 @@ class ConsultBoardFragmentForList : BaseFragment() {
                                 .get()
                                 .addOnSuccessListener { querySnapshot ->
                                     val user = querySnapshot.toObject(UserInfo::class.java)
-                                    datalist.add(OpenConsultInfo(user, data["createdDate"] as Date,querySnapshot.id,uid))
+                                    datalist.add(OpenConsultInfo(user, data["createdDate"] as Date, querySnapshot.id, uid,false))
                                     recycler_view?.adapter?.notifyDataSetChanged()
                                     Timber.d(user.toString())
                                 }

@@ -46,7 +46,7 @@
             android:layout_weight="1.2"
             android:gravity="center"
             android:text="신청서보기"
-            android:onClick="@{(v) -> holder.onClickShowConsult(usermodel.uUid, usermodel.hUid)}"/>
+            android:onClick="@{(v) -> holder.onClickShowConsult(usermodel.uUid, usermodel.hUid, usermodel.isOpen)}"/>
 
         <TextView
             android:id="@+id/start_consult"
@@ -54,6 +54,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:onClick="@{() -> holder.onClickStartChat(usermodel.uUid,usermodel.hUid)}"
             android:text="상담가기" />
     </LinearLayout>
 </layout>
