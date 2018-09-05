@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
+        <variable
+            name="holder"
+            type="com.dac.gapp.andac.viewholder.ConsultBoardViewHolder" />
 
-        <import type="com.dac.gapp.andac.model.OpenConsultInfo"/>
         <variable
             name="usermodel"
             type="com.dac.gapp.andac.model.OpenConsultInfo" />
@@ -43,7 +45,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1.2"
             android:gravity="center"
-            android:text="신청서보기" />
+            android:text="신청서보기"
+            android:onClick="@{(v) -> holder.onClickShowConsult(usermodel.uUid, usermodel.hUid)}"/>
 
         <TextView
             android:id="@+id/start_consult"

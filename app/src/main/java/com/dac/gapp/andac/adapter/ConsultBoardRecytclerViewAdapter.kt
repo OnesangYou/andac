@@ -21,6 +21,7 @@ class ConsultBoardRecytclerViewAdapter(var context: Context?, var list: List<Ope
 
     override fun onBindViewHolder(holder: ConsultBoardViewHolder, position: Int) {
         holder.binding.usermodel = list.get(position)
+        holder.binding.holder = holder
     }
 
 }
