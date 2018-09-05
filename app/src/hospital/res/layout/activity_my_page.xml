@@ -20,13 +20,14 @@
 
         <ImageView
             android:id="@+id/back"
-            android:layout_width="20dp"
-            android:layout_height="23dp"
+            android:layout_width="15dp"
+            android:layout_height="25dp"
             android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
             app:srcCompat="@drawable/back"
-            tools:layout_editor_absoluteX="20dp"
-            tools:layout_editor_absoluteY="14dp"
-            tools:ignore="ContentDescription,RtlHardcoded" />
+            tools:ignore="ContentDescription,RtlHardcoded"
+            />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
