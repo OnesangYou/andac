@@ -2,9 +2,10 @@
 <layout>
 
     <data>
+
         <variable
             name="activity"
-            type="com.dac.gapp.andac.RequestSurgeryActivity"/>
+            type="com.dac.gapp.andac.RequestSurgeryActivity" />
 
         <variable
             name="isOpen"
@@ -25,37 +26,6 @@
             android:layout_height="match_parent"
             tools:context="com.dac.gapp.andac.RequestConsultActivity">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:background="@color/white"
-                android:fitsSystemWindows="true"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-
-                <TextView
-                    android:id="@+id/logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="1:1 상담신청서"
-                    android:textColor="@color/black" />
-
-
-                <ImageView
-                    android:id="@+id/deleteBtn"
-                    android:layout_width="25dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="20dp"
-                    android:src="@drawable/delete" />
-
-
-            </android.support.v7.widget.Toolbar>
-
             <TextView
                 android:id="@+id/tagText"
                 android:layout_width="wrap_content"
@@ -64,7 +34,7 @@
                 android:layout_marginTop="15dp"
                 android:text="상담받을 태그신청"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:id="@+id/tagLayout"
@@ -314,15 +284,13 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorMain"
                 android:gravity="center"
+                android:onClick="@{activity::onClickOpen}"
                 android:text="작성완료(오픈)"
                 android:textColor="@color/white"
                 android:visibility="@{isOpen}"
-                android:onClick="@{activity::onClickOpen}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent" />
-
-
 
 
             <Button
@@ -331,10 +299,10 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorMain"
                 android:gravity="center"
+                android:onClick="@{activity::onClickSelecet}"
                 android:text="작성완료(지정)"
                 android:textColor="@color/white"
                 android:visibility="@{!isOpen}"
-                android:onClick="@{activity::onClickSelecet}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent" />
@@ -359,8 +327,8 @@
                     android:id="@+id/regionSpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="@{isOpen}"
-                    android:entries="@array/region_list" />
+                    android:entries="@array/region_list"
+                    android:visibility="@{isOpen}" />
             </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>

@@ -28,8 +28,6 @@ class RequestSurgeryActivity : BaseActivity() {
         setOnActionBarLeftClickListener(View.OnClickListener { onBackPressed() })
         binding.activity = this
 
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
         intent.getBooleanExtra("isOpen", true).let {
             binding.isOpen = it
         }

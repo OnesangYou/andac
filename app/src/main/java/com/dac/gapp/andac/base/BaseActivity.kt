@@ -20,6 +20,7 @@ import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -257,7 +258,10 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun setContentView(view: View?) {
-        super.setContentView(R.layout.activity_base)
+        val contentParent = findViewById<ViewGroup>(android.R.id.content)
+        contentParent.removeAllViews()
+        val rootView = LayoutInflater.from(this).inflate(R.layout.activity_base, contentParent, false)
+        super.setContentView(rootView)
         layoutRoot.addView(view)
 
         setSupportActionBar(layoutToolbar)
