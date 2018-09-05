@@ -16,9 +16,11 @@
         android:fitsSystemWindows="true">
         <ImageButton
             android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="15dp"
+            android:layout_height="25dp"
             android:background="@drawable/back"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
             />
 
         <TextView
@@ -28,6 +30,8 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:text="이벤트 등록/수정"
+            android:textSize="@dimen/_15sp"
+            android:textStyle="bold"
             android:textAlignment="center" />
 
         <Button
@@ -195,10 +199,13 @@
 
             <Button
                 android:id="@+id/uploadBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
                 android:layout_marginTop="8dp"
                 android:text="완료"
+                android:textSize="17dp"
+                android:textColor="@color/white"
+                android:background="@color/colorMain"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bottomImage" />
