@@ -6,7 +6,6 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.view.View
 import com.dac.gapp.andac.adapter.HospitalActivityPagerAdapter
 import com.dac.gapp.andac.base.BaseActivity
@@ -47,9 +46,9 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     private fun prepareUi() {
-        setActionBarLeft(R.drawable.back)
-        setActionBarTitle(hospitalInfo.name)
-        setActionBarRight(R.drawable.call)
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText(hospitalInfo.name)
+        setActionBarRightImage(R.drawable.call)
         txtvieName.text = hospitalInfo.name
         txtviewAddress.text = hospitalInfo.address1
         txtviewBusinessHours.text = hospitalInfo.openDate

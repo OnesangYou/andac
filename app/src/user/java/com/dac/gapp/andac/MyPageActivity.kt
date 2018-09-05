@@ -1,6 +1,7 @@
 package com.dac.gapp.andac
 
 import android.os.Bundle
+import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseMyPageActivity
 import com.dac.gapp.andac.fragment.AccountSettingFragment
@@ -16,13 +17,16 @@ open class MyPageActivity : BaseMyPageActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
-
-        back.setOnClickListener { finish() }
-
-        logoutBtn.setOnClickListener {
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText(R.string.mypage)
+        setActionBarRightText(R.string.logout)
+        setOnActionBarLeftClickListener(View.OnClickListener {
+            finish()
+        })
+        setOnActionBarRightClickListener(View.OnClickListener {
             getAuth()!!.signOut()
             finish()
-        }
+        })
 
         // 버튼 그룹 리스너
         myPageRadioGroup.setOnCheckedChangeListener { _, id ->

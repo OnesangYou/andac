@@ -3,6 +3,7 @@ package com.dac.gapp.andac
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
@@ -19,23 +20,18 @@ class RequestSurgeryActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_request_consult)
+        binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_request_consult, null, false)
+        setContentView(binding.root)
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText("1:1 상담신청서")
+        setActionBarRightImage(R.drawable.delete)
+        setOnActionBarLeftClickListener(View.OnClickListener { onBackPressed() })
         binding.activity = this
 
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         intent.getBooleanExtra("isOpen", true).let {
             binding.isOpen = it
-        }
-        // Get the ActionBar here to configure the way it behaves.
-        val actionBar = supportActionBar
-        actionBar!!.setDisplayShowCustomEnabled(true) //커스터마이징 하기 위해 필요
-        actionBar.setDisplayShowTitleEnabled(false)
-        actionBar.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
-        toolbar.setNavigationIcon(R.drawable.back2)
-
-        toolbar.setNavigationOnClickListener() { view ->
-            onBackPressed()
         }
     }
 

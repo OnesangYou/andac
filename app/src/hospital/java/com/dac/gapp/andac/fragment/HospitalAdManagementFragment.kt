@@ -40,7 +40,16 @@ class HospitalAdManagementFragment : BaseFragment() {
             UiUtil.visibleOrGone(false, triple.second.first)
         }
         context?.let { context ->
-            context.getToolBar().setTitle(getString(R.string.hospital_ad_management))
+            context.setActionBarLeftImage(R.drawable.back)
+            context.setActionBarCenterText(R.string.hospital_ad_management)
+            context.hidActionBarRight()
+            context.setOnActionBarLeftClickListener(View.OnClickListener {
+                if (context.supportFragmentManager.backStackEntryCount != 0) {
+                    context.supportFragmentManager.popBackStack()
+                } else {
+                    context.finish()
+                }
+            })
             context.getUid()?.let { uid ->
                 for (triple in tripleArray) {
                     context.getDb().collection(triple.first.collectionName).document(uid)

@@ -27,7 +27,7 @@ class JoinActivity : BaseJoinActivity(), AnkoLogger {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join)
-
+        hideActionBar()
         viewPager = findViewById<View>(R.id.viewpager) as SwipeViewPager
         viewPager!!.adapter = Adapter(supportFragmentManager)
 

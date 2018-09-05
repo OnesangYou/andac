@@ -17,7 +17,7 @@ class JoinPhoneActivity : BaseActivity(), AnkoLogger {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_phone)
-
+        hideActionBar()
         // 인증번호 발송
         sendCertiCodeBtn.setOnClickListener {
                 var phoneStr = phoneEdit.text.toString()

@@ -31,8 +31,11 @@ class HospitalEventApplicantListActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hospital_event_applicant_list)
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText("내 이벤트 보기")
+        setActionBarRightText("이벤트 수정하기")
+        setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
-        back.setOnClickListener { finish() }
 
         // 수정 시 데이터 받아서 초기화
         intent.getStringExtra(OBJECT_KEY)?.let{ key ->
@@ -52,10 +55,7 @@ class HospitalEventApplicantListActivity : BaseActivity() {
             }}
                     ?.addOnCompleteListener { hideProgressDialog() }
 
-            // 수정 버튼 리스너
-            writeEventBtn.setOnClickListener {
-                startActivityForResult<EventWriteActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to key)
-            }
+            setOnActionBarRightClickListener(View.OnClickListener { startActivityForResult<EventWriteActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to key)  })
 
             // recyclerView
             recyclerView.layoutManager = LinearLayoutManager(this@HospitalEventApplicantListActivity)

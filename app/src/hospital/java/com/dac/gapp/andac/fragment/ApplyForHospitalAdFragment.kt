@@ -25,8 +25,17 @@ class ApplyForHospitalAdFragment : BaseFragment() {
     }
 
     private fun prepareUi() {
-        context?.let {
-            it.getToolBar().setTitle(getString(R.string.apply_for_hospital_ad))
+        context?.let {context ->
+            context.setActionBarLeftImage(R.drawable.back)
+            context.setActionBarCenterText(R.string.apply_for_hospital_ad)
+            context.hidActionBarRight()
+            context.setOnActionBarLeftClickListener(View.OnClickListener {
+                if (context.supportFragmentManager.backStackEntryCount != 0 ) {
+                    context.supportFragmentManager.popBackStack()
+                } else {
+                    context.finish()
+                }
+            })
         }
     }
 

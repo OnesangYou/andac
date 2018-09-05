@@ -12,7 +12,7 @@
     <string name="eventList">이벤트</string>
     <string name="andac">ANDAC</string>
     <string name="main">메인화면</string>
-    <string name="mypage">MyPage</string>
+    <string name="mypage">마이페이지</string>
     <string name="requestSurgery">내눈 수술 상담받기</string>
     <string name="andacRequestAdvice">안닥 상담신청</string>
     <string name="title_activity_float">FloatActivity</string>
@@ -102,6 +102,11 @@
     <string name="main_todays_hosptial_ad_days">오늘의 병원 광고 %1$d일</string>
     <string name="ad_validity_period_days">광고 유효기간 : %1$d일</string>
     <string name="ad_clicks">광고 클릭수 : %1$d회</string>
+    <string name="logout">로그아웃</string>
+    <string name="upload">업로드</string>
+    <string name="board_upload">게시글 올리기</string>
+    <string name="column_upload">컬럼 올리기</string>
+    <string name="delete">삭제</string>
 
 </resources>
 

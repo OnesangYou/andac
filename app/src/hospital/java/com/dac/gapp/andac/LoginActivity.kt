@@ -17,6 +17,7 @@ class LoginActivity : BaseHospitalActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        hideActionBar()
 
         // Initialize Firebase Auth
         mAuth = getAuth()

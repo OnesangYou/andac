@@ -82,15 +82,16 @@ class AdPaymentFragment : BaseFragment() {
 
     private fun prepareUi() {
         context?.let { context ->
+            context.setActionBarLeftImage(R.drawable.back)
             forWhat.let { forWhat ->
                 ad.let { ad ->
                     txtviewAd.text = getString(ad.titleResId)
                     UiUtil.visibleOrGone(ad.isAdTypeEvent(), btnSelectMyEvent)
                     if (forWhat == EXTRA_FOR_PAY) {
-                        context.getToolBar().setTitle(getString(R.string.paying_for_a_hospital_ad))
+                        context.setActionBarCenterText(R.string.paying_for_a_hospital_ad)
                         btnNext.text = getString(R.string.make_a_payment)
                     } else if (forWhat == EXTRA_FOR_EDIT) {
-                        context.getToolBar().setTitle(getString(R.string.edit_for_hospital_ad))
+                        context.setActionBarCenterText(R.string.edit_for_hospital_ad)
                         btnNext.text = getString(R.string.edit)
                         photoUrl?.let {
                             Glide.with(this).load(it).into(imgviewPhoto)
