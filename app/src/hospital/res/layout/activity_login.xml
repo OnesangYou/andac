@@ -82,7 +82,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="이메일을 입력해주세요"
+            android:hint="이메일을 입력하세요"
             android:inputType="textEmailAddress"
             android:textSize="@dimen/_15sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +96,7 @@
             android:layout_marginBottom="4dp"
             android:layout_marginTop="12dp"
             android:ems="10"
-            android:hint="비밀번호를 입력해주세요"
+            android:hint="비밀번호를 입력하세요"
             android:inputType="textPassword"
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/findIdButton"
@@ -139,9 +139,10 @@
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:background="@color/colorMain"
         android:text="로그인"
+        android:textSize="17dp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent" />
 

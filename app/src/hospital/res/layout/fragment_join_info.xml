@@ -49,7 +49,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="@color/non"
-                android:ems="10"
+                android:ems="13"
                 android:hint="병원명을 입력하세요"
                 android:inputType="textPersonName"
                 android:textSize="@dimen/_15sp"

@@ -205,7 +205,8 @@
         <Button
             android:id="@+id/nextBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
+            android:textSize="17dp"
             android:background="@color/colorMain"
             android:text="입력완료"
             android:textColor="@color/white" />

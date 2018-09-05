@@ -85,13 +85,17 @@
         <Button
             android:id="@+id/completeBtn"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginTop="8dp"
             android:text="설정 완료"
+            android:background="@color/colorMain"
+            android:textColor="@color/white"
+            android:textSize="17dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
+            app:layout_constraintTop_toBottomOf="@+id/descriptionText"
+            />
 
         <ImageView
             android:id="@+id/pictureImage"

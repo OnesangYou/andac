@@ -26,7 +26,8 @@
             android:layout_gravity="center"
             android:text="상담내역"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="@dimen/_15sp"
+            android:textStyle="bold"
             />
         <ImageView
             android:id="@+id/logoutBtn"
