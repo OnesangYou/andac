@@ -23,9 +23,10 @@ class EventDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event)
+        setActionBarLeftImage(R.drawable.back)
 
-        // back
-        back.setOnClickListener { finish() }
+        setActionBarRightImage(R.drawable.call)
+        setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
 
         // 병원 상세 정보 가져오기
@@ -47,14 +48,14 @@ class EventDetailActivity : BaseActivity() {
                         // 병원명
                         getHospitalInfo(eventInfo.writerUid)?.addOnSuccessListener { it ->
                             it?.also { hospitalInfo ->
-                            toolbarTitle.text = "${hospitalInfo.name} 병원 이벤트"
+                                setActionBarCenterText("${hospitalInfo.name} 병원 이벤트")
 
                             // Set hospital Btn
                             hospital.setOnClickListener { startActivity(HospitalActivity.createIntent(this@EventDetailActivity, hospitalInfo)) }
 
-                            phoneCall.setOnClickListener {
+                            setOnActionBarRightClickListener(View.OnClickListener {
                                 startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))
-                            }
+                            })
                         }}
 
                     } }

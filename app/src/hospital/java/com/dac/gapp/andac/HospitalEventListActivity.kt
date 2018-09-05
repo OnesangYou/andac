@@ -32,9 +32,11 @@ class HospitalEventListActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hospital_event_list)
-
-        back.setOnClickListener { finish() }
-        writeEventBtn.setOnClickListener { startActivityForResult<EventWriteActivity>(RequestCode.OBJECT_ADD.value) }
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText("내 이벤트 리스트 보기")
+        setActionBarRightText("이벤트 작성하기")
+        setOnActionBarLeftClickListener(View.OnClickListener { finish() })
+        setOnActionBarRightClickListener(View.OnClickListener { startActivityForResult<EventWriteActivity>(RequestCode.OBJECT_ADD.value) })
 
         resetData()
 

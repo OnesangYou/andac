@@ -25,8 +25,11 @@ class EventWriteActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_write)
-
-        back.setOnClickListener { finish() }
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText("이벤트 등록/수정")
+        setActionBarRightText("삭제")
+        hidActionBarRight()
+        setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
         // 수정 시 데이터 받아서 초기화
         intent.getStringExtra(OBJECT_KEY)?.let{ key ->
@@ -40,11 +43,10 @@ class EventWriteActivity : BaseActivity() {
                 Glide.with(this@EventWriteActivity).load(detailPictureUrl).into(bottomImage)
 
             }}?.addOnCompleteListener { hideProgressDialog() }
-            deleteBtn.apply{
-                setOnClickListener { showDeleteEventDialog(key) }
-                deleteBtn.visibility = View.VISIBLE
-            }
-
+            setOnActionBarRightClickListener(View.OnClickListener {
+                showDeleteEventDialog(key)
+            })
+            showActionBarRight()
         }
 
         // Top Picture

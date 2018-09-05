@@ -24,6 +24,9 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_write)
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText(R.string.board_upload)
+        setActionBarRightText(R.string.upload)
 
         val imageViews = Arrays.asList(picture_1, picture_2, picture_3)
         val mapImageViewUri = mutableMapOf<ImageView, Uri?>(picture_1 to null, picture_2 to null, picture_3 to null)
@@ -95,7 +98,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         }
 
         // Upload
-        uploadBtn.setOnClickListener { _ ->
+        setOnActionBarRightClickListener(View.OnClickListener {
 
             // set boardInfo
             getUid()?.let {
@@ -106,12 +109,12 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                 }
             }?:let {
                 goToLogin()
-                return@setOnClickListener
+                return@OnClickListener
             }
 
             // 유효성검사
             if(!validate()) {
-                return@setOnClickListener
+                return@OnClickListener
             }
 
 
@@ -147,9 +150,9 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                     }
                     .addOnCompleteListener{hideProgressDialog()}
 
-        }
+        })
 
-        back.setOnClickListener { finish() }
+        setOnActionBarLeftClickListener(View.OnClickListener { finish() })
     }
 
     private fun validate() : Boolean {

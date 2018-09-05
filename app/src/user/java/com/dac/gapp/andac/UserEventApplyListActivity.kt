@@ -29,8 +29,9 @@ class UserEventApplyListActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_event_apply_list)
-
-        back.setOnClickListener { finish() }
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText("내 이벤트 관리")
+        setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
         resetData()
 

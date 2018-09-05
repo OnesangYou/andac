@@ -75,6 +75,7 @@ open class LoginActivity : BaseLoginActivity() {
     }
 
     private fun prepareUi() {
+        hideActionBar()
         getDb().collection(Ad.LOGIN_BANNER.collectionName)
                 .get()
                 .addOnCompleteListener { task ->

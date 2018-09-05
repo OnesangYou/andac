@@ -9,44 +9,6 @@
     tools:context="com.dac.gapp.andac.MyPageActivity"
     tools:ignore="ExtraText">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/white"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="20dp"
-            android:layout_height="23dp"
-            android:layout_gravity="left"
-            app:srcCompat="@drawable/back"
-            tools:layout_editor_absoluteX="20dp"
-            tools:layout_editor_absoluteY="14dp"
-            tools:ignore="ContentDescription,RtlHardcoded" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:text="마이페이지"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            />
-        <TextView
-            android:id="@+id/logoutBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="20dp"
-            android:text="로그아웃"
-            android:textColor="@color/black"
-            />
-    </android.support.v7.widget.Toolbar>.
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/my_profile"
         android:layout_width="match_parent"

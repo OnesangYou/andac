@@ -3,12 +3,13 @@ package com.dac.gapp.andac
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.view.View
 import com.dac.gapp.andac.adapter.HospitalActivityPagerAdapter
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.databinding.ActivityHospitalBinding
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -24,7 +25,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     private lateinit var hospitalInfo: HospitalInfo
     private lateinit var googleMap: GoogleMap
-
+    private lateinit var binding : ActivityHospitalBinding
     // static method
     companion object {
         fun createIntent(context: Context, hospitalInfo: HospitalInfo?): Intent {
@@ -36,24 +37,18 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_hospital)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_hospital)
+        binding.activity = this
+
         hospitalInfo = intent.getSerializableExtra(EXTRA_HOSPITAL_INFO) as HospitalInfo
         prepareUi()
         setupEvents()
-        back.setOnClickListener { finish() }
     }
 
     private fun prepareUi() {
-        // toolbar
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
-        // Get the ActionBar here to configure the way it behaves.
-        val actionBar = supportActionBar
-        actionBar!!.setDisplayShowCustomEnabled(true) //커스터마이징 하기 위해 필요
-        actionBar.setDisplayShowTitleEnabled(false)
-        actionBar.setDisplayHomeAsUpEnabled(false) // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
-
-        txtviewTitle.text = hospitalInfo.name
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText(hospitalInfo.name)
+        setActionBarRightImage(R.drawable.call)
         txtvieName.text = hospitalInfo.name
         txtviewAddress.text = hospitalInfo.address1
         txtviewBusinessHours.text = hospitalInfo.openDate
@@ -75,9 +70,12 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private fun setupEvents() {
-        phoneCall.setOnClickListener { v ->
+        setOnActionBarLeftClickListener(View.OnClickListener{
+            finish()
+        })
+        setOnActionBarRightClickListener(View.OnClickListener {
             startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))
-        }
+        })
     }
 
     override fun onMapReady(map: GoogleMap?) {
@@ -92,5 +90,9 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
             it.animateCamera(CameraUpdateFactory.zoomTo(15f))
             googleMap = it
         }
+    }
+
+    fun onClickConsult(view: View) {
+        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen",false).putExtra("documentId",hospitalInfo.documentId))
     }
 }

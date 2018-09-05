@@ -28,6 +28,9 @@ class ColumnActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_column)
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText("컬럼 게시판 보기")
+        setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
         resetData()
 
@@ -43,8 +46,6 @@ class ColumnActivity : BaseActivity() {
 
         setAdapter()
 
-        // back
-        back.setOnClickListener { finish() }
     }
 
     private fun setAdapter() {

@@ -1,6 +1,7 @@
 package com.dac.gapp.andac
 
 import android.os.Bundle
+import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.ColumnInfo
@@ -13,8 +14,9 @@ class ColumnDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_column_detail)
-
-        back.setOnClickListener { finish() }
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText("컬럼 상세보기")
+        setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
         // 병원 상세 정보 가져오기
         intent.getStringExtra(OBJECT_KEY)?.let{ objectId ->

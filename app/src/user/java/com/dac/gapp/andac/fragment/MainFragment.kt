@@ -48,8 +48,7 @@ class MainFragment : BaseFragment() {
         prepareUi()
 
         requestSurgery.setOnClickListener {
-            val nextIntent = Intent(context, RequestSurgeryActivity::class.java)
-            startActivity(nextIntent)
+            startActivity(Intent(context,RequestSurgeryActivity::class.java).putExtra("isOpen",true))
         }
 
         more_calum.setOnClickListener {

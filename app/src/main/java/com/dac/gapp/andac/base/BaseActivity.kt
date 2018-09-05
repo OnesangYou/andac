@@ -18,9 +18,12 @@ import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.bumptech.glide.Glide
 import com.dac.gapp.andac.BuildConfig
 import com.dac.gapp.andac.LoginActivity
 import com.dac.gapp.andac.R
@@ -30,7 +33,6 @@ import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.UiUtil
 import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -40,10 +42,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.yanzhenjie.album.Album
-import com.yanzhenjie.album.AlbumFile
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.alert
 import timber.log.Timber
 
@@ -76,6 +76,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getHospitalContents(uid: String? = getUid()) = uid?.let {
         getDb().collection("hospitalContents").document(it)
     }
+
     fun getHospitalEvent(eventKey: String) = getHospitalEvents()?.document(eventKey)
 
     fun getHospitalColumn(columnKey: String) = getHospitalColumns()?.document(columnKey)
@@ -181,7 +182,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_TAKE_PICTURE) {
             if (resultCode == Activity.RESULT_OK) {
-                data?.data?.let {mFileUri ->
+                data?.data?.let { mFileUri ->
                     RxBus.publish(mFileUri)
                 }
             } else {
@@ -221,6 +222,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     // Event Applicants
     fun getEventApplicants(eventKey: String) = getEvent(eventKey)?.collection("applicants")
+
     fun getEventApplicant(eventKey: String) = getUid()?.let { getEventApplicants(eventKey)?.document(it) }  // user 용
 
 
@@ -242,34 +244,119 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getHospitalInfo(uid: String? = getUid()) = uid?.let { s -> getHospital(s).get().continueWith { it.result.toObject(HospitalInfo::class.java) } }
 
+    override fun setContentView(layoutResID: Int) {
+        super.setContentView(R.layout.activity_base)
+        layoutRoot.addView(LayoutInflater.from(this).inflate(layoutResID, layoutRoot, false), 0)
 
-    fun getToolBar(): ToolBar {
-        return ToolBar(imgviewTitle, txtviewTitle, imgviewLeft, imgviewRight)
+        setSupportActionBar(layoutToolbar)
+        supportActionBar?.apply {
+            setDisplayShowCustomEnabled(true)
+            setDisplayHomeAsUpEnabled(false)
+            setDisplayShowTitleEnabled(false)
+            setDisplayShowHomeEnabled(false)
+        }
     }
 
-    class ToolBar(val imgviewTitle: ImageView, val txtviewTitle: TextView, val imgviewLeft: ImageView, val imgviewRight: ImageView) {
+    override fun setContentView(view: View?) {
+        val contentParent = findViewById<ViewGroup>(android.R.id.content)
+        contentParent.removeAllViews()
+        val rootView = LayoutInflater.from(this).inflate(R.layout.activity_base, contentParent, false)
+        super.setContentView(rootView)
+        layoutRoot.addView(view)
 
-        fun setTitle(resId: Int) {
-            if (imgviewTitle != null) {
-                imgviewTitle.setBackgroundResource(resId)
-                UiUtil.visibleOrGone(false, txtviewTitle)
-                UiUtil.visibleOrGone(true, imgviewTitle)
-            }
+        setSupportActionBar(layoutToolbar)
+        supportActionBar?.apply {
+            setDisplayShowCustomEnabled(true)
+            setDisplayHomeAsUpEnabled(false)
+            setDisplayShowTitleEnabled(false)
+            setDisplayShowHomeEnabled(false)
         }
+    }
 
-        fun setTitle(title: String) {
-            if (txtviewTitle != null) {
-                txtviewTitle.text = title
-                UiUtil.visibleOrGone(true, txtviewTitle)
-                UiUtil.visibleOrGone(false, imgviewTitle)
-            }
-        }
+    fun showActionBar() {
+        supportActionBar?.show()
+    }
 
-        fun setRight(resId: Int) {
-            if (imgviewRight != null) {
-                imgviewRight.setBackgroundResource(resId)
-            }
-        }
+    fun hideActionBar() {
+        supportActionBar?.hide()
+    }
+
+    fun showActionBarLeft() {
+        UiUtil.visibleOrGone(true, imgviewLeft, txtviewLeft)
+    }
+
+    fun hidActionBarLeft() {
+        UiUtil.visibleOrGone(false, imgviewLeft, txtviewLeft)
+    }
+
+    fun showActionBarCenter() {
+        UiUtil.visibleOrGone(true, imgviewCenter, txtviewCenter)
+    }
+
+    fun hidActionBarCenter() {
+        UiUtil.visibleOrGone(false, imgviewCenter, txtviewCenter)
+    }
+
+    fun showActionBarRight() {
+        UiUtil.visibleOrGone(true, imgviewRight, txtviewRight)
+    }
+
+    fun hidActionBarRight() {
+        UiUtil.visibleOrGone(false, imgviewRight, txtviewRight)
+    }
+
+    fun setActionBarLeftImage(resId: Int) {
+        setActionBarImage(resId, imgviewLeft, txtviewLeft)
+    }
+
+    fun setActionBarCenterImage(resId: Int) {
+        setActionBarImage(resId, imgviewCenter, txtviewCenter)
+    }
+
+    fun setActionBarRightImage(resId: Int) {
+        setActionBarImage(resId, imgviewRight, txtviewRight)
+    }
+
+    private fun setActionBarImage(resId: Int, imageView: ImageView, textView: TextView) {
+        Glide.with(this).load(resId).into(imageView); UiUtil.visibleOrGone(true, imageView); UiUtil.visibleOrGone(false, textView)
+    }
+
+    fun setActionBarLeftText(resId: Int) {
+        setActionBarLeftText(getString(resId))
+    }
+
+    fun setActionBarLeftText(text: String) {
+        setActionBarText(text, txtviewLeft, imgviewLeft)
+    }
+
+    fun setActionBarCenterText(resId: Int) {
+        setActionBarCenterText(getString(resId))
+    }
+
+    fun setActionBarCenterText(text: String) {
+        setActionBarText(text, txtviewCenter, imgviewCenter)
+    }
+
+    fun setActionBarRightText(resId: Int) {
+        setActionBarRightText(getString(resId))
+    }
+
+    fun setActionBarRightText(text: String) {
+        setActionBarText(text, txtviewRight, imgviewRight)
+    }
+
+    private fun setActionBarText(text: String, textView: TextView, imageView: ImageView) {
+        textView.text = text; UiUtil.visibleOrGone(true, textView); UiUtil.visibleOrGone(false, imageView)
+    }
+
+    fun setOnActionBarLeftClickListener(listener: View.OnClickListener) {
+        imgviewLeft.setOnClickListener(listener)
+        txtviewLeft.setOnClickListener(listener)
+    }
+
+    fun setOnActionBarRightClickListener(listener: View.OnClickListener) {
+        imgviewRight.setOnClickListener(listener)
+        txtviewRight.setOnClickListener(listener)
     }
 
     fun changeFragment(newFragment: Fragment) {
@@ -373,7 +460,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun isObjectModify() = !intent.getStringExtra(OBJECT_KEY).isNullOrBlank()
-    fun dateFieldStr() = if(isObjectModify()) "updatedDate" else "createdDate"
+    fun dateFieldStr() = if (isObjectModify()) "updatedDate" else "createdDate"
 
     fun eventCancelDialog(objectId: String, function: () -> Unit) {
         alert(title = "이벤트 신청 취소", message = "이벤트 신청 취소하시겠습니까?") {
@@ -387,7 +474,8 @@ abstract class BaseActivity : AppCompatActivity() {
                         .addOnSuccessListener { function.invoke() }
                         .addOnCompleteListener { hideProgressDialog() }
             }
-            negativeButton("NO"){}
+            negativeButton("NO") {}
         }.show()
     }
+
 }

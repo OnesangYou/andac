@@ -2,6 +2,7 @@ package com.dac.gapp.andac
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseHospitalActivity
 import com.dac.gapp.andac.model.firebase.HospitalInfo
@@ -15,26 +16,24 @@ class MyPageActivity : BaseHospitalActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
-
-        // Check Approval
-        showProgressDialog()
-        onCheckApproval { isApproval ->
-            UiUtil.visibleOrGone(isApproval,scroll_mypage)
-            hideProgressDialog()
-        }
-
-        back.setOnClickListener { finish() }
-
-        logoutBtn.setOnClickListener {
-
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText(R.string.mypage)
+        setActionBarRightText(R.string.logout)
+        setOnActionBarLeftClickListener(View.OnClickListener { finish() })
+        setOnActionBarRightClickListener(View.OnClickListener {
             getAuth()!!.signOut()
-
-            Intent(this@MyPageActivity, LoginActivity::class.java).let{
+            Intent(this@MyPageActivity, LoginActivity::class.java).let {
                 it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(it)
 
             }
+        })
 
+        // Check Approval
+        showProgressDialog()
+        onCheckApproval { isApproval ->
+            UiUtil.visibleOrGone(isApproval, scroll_mypage)
+            hideProgressDialog()
         }
 
         // Set Profile

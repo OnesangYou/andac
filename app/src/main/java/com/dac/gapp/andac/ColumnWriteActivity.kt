@@ -20,7 +20,9 @@ class ColumnWriteActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_column_write)
-        back.setOnClickListener { finish() }
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarCenterText(R.string.column_upload)
+        setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
         // 수정 시 컬럼 데이터 받아서 초기화
         intent.getStringExtra(OBJECT_KEY)?.let{ key ->
@@ -34,11 +36,10 @@ class ColumnWriteActivity : BaseActivity() {
 
             }}?.addOnCompleteListener { hideProgressDialog() }
 
-            deleteBtn.apply{
-                setOnClickListener { showDeleteColumnDialog(key) }
-                deleteBtn.visibility = View.VISIBLE
-
-            }
+            setActionBarRightText(R.string.delete)
+            setOnActionBarRightClickListener(View.OnClickListener {
+                showDeleteColumnDialog(key)
+            })
 
         }
 

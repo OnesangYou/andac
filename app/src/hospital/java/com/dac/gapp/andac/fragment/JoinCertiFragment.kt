@@ -23,7 +23,6 @@ class JoinCertiFragment : JoinBaseFragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        nextBtn.setOnClickListener { getJoinActivity().goToNextView() }
 
         // 계좌 사진 업로드
         bankAccountUploadBtn.setOnClickListener{
@@ -38,6 +37,37 @@ class JoinCertiFragment : JoinBaseFragment() {
             context?.getAlbumImage()?.subscribe {albumFile ->
                 getJoinActivity().busiRegiPicUri = albumFile
             }
+        }
+
+        // Next 버튼
+        nextBtn.setOnClickListener { _ ->
+            getJoinActivity().apply {
+
+                arrayListOf(busniss_id, bank_name, bankAccountNumberText, bankAccountMasterText).forEach {
+                    if(it.text.isNullOrEmpty()){
+                        toast(it.hint)
+                        return@setOnClickListener
+                    }
+                }
+
+                busiRegiPicUri?:let{
+                    toast("사업자등록증을 업로드하세요")
+                    return@setOnClickListener
+                }
+
+                bankAccountPicUri?:let{
+                    toast("통장사본을 업로드하세요")
+                    return@setOnClickListener
+                }
+
+                hospitalInfo.busniss_id = busniss_id.text.toString()
+                hospitalInfo.bankName = bank_name.text.toString()
+                hospitalInfo.bankAccountNumber = bankAccountNumberText.text.toString()
+                hospitalInfo.bankAccountMaster = bankAccountMasterText.text.toString()
+
+                goToNextView()
+            }
+
         }
 
     }
