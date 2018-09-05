@@ -44,20 +44,12 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         hospitalInfo = intent.getSerializableExtra(EXTRA_HOSPITAL_INFO) as HospitalInfo
         prepareUi()
         setupEvents()
-        back.setOnClickListener { finish() }
     }
 
     private fun prepareUi() {
-        // toolbar
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
-        // Get the ActionBar here to configure the way it behaves.
-        val actionBar = supportActionBar
-        actionBar!!.setDisplayShowCustomEnabled(true) //커스터마이징 하기 위해 필요
-        actionBar.setDisplayShowTitleEnabled(false)
-        actionBar.setDisplayHomeAsUpEnabled(false) // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
-
-        txtviewTitle.text = hospitalInfo.name
+        setActionBarLeft(R.drawable.back)
+        setActionBarTitle(hospitalInfo.name)
+        setActionBarRight(R.drawable.call)
         txtvieName.text = hospitalInfo.name
         txtviewAddress.text = hospitalInfo.address1
         txtviewBusinessHours.text = hospitalInfo.openDate
@@ -79,9 +71,12 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private fun setupEvents() {
-        phoneCall.setOnClickListener { v ->
+        setOnActionBarLeftClickListener(View.OnClickListener{
+            finish()
+        })
+        setOnActionBarRightClickListener(View.OnClickListener {
             startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))
-        }
+        })
     }
 
     override fun onMapReady(map: GoogleMap?) {

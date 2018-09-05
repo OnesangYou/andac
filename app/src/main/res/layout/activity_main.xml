@@ -7,47 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.dac.gapp.andac.MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/white"
-        android:fitsSystemWindows="true"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <ImageView
-            android:id="@+id/my_page"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="left"
-            android:layout_marginStart="20dp"
-            app:srcCompat="@drawable/mypage"
-            tools:ignore="ContentDescription,RtlHardcoded" />
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="70dp"
-            android:layout_height="23dp"
-            android:layout_gravity="center"
-            android:background="@drawable/andac_font" />
-
-        <ImageView
-            android:id="@+id/notification"
-            android:layout_width="23dp"
-            android:layout_height="25dp"
-            android:layout_gravity="right"
-            android:layout_marginEnd="20dp"
-            app:srcCompat="@drawable/bell"
-            tools:ignore="ContentDescription,RtlHardcoded" />
-
-
-    </android.support.v7.widget.Toolbar>
-
-
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/layoutFragmentContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -55,9 +15,7 @@
         app:layout_constraintBottom_toTopOf="@id/navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
-    </FrameLayout>
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -67,11 +25,11 @@
         android:layout_marginStart="0dp"
         android:background="?android:attr/windowBackground"
         app:itemBackground="@color/white"
+        app:itemIconTint="@color/nav_item_state_list"
+        app:itemTextColor="@color/nav_item_state_list"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:itemIconTint="@color/nav_item_state_list"
-        app:itemTextColor="@color/nav_item_state_list"
         app:menu="@menu/navigation" />
 
 </android.support.constraint.ConstraintLayout>

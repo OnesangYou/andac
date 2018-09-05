@@ -13,6 +13,7 @@ import android.view.View
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.fragment.*
 import com.dac.gapp.andac.model.ActivityResultEvent
+import com.dac.gapp.andac.util.MyToast
 import com.dac.gapp.andac.util.RxBus
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
@@ -47,18 +48,20 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // toolbar
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
-        // Get the ActionBar here to configure the way it behaves.
-        supportActionBar?.apply{
-            setDisplayShowCustomEnabled(true) //커스터마이징 하기 위해 필요
-            setDisplayShowTitleEnabled(false)
-            setDisplayHomeAsUpEnabled(false) // 뒤로가기 버튼, 디폴트로 true만 해도 백버튼이 생김
-        }
+        setOnActionBarLeftClickListener(View.OnClickListener {
+            // 로그인 상태 체크
+            if(getCurrentUser() == null){
+                goToLogin(true)
+            } else {
+                startActivity(Intent(this, MyPageActivity::class.java))
+            }
+        })
+        setOnActionBarRightClickListener(View.OnClickListener {
+            MyToast.showShort(this, "TODO: 알림 설정")
+        })
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         BottomNavigationViewHelper.removeShiftMode(navigation)
-
 
         if (savedInstanceState != null) {
             return
@@ -73,18 +76,6 @@ class MainActivity : BaseActivity() {
         // Add the fragment to the 'fragment_container' FrameLayout
         supportFragmentManager.beginTransaction()
                 .add(R.id.layoutFragmentContainer, firstFragment).commit()
-
-        // Go to My Page
-        my_page.setOnClickListener {
-
-            // 로그인 상태 체크
-            if(getCurrentUser() == null){
-                goToLogin(true)
-            } else {
-                startActivity(Intent(this, MyPageActivity::class.java))
-            }
-
-        }
     }
 
     internal object BottomNavigationViewHelper {

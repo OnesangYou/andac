@@ -10,17 +10,22 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.bumptech.glide.Glide
 import com.dac.gapp.andac.BuildConfig
 import com.dac.gapp.andac.LoginActivity
 import com.dac.gapp.andac.R
@@ -28,9 +33,7 @@ import com.dac.gapp.andac.SplashActivity
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.RxBus
-import com.dac.gapp.andac.util.UiUtil
 import com.google.android.gms.tasks.Task
-import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -40,10 +43,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.yanzhenjie.album.Album
-import com.yanzhenjie.album.AlbumFile
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.alert
 import timber.log.Timber
 
@@ -242,34 +243,37 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getHospitalInfo(uid: String? = getUid()) = uid?.let { s -> getHospital(s).get().continueWith { it.result.toObject(HospitalInfo::class.java) } }
 
+    override fun setContentView(layoutResID: Int) {
+        super.setContentView(R.layout.activity_base)
+        layoutRoot.addView(LayoutInflater.from(this).inflate(layoutResID, layoutRoot, false), 0)
 
-    fun getToolBar(): ToolBar {
-        return ToolBar(imgviewTitle, txtviewTitle, imgviewLeft, imgviewRight)
+        setSupportActionBar(layoutToolbar)
+        supportActionBar?.apply {
+            setDisplayShowCustomEnabled(true)
+            setDisplayHomeAsUpEnabled(false)
+            setDisplayShowTitleEnabled(false)
+            setDisplayShowHomeEnabled(false)
+        }
     }
 
-    class ToolBar(val imgviewTitle: ImageView, val txtviewTitle: TextView, val imgviewLeft: ImageView, val imgviewRight: ImageView) {
+    fun setActionBarLeft(resId: Int) {
+        Glide.with(this).load(resId).into(imgviewLeft)
+    }
 
-        fun setTitle(resId: Int) {
-            if (imgviewTitle != null) {
-                imgviewTitle.setBackgroundResource(resId)
-                UiUtil.visibleOrGone(false, txtviewTitle)
-                UiUtil.visibleOrGone(true, imgviewTitle)
-            }
-        }
+    fun setActionBarTitle(title: String) {
+        txtviewTitle.text = title
+    }
 
-        fun setTitle(title: String) {
-            if (txtviewTitle != null) {
-                txtviewTitle.text = title
-                UiUtil.visibleOrGone(true, txtviewTitle)
-                UiUtil.visibleOrGone(false, imgviewTitle)
-            }
-        }
+    fun setActionBarRight(resId: Int) {
+        Glide.with(this).load(resId).into(imgviewRight)
+    }
 
-        fun setRight(resId: Int) {
-            if (imgviewRight != null) {
-                imgviewRight.setBackgroundResource(resId)
-            }
-        }
+    fun setOnActionBarLeftClickListener(listener : View.OnClickListener) {
+        imgviewLeft.setOnClickListener(listener)
+    }
+
+    fun setOnActionBarRightClickListener(listener : View.OnClickListener) {
+        imgviewRight.setOnClickListener(listener)
     }
 
     fun changeFragment(newFragment: Fragment) {
@@ -390,4 +394,5 @@ abstract class BaseActivity : AppCompatActivity() {
             negativeButton("NO"){}
         }.show()
     }
+
 }
