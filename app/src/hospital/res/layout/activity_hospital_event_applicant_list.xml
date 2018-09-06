@@ -32,17 +32,19 @@
             android:layout_gravity="center"
             android:text="내 이벤트 보기"
             android:textAlignment="center"
-            tools:layout_editor_absoluteX="152dp"
-            tools:layout_editor_absoluteY="19dp" />
+
+            android:textSize="@dimen/_15sp"
+            android:textStyle="bold"
+            />
         <Button
             android:id="@+id/writeEventBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:background="#00ff0000"
-            android:text="이벤트 수정하기"
-            tools:layout_editor_absoluteX="296dp"
-            tools:layout_editor_absoluteY="4dp" />
+            android:background="@color/non"
+            android:text="이벤트수정"
+            android:textSize="@dimen/_13sp"
+            />
 
     </android.support.v7.widget.Toolbar>
 

@@ -31,6 +31,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
                 android:text="상담받을 태그신청"
+                android:textSize="@dimen/_15sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,7 +61,7 @@
                         android:button="@null"
                         android:checked="true"
                         android:gravity="center"
-                        android:text="라식" />
+                        />
 
                     <RadioButton
                         android:id="@+id/tag_2"
@@ -69,7 +71,7 @@
                         android:background="@drawable/request_insertlense_btn"
                         android:button="@null"
                         android:gravity="center"
-                        android:text="렌삽" />
+                        />
 
                     <RadioButton
                         android:id="@+id/tag_3"
@@ -79,7 +81,7 @@
                         android:background="@drawable/request_whiteeye_btn"
                         android:button="@null"
                         android:gravity="center"
-                        android:text="백내장" />
+                        />
 
                     <RadioButton
                         android:id="@+id/tag_4"
@@ -89,7 +91,7 @@
                         android:background="@drawable/request_oldeye_btn"
                         android:button="@null"
                         android:gravity="center"
-                        android:text="노안" />
+                        />
 
                     <RadioButton
                         android:id="@+id/tag_5"
@@ -99,7 +101,7 @@
                         android:background="@drawable/request_eyesick_btn"
                         android:button="@null"
                         android:gravity="center"
-                        android:text="질환" />
+                        />
                 </RadioGroup>
 
 
