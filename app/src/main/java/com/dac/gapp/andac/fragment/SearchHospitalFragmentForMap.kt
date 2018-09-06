@@ -76,7 +76,6 @@ class SearchHospitalFragmentForMap : BaseFragment() {
 
     @SuppressLint("MissingPermission")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        context!!.showProgressDialog()
         val view = inflater.inflate(R.layout.fragment_search_hospital_for_map, container, false)
         mapView = view.findViewById<View>(R.id.map) as MapView
         mapView!!.getMapAsync {
@@ -112,8 +111,6 @@ class SearchHospitalFragmentForMap : BaseFragment() {
         setupEventsOnCreate()
     }
 
-    private var isFirstTime: Boolean = true
-
     @SuppressLint("MissingPermission")
     private fun setupCurrentLocation() {
         mGoogleApiClient = GoogleApiClient.Builder(requireContext())
@@ -130,10 +127,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                             currentLatitude = location.latitude
                             currentLongitude = location.longitude
 //                            moveCamera(LatLng(currentLatitude, currentLongitude))
-                            if (isFirstTime) {
-                                searchHospital(3000)
-                                isFirstTime = false
-                            }
+                            searchHospital(3000)
                         }
                     }
 
@@ -218,8 +212,9 @@ class SearchHospitalFragmentForMap : BaseFragment() {
         val query = Query()
                 .setAroundLatLng(AbstractQuery.LatLng(currentLatitude, currentLongitude))
                 .setAroundRadius(aroundRadius)
-                .setHitsPerPage(1000) // default 20, maximum 1000
+//                .setHitsPerPage(1000) // default 20, maximum 1000
         val searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, Algolia.INDEX_NAME_HOSPITAL.value)
+        context?.showProgressDialog()
         searcher.searchable.searchAsync(query) { jsonObject, algoliaException ->
             val latLng = jsonObject.getString("params").split("&")[0].split("=")[1].split("%2C")
             Timber.d("jsonObject: ${jsonObject.toString(4)}")
@@ -245,7 +240,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 MyToast.showShort(requireContext(), "근처 병원이 없습니다!!")
             }
             moveCamera(LatLng(currentLatitude, currentLongitude))
-            context!!.hideProgressDialog()
+            context?.hideProgressDialog()
         }
     }
 
@@ -269,8 +264,10 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     }
 
     private fun moveCamera(latLng: LatLng) {
-        googleMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-        googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(14.5f))
+        googleMap?.let {
+            it.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+            it.animateCamera(CameraUpdateFactory.zoomTo(14.5f))
+        }
     }
 
     private fun showAllHospitals() {
