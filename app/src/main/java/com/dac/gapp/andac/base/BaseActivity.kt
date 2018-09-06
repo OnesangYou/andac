@@ -9,6 +9,8 @@ import android.app.PendingIntent
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.net.Uri
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
@@ -20,7 +22,6 @@ import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.bumptech.glide.Glide
@@ -244,9 +245,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getHospitalInfo(uid: String? = getUid()) = uid?.let { s -> getHospital(s).get().continueWith { it.result.toObject(HospitalInfo::class.java) } }
 
+    private var viewDataBinding: ViewDataBinding? = null
     override fun setContentView(layoutResID: Int) {
         super.setContentView(R.layout.activity_base)
-        layoutRoot.addView(LayoutInflater.from(this).inflate(layoutResID, layoutRoot, false), 0)
+        viewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(this), layoutResID, layoutRoot, true)
 
         setSupportActionBar(layoutToolbar)
         supportActionBar?.apply {
@@ -257,10 +259,25 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    fun <T : ViewDataBinding> getBinding(): T {
+        return viewDataBinding as T
+    }
+
     override fun setContentView(view: View?) {
-        val contentParent = findViewById<ViewGroup>(android.R.id.content)
-        contentParent.removeAllViews()
-        val rootView = LayoutInflater.from(this).inflate(R.layout.activity_base, contentParent, false)
+//        ensureSubDecor();
+//        ViewGroup contentParent = (ViewGroup) mSubDecor.findViewById(android.R.id.content);
+//        contentParent.removeAllViews();
+//        LayoutInflater.from(mContext).inflate(resId, contentParent);
+//        mOriginalWindowCallback.onContentChanged();
+//
+//        ensureSubDecor();
+//        ViewGroup contentParent = (ViewGroup) mSubDecor.findViewById(android.R.id.content);
+//        contentParent.removeAllViews();
+//        contentParent.addView(v);
+//        mOriginalWindowCallback.onContentChanged();
+
+//        var contentParent = findViewById(android.R.id.content);
+        val rootView = LayoutInflater.from(this).inflate(R.layout.activity_base, null, false)
         super.setContentView(rootView)
         layoutRoot.addView(view)
 

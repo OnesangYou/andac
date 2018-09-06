@@ -13,6 +13,7 @@ import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.enums.Algolia
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.fragment_search_hospital_for_list.*
+import org.json.JSONObject
 import timber.log.Timber
 
 class SearchHospitalFragmentForList : BaseFragment() {
@@ -56,12 +57,20 @@ class SearchHospitalFragmentForList : BaseFragment() {
     private fun loadHospitals() {
         val client = Client(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value)
         val index = client.getIndex(Algolia.INDEX_NAME_HOSPITAL.value)
+//            Timber.d("setSettingsAsync: ${jo.toString(4)}")
+
         // filter 에 number, objectID 칼럼 제외하고 안됨 -> 왜???????
         // _highlightResult 관련이 있나??
-        val query = Query(title)
+        val query = Query()
+        if (title.equals(getString(R.string.etc))) {
+            title = "제주"
+        }
+        query.query = title
+        query.setFacets("address1")
         query.hitsPerPage = Integer.MAX_VALUE
-//        query.filters = "address1:\"test\""
+//        query.filters = "address1:\"서울\""
 //                query.filters = "lat=36.32911"
+//            query.filters = "address1: \"seoul\"";
 //        query.filters = "number=580"
 //                query.filters = "value:\"조안과의원\""
 //        query.filters = "openDate:\"1999.10.08\""
@@ -91,6 +100,7 @@ class SearchHospitalFragmentForList : BaseFragment() {
                 }
             }
         }
+
 //        context!!.getHospitals()
 //                .get()
 //                .addOnCompleteListener({

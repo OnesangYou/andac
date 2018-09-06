@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.databinding.ActivityHospitalBinding
 import com.dac.gapp.andac.databinding.ActivityRequestConsultBinding
 import com.dac.gapp.andac.model.firebase.ConsultInfo
 import com.google.firebase.firestore.FieldValue
@@ -17,15 +18,14 @@ import timber.log.Timber
 
 class RequestSurgeryActivity : BaseActivity() {
     private lateinit var binding: ActivityRequestConsultBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.activity_request_consult, null, false)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_request_consult)
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText("1:1 상담신청서")
         setActionBarRightImage(R.drawable.delete)
         setOnActionBarLeftClickListener(View.OnClickListener { onBackPressed() })
+        binding = getBinding()
         binding.activity = this
 
         intent.getBooleanExtra("isOpen", true).let {

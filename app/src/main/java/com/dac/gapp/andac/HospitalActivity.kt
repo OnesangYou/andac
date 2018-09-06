@@ -3,7 +3,6 @@ package com.dac.gapp.andac
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -25,7 +24,8 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     private lateinit var hospitalInfo: HospitalInfo
     private lateinit var googleMap: GoogleMap
-    private lateinit var binding : ActivityHospitalBinding
+    private lateinit var binding: ActivityHospitalBinding
+
     // static method
     companion object {
         fun createIntent(context: Context, hospitalInfo: HospitalInfo?): Intent {
@@ -37,7 +37,8 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_hospital)
+        setContentView(R.layout.activity_hospital)
+        binding = getBinding()
         binding.activity = this
 
         hospitalInfo = intent.getSerializableExtra(EXTRA_HOSPITAL_INFO) as HospitalInfo
@@ -70,7 +71,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private fun setupEvents() {
-        setOnActionBarLeftClickListener(View.OnClickListener{
+        setOnActionBarLeftClickListener(View.OnClickListener {
             finish()
         })
         setOnActionBarRightClickListener(View.OnClickListener {
@@ -93,6 +94,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     fun onClickConsult(view: View) {
-        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen",false).putExtra("documentId",hospitalInfo.documentId))
+        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen", false).putExtra("documentId", hospitalInfo.documentId))
     }
 }

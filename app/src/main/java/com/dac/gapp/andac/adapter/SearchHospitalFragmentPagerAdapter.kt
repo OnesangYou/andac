@@ -24,7 +24,8 @@ class SearchHospitalFragmentPagerAdapter(val context: Context?, fm: FragmentMana
                 R.string.gwangju,
                 R.string.jeonju,
                 R.string.daejeon,
-                R.string.chungcheong
+                R.string.chungcheong,
+                R.string.etc
         )
         for (tab in tabs) {
             fragments.add(SearchHospitalFragmentForList.create(context.getString(tab)))
