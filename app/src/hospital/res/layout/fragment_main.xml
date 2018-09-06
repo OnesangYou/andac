@@ -30,27 +30,75 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/main_top_pic"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <Button
                     android:id="@+id/btnConsultingBoard"
-                    android:layout_width="0dp"
-                    android:layout_height="37dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_width="320dp"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
-                    android:background="@drawable/buttonstyle3"
+                    android:background="@drawable/buttonstyle2"
                     android:text="@string/string_consulting_board"
-                    android:textColor="@color/colorMain"
-                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@+id/btnConsultingBoard"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/imageView9">
+
+                    <Button
+                        android:id="@+id/today_visit"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/buttonstyle2"
+                        android:text="방문자수\n\n0"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="15dp"
+                        app:layout_constraintLeft_toRightOf="@+id/today_consulting" />
+
+                    <Button
+                        android:id="@+id/today_consulting"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/buttonstyle2"
+                        android:text="상담건수\n\n0"
+                        android:textColor="@color/white"
+                        android:textSize="15dp"
+                        app:chainUseRtl="true"
+                        app:layout_constraintLeft_toRightOf="@+id/today_event" />
+
+
+                    <Button
+                        android:id="@+id/today_event"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_marginLeft="16dp"
+
+                        android:background="@drawable/buttonstyle2"
+                        android:text="이벤트\n\n0"
+                        android:textColor="@color/white"
+                        android:textSize="15dp"
+                        app:chainUseRtl="true" />
+                </LinearLayout>
 
             </android.support.constraint.ConstraintLayout>
 

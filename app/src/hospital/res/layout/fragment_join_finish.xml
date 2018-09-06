@@ -66,6 +66,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/button8" />
 
             <TextView
+                android:id="@+id/textView14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="안닥관리자의 확인전에는 병원계정사용에 제약을 받습니다"
@@ -77,12 +78,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
             <ImageView
-                android:layout_width="307dp"
-                android:layout_height="254dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/andac_logo"
+                android:scaleType="centerInside"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView14"
                 tools:ignore="MissingConstraints" />
 
 

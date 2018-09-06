@@ -3,7 +3,7 @@
 
     <item>
 
-        <bitmap android:src="@drawable/message_2"
+        <bitmap android:src="@drawable/splash_long"
             android:scaleType="centerInside"
             >
 

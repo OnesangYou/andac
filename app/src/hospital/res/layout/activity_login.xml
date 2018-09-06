@@ -17,12 +17,11 @@
 
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="110dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/message_2"
+            android:scaleType="centerCrop"
+            />
 
         <TextView
             android:id="@+id/textView28"
@@ -53,18 +52,17 @@
         <Button
             android:id="@+id/goToJoin"
             android:layout_width="320dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/buttonstyle3"
+            android:layout_height="50dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/buttonstyle2"
             android:text="안닥리스트 확인 후 회원가입"
-            android:textColor="@color/colorMain"
+            android:textColor="@color/white"
             android:textSize="15dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="6dp" />
+            tools:ignore="MissingConstraints" />
 
     </android.support.constraint.ConstraintLayout>
 
