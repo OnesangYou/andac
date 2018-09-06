@@ -6,34 +6,28 @@
     android:layout_height="match_parent"
     tools:context="com.dac.gapp.andac.LoginActivity">
 
-    <LinearLayout
-        android:id="@+id/click1"
+
+    <ImageView
+        android:id="@+id/imgviewLoginBannerAd"
         android:layout_width="match_parent"
-        android:layout_height="215dp"
-        android:background="@color/red"
-        android:orientation="horizontal"
+        android:layout_height="200dp"
+        android:src="@drawable/main_top_pic"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="w,3:2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imgviewLoginBannerAd"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ad21"
-            android:scaleType="fitXY" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/id_pw_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/loginBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/click1">
+        app:layout_constraintTop_toBottomOf="@+id/imgviewLoginBannerAd">
 
 
         <EditText
@@ -54,11 +48,11 @@
             android:id="@+id/passwordLoginEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:ems="10"
             android:hint="비밀번호를 입력해주세요"
             android:inputType="textPassword"
             android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/findIdBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailEdit" />

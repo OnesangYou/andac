@@ -249,7 +249,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="20dp"
                 android:background="@color/gray"
                 android:minHeight="@dimen/album_dp_200"
                 app:layout_constraintStart_toStartOf="parent"
@@ -309,7 +309,7 @@
 
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/text_pic"
@@ -321,14 +321,18 @@
                     android:id="@+id/regionText1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="지역1" />
+                    android:text="지역선택 "
+                    android:textStyle="bold"
+                    android:textSize="@dimen/_13sp"
+                    />
 
                 <Spinner
                     android:id="@+id/regionSpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:entries="@array/region_list"
-                    android:visibility="@{isOpen}" />
+                    android:visibility="@{isOpen}"
+                    />
             </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>

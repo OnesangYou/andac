@@ -16,15 +16,51 @@
             android:background="@color/colorMain"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/main_top_pic"
+                />
+
+            <TextView
+                android:id="@+id/texts2"
+                android:layout_width="wrap_content"
+                android:layout_height="23dp"
+                android:layout_marginBottom="1dp"
+                android:text="2018년 새로운 헬스케어의 시작"
+                android:textColor="@color/white"
+                android:textSize="17dp"
+                app:layout_constraintBottom_toTopOf="@+id/texts"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/texts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="안닥에서 지금바로 상담받으세요"
+                android:textColor="@color/white"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/requestSurgery"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
             <Button
                 android:id="@+id/requestSurgery"
                 android:layout_width="320dp"
-                android:layout_height="37dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/buttonstyle3"
+                android:layout_height="50dp"
+                android:layout_marginBottom="75dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/buttonstyle2"
                 android:text="1:1 상담신청서 작성"
-                android:textColor="@color/colorMain"
-                android:textSize="15dp"
+                android:textColor="@color/white"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -32,11 +68,7 @@
                 tools:ignore="MissingConstraints" />
 
 
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+
 
         </android.support.constraint.ConstraintLayout>
 
@@ -53,17 +85,15 @@
 
             <Button
                 android:id="@+id/main_my_event"
-                android:layout_width="90dp"
+                android:layout_width="wrap_content"
                 android:layout_height="37dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginStart="6dp"
                 android:background="@color/non"
-                android:text="신청 이벤트"
+                android:text="신청한 이벤트 바로가기"
                 android:textColor="@color/colorMain"
-                android:textSize="12dp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/view4"
-                app:layout_constraintEnd_toStartOf="@+id/view3"
+                app:layout_constraintEnd_toStartOf="@+id/view5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,14 +112,12 @@
 
             <Button
                 android:id="@+id/main_my_checklist"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="37dp"
-                android:layout_marginEnd="6dp"
-                android:layout_marginStart="2dp"
                 android:background="@color/non"
                 android:text="안닥 체크리스트 / 시력검사"
                 android:textColor="@color/colorMain"
-                android:textSize="12dp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/view4"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -97,46 +125,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <Button
-                android:id="@+id/main_my_consulting"
-                android:layout_width="90dp"
-                android:layout_height="37dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginStart="2dp"
-                android:background="@color/non"
-                android:text="내 상담내역"
-                android:textColor="@color/colorMain"
-                android:textSize="12dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/view4"
-                app:layout_constraintEnd_toStartOf="@+id/view5"
-                app:layout_constraintStart_toEndOf="@+id/view3"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <View
-                android:id="@+id/view3"
-                android:layout_width="2px"
-                android:layout_height="40dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginStart="4dp"
-                android:background="@color/colorMain"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/main_my_consulting"
-                app:layout_constraintStart_toEndOf="@+id/main_my_event"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <View
                 android:id="@+id/view5"
                 android:layout_width="2px"
                 android:layout_height="40dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginStart="4dp"
                 android:background="@color/colorMain"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/main_my_checklist"
-                app:layout_constraintStart_toEndOf="@+id/main_my_consulting"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="197dp" />
 
 
         </android.support.constraint.ConstraintLayout>
