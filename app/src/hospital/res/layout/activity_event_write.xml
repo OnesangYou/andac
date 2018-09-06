@@ -1,53 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.dac.gapp.andac.EventWriteActivity">
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        android:fitsSystemWindows="true">
-        <ImageButton
-            android:id="@+id/back"
-            android:layout_width="15dp"
-            android:layout_height="25dp"
-            android:background="@drawable/back"
-            android:layout_gravity="left"
-            android:layout_marginLeft="20dp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:text="이벤트 등록/수정"
-            android:textSize="@dimen/_15sp"
-            android:textStyle="bold"
-            android:textAlignment="center" />
-
-        <Button
-            android:id="@+id/deleteBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00ff0000"
-            android:text="삭제"
-            android:visibility="invisible"
-            android:layout_gravity="right"/>
-    </android.support.v7.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -81,8 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:textSize="@dimen/_13sp"
                 android:text="이벤트 금액 입력"
+                android:textSize="@dimen/_13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
@@ -151,8 +115,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:textSize="@dimen/_13sp"
                 android:text="광고 하단, 세부 이미지를 설정해주세요. 너비는 동일 아래로 긴 이미지"
+                android:textSize="@dimen/_13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/topImage" />
 
@@ -202,10 +166,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginTop="8dp"
-                android:text="완료"
-                android:textSize="17dp"
-                android:textColor="@color/white"
                 android:background="@color/colorMain"
+                android:text="완료"
+                android:textColor="@color/white"
+                android:textSize="17dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bottomImage" />
@@ -213,7 +177,6 @@
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
-    
 
 
 </LinearLayout>

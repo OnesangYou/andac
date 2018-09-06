@@ -274,11 +274,11 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun showActionBarLeft() {
-        UiUtil.visibleOrGone(true, imgviewLeft, txtviewLeft)
+        UiUtil.visibleOrGone(true, layoutLeft, imgviewLeft, txtviewLeft)
     }
 
     fun hidActionBarLeft() {
-        UiUtil.visibleOrGone(false, imgviewLeft, txtviewLeft)
+        UiUtil.visibleOrGone(false, layoutLeft, imgviewLeft, txtviewLeft)
     }
 
     fun showActionBarCenter() {
@@ -290,11 +290,11 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun showActionBarRight() {
-        UiUtil.visibleOrGone(true, imgviewRight, txtviewRight)
+        UiUtil.visibleOrGone(true, layoutRight, imgviewRight, txtviewRight)
     }
 
     fun hidActionBarRight() {
-        UiUtil.visibleOrGone(false, imgviewRight, txtviewRight)
+        UiUtil.visibleOrGone(false, layoutRight, imgviewRight, txtviewRight)
     }
 
     fun setActionBarLeftImage(resId: Int) {
@@ -342,13 +342,11 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun setOnActionBarLeftClickListener(listener: View.OnClickListener) {
-        imgviewLeft.setOnClickListener(listener)
-        txtviewLeft.setOnClickListener(listener)
+        layoutLeft.setOnClickListener(listener)
     }
 
     fun setOnActionBarRightClickListener(listener: View.OnClickListener) {
-        imgviewRight.setOnClickListener(listener)
-        txtviewRight.setOnClickListener(listener)
+        layoutRight.setOnClickListener(listener)
     }
 
     fun changeFragment(newFragment: Fragment) {
