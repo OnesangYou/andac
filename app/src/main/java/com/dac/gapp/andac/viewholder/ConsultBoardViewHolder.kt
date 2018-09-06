@@ -29,7 +29,7 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
 
         if(isOpen){
             db.collection("openConsult")
-                    .document(hUid)
+                    .document(uUid)
                     .collection("content")
                     .document(uUid)
                     .get()

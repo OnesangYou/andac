@@ -10,8 +10,8 @@ object Bindings{
     @SuppressLint("SimpleDateFormat")
     @BindingConversion
     @JvmStatic
-    fun convertDateToText(date: Date): String? {
-        return date.toString()
+    fun convertDateToText(date: Date?): String? {
+        return date?.toString()?:""
     }
 
     @BindingConversion

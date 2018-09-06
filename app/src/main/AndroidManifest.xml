@@ -20,9 +20,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDkkpBXY7N4YbP0JSuOZJdma17MQ9k4g5E" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/andac_logo" />
 
         <activity android:name=".MainActivity" />
         <activity android:name=".RequestSurgeryActivity" />
@@ -37,6 +42,20 @@
         <activity android:name=".HospitalColumnListActivity" />
         <activity android:name=".JoinPhoneActivity" />
         <activity android:name=".ConsultBoardActivity" />
+
+        <service
+            android:name=".util.FcmSendService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".util.FcmInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
