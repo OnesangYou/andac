@@ -67,6 +67,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     val mLocationListener = LocationListener {
         currentLatitude = it.latitude
         currentLongitude = it.longitude
+        Timber.d("$currentLatitude, $currentLongitude")
 
         googleMap!!.moveCamera(CameraUpdateFactory.newLatLng(LatLng(currentLatitude, currentLongitude)))
         googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(10f))
@@ -78,9 +79,10 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_search_hospital_for_map, container, false)
         mapView = view.findViewById<View>(R.id.map) as MapView
-        mapView!!.getMapAsync {
+        mapView?.getMapAsync {
             it.isMyLocationEnabled = true
             googleMap = it
+            moveCamera(LatLng(37.56, 126.97))
             googleMap?.setOnMarkerClickListener { marker ->
                 prevMarker?.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_on))
                 marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_clickpin))
@@ -126,6 +128,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                             //If everything went fine lets get latitude and longitude
                             currentLatitude = location.latitude
                             currentLongitude = location.longitude
+                            Timber.d("$currentLatitude, $currentLongitude")
 //                            moveCamera(LatLng(currentLatitude, currentLongitude))
                             searchHospital(3000)
                         }
@@ -208,7 +211,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     }
 
     private fun searchHospital(aroundRadius: Int) {
-        MyToast.showShort(requireContext(), "($currentLatitude, $currentLongitude), ${aroundRadius / 1000}km")
+//        MyToast.showShort(requireContext(), "($currentLatitude, $currentLongitude), ${aroundRadius / 1000}km")
         val query = Query()
                 .setAroundLatLng(AbstractQuery.LatLng(currentLatitude, currentLongitude))
                 .setAroundRadius(aroundRadius)
@@ -217,10 +220,10 @@ class SearchHospitalFragmentForMap : BaseFragment() {
         context?.showProgressDialog()
         searcher.searchable.searchAsync(query) { jsonObject, algoliaException ->
             val latLng = jsonObject.getString("params").split("&")[0].split("=")[1].split("%2C")
-            Timber.d("jsonObject: ${jsonObject.toString(4)}")
+//            Timber.d("jsonObject: ${jsonObject.toString(4)}")
 
             if (jsonObject.has(Algolia.HITS.value) && jsonObject.getJSONArray(Algolia.HITS.value).length() > 0) {
-                Timber.d("jsonObject: ${jsonObject.getJSONArray(Algolia.HITS.value).getJSONObject(0).getString(Algolia.NAME.value)}")
+//                Timber.d("jsonObject: ${jsonObject.getJSONArray(Algolia.HITS.value).getJSONObject(0).getString(Algolia.NAME.value)}")
                 val hits = jsonObject.getJSONArray(Algolia.HITS.value)
                 var i = 0
                 while (i < hits.length()) {
@@ -235,9 +238,9 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 Timber.d("currentLatitude, currentLatitude $currentLatitude, $currentLongitude")
                 Timber.d("lat, lng: $latLng")
                 Timber.d("algoliaException: $algoliaException")
-                MyToast.showShort(requireContext(), "근처 병원 ${hits.length()}개를 찾았습니다!!")
+//                MyToast.showShort(requireContext(), "근처 병원 ${hits.length()}개를 찾았습니다!!")
             } else {
-                MyToast.showShort(requireContext(), "근처 병원이 없습니다!!")
+                MyToast.showShort(requireContext(), "근처에 병원이 없습니다!!")
             }
             moveCamera(LatLng(currentLatitude, currentLongitude))
             context?.hideProgressDialog()
@@ -266,7 +269,8 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     private fun moveCamera(latLng: LatLng) {
         googleMap?.let {
             it.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-            it.animateCamera(CameraUpdateFactory.zoomTo(14.5f))
+            // 14.5f
+            it.animateCamera(CameraUpdateFactory.zoomTo(14.0f))
         }
     }
 
@@ -324,9 +328,11 @@ class SearchHospitalFragmentForMap : BaseFragment() {
         super.onPause()
         mapView!!.onPause()
         //Disconnect from API onPause()
-        if (mGoogleApiClient!!.isConnected) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, mLocationListener)
-            mGoogleApiClient!!.disconnect()
+        mGoogleApiClient?.let {
+            if (it.isConnected) {
+                LocationServices.FusedLocationApi.removeLocationUpdates(it, mLocationListener)
+                it.disconnect()
+            }
         }
     }
 

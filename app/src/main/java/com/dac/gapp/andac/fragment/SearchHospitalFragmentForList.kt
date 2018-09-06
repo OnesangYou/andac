@@ -18,9 +18,10 @@ import timber.log.Timber
 
 class SearchHospitalFragmentForList : BaseFragment() {
 
-    private var hospitals: HashMap<String, HospitalInfo> = HashMap()
-
-    var title: String = ""
+    lateinit var title: String
+    private var isEtcEnd: Boolean = false
+    private val etcList: MutableList<Int> = mutableListOf(R.string.jeju, R.string.gangwon)
+    private val hospitalList = mutableListOf<HospitalInfo>()
 
     // static method
     companion object {
@@ -42,30 +43,51 @@ class SearchHospitalFragmentForList : BaseFragment() {
         prepareUi()
     }
 
+
     private fun prepareUi() {
         setupRecyclerView()
-        loadHospitals()
+        if (isEtc()) {
+            if (isEtcEnd) {
+                recyclerView?.apply {
+                    adapter = SearchHospitalRecyclerViewAdapter(context, hospitalList)
+                }
+            } else {
+                for (etc in etcList) {
+                    loadHospitals(getString(etc))
+                    if (etc == etcList.last())
+                        isEtcEnd = true
+                }
+            }
+        } else {
+            if (hospitalList.size > 0) {
+                recyclerView?.apply {
+                    adapter = SearchHospitalRecyclerViewAdapter(context, hospitalList)
+                }
+            } else {
+                loadHospitals(title)
+            }
+        }
     }
 
     private fun setupRecyclerView() {
-        recyclerView.setHasFixedSize(true)
-        val lm = LinearLayoutManager(context)
-        lm.orientation = LinearLayoutManager.VERTICAL
-        recyclerView.layoutManager = lm
+        val lm = LinearLayoutManager(context).apply {
+            orientation = LinearLayoutManager.VERTICAL
+        }
+        recyclerView?.apply {
+            setHasFixedSize(true)
+            layoutManager = lm
+        }
     }
 
-    private fun loadHospitals() {
+    private fun isEtc(): Boolean {
+        return title == getString(R.string.etc)
+    }
+
+    private fun loadHospitals(queryString: String) {
         val client = Client(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value)
         val index = client.getIndex(Algolia.INDEX_NAME_HOSPITAL.value)
-//            Timber.d("setSettingsAsync: ${jo.toString(4)}")
-
-        // filter 에 number, objectID 칼럼 제외하고 안됨 -> 왜???????
-        // _highlightResult 관련이 있나??
         val query = Query()
-        if (title.equals(getString(R.string.etc))) {
-            title = "제주"
-        }
-        query.query = title
+        query.query = queryString
         query.setFacets("address1")
         query.hitsPerPage = Integer.MAX_VALUE
 //        query.filters = "address1:\"서울\""
@@ -80,23 +102,23 @@ class SearchHospitalFragmentForList : BaseFragment() {
         //강원도 삼척시 남양동 55-46번지 / 580 /
         index.searchAsync(query) { jsonObject, AlgoliaException ->
             if (jsonObject == null) return@searchAsync
-
-            Timber.d("jsonObject: ${jsonObject.toString(4)}")
-
             if (jsonObject.has(Algolia.HITS.value) && jsonObject.getJSONArray(Algolia.HITS.value).length() > 0) {
-                val itemList: ArrayList<HospitalInfo> = ArrayList()
                 Timber.d("jsonObject: ${jsonObject.getJSONArray(Algolia.HITS.value).getJSONObject(0).getString(Algolia.NAME.value)}")
                 val hits = jsonObject.getJSONArray(Algolia.HITS.value)
                 var i = 0
                 while (i < hits.length()) {
                     val jo = hits.getJSONObject(i)
-                    Timber.d("jsonObject[$i]: ${jo.toString(4)}")
-                    itemList.add(HospitalInfo.create(jo))
+//                    Timber.d("jsonObject[$i]: ${jo.toString(4)}")
+                    hospitalList.add(HospitalInfo.create(jo))
                     i++
                 }
 
                 recyclerView?.apply {
-                    adapter = SearchHospitalRecyclerViewAdapter(context, itemList)
+                    if (isEtc()) {
+                        if (isEtcEnd) adapter = SearchHospitalRecyclerViewAdapter(context, hospitalList)
+                    } else {
+                        adapter = SearchHospitalRecyclerViewAdapter(context, hospitalList)
+                    }
                 }
             }
         }

@@ -108,6 +108,8 @@
     <string name="column_upload">컬럼 올리기</string>
     <string name="delete">삭제</string>
     <string name="etc">그외</string>
+    <string name="jeju">제주</string>
+    <string name="gangwon">강원</string>
 
 </resources>
 
