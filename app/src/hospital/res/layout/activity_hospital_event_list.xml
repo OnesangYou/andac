@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" >
         <ImageView
             android:id="@+id/back"
-            android:layout_width="25dp"
+            android:layout_width="15dp"
             android:layout_height="25dp"
             android:layout_gravity="left"
             android:layout_marginStart="20dp"
@@ -32,19 +32,19 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="내 이벤트 리스트 보기"
-            android:textAlignment="center"
-            tools:layout_editor_absoluteX="152dp"
-            tools:layout_editor_absoluteY="19dp" />
+            android:textStyle="bold"
+            android:textSize="@dimen/_15sp"
+            />
 
         <Button
             android:id="@+id/writeEventBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:background="#00ff0000"
-            android:text="이벤트 작성하기"
-            tools:layout_editor_absoluteX="296dp"
-            tools:layout_editor_absoluteY="4dp" />
+            android:background="@color/non"
+            android:text="이벤트작성"
+            android:layout_marginRight="5dp"
+            />
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
