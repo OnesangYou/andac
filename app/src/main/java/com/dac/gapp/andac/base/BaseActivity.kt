@@ -44,6 +44,8 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import io.reactivex.Observable
+import io.reactivex.functions.Action
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.alert
 import timber.log.Timber
@@ -261,33 +263,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun <T : ViewDataBinding> getBinding(): T {
         return viewDataBinding as T
-    }
-
-    override fun setContentView(view: View?) {
-//        ensureSubDecor();
-//        ViewGroup contentParent = (ViewGroup) mSubDecor.findViewById(android.R.id.content);
-//        contentParent.removeAllViews();
-//        LayoutInflater.from(mContext).inflate(resId, contentParent);
-//        mOriginalWindowCallback.onContentChanged();
-//
-//        ensureSubDecor();
-//        ViewGroup contentParent = (ViewGroup) mSubDecor.findViewById(android.R.id.content);
-//        contentParent.removeAllViews();
-//        contentParent.addView(v);
-//        mOriginalWindowCallback.onContentChanged();
-
-//        var contentParent = findViewById(android.R.id.content);
-        val rootView = LayoutInflater.from(this).inflate(R.layout.activity_base, null, false)
-        super.setContentView(rootView)
-        layoutRoot.addView(view)
-
-        setSupportActionBar(layoutToolbar)
-        supportActionBar?.apply {
-            setDisplayShowCustomEnabled(true)
-            setDisplayHomeAsUpEnabled(false)
-            setDisplayShowTitleEnabled(false)
-            setDisplayShowHomeEnabled(false)
-        }
     }
 
     fun showActionBar() {

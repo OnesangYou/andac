@@ -47,20 +47,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setActionBarLeftImage(R.drawable.mypage)
-        setActionBarCenterImage(R.drawable.andac_font)
-        setActionBarRightImage(R.drawable.bell)
-        setOnActionBarLeftClickListener(View.OnClickListener {
-            // 로그인 상태 체크
-            if(getCurrentUser() == null){
-                goToLogin(true)
-            } else {
-                startActivity(Intent(this, MyPageActivity::class.java))
-            }
-        })
-        setOnActionBarRightClickListener(View.OnClickListener {
-            MyToast.showShort(this, "TODO: 알림 설정")
-        })
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         BottomNavigationViewHelper.removeShiftMode(navigation)

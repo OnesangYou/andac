@@ -11,12 +11,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.EventDetailActivity
+import com.dac.gapp.andac.MyPageActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.util.MyToast
 import com.dac.gapp.andac.util.OnItemClickListener
 import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Task
@@ -42,7 +44,7 @@ class EventListFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        prepareUi()
         resetData()
 
         // set recyclerView
@@ -76,6 +78,25 @@ class EventListFragment : BaseFragment() {
 
         // default
         setAdapter(getString(R.string.buy_count))
+    }
+
+    private fun prepareUi() {
+        context?.let { context ->
+            context.setActionBarLeftImage(R.drawable.mypage)
+            context.setActionBarCenterImage(R.drawable.andac_font)
+            context.setActionBarRightImage(R.drawable.bell)
+            context.setOnActionBarLeftClickListener(View.OnClickListener {
+                // 로그인 상태 체크
+                if (getCurrentUser() == null) {
+                    goToLogin(true)
+                } else {
+                    startActivity(Intent(context, MyPageActivity::class.java))
+                }
+            })
+            context.setOnActionBarRightClickListener(View.OnClickListener {
+                MyToast.showShort(context, "TODO: 알림 설정")
+            })
+        }
     }
 
     private fun setAdapter(type : String = getString(R.string.buy_count), direction : Query.Direction = Query.Direction.DESCENDING) {
