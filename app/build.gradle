@@ -42,7 +42,7 @@ android {
         user {
             dimension "target"
             applicationIdSuffix ".user"
-            manifestPlaceholders = [appLabel: "ANDAC USER"]
+            manifestPlaceholders = [appLabel: "안닥"]
             buildConfigField 'boolean', 'IS_USER', "true"
             versionCode new Date().format('yyMMddHHmm').toInteger()
         }
@@ -50,7 +50,7 @@ android {
         hospital {
             dimension "target"
             applicationIdSuffix ".hospital"
-            manifestPlaceholders = [appLabel: "ANDAC HOSPITAL"]
+            manifestPlaceholders = [appLabel: "안닥 (병원용)"]
             buildConfigField 'boolean', 'IS_USER', "false"
             versionCode new Date().format('yyMMddHHmm').toInteger()
         }

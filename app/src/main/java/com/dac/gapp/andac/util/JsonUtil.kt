@@ -4,8 +4,16 @@ import org.json.JSONObject
 
 class JsonUtil {
     companion object {
-        fun <T> getData(jsonObject: JSONObject, name: String): T {
-            return if (jsonObject.has(name)) jsonObject.get(name) as T else Any() as T
+        fun getInt(jsonObject: JSONObject, name: String): Int {
+            return if (jsonObject.has(name)) jsonObject.get(name) as Int else 0
+        }
+
+        fun getDouble(jsonObject: JSONObject, name: String): Double {
+            return if (jsonObject.has(name)) jsonObject.get(name) as Double else 0.0
+        }
+
+        fun getString(jsonObject: JSONObject, name: String): String {
+            return if (jsonObject.has(name)) jsonObject.get(name) as String else ""
         }
 
         fun getObject(jsonObject: JSONObject, name: String): JSONObject {
