@@ -68,6 +68,8 @@ class HospitalInfo : Serializable {
     var bankAccountNumber: String = ""
     var bankAccountMaster: String = ""
 
+    var requestStr: String = ""
+
     fun getLatLng(): LatLng {
         return LatLng(_geoloc.lat!!, _geoloc.lng!!)
     }

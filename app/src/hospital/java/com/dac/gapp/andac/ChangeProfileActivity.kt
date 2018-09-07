@@ -45,6 +45,7 @@ class ChangeProfileActivity : BaseActivity() {
                     }
                     ?.addOnCompleteListener { hideProgressDialog() }
                     ?.addOnSuccessListener { toast("프로필 변경 완료되었습니다"); finish() }
+                    ?:hideProgressDialog()
         }
     }
 
