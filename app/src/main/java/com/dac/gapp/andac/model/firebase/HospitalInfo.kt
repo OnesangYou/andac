@@ -1,6 +1,7 @@
 package com.dac.gapp.andac.model.firebase
 
 import com.dac.gapp.andac.enums.Algolia
+import com.dac.gapp.andac.util.JsonUtil
 import com.google.android.gms.maps.model.LatLng
 import org.json.JSONObject
 import java.io.Serializable
@@ -11,19 +12,20 @@ class HospitalInfo : Serializable {
     companion object {
         fun create(jo: JSONObject): HospitalInfo {
             val hospitalInfo = HospitalInfo()
-            hospitalInfo.documentId = jo.getString(Algolia.OBJECT_ID.value)
-            hospitalInfo.address1 = jo.getString(Algolia.ADDRESS1.value)
-            hospitalInfo.address2 = jo.getString(Algolia.ADDRESS2.value)
-            hospitalInfo.name = jo.getString(Algolia.NAME.value)
-            hospitalInfo.number = if (jo.has(Algolia.NUMBER.value)) jo.getInt(Algolia.NUMBER.value) else 0
-            hospitalInfo.openDate = jo.getString(Algolia.OPEN_DATE.value)
-            hospitalInfo.phone = jo.getString(Algolia.PHONE.value)
-            hospitalInfo.status = jo.getString(Algolia.STATUS.value)
-            hospitalInfo.type = jo.getString(Algolia.TYPE.value)
-            hospitalInfo.profilePicUrl = if (jo.has("profilePicUrl")) jo.getString("profilePicUrl") else ""
+            hospitalInfo.documentId = JsonUtil.getData(jo, Algolia.OBJECT_ID.value)
+            hospitalInfo.address1 = JsonUtil.getData(jo, Algolia.ADDRESS1.value)
+            hospitalInfo.address2 = JsonUtil.getData(jo, Algolia.ADDRESS2.value)
+            hospitalInfo.name = JsonUtil.getData(jo, Algolia.NAME.value)
+            hospitalInfo.number = JsonUtil.getData(jo, Algolia.NUMBER.value)
+            hospitalInfo.openDate = JsonUtil.getData(jo, Algolia.OPEN_DATE.value)
+            hospitalInfo.phone = JsonUtil.getData(jo, Algolia.PHONE.value)
+            hospitalInfo.status = JsonUtil.getData(jo, Algolia.STATUS.value)
+            hospitalInfo.type = JsonUtil.getData(jo, Algolia.TYPE.value)
+            hospitalInfo.profilePicUrl = JsonUtil.getData(jo, "profilePicUrl")
             val geoLocation = GeoLocation()
-            geoLocation.lat = jo.getJSONObject(Algolia.GEOLOC.value).getDouble(Algolia.LAT.value)
-            geoLocation.lng = jo.getJSONObject(Algolia.GEOLOC.value).getDouble(Algolia.LNG.value)
+            val geoJO = JsonUtil.getObject(jo, Algolia.GEOLOC.value)
+            geoLocation.lat = JsonUtil.getData(geoJO, Algolia.LAT.value)
+            geoLocation.lng = JsonUtil.getData(geoJO, Algolia.LNG.value)
             hospitalInfo._geoloc = geoLocation
             return hospitalInfo
         }
@@ -62,9 +64,9 @@ class HospitalInfo : Serializable {
 
     var busniss_id: String = ""
 
-    var bankName : String = ""
-    var bankAccountNumber : String = ""
-    var bankAccountMaster : String = ""
+    var bankName: String = ""
+    var bankAccountNumber: String = ""
+    var bankAccountMaster: String = ""
 
     fun getLatLng(): LatLng {
         return LatLng(_geoloc.lat!!, _geoloc.lng!!)
