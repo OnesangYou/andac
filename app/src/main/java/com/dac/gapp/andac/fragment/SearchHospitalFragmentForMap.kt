@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.IntentSender
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import android.widget.Toast
 import com.algolia.instantsearch.helpers.Searcher
 import com.algolia.search.saas.AbstractQuery
 import com.algolia.search.saas.Query
+import com.bumptech.glide.Glide
 import com.dac.gapp.andac.HospitalActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_search_hospital_for_map.*
 import kotlinx.android.synthetic.main.row.view.*
 import timber.log.Timber
@@ -69,8 +70,8 @@ class SearchHospitalFragmentForMap : BaseFragment() {
         currentLongitude = it.longitude
         Timber.d("$currentLatitude, $currentLongitude")
 
-        googleMap!!.moveCamera(CameraUpdateFactory.newLatLng(LatLng(currentLatitude, currentLongitude)))
-        googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(10f))
+        googleMap?.moveCamera(CameraUpdateFactory.newLatLng(LatLng(currentLatitude, currentLongitude)))
+        googleMap?.animateCamera(CameraUpdateFactory.zoomTo(10f))
     }
 
     private var prevMarker: Marker? = null
@@ -79,24 +80,25 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_search_hospital_for_map, container, false)
         mapView = view.findViewById<View>(R.id.map) as MapView
-        mapView?.getMapAsync {
-            it.isMyLocationEnabled = true
-            googleMap = it
+        mapView?.getMapAsync { map ->
+            map.isMyLocationEnabled = true
+            googleMap = map
             moveCamera(LatLng(37.56, 126.97))
             googleMap?.setOnMarkerClickListener { marker ->
                 prevMarker?.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_on))
                 marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_clickpin))
                 layoutHospitalInfo.visibility = View.VISIBLE
                 val hospitalInfo = hospitals[marker.tag.toString()]
-                // 병원 이미지는 일단 임시로
-                layoutHospitalInfo.imgview_thumbnail.setBackgroundResource(R.drawable.wook1_plash)
-                layoutHospitalInfo.txtview_title.text = hospitalInfo!!.name
-                layoutHospitalInfo.txtview_address.text = hospitalInfo.address1
-                layoutHospitalInfo.txtview_phone.text = hospitalInfo.phone
-                // 병원 하트 카운트는 어디서??
-                layoutHospitalInfo.heart_count.text = "1"
-                layoutHospitalInfo.setOnClickListener {
-                    startActivity(HospitalActivity.createIntent(thisActivity(), hospitalInfo))
+                hospitalInfo?.let { info ->
+                    Glide.with(this).load(info.profilePicUrl).into(layoutHospitalInfo.imgview_thumbnail)
+                    layoutHospitalInfo.txtview_title.text = info.name
+                    layoutHospitalInfo.txtview_address.text = info.address1
+                    layoutHospitalInfo.txtview_phone.text = info.phone
+                    // TODO 병원 하트 카운트는 어디서??
+                    layoutHospitalInfo.heart_count.text = "1"
+                    layoutHospitalInfo.setOnClickListener {
+                        startActivity(HospitalActivity.createIntent(thisActivity(), hospitalInfo))
+                    }
                 }
                 prevMarker = marker
                 true
@@ -112,6 +114,8 @@ class SearchHospitalFragmentForMap : BaseFragment() {
         setupCurrentLocation()
         setupEventsOnCreate()
     }
+
+    private var mDisposable: Disposable? = null
 
     @SuppressLint("MissingPermission")
     private fun setupCurrentLocation() {
@@ -130,7 +134,12 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                             currentLongitude = location.longitude
                             Timber.d("$currentLatitude, $currentLongitude")
 //                            moveCamera(LatLng(currentLatitude, currentLongitude))
-                            searchHospital(3000)
+                            mDisposable = SearchHospitalFragment.observeCurrentPosition()
+                                    .subscribe { currentPosition ->
+                                        if (currentPosition == 0) {
+                                            searchHospital(3000)
+                                        }
+                                    }
                         }
                     }
 
@@ -180,7 +189,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
 
     private fun setupEventsOnCreate() {
         btnClearMarkers.setOnClickListener {
-            googleMap!!.clear()
+            googleMap?.clear()
         }
         btnShowAllHospitals.setOnClickListener {
             showAllHospitals()
@@ -201,11 +210,11 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 val markerOptions = MarkerOptions()
                 markerOptions.position(latLng)
                 markerOptions.title(etAddress.text.toString())
-                googleMap!!.addMarker(markerOptions)
-                googleMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                googleMap!!.animateCamera(CameraUpdateFactory.zoomTo(10f))
+                googleMap?.addMarker(markerOptions)
+                googleMap?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+                googleMap?.animateCamera(CameraUpdateFactory.zoomTo(10f))
             } else {
-                Toast.makeText(context, "주소가 올바르지 않습니다!!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "주소가 올바르지 않습니다?", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -238,9 +247,9 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 Timber.d("currentLatitude, currentLatitude $currentLatitude, $currentLongitude")
                 Timber.d("lat, lng: $latLng")
                 Timber.d("algoliaException: $algoliaException")
-//                MyToast.showShort(requireContext(), "근처 병원 ${hits.length()}개를 찾았습니다!!")
+//                MyToast.showShort(requireContext(), "근처 병원 ${hits.length()}개를 찾았습니다?")
             } else {
-                MyToast.showShort(requireContext(), "근처에 병원이 없습니다!!")
+                MyToast.showShort(requireContext(), "근처에 병원이 없습니다?")
             }
             moveCamera(LatLng(currentLatitude, currentLongitude))
             context?.hideProgressDialog()
@@ -275,21 +284,22 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     }
 
     private fun showAllHospitals() {
-        context!!.getHospitals()
-                .get()
-                .addOnCompleteListener {
+        context?.getHospitals()
+                ?.get()
+                ?.addOnCompleteListener {
                     Thread {
                         if (it.isSuccessful) {
                             for (document in it.result) {
                                 //                            Timber.d(document.id + " => " + document.data)
                                 hospitals[document.id] = document.toObject(HospitalInfo::class.java)
                                 val hospitalInfo = hospitals[document.id]
-                                val address = if (hospitalInfo!!.address1 != "") hospitalInfo.address1 else hospitalInfo.address2
-                                addMarker(document.id, hospitalInfo.getLatLng())
+                                hospitalInfo?.let {
+                                    addMarker(document.id, hospitalInfo.getLatLng())
+                                }
                                 //                                Timber.d("${hospitalInfo.name} ${hospitalInfo._geoloc}")
                             }
-                            context!!.runOnUiThread {
-                                MyToast.showShort(requireContext(), "근처 병원 ${it.result.size()}개를 찾았습니다!!")
+                            context?.runOnUiThread {
+                                MyToast.showShort(requireContext(), "근처 병원 ${it.result.size()}개를 찾았습니다?")
                             }
                         } else {
                             Timber.w("Error getting documents. ${it.exception}")
@@ -299,34 +309,32 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     }
 
     // activity 가 아닌 fragment 에서 google map 을 사용할 때 lifecycle 마다 정의 해줘야 하는 것 같음...
-    // 안해주면 fragment 에서 google map 안뜸!!
+    // 안해주면 fragment 에서 google map 안뜸?
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (mapView != null) {
-            mapView!!.onCreate(savedInstanceState)
-        }
+        mapView?.onCreate(savedInstanceState)
     }
 
     override fun onStart() {
         super.onStart()
-        mapView!!.onStart()
+        mapView?.onStart()
     }
 
     override fun onResume() {
         super.onResume()
-        mapView!!.onResume()
-        mGoogleApiClient!!.connect()
+        mapView?.onResume()
+        mGoogleApiClient?.connect()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        mapView!!.onSaveInstanceState(outState)
+        mapView?.onSaveInstanceState(outState)
     }
 
     override fun onPause() {
         super.onPause()
-        mapView!!.onPause()
+        mapView?.onPause()
         //Disconnect from API onPause()
         mGoogleApiClient?.let {
             if (it.isConnected) {
@@ -334,20 +342,21 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 it.disconnect()
             }
         }
+        mDisposable?.dispose()
     }
 
     override fun onStop() {
         super.onStop()
-        mapView!!.onStop()
+        mapView?.onStop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mapView!!.onDestroy()
+        mapView?.onDestroy()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        mapView!!.onLowMemory()
+        mapView?.onLowMemory()
     }
 }

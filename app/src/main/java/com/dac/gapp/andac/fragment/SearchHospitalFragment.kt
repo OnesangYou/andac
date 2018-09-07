@@ -4,6 +4,7 @@ package com.dac.gapp.andac.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,8 @@ import com.dac.gapp.andac.adapter.SearchHospitalFragmentPagerAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.firebase.HospitalInfo
-import kotlinx.android.synthetic.main.activity_board_write.*
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.fragment_search_hospital.*
 
 
@@ -24,6 +26,13 @@ import kotlinx.android.synthetic.main.fragment_search_hospital.*
  * A simple [Fragment] subclass.
  */
 class SearchHospitalFragment : BaseFragment() {
+
+    companion object {
+        private val mCurrentPositionBehaviorSubject: BehaviorSubject<Int> = BehaviorSubject.createDefault(0)
+        fun observeCurrentPosition(): Observable<Int> {
+            return mCurrentPositionBehaviorSubject.hide()
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -56,6 +65,18 @@ class SearchHospitalFragment : BaseFragment() {
         viewPager.adapter = SearchHospitalFragmentPagerAdapter(context, childFragmentManager)
         viewPager.offscreenPageLimit = 11
         layoutTab.setupWithViewPager(viewPager)
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                mCurrentPositionBehaviorSubject.onNext(position)
+            }
+
+        })
     }
 
     private fun setupEventsOnCreate() {
