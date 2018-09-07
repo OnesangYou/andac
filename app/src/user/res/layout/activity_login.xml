@@ -116,7 +116,7 @@
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:background="@color/colorMain"
         android:text="로그인"
         android:textColor="@color/white"
