@@ -15,7 +15,7 @@
         android:layout_marginTop="8dp"
         android:text="아래 5개중 게시글의 테그를 선택해 주세요"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/profilePic"

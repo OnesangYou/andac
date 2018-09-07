@@ -147,18 +147,6 @@
         </LinearLayout>
     </ScrollView>
 
-
-    <TextView
-        android:id="@+id/waitApprovalView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:text="@string/waitApproval"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <include
         android:id="@+id/layoutHospitalInfo"
         layout="@layout/row"

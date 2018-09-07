@@ -29,13 +29,6 @@ class MyPageActivity : BaseHospitalActivity() {
             }
         })
 
-        // Check Approval
-        showProgressDialog()
-        onCheckApproval { isApproval ->
-            UiUtil.visibleOrGone(isApproval, scroll_mypage)
-            hideProgressDialog()
-        }
-
         // Set Profile
         getHospital()?.get()?.addOnSuccessListener { documentSnapshot ->
             val hospitalInfo = documentSnapshot.toObject(HospitalInfo::class.java)
@@ -44,6 +37,11 @@ class MyPageActivity : BaseHospitalActivity() {
                 txtview_title.text = hospitalInfo.name
                 txtview_address.text = hospitalInfo.address2
                 txtview_phone.text = hospitalInfo.phone
+
+                // check approval
+                if(!hospitalInfo.isApproval){
+                    toast(hospitalInfo.requestStr)
+                }
             }
         }
 
