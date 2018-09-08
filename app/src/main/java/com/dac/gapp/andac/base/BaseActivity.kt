@@ -37,15 +37,10 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import io.reactivex.Observable
-import io.reactivex.functions.Action
-import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.alert
 import timber.log.Timber
@@ -207,6 +202,8 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getViewedColumns() = getUserContents()?.collection("viewedColumns")
     fun getUserEvents() = getUserContents()?.collection("events")
     fun getUserEvent(eventKey: String) = getUserEvents()?.document(eventKey)
+    fun getReplies(boardKey: String) = getBoard(boardKey)?.collection("replies")
+
 
 
     // Column
@@ -466,6 +463,14 @@ abstract class BaseActivity : AppCompatActivity() {
             }
             negativeButton("NO") {}
         }.show()
+    }
+
+    private val listListenerRegistration = mutableListOf<ListenerRegistration>()
+    fun addListenerRegistrations(listener: ListenerRegistration) = listListenerRegistration.add(listener)
+
+    override fun onDestroy() {
+        super.onDestroy()
+        listListenerRegistration.forEach { it.remove() }
     }
 
 }
