@@ -44,7 +44,7 @@
         android:id="@+id/radioGroupType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="3dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/profilePic"
@@ -108,17 +108,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePic" />
 
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="40dp"
+        android:background="@color/lightgray"
+        app:layout_constraintTop_toBottomOf="@+id/hospital_search" />
+
+
     <EditText
         android:id="@+id/edit_text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="12dp"
         android:background="@null"
         android:hint="제목을 입력해주세요"
         android:textSize="@dimen/_18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hospital_search" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="12dp"
+        android:background="@color/lightgray"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_title" />
+
+
 
     <EditText
         android:id="@+id/edit_text_contents"
@@ -129,43 +150,43 @@
         android:background="@null"
         android:hint="내용을 입력해주세요"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_title"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
         android:textSize="@dimen/_15sp"
         />
 
     <LinearLayout
         android:id="@+id/picture_upload"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="15dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_contents"
-        tools:layout_editor_absoluteX="0dp"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp">
 
         <ImageView
-            android:layout_margin="10dp"
             android:id="@+id/picture_1"
-            android:src="@android:drawable/ic_menu_camera"
+            android:layout_width="70dp"
+            android:layout_height="90dp"
+            android:layout_margin="10dp"
             android:background="@color/lightgray"
-            android:layout_width="80dp"
-            android:layout_height="100dp" />
+            android:src="@android:drawable/ic_menu_camera" />
 
         <ImageView
-            android:layout_margin="10dp"
             android:id="@+id/picture_2"
-            android:src="@android:drawable/ic_menu_camera"
+            android:layout_width="70dp"
+            android:layout_height="90dp"
+            android:layout_margin="10dp"
             android:background="@color/lightgray"
-            android:layout_width="80dp"
-            android:layout_height="100dp" />
+            android:src="@android:drawable/ic_menu_camera" />
 
         <ImageView
-            android:layout_margin="10dp"
             android:id="@+id/picture_3"
-            android:src="@android:drawable/ic_menu_camera"
+            android:layout_width="70dp"
+            android:layout_height="90dp"
+            android:layout_margin="10dp"
             android:background="@color/lightgray"
-            android:layout_width="80dp"
-            android:layout_height="100dp" />
+            android:src="@android:drawable/ic_menu_camera" />
 
     </LinearLayout>
 
