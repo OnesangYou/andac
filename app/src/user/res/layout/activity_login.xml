@@ -10,20 +10,22 @@
     <ImageView
         android:id="@+id/imgviewLoginBannerAd"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/main_top_pic"
-        android:scaleType="centerCrop"
+        android:layout_height="250dp"
+        android:src="@drawable/popup_ad"
+        android:scaleType="centerInside"
+        android:background="@color/orange"
         app:layout_constraintDimensionRatio="w,3:2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/id_pw_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/loginBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,12 +36,11 @@
             android:id="@+id/emailEdit"
             android:layout_width="0dp"
             android:layout_height="40dp"
-            android:layout_marginTop="30dp"
             android:ems="10"
 
             android:hint="이메일을 입력해주세요"
             android:inputType="textEmailAddress"
-            android:textSize="@dimen/_15sp"
+            android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -48,10 +49,11 @@
             android:id="@+id/passwordLoginEdit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="비밀번호를 입력해주세요"
             android:inputType="textPassword"
-            android:textSize="15sp"
+            android:textSize="18dp"
             app:layout_constraintBottom_toTopOf="@+id/findIdBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -116,7 +118,7 @@
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:background="@color/colorMain"
         android:text="로그인"
         android:textColor="@color/white"

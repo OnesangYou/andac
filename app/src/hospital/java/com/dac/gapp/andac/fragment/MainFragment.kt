@@ -34,6 +34,20 @@ class MainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareUi()
+
+        // get HospitalInfo
+        context?.getHospitalInfo()?.addOnSuccessListener { hospitalInfo ->
+            val hospitalInfo = hospitalInfo?:return@addOnSuccessListener
+
+
+            if(!hospitalInfo.isApproval){
+                listOf(dashboard, btnConsultingBoard, buttonGroup).forEach { it.visibility = View.INVISIBLE }
+                requestText.visibility = View.VISIBLE
+                requestText.text = hospitalInfo.requestStr
+            }
+
+        }
+
         btnConsultingBoard.setOnClickListener { startActivity(Intent(context, ConsultBoardActivity::class.java)) }
         btnHospitalEventManagement.setOnClickListener { context?.startActivity<HospitalEventListActivity>() }
         btnHospitalAdManagement.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdManagement(requireContext())) }

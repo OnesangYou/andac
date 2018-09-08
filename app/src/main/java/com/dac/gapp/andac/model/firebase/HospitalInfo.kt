@@ -68,7 +68,7 @@ class HospitalInfo : Serializable {
     var bankAccountNumber: String = ""
     var bankAccountMaster: String = ""
 
-    var requestStr: String = ""
+    var requestStr: String = "관리자 승인 요청 중입니다"
 
     fun getLatLng(): LatLng {
         return LatLng(_geoloc.lat!!, _geoloc.lng!!)
