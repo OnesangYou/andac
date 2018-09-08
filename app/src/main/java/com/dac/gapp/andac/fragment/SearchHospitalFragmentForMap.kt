@@ -247,9 +247,11 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 Timber.d("currentLatitude, currentLatitude $currentLatitude, $currentLongitude")
                 Timber.d("lat, lng: $latLng")
                 Timber.d("algoliaException: $algoliaException")
-//                MyToast.showShort(requireContext(), "근처 병원 ${hits.length()}개를 찾았습니다?")
+//                MyToast.showShort(requireContext(), "근처 병원 ${hits.length()}개를 찾았습니다")
             } else {
-                MyToast.showShort(requireContext(), "근처에 병원이 없습니다?")
+                val newAroundRadius = aroundRadius + 1000
+                searchHospital(newAroundRadius)
+//                MyToast.showShort(requireContext(), "근처에 병원이 없습니다. 다음 반경으로 다시 검색합니다. ${newAroundRadius / 1000f} km")
             }
             moveCamera(LatLng(currentLatitude, currentLongitude))
             context?.hideProgressDialog()
