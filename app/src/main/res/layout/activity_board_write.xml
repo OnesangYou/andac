@@ -124,11 +124,12 @@
         android:id="@+id/edit_text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
         android:background="@null"
         android:hint="제목을 입력해주세요"
         android:textSize="@dimen/_18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -142,51 +143,49 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_text_title" />
 
 
-
     <EditText
         android:id="@+id/edit_text_contents"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
         android:background="@null"
         android:hint="내용을 입력해주세요"
+        android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2"
-        android:textSize="@dimen/_15sp"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <LinearLayout
         android:id="@+id/picture_upload"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
+        android:layout_marginEnd="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints">
 
         <ImageView
             android:id="@+id/picture_1"
-            android:layout_width="70dp"
-            android:layout_height="90dp"
-            android:layout_margin="10dp"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
             android:background="@color/lightgray"
             android:src="@android:drawable/ic_menu_camera" />
 
         <ImageView
             android:id="@+id/picture_2"
-            android:layout_width="70dp"
-            android:layout_height="90dp"
-            android:layout_margin="10dp"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="15dp"
             android:background="@color/lightgray"
             android:src="@android:drawable/ic_menu_camera" />
 
         <ImageView
             android:id="@+id/picture_3"
-            android:layout_width="70dp"
-            android:layout_height="90dp"
-            android:layout_margin="10dp"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="15dp"
             android:background="@color/lightgray"
             android:src="@android:drawable/ic_menu_camera" />
 
