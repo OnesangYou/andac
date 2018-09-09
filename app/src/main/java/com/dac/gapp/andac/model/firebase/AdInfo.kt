@@ -10,5 +10,6 @@ import java.util.*
 data class AdInfo(
         var photoUrl: String = "",
         @ServerTimestamp var startDate: Date? = null,
-        @ServerTimestamp var endDate: Date? = null
+        @ServerTimestamp var endDate: Date? = null,
+        var eventId: String = ""
 )

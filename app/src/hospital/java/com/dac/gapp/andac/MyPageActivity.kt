@@ -32,7 +32,9 @@ class MyPageActivity : BaseHospitalActivity() {
         getHospital()?.get()?.addOnSuccessListener { documentSnapshot ->
             val hospitalInfo = documentSnapshot.toObject(HospitalInfo::class.java)
             if (hospitalInfo != null) {
-                Glide.with(this@MyPageActivity).load(hospitalInfo.profilePicUrl).into(imgview_thumbnail)
+                Glide.with(this@MyPageActivity)
+                        .load(if (hospitalInfo.profilePicUrl.isEmpty()) R.drawable.defult_pic_1 else hospitalInfo.profilePicUrl)
+                        .into(imgview_thumbnail)
                 txtview_title.text = hospitalInfo.name
                 txtview_address.text = hospitalInfo.address2
                 txtview_phone.text = hospitalInfo.phone

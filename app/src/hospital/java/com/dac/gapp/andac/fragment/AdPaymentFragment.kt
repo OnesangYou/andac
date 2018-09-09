@@ -1,5 +1,6 @@
 package com.dac.gapp.andac.fragment
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -13,17 +14,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.dac.gapp.andac.HospitalEventListActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.enums.Ad
+import com.dac.gapp.andac.enums.Extra
 import com.dac.gapp.andac.enums.RequestCode
+import com.dac.gapp.andac.model.ActivityResultEvent
 import com.dac.gapp.andac.model.firebase.AdInfo
 import com.dac.gapp.andac.util.MyToast
+import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.UiUtil
 import com.google.firebase.firestore.SetOptions
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import kotlinx.android.synthetic.main.fragment_ad_payment.*
+import org.jetbrains.anko.startActivityForResult
 import timber.log.Timber
 import java.util.*
 
@@ -35,7 +41,7 @@ class AdPaymentFragment : BaseFragment() {
         private const val EXTRA_FOR_PAY = "EXTRA_FOR_PAY"
         private const val EXTRA_FOR_EDIT = "EXTRA_FOR_EDIT"
         private const val EXTRA_PHOTO_URL = "EXTRA_PHOTO_URL"
-
+        private const val REQUEST_EVENT_SELECT = 1111
         fun newInstanceForPay(ad: Ad): AdPaymentFragment {
             val fragment = AdPaymentFragment()
             val bundle = Bundle()
@@ -61,6 +67,8 @@ class AdPaymentFragment : BaseFragment() {
     private lateinit var forWhat: String
     private var photoUrl: String? = null
     private var photoUri: Uri? = null
+
+    private var eventObjectId: String? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -105,7 +113,7 @@ class AdPaymentFragment : BaseFragment() {
 
     private fun setupEventsOnViewCreated() {
         btnSelectMyEvent.setOnClickListener {
-//            MyToast.showShort(requireContext(), "TODO : 원상아~ 광고중에 이벤트 관련한건 맨 나중에 해주라 그거 이벤트 리스트가 필요하자너 ㅎ")
+            context?.startActivityForResult<HospitalEventListActivity>(REQUEST_EVENT_SELECT, Extra.IS_EVENT_SELECT.name to true)
         }
 
         layoutUploadPhoto.setOnClickListener {
@@ -141,7 +149,7 @@ class AdPaymentFragment : BaseFragment() {
                                 }
                                 .addOnSuccessListener { photoUrl ->
                                     // TODO 광고 시작일, 종료일 은 관리자가 결정!!
-                                    context.getDb().collection(ad.collectionName).document(uid).set(AdInfo(photoUrl, Date(), Date()), SetOptions.merge())
+                                    context.getDb().collection(ad.collectionName).document(uid).set(AdInfo(photoUrl, Date(), Date(), eventObjectId?:""), SetOptions.merge())
                                             .addOnSuccessListener {
                                                 Toast.makeText(context, "광고 정보 저장 성공", Toast.LENGTH_SHORT).show()
                                             }
@@ -157,7 +165,17 @@ class AdPaymentFragment : BaseFragment() {
 
             }
         }
+
+        // RxBus Listen
+        RxBus.listen(ActivityResultEvent::class.java).subscribe { activityResultEvent ->
+            activityResultEvent?.apply {
+                if(requestCode == REQUEST_EVENT_SELECT && resultCode == Activity.RESULT_OK){
+                    eventObjectId = data?.getStringExtra(Extra.EVENT_OBJECT_KEY.name)
+                }
+            }
+        }
     }
+
 
     private fun startGalleryActivity() {
         val intent = Intent(Intent.ACTION_PICK)
@@ -165,7 +183,6 @@ class AdPaymentFragment : BaseFragment() {
         intent.type = "image/*"
         startActivityForResult(intent, RequestCode.GALLERY.value)
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -213,5 +230,6 @@ class AdPaymentFragment : BaseFragment() {
         // 이미지와 Matrix 를 셋팅해서 Bitmap 객체 생성
         return Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
     }
+
 
 }

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.fragment.*
+import com.dac.gapp.andac.model.ActivityResultEvent
+import com.dac.gapp.andac.util.RxBus
 
 class HospitalAdApplicationActivity : BaseActivity() {
     companion object {
@@ -47,6 +49,11 @@ class HospitalAdApplicationActivity : BaseActivity() {
         // Add the fragment to the 'fragment_container' FrameLayout
         supportFragmentManager.beginTransaction()
                 .add(R.id.layoutFragmentContainer, firstFragment).commit()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        RxBus.publish(ActivityResultEvent(requestCode, resultCode, data))
     }
 
 }
