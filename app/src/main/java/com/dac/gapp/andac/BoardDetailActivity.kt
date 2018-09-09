@@ -14,6 +14,7 @@ import com.dac.gapp.andac.model.firebase.ReplyInfo
 import com.dac.gapp.andac.model.firebase.SomebodyInfo
 import com.dac.gapp.andac.util.getFullFormat
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_board_detail.*
 import kotlinx.android.synthetic.main.base_item_card.*
 
@@ -77,23 +78,23 @@ class BoardDetailActivity : BaseActivity() {
                             boardId = key,
                             writerType = if (isUser()) "user" else "hospital"
                         )
-                    ).addOnSuccessListener { toast("댓글 추가 완료") }
+                    ).addOnSuccessListener { toast("댓글 추가 완료"); hideSoftKeyboard()}
                 }
             }
 
-            getReplies(key)?.addSnapshotListener { querySnapshot, _ ->
+            // 댓글 리스트 출력
+            getReplies(key)?.orderBy("writeDate", Query.Direction.DESCENDING)?.addSnapshotListener { querySnapshot, _ ->
                 querySnapshot?.toObjects(ReplyInfo::class.java).also{ mutableList ->
                     Tasks.whenAllSuccess<Pair<String, SomebodyInfo>>(
                             mutableList?.filter{ it.writerType == "user" }?.mapNotNull { replyInfo ->
-                                getUserInfo(replyInfo.writerUid)?.continueWith { replyInfo.writerUid to SomebodyInfo(it.result.profilePicUrl, it.result.nickName) }
+                                getUserInfo(replyInfo.writerUid)?.continueWith { replyInfo.writerUid to SomebodyInfo(it.result.profilePicUrl, it.result.nickName, replyInfo.writerUid == getUid()) }
                             }?.plus(mutableList.filter{ it.writerType == "hospital" }.mapNotNull { replyInfo ->
-                                getHospitalInfo(replyInfo.writerUid)?.continueWith { replyInfo.writerUid to SomebodyInfo(it.result?.profilePicUrl!!, it.result?.name!!) }
+                                getHospitalInfo(replyInfo.writerUid)?.continueWith { replyInfo.writerUid to SomebodyInfo(it.result?.profilePicUrl!!, it.result?.name!!, replyInfo.writerUid == getUid()) }
                             })
-                    ).addOnSuccessListener {
-                        val map = it.toMap()
-
+                    ).addOnSuccessListener { list ->
+                        val map = list.toMap()
                         recyclerView.layoutManager = LinearLayoutManager(this@BoardDetailActivity)
-                        recyclerView.adapter = mutableList?.let { it1 -> ReplyRecyclerAdapter(it1, map) }
+                        recyclerView.adapter = mutableList?.let { it1 -> ReplyRecyclerAdapter(this@BoardDetailActivity, it1, map)}
                     }
                 }
             }?.let { addListenerRegistrations(it) }

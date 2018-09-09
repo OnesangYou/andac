@@ -16,8 +16,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/replyImage"
@@ -25,9 +24,9 @@
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            app:imageUrl="@{somebodyInfo.profilePicUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:imageUrl="@{somebodyInfo.profilePicUrl}"
             app:srcCompat="@drawable/profilepic" />
 
         <TextView
@@ -50,6 +49,17 @@
             app:layout_constraintBottom_toBottomOf="@+id/replyImage"
             app:layout_constraintStart_toEndOf="@+id/replyImage"
             app:layout_constraintTop_toTopOf="@+id/replyImage" />
+
+        <Button
+            android:id="@+id/menu"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/menu_button"
+            android:visibility="@{somebodyInfo.isOwner}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
 </layout>
