@@ -1,7 +1,6 @@
 package com.dac.gapp.andac.fragment
 
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.widget.GridLayoutManager
@@ -16,6 +15,7 @@ import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentMainBinding
 import com.dac.gapp.andac.dialog.MainPopupDialog
 import com.dac.gapp.andac.enums.Ad
+import com.dac.gapp.andac.enums.Extra
 import com.dac.gapp.andac.model.firebase.AdInfo
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
@@ -85,14 +85,14 @@ class MainFragment : BaseFragment() {
                     .get()
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            val photoUrls = ArrayList<Any>()
-                            photoUrls.add(R.drawable.main_banner_ad)
+                            val adInfoList = ArrayList<AdInfo>()
+                            adInfoList.add(AdInfo())
                             for (document in task.result) {
                                 val adInfo = document.toObject(AdInfo::class.java)
                                 Timber.d("photoUrl: ${adInfo.photoUrl}")
-                                photoUrls.add(adInfo.photoUrl)
+                                adInfoList.add(adInfo)
                             }
-                            viewPagerMainBannerAd.adapter = AdPagerAdapter(context, photoUrls)
+                            viewPagerMainBannerAd.adapter = AdPagerAdapter(context, adInfoList)
                         }
                     }
                     .addOnFailureListener {
@@ -106,23 +106,27 @@ class MainFragment : BaseFragment() {
                         .get()
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                val photoUrls = ArrayList<String>()
+                                val adInfoList = ArrayList<AdInfo>()
                                 for (document in task.result) {
                                     val adInfo = document.toObject(AdInfo::class.java)
                                     Timber.d("photoUrl: ${adInfo.photoUrl}")
-                                    photoUrls.add(adInfo.photoUrl)
+                                    adInfoList.add(adInfo)
                                 }
 
                                 // TODO 팝업 광고 랜덤으로 띄워야됨!!
                                 val dialog = MainPopupDialog(requireContext())
                                 dialog
-                                        .setImage(if (photoUrls.size > 0) photoUrls[0] else R.drawable.popup_ad)
+                                        .setImage(if (adInfoList.size > 0 && adInfoList[0].photoUrl.isNotEmpty()) adInfoList[0].photoUrl else R.drawable.popup_ad)
                                         .setOnImageClickListener(View.OnClickListener {
-                                            //                                                MyToast.showShort(context, "TODO: go to event page")
+                                            if (adInfoList.size > 0 && adInfoList[0].eventId.isNotEmpty()) {
+                                                activity?.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfoList[0].eventId)
+                                            }
                                             dialog.dismiss()
                                         })
                                         .setOnCancelListener(View.OnClickListener {
-                                            //                                                MyToast.showShort(context, "TODO: go to event page")
+                                            if (adInfoList.size > 0 && adInfoList[0].eventId.isNotEmpty()) {
+                                                activity?.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfoList[0].eventId)
+                                            }
                                             dialog.dismiss()
                                         })
                                         .setOnConfirmListener(View.OnClickListener {

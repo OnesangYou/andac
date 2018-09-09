@@ -19,7 +19,7 @@ class MainPopupDialog(context: Context) : Dialog(context) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_main_popup)
         mImage?.let { Glide.with(context).load(mImage).into(imgview) }
-        mOnImageClickListener?.let { btnCancel.setOnClickListener(mOnImageClickListener) }
+        mOnImageClickListener?.let { imgview.setOnClickListener(mOnImageClickListener) }
         mOnCancelListener?.let { btnCancel.setOnClickListener(mOnCancelListener) }
         mOnConfirmListener?.let { btnConfirm.setOnClickListener(mOnConfirmListener) }
     }
@@ -30,7 +30,7 @@ class MainPopupDialog(context: Context) : Dialog(context) {
     }
 
     fun setOnImageClickListener(listener: View.OnClickListener): MainPopupDialog {
-        mOnCancelListener = listener
+        mOnImageClickListener = listener
         return this
     }
 
