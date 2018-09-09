@@ -105,7 +105,7 @@ class AdPaymentFragment : BaseFragment() {
 
     private fun setupEventsOnViewCreated() {
         btnSelectMyEvent.setOnClickListener {
-            MyToast.showShort(requireContext(), "TODO : 원상아~ 광고중에 이벤트 관련한건 맨 나중에 해주라 그거 이벤트 리스트가 필요하자너 ㅎ")
+//            MyToast.showShort(requireContext(), "TODO : 원상아~ 광고중에 이벤트 관련한건 맨 나중에 해주라 그거 이벤트 리스트가 필요하자너 ㅎ")
         }
 
         layoutUploadPhoto.setOnClickListener {
@@ -130,7 +130,7 @@ class AdPaymentFragment : BaseFragment() {
 
         btnNext.setOnClickListener { view ->
             // TODO 광고 결제 모듈은 어떻게??
-            MyToast.showShort(requireContext(), "TODO : 광고 결제 완료 후 사진 업로드 및 광고 기한 업로드 !!")
+//            MyToast.showShort(requireContext(), "TODO : 광고 결제 완료 후 사진 업로드 및 광고 기한 업로드 !!")
             context?.let { context ->
                 context.getUid()?.let { uid ->
                     photoUri?.let { uri ->

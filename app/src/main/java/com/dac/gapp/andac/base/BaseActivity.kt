@@ -258,6 +258,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <T : ViewDataBinding> getBinding(): T {
         return viewDataBinding as T
     }

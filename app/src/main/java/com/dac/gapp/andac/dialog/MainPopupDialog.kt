@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.dialog_main_popup.*
 
 class MainPopupDialog(context: Context) : Dialog(context) {
 
-    private var mImageUrl: String? = null
+    private var mImage: Any? = null
     private var mOnImageClickListener: View.OnClickListener? = null
     private var mOnCancelListener: View.OnClickListener? = null
     private var mOnConfirmListener: View.OnClickListener? = null
@@ -18,14 +18,14 @@ class MainPopupDialog(context: Context) : Dialog(context) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_main_popup)
-        mImageUrl?.let { Glide.with(context).load(mImageUrl).into(imgview) }
+        mImage?.let { Glide.with(context).load(mImage).into(imgview) }
         mOnImageClickListener?.let { btnCancel.setOnClickListener(mOnImageClickListener) }
         mOnCancelListener?.let { btnCancel.setOnClickListener(mOnCancelListener) }
         mOnConfirmListener?.let { btnConfirm.setOnClickListener(mOnConfirmListener) }
     }
 
-    fun setImageUrl(imageUrl: String): MainPopupDialog {
-        mImageUrl = imageUrl
+    fun setImage(image: Any): MainPopupDialog {
+        mImage = image
         return this
     }
 

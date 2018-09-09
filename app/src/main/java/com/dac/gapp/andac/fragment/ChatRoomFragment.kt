@@ -48,7 +48,7 @@ class ChatRoomFragment : BaseFragment() {
                 }
             })
             context.setOnActionBarRightClickListener(View.OnClickListener {
-                MyToast.showShort(context, "TODO: 알림 설정")
+//                MyToast.showShort(context, "TODO: 알림 설정")
             })
         }
     }
