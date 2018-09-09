@@ -155,6 +155,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="최대3장까지 사진삽입이 가능합니다"
+        android:textColor="@color/lightgray"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/picture_upload"
+        app:layout_constraintEnd_toEndOf="@+id/picture_upload"
+        app:layout_constraintStart_toStartOf="@+id/picture_upload" />
+
     <LinearLayout
         android:id="@+id/picture_upload"
         android:layout_width="wrap_content"
@@ -165,6 +177,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints">
+
 
         <ImageView
             android:id="@+id/picture_1"
