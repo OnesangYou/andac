@@ -171,5 +171,4 @@
             android:text="댓글쓰기" />
 
     </LinearLayout>
-
-    </LinearLayout>
+</LinearLayout>

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dac.gapp.andac.BoardDetailActivity
 import com.dac.gapp.andac.BoardWriteActivity
 import com.dac.gapp.andac.MyPageActivity
 import com.dac.gapp.andac.R
@@ -24,7 +25,6 @@ import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.MyToast
 import com.dac.gapp.andac.util.RxBus
-import com.dac.gapp.andac.util.toast
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
@@ -67,8 +67,9 @@ class BoardFragment : BaseFragment() {
         // set recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.swapAdapter(BoardRecyclerAdapter(context, list, map, hospitalInfoMap) { boardInfo, userInfo ->
-            toast(boardInfo.toString())
-            toast(userInfo.toString())
+            // 로그인 상태 체크
+            getCurrentUser()?: return@BoardRecyclerAdapter goToLogin(true)
+            context?.startActivity(Intent(context, BoardDetailActivity::class.java).putExtra(context?.OBJECT_KEY, boardInfo.objectId))
         }, false)
 
 

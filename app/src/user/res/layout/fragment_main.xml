@@ -24,37 +24,22 @@
                 android:src="@drawable/main_top_pic"
                 />
 
-            <TextView
-                android:id="@+id/texts2"
-                android:layout_width="wrap_content"
-                android:layout_height="23dp"
-                android:layout_marginBottom="1dp"
-                android:text="2018년 새로운 헬스케어의 시작"
-                android:textColor="@color/white"
-                android:textSize="17dp"
-                app:layout_constraintBottom_toTopOf="@+id/texts"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/texts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="안닥에서 지금바로 상담받으세요"
-                android:textColor="@color/white"
-                android:textSize="17dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/requestSurgery"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+            <ImageView
+                android:layout_width="170dp"
+                android:layout_height="160dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/main_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <Button
                 android:id="@+id/requestSurgery"
                 android:layout_width="320dp"
                 android:layout_height="50dp"
-                android:layout_marginBottom="75dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/buttonstyle2"
@@ -88,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="37dp"
                 android:background="@color/non"
-                android:text="신청한 이벤트 바로가기"
+                android:text="내가 신청한 이벤트"
                 android:textColor="@color/colorMain"
                 android:textSize="14dp"
                 android:textStyle="bold"
@@ -115,7 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="37dp"
                 android:background="@color/non"
-                android:text="안닥 체크리스트 / 시력검사"
+                android:text="눈건강 체크리스트 \u0026 시력검사"
                 android:textColor="@color/colorMain"
                 android:textSize="14dp"
                 android:textStyle="bold"

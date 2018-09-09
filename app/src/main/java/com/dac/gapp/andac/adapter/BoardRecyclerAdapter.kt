@@ -69,7 +69,6 @@ class BoardRecyclerAdapter
             }
 
             // 수정하기 버튼
-
             context?.let {ba->
                 if(item.writerUid == ba.getUid()) {
                     menu.visibility = View.VISIBLE
