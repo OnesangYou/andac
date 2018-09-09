@@ -170,7 +170,7 @@ class AdPaymentFragment : BaseFragment() {
         RxBus.listen(ActivityResultEvent::class.java).subscribe { activityResultEvent ->
             activityResultEvent?.apply {
                 if(requestCode == REQUEST_EVENT_SELECT && resultCode == Activity.RESULT_OK){
-                    eventObjectId = data?.getStringExtra(Extra.EVENT_OBJECT_KEY.name)
+                    eventObjectId = data?.getStringExtra(Extra.OBJECT_KEY.name)
                 }
             }
         }

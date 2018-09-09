@@ -30,6 +30,7 @@ import com.dac.gapp.andac.LoginActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SplashActivity
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.model.firebase.ReplyInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.UiUtil
@@ -115,11 +116,6 @@ abstract class BaseActivity : AppCompatActivity() {
         mProgressDialog?.let {
             if (it.isShowing) it.dismiss()
         }
-    }
-
-    fun hideKeyboard(view: View) {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     public override fun onStop() {
@@ -403,7 +399,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 getUsers().whereEqualTo("email", emailStr).get()
         )
                 .addOnCompleteListener { hideProgressDialog() }
-                .continueWith { it.result.map { querySnapshot -> querySnapshot.isEmpty }.all { it } }
+                .continueWith { task -> task.result.map { querySnapshot -> querySnapshot.isEmpty }.all { it } }
     }
 
     // 중복 닉네임 검사
@@ -413,7 +409,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 getUsers().whereEqualTo("nickName", NickNameStr).get()
         )
                 .addOnCompleteListener { hideProgressDialog() }
-                .continueWith { it.result.map { querySnapshot -> querySnapshot.isEmpty }.all { it } }
+                .continueWith { task -> task.result.map { querySnapshot -> querySnapshot.isEmpty }.all { it } }
     }
 
     // 텍스트가 변하면 tag reset
@@ -474,4 +470,36 @@ abstract class BaseActivity : AppCompatActivity() {
         listListenerRegistration.forEach { it.remove() }
     }
 
+     fun startReplyMenu(view : View, replyInfo : ReplyInfo) {
+        PopupMenu(view.context, view).apply {
+            menuInflater.inflate(R.menu.reply_menu, this.menu)
+            setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.deleteBtn -> deleteReply(replyInfo)
+                }
+                false
+            }
+        }.show()
+    }
+
+    private fun deleteReply(replyInfo: ReplyInfo) {
+        alert(title = "댓글 삭제", message = "댓글을 삭제하시겠습니까?") {
+            positiveButton("YES") { _ ->
+                // 삭제 진행
+                showProgressDialog()
+                getReplies(replyInfo.boardId)?.document(replyInfo.objectId)
+                        ?.delete()
+                        ?.addOnSuccessListener { toast("댓글이 삭제되었습니다") }
+                        ?.addOnCompleteListener { hideProgressDialog() } ?: hideProgressDialog()
+            }
+            negativeButton("NO") {}
+        }.show()
+    }
+
+    fun Activity.hideSoftKeyboard() {
+        val inputMethodManager = getSystemService(
+                Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(
+                currentFocus!!.windowToken, 0)
+    }
 }

@@ -48,7 +48,7 @@ class HospitalEventListActivity : BaseActivity() {
                 // 이벤트 신청자 리스트
                 val isEventSelect = intent.hasExtra(Extra.IS_EVENT_SELECT.name) && intent.getBooleanExtra(Extra.IS_EVENT_SELECT.name, false)
                 if (isEventSelect) {
-                    setResult(Activity.RESULT_OK, Intent().apply { putExtra(Extra.EVENT_OBJECT_KEY.name, list[position].objectId) })
+                    setResult(Activity.RESULT_OK, Intent().apply { putExtra(Extra.OBJECT_KEY.name, list[position].objectId) })
                     finish()
                 } else {
                     if (list[position].writerUid == getUid()) startActivityForResult<HospitalEventApplicantListActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to list[position].objectId)
