@@ -136,8 +136,8 @@
                 android:id="@+id/constraintLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/viewPagerMainBannerAd"
-                tools:layout_editor_absoluteX="0dp">
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/viewPagerMainBannerAd">
 
                 <TextView
                     android:id="@+id/best_calum_text"
@@ -184,6 +184,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <ImageView
+                        android:id="@+id/imgviewTodaysHospitalAd"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/main_todays_hospital_ad"
+                        app:layout_constraintDimensionRatio="w,3:2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView2" />
                 </android.support.constraint.ConstraintLayout>
 
 
@@ -305,18 +316,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/best_calum_text" />
-
-                <ImageView
-                    android:id="@+id/imgviewTodaysHospitalAd"
-                    android:layout_width="368dp"
-                    android:layout_height="250dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/main_todays_hospital_ad"
-                    app:layout_constraintDimensionRatio="w,3:2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 
             </android.support.constraint.ConstraintLayout>

@@ -92,7 +92,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 layoutHospitalInfo.visibility = View.VISIBLE
                 val hospitalInfo = hospitals[marker.tag.toString()]
                 hospitalInfo?.let { info ->
-                    Glide.with(this).load(info.profilePicUrl).into(layoutHospitalInfo.imgview_thumbnail)
+                    Glide.with(this).load(if (!info.profilePicUrl.isEmpty()) info.profilePicUrl else R.drawable.defult_pic_1).into(layoutHospitalInfo.imgview_thumbnail)
                     layoutHospitalInfo.txtview_title.text = info.name
                     layoutHospitalInfo.txtview_address.text = info.address1
                     layoutHospitalInfo.txtview_phone.text = info.phone
