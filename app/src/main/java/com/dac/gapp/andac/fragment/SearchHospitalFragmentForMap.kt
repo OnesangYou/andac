@@ -18,6 +18,7 @@ import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.enums.Algolia
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.Common
+import com.dac.gapp.andac.util.JsonUtil
 import com.dac.gapp.andac.util.MyToast
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationListener
@@ -33,6 +34,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_search_hospital_for_map.*
 import kotlinx.android.synthetic.main.row.view.*
+import net.minidev.json.JSONUtil
 import timber.log.Timber
 import java.lang.Exception
 
@@ -228,33 +230,35 @@ class SearchHospitalFragmentForMap : BaseFragment() {
         val searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, Algolia.INDEX_NAME_HOSPITAL.value)
         context?.showProgressDialog()
         searcher.searchable.searchAsync(query) { jsonObject, algoliaException ->
-            val latLng = jsonObject.getString("params").split("&")[0].split("=")[1].split("%2C")
+            jsonObject?.let { jo ->
+                val latLng = JsonUtil.getString(jo, "params").split("&")[0].split("=")[1].split("%2C")
 //            Timber.d("jsonObject: ${jsonObject.toString(4)}")
 
-            if (jsonObject.has(Algolia.HITS.value) && jsonObject.getJSONArray(Algolia.HITS.value).length() > 0) {
+                val hits = JsonUtil.getArray(jo, Algolia.HITS.value)
+                if (hits.length() > 0) {
 //                Timber.d("jsonObject: ${jsonObject.getJSONArray(Algolia.HITS.value).getJSONObject(0).getString(Algolia.NAME.value)}")
-                val hits = jsonObject.getJSONArray(Algolia.HITS.value)
-                var i = 0
-                while (i < hits.length()) {
-                    val jo = hits.getJSONObject(i)
+                    var i = 0
+                    while (i < hits.length()) {
+                        val jo = hits.getJSONObject(i)
 //                    Timber.d("jsonObject[$i]: ${jo.toString(4)}")
-                    val hospitalInfo = HospitalInfo.create(jo)
-                    hospitals[hospitalInfo.documentId] = hospitalInfo
-                    addMarker(hospitalInfo.documentId, hospitalInfo.getLatLng())
-                    i++
-                }
+                        val hospitalInfo = HospitalInfo.create(jo)
+                        hospitals[hospitalInfo.documentId] = hospitalInfo
+                        addMarker(hospitalInfo.documentId, hospitalInfo.getLatLng())
+                        i++
+                    }
 
-                Timber.d("currentLatitude, currentLatitude $currentLatitude, $currentLongitude")
-                Timber.d("lat, lng: $latLng")
-                Timber.d("algoliaException: $algoliaException")
+                    Timber.d("currentLatitude, currentLatitude $currentLatitude, $currentLongitude")
+                    Timber.d("lat, lng: $latLng")
+                    Timber.d("algoliaException: $algoliaException")
 //                MyToast.showShort(requireContext(), "근처 병원 ${hits.length()}개를 찾았습니다")
-            } else {
-                val newAroundRadius = aroundRadius + 1000
-                searchHospital(newAroundRadius)
+                } else {
+                    val newAroundRadius = aroundRadius + 1000
+                    searchHospital(newAroundRadius)
 //                MyToast.showShort(requireContext(), "근처에 병원이 없습니다. 다음 반경으로 다시 검색합니다. ${newAroundRadius / 1000f} km")
+                }
+                moveCamera(LatLng(currentLatitude, currentLongitude))
+                context?.hideProgressDialog()
             }
-            moveCamera(LatLng(currentLatitude, currentLongitude))
-            context?.hideProgressDialog()
         }
     }
 

@@ -1,6 +1,7 @@
 package com.dac.gapp.andac.fragment
 
 import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.widget.GridLayoutManager
@@ -12,13 +13,12 @@ import com.dac.gapp.andac.*
 import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.adapter.AdPagerAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.databinding.FragmentMainBinding
 import com.dac.gapp.andac.dialog.MainPopupDialog
 import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.model.firebase.AdInfo
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
-import com.dac.gapp.andac.util.toast
-import com.dac.gapp.andac.util.MyToast
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -38,17 +38,18 @@ class MainFragment : BaseFragment() {
 
     private var mIsMainPopupAdFirst: Boolean = true
 
+    private lateinit var binding: FragmentMainBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        return inflate(inflater, R.layout.fragment_main, container)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareUi()
 
         requestSurgery.setOnClickListener {
-            startActivity(Intent(context,RequestSurgeryActivity::class.java).putExtra("isOpen",true))
+            startActivity(Intent(context, RequestSurgeryActivity::class.java).putExtra("isOpen", true))
         }
 
         more_calum.setOnClickListener {
@@ -64,26 +65,28 @@ class MainFragment : BaseFragment() {
     }
 
     private fun prepareUi() {
+        binding = getBinding()
         context?.let { context ->
             context.setActionBarLeftImage(R.drawable.mypage)
             context.setActionBarCenterImage(R.drawable.andac_font)
             context.setActionBarRightImage(R.drawable.bell)
             context.setOnActionBarLeftClickListener(View.OnClickListener {
                 // 로그인 상태 체크
-                if(getCurrentUser() == null){
+                if (getCurrentUser() == null) {
                     goToLogin(true)
                 } else {
                     startActivity(Intent(context, MyPageActivity::class.java))
                 }
             })
             context.setOnActionBarRightClickListener(View.OnClickListener {
-                MyToast.showShort(context, "TODO: 알림 설정")
+                //                MyToast.showShort(context, "TODO: 알림 설정")
             })
             context.getDb().collection(Ad.MAIN_BANNER.collectionName)
                     .get()
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            val photoUrls = ArrayList<String>()
+                            val photoUrls = ArrayList<Any>()
+                            photoUrls.add(R.drawable.main_banner_ad)
                             for (document in task.result) {
                                 val adInfo = document.toObject(AdInfo::class.java)
                                 Timber.d("photoUrl: ${adInfo.photoUrl}")
@@ -111,22 +114,20 @@ class MainFragment : BaseFragment() {
                                 }
 
                                 // TODO 팝업 광고 랜덤으로 띄워야됨!!
-                                if (photoUrls.size > 0) {
-                                    val dialog = MainPopupDialog(requireContext())
-                                    dialog
-                                            .setImageUrl(photoUrls[0])
-                                            .setOnImageClickListener(View.OnClickListener {
-                                                MyToast.showShort(context, "TODO: go to event page")
-                                                dialog.dismiss()
-                                            })
-                                            .setOnCancelListener(View.OnClickListener {
-                                                MyToast.showShort(context, "TODO: go to event page")
-                                                dialog.dismiss()
-                                            })
-                                            .setOnConfirmListener(View.OnClickListener {
-                                                dialog.dismiss()
-                                            }).show()
-                                }
+                                val dialog = MainPopupDialog(requireContext())
+                                dialog
+                                        .setImage(if (photoUrls.size > 0) photoUrls[0] else R.drawable.popup_ad)
+                                        .setOnImageClickListener(View.OnClickListener {
+                                            //                                                MyToast.showShort(context, "TODO: go to event page")
+                                            dialog.dismiss()
+                                        })
+                                        .setOnCancelListener(View.OnClickListener {
+                                            //                                                MyToast.showShort(context, "TODO: go to event page")
+                                            dialog.dismiss()
+                                        })
+                                        .setOnConfirmListener(View.OnClickListener {
+                                            dialog.dismiss()
+                                        }).show()
                             }
                         }
                         .addOnFailureListener {
@@ -139,13 +140,17 @@ class MainFragment : BaseFragment() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val photoUrls = ArrayList<String>()
-                            if(task.result.size() == 0) return@addOnCompleteListener
+                            if (task.result.size() == 0) return@addOnCompleteListener
                             for (document in task.result) {
                                 val adInfo = document.toObject(AdInfo::class.java)
                                 Timber.d("photoUrl: ${adInfo.photoUrl}")
                                 photoUrls.add(adInfo.photoUrl)
                             }
-                            Glide.with(context).load(photoUrls[0]).into(imgviewTodaysHospitalAd)
+                            binding.imgviewTodaysHospitalAd?.let {
+                                Glide.with(context)
+                                        .load(if (photoUrls.size > 0) photoUrls[0] else R.drawable.main_todays_hospital_ad)
+                                        .into(it)
+                            }
                         }
                     }
         }

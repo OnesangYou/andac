@@ -1,7 +1,12 @@
 package com.dac.gapp.andac.base
 
 import android.content.Intent
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.support.v4.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.dac.gapp.andac.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -33,4 +38,15 @@ open class BaseFragment : Fragment() {
         }
     }
 
+    private var viewDataBinding: ViewDataBinding? = null
+
+    fun inflate(inflater: LayoutInflater, layoutResID: Int, container: ViewGroup?): View? {
+        viewDataBinding = DataBindingUtil.inflate(inflater, layoutResID, container, false)
+        return viewDataBinding?.root
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T : ViewDataBinding> getBinding(): T {
+        return viewDataBinding as T
+    }
 }

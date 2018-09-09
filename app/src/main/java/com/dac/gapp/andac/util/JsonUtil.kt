@@ -1,5 +1,6 @@
 package com.dac.gapp.andac.util
 
+import org.json.JSONArray
 import org.json.JSONObject
 
 class JsonUtil {
@@ -18,6 +19,10 @@ class JsonUtil {
 
         fun getObject(jsonObject: JSONObject, name: String): JSONObject {
             return if (jsonObject.has(name)) jsonObject.getJSONObject(name) else JSONObject()
+        }
+
+        fun getArray(jsonObject: JSONObject, name: String): JSONArray {
+            return if (jsonObject.has(name)) jsonObject.getJSONArray(name) else JSONArray()
         }
     }
 }
