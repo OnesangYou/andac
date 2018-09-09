@@ -14,9 +14,11 @@ import com.dac.gapp.andac.model.firebase.ReplyInfo
 import com.dac.gapp.andac.model.firebase.SomebodyInfo
 import com.dac.gapp.andac.util.getFullFormat
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_board_detail.*
 import kotlinx.android.synthetic.main.base_item_card.*
+
 
 class BoardDetailActivity : BaseActivity() {
 
@@ -24,34 +26,30 @@ class BoardDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_detail)
-        intent.getStringExtra(OBJECT_KEY)?.also { key ->
-            showProgressDialog()
-            getBoard(key)?.get()?.continueWith { it.result.toObject(BoardInfo::class.java) }?.continueWith {
-                // Set Board
-                val item = it.result?: throw IllegalStateException()
+        intent.getStringExtra(OBJECT_KEY)?.also { boardKey ->
+            getBoard(boardKey)?.addSnapshotListener { documentSnapshot, _ ->
+                val boardInfo = documentSnapshot?.toObject(BoardInfo::class.java)?:return@addSnapshotListener
                 title_text.text = title
-                contents_text.text = item.contents
+                contents_text.text = boardInfo.contents
                 val pictureList = arrayListOf(picture_1, picture_2, picture_3)
-                item.pictureUrls?.forEachIndexed { index, url ->
+                boardInfo.pictureUrls?.forEachIndexed { index, url ->
                     pictureList[index].loadImage(url)
                 }
-                date.text = item.writeDate?.getFullFormat() ?: ""
-                replyText.text = "댓글 ${item.replyCount} 개"
-                likeText.text = "좋아요 ${item.likeCount} 개"
-                item
-            }?.continueWithTask { task ->
+                date.text = boardInfo.writeDate?.getFullFormat() ?: ""
+                replyText.text = "댓글 ${boardInfo.replyCount} 개"
+                likeText.text = "좋아요 ${boardInfo.likeCount} 개"
+
                 // Set Writer Profile
-                val hospitalInfo = task.result?:return@continueWithTask task
-                getUserInfo(hospitalInfo.writerUid)?.continueWith { task1 ->
+                getUserInfo(boardInfo.writerUid)?.continueWith { task1 ->
                     text_nickname.text = task1.result.nickName
                     imageView.loadImage(task1.result.profilePicUrl)
                 }
-                return@continueWithTask task
-            }?.continueWithTask { info ->
+
                 // Set Hospital Name
-                info.result?.let{ getHospital(it.hospitalUid).get()
-                }?.continueWith { hospital_hashtag.text = it.result.toObject(HospitalInfo::class.java)?.name }
-            }?.addOnCompleteListener{hideProgressDialog()}
+                val hospitalUid = boardInfo.hospitalUid.also { if(it.isEmpty()) return@addSnapshotListener }
+                getHospital(hospitalUid).get()
+                .continueWith { hospital_hashtag.text = it.result.toObject(HospitalInfo::class.java)?.name }
+            }?.let { addListenerRegistrations(it) }
 
             // 댓글 프사
             if(isUser()) getUserInfo()?.continueWith { it.result.profilePicUrl } else getHospitalInfo()?.continueWith { it.result?.profilePicUrl }
@@ -70,20 +68,31 @@ class BoardDetailActivity : BaseActivity() {
                 override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             })
             replySubmit.setOnClickListener { _ ->
-                getReplies(key)?.document()?.let { reference ->
-                    reference.set(ReplyInfo(
-                            writerUid = getUid()?:return@setOnClickListener,
-                            contents = replyEditView.text.toString(),
-                            objectId = reference.id,
-                            boardId = key,
-                            writerType = if (isUser()) "user" else "hospital"
-                        )
-                    ).addOnSuccessListener { toast("댓글 추가 완료"); hideSoftKeyboard()}
-                }
+                val reference = getReplies(boardKey)?.document()?:return@setOnClickListener
+                showProgressDialog()
+                reference.set(ReplyInfo(
+                        writerUid = getUid()?:return@setOnClickListener,
+                        contents = replyEditView.text.toString(),
+                        objectId = reference.id,
+                        boardId = boardKey,
+                        writerType = if (isUser()) "user" else "hospital"
+                    )
+                )
+                        .onSuccessTask { _ ->
+                            // 댓글 카운트 추가
+                            val boardRef = getBoard(boardKey)?:throw IllegalStateException()
+                            FirebaseFirestore.getInstance().runTransaction {
+                                val boardInfo = it.get(boardRef).toObject(BoardInfo::class.java)?:throw IllegalStateException()
+                                it.set(boardRef, boardInfo.apply { replyCount++; if(replyCount < 0) throw IllegalStateException("Reply Count is Zero") })
+                            }
+                        }
+                        .addOnSuccessListener { toast("댓글 추가 완료"); hideSoftKeyboard()}
+                        .addOnCompleteListener { hideProgressDialog() }
+
             }
 
             // 댓글 리스트 출력
-            getReplies(key)?.orderBy("writeDate", Query.Direction.DESCENDING)?.addSnapshotListener { querySnapshot, _ ->
+            getReplies(boardKey)?.orderBy("writeDate", Query.Direction.DESCENDING)?.addSnapshotListener { querySnapshot, _ ->
                 querySnapshot?.toObjects(ReplyInfo::class.java).also{ mutableList ->
                     Tasks.whenAllSuccess<Pair<String, SomebodyInfo>>(
                             mutableList?.filter{ it.writerType == "user" }?.mapNotNull { replyInfo ->
