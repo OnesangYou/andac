@@ -39,9 +39,7 @@ class MyPageActivity : BaseHospitalActivity() {
 
                 // check approval
                 if(!hospitalInfo.isApproval){
-                    hospitalInfo.requestStr?.let {
-                        toast(it)
-                    }
+                    toast(hospitalInfo.requestStr.toString())
                 }
             }
         }
