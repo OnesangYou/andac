@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.enums.Extra
 import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.firebase.EventInfo
@@ -27,14 +28,13 @@ class HospitalEventListActivity : BaseActivity() {
 
     val list = mutableListOf<EventInfo>()
     val map = mutableMapOf<String, HospitalInfo>()
-    private var lastVisible : DocumentSnapshot? = null
+    private var lastVisible: DocumentSnapshot? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hospital_event_list)
-        setActionBarLeftImage(R.drawable.back)
-        setActionBarCenterText("내 이벤트 리스트 보기")
-        setActionBarRightText("이벤트 작성하기")
+        prepareUi()
+
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
         setOnActionBarRightClickListener(View.OnClickListener { startActivityForResult<EventWriteActivity>(RequestCode.OBJECT_ADD.value) })
 
@@ -43,14 +43,32 @@ class HospitalEventListActivity : BaseActivity() {
         // recyclerView
         recyclerView.layoutManager = LinearLayoutManager(this@HospitalEventListActivity)
         recyclerView.adapter = EventRecyclerAdapter(this@HospitalEventListActivity, list, map)
-        recyclerView.addOnItemClickListener(object: OnItemClickListener {
+        recyclerView.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 // 이벤트 신청자 리스트
-                if(list[position].writerUid == getUid()) startActivityForResult<HospitalEventApplicantListActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to list[position].objectId)
+                val isEventSelect = intent.hasExtra(Extra.IS_EVENT_SELECT.name) && intent.getBooleanExtra(Extra.IS_EVENT_SELECT.name, false)
+                if (isEventSelect) {
+                    setResult(Activity.RESULT_OK, Intent().apply { putExtra(Extra.EVENT_OBJECT_KEY.name, list[position].objectId) })
+                    finish()
+                } else {
+                    if (list[position].writerUid == getUid()) startActivityForResult<HospitalEventApplicantListActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to list[position].objectId)
+                }
             }
         })
 
         setAdapter()
+    }
+
+    private fun prepareUi() {
+        val isEventSelect = intent.hasExtra(Extra.IS_EVENT_SELECT.name) && intent.getBooleanExtra(Extra.IS_EVENT_SELECT.name, false)
+        setActionBarLeftImage(R.drawable.back)
+        if (isEventSelect) {
+            setActionBarCenterText("내 이벤트 선택")
+            hidActionBarRight()
+        } else {
+            setActionBarCenterText("내 이벤트 리스트 보기")
+            setActionBarRightText("이벤트 작성하기")
+        }
     }
 
 
@@ -87,7 +105,7 @@ class HospitalEventListActivity : BaseActivity() {
                     lastVisible?.let { query?.startAfter(it) } ?: query
                 }    // 쿼리 커서 시작 위치 지정
                 ?.limit(PageSize.event.value)  // 페이지 단위
-                ?.let { it -> getTripleDataTask(it)}
+                ?.let { it -> getTripleDataTask(it) }
                 ?.addOnSuccessListener {
                     list.addAll(it.first)
                     map.putAll(it.second)
@@ -97,8 +115,8 @@ class HospitalEventListActivity : BaseActivity() {
 
     }
 
-    private fun getTripleDataTask(query : Query) : Task<Triple<List<EventInfo>, Map<String, HospitalInfo>, DocumentSnapshot?>>? {
-        var infos : List<EventInfo> = listOf()
+    private fun getTripleDataTask(query: Query): Task<Triple<List<EventInfo>, Map<String, HospitalInfo>, DocumentSnapshot?>>? {
+        var infos: List<EventInfo> = listOf()
         return query.get()
                 .continueWithTask { it ->
                     lastVisible = it.result.documents.let { it[it.size - 1] }
@@ -115,14 +133,14 @@ class HospitalEventListActivity : BaseActivity() {
                 }
                 .continueWith { it ->
                     Triple(infos, it.result.filterNotNull()
-                            .map { it.id to it.toObject(HospitalInfo::class.java)!!}
+                            .map { it.id to it.toObject(HospitalInfo::class.java)!! }
                             .toMap(), lastVisible)
                 }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == RequestCode.OBJECT_ADD.value && resultCode == Activity.RESULT_OK){
+        if (requestCode == RequestCode.OBJECT_ADD.value && resultCode == Activity.RESULT_OK) {
             setAdapter()
 //            Handler().postDelayed({ setAdapter() }, 2000)   // 클라우드 펑션으로 생성에 딜레이가 있음, 2초 뒤에 실행
         }

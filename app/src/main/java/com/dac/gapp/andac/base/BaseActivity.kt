@@ -51,7 +51,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     val KBJ = "KBJ"
     val GOTO_MYPAGE = "goToMyPage"
-    val OBJECT_KEY = "objectKey"
+    val OBJECT_KEY = "OBJECT_KEY"
 
     val profilePicJpgStr = "profilePic.jpg"
     val bankAccountPicJpgStr = "bankAccountPic.jpg"
