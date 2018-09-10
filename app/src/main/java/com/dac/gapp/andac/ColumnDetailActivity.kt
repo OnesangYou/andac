@@ -16,6 +16,7 @@ class ColumnDetailActivity : BaseActivity() {
         setContentView(R.layout.activity_column_detail)
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText("컬럼 상세보기")
+        hidActionBarRight()
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
         // 병원 상세 정보 가져오기

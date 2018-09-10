@@ -164,34 +164,36 @@ class MainFragment : BaseFragment() {
     }
 
     private fun setAdapter() {
-        (context as MainActivity).apply {
-            showProgressDialog()
-            getColumns().orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
+        (context as MainActivity).let { activity ->
+            activity.showProgressDialog()
+            activity.getColumns().orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
                 querySnapshot
-                        ?.let { it -> it.map { getColumn(it.id)?.get() } }
+                        ?.let { it -> it.map { activity.getColumn(it.id)?.get() } }
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                         .onSuccessTask { it ->
                             val columnInfos = it?.filterNotNull()?.map { it.toObject(ColumnInfo::class.java)!! }
                             columnInfos?.groupBy { it.writerUid }
-                                    ?.map { getHospital(it.key).get() }
+                                    ?.map { activity.getHospital(it.key).get() }
                                     .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                                     .addOnSuccessListener { mutableList ->
                                         mutableList
                                                 .filterNotNull()
                                                 .map { it.id to it.toObject(HospitalInfo::class.java) }
                                                 .toMap().also { hospitalInfoMap ->
-                                                    columnList.swapAdapter(ColumnRecyclerAdapter(this, columnInfos!!, hospitalInfoMap), false)
-                                                    columnList.adapter.notifyDataSetChanged()
-                                                    columnList.addOnItemClickListener(object : OnItemClickListener {
-                                                        override fun onItemClicked(position: Int, view: View) {
-                                                            // 디테일
-                                                            startActivity(Intent(this@apply, ColumnDetailActivity::class.java).putExtra(OBJECT_KEY, columnInfos[position].objectId))
-                                                        }
-                                                    })
+                                                    columnList?.apply {
+                                                        columnList.swapAdapter(ColumnRecyclerAdapter(activity, columnInfos!!, hospitalInfoMap), false)
+                                                        columnList.adapter.notifyDataSetChanged()
+                                                        columnList.addOnItemClickListener(object : OnItemClickListener {
+                                                            override fun onItemClicked(position: Int, view: View) {
+                                                                // 디테일
+                                                                activity.startActivity<ColumnDetailActivity>(Extra.OBJECT_KEY.name to columnInfos[position].objectId)
+                                                            }
+                                                        })
+                                                    }
                                                 }
                                     }
                         }
-                        .addOnCompleteListener { hideProgressDialog() }
+                        .addOnCompleteListener { activity.hideProgressDialog() }
             }
         }
     }
