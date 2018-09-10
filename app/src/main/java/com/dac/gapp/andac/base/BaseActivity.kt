@@ -196,12 +196,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getBoards(): CollectionReference = getDb().collection("boards")
     fun getBoard(key: String): DocumentReference? = if (key.isEmpty()) null else getBoards().document(key)
-    private fun getUserContents(uid: String? = getUid()) = uid?.let { getDb().collection("userContents").document(it) }
+    fun getUserContents(uid: String? = getUid()) = uid?.let { getDb().collection("userContents").document(it) }
     fun getUserBoards() = getUserContents()?.collection("boards")
     fun getViewedColumns() = getUserContents()?.collection("viewedColumns")
     fun getUserEvents() = getUserContents()?.collection("events")
     fun getUserEvent(eventKey: String) = getUserEvents()?.document(eventKey)
     fun getReplies(boardKey: String) = getBoard(boardKey)?.collection("replies")
+    fun getlikeUsers(boardKey: String) = getBoard(boardKey)?.collection("likeUsers")
 
 
 
@@ -530,6 +531,12 @@ abstract class BaseActivity : AppCompatActivity() {
     fun addLikeCount(boardKey : String) =
         boardRunTransaction(boardKey) { boardInfo ->
             boardInfo.likeCount++
+            if(boardInfo.likeCount < 0) throw IllegalStateException("Like Count is Zero")
+        }
+
+    fun subLikeCount(boardKey : String) =
+        boardRunTransaction(boardKey) { boardInfo ->
+            boardInfo.likeCount--
             if(boardInfo.likeCount < 0) throw IllegalStateException("Like Count is Zero")
         }
 }
