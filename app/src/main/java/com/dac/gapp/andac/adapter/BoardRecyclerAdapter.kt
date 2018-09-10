@@ -73,12 +73,8 @@ class BoardRecyclerAdapter(
             button_like.setOnClickListener {
                 Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()
 
-                context.clickLikeBtn(item.objectId)
+//                context.clickLikeBtn(item.objectId)
 
-            }
-
-            button_writting.setOnClickListener {
-                Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()
             }
 
             // 수정하기 버튼

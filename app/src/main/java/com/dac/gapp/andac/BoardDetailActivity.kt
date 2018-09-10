@@ -52,42 +52,49 @@ class BoardDetailActivity : BaseActivity() {
                 .continueWith { hospital_hashtag.text = it.result.toObject(HospitalInfo::class.java)?.name }
             }?.let { addListenerRegistrations(it) }
 
-            // 댓글 프사
-            if(isUser()) getUserInfo()?.continueWith { it.result.profilePicUrl } else getHospitalInfo()?.continueWith { it.result?.profilePicUrl }
-                    ?.continueWith {
-                        val url = it.result?:return@continueWith
-                        userProfileImage.loadImage(url)
-                    }
-
-
-            replyEditView.addTextChangedListener(object : TextWatcher {
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    // 입력되는 텍스트에 변화가 있을 때
-                    replySubmit.isEnabled = count>0
-                }
-                override fun afterTextChanged(arg0: Editable) {}
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            })
-
-            // 댓글 달기
-            replySubmit.setOnClickListener { _ ->
-                val reference = getReplies(boardKey)?.document()?:return@setOnClickListener
-                showProgressDialog()
-                reference.set(ReplyInfo(
-                        writerUid = getUid()?:return@setOnClickListener,
-                        contents = replyEditView.text.toString(),
-                        objectId = reference.id,
-                        boardId = boardKey,
-                        writerType = if (isUser()) "user" else "hospital"
-                    )
-                )
-                        .onSuccessTask { _ ->
-                            // 댓글 카운트 추가
-                            addReplyCount(boardKey)
+            // 비로그인
+            if(getAuth()?.currentUser == null ){
+                arrayListOf(replyEditView, replySubmit, userProfileImage).forEach { it.visibility = View.GONE }
+            }
+            // 로그인
+            else {
+                // 댓글 프사
+                if(isUser()) getUserInfo()?.continueWith { it.result.profilePicUrl } else getHospitalInfo()?.continueWith { it.result?.profilePicUrl }
+                        ?.continueWith {
+                            val url = it.result?:return@continueWith
+                            userProfileImage.loadImage(url)
                         }
-                        .addOnSuccessListener { toast("댓글 추가 완료"); hideSoftKeyboard()}
-                        .addOnCompleteListener { hideProgressDialog() }
 
+                // 댓글 글자 변경 리스너
+                replyEditView.addTextChangedListener(object : TextWatcher {
+                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                        // 입력되는 텍스트에 변화가 있을 때
+                        replySubmit.isEnabled = count>0
+                    }
+                    override fun afterTextChanged(arg0: Editable) {}
+                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                })
+
+                // 댓글 달기
+                replySubmit.setOnClickListener { _ ->
+                    val reference = getReplies(boardKey)?.document()?:return@setOnClickListener
+                    showProgressDialog()
+                    reference.set(ReplyInfo(
+                            writerUid = getUid()?:return@setOnClickListener,
+                            contents = replyEditView.text.toString(),
+                            objectId = reference.id,
+                            boardId = boardKey,
+                            writerType = if (isUser()) "user" else "hospital"
+                    )
+                    )
+                            .onSuccessTask { _ ->
+                                // 댓글 카운트 추가
+                                addReplyCount(boardKey)
+                            }
+                            .addOnSuccessListener { toast("댓글 추가 완료"); hideSoftKeyboard()}
+                            .addOnCompleteListener { hideProgressDialog() }
+
+                }
             }
 
             // 댓글 리스트 출력
@@ -95,9 +102,9 @@ class BoardDetailActivity : BaseActivity() {
                 querySnapshot?.toObjects(ReplyInfo::class.java).also{ mutableList ->
                     Tasks.whenAllSuccess<Pair<String, SomebodyInfo>>(
                             mutableList?.filter{ it.writerType == "user" }?.mapNotNull { replyInfo ->
-                                getUserInfo(replyInfo.writerUid)?.continueWith { replyInfo.writerUid to SomebodyInfo(it.result.profilePicUrl, it.result.nickName, replyInfo.writerUid == getUid()) }
+                                getUserInfo(replyInfo.writerUid)?.continueWith { replyInfo.writerUid to SomebodyInfo(it.result.profilePicUrl, it.result.nickName, amIWriter(replyInfo)) }
                             }?.plus(mutableList.filter{ it.writerType == "hospital" }.mapNotNull { replyInfo ->
-                                getHospitalInfo(replyInfo.writerUid)?.continueWith { replyInfo.writerUid to SomebodyInfo(it.result?.profilePicUrl!!, it.result?.name!!, replyInfo.writerUid == getUid()) }
+                                getHospitalInfo(replyInfo.writerUid)?.continueWith { replyInfo.writerUid to SomebodyInfo(it.result?.profilePicUrl!!, it.result?.name!!, amIWriter(replyInfo)) }
                             })
                     ).addOnSuccessListener { list ->
                         val map = list.toMap()
@@ -110,6 +117,10 @@ class BoardDetailActivity : BaseActivity() {
         }
 
     }
+
+    fun amIWriter(replyInfo: ReplyInfo) =
+            if(getAuth()?.currentUser == null) false
+            else replyInfo.writerUid == getUid()
 
     private fun prepareUi() {
         setActionBarLeftImage(R.drawable.back)

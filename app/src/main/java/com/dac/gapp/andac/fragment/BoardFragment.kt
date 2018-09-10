@@ -68,7 +68,7 @@ class BoardFragment : BaseFragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.swapAdapter((BoardRecyclerAdapter(context, list, map, hospitalInfoMap) { boardInfo, userInfo ->
             // 로그인 상태 체크
-            getCurrentUser() ?: return@BoardRecyclerAdapter goToLogin(true)
+//            getCurrentUser() ?: return@BoardRecyclerAdapter goToLogin(true)
             context?.startActivity(Intent(context, BoardDetailActivity::class.java).putExtra(context?.OBJECT_KEY, boardInfo.objectId))
         }), false)
 
