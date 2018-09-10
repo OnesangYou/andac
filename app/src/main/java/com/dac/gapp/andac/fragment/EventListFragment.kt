@@ -15,17 +15,16 @@ import com.dac.gapp.andac.MyPageActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.databinding.FragmentEventListBinding
 import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
-import com.dac.gapp.andac.util.MyToast
 import com.dac.gapp.andac.util.OnItemClickListener
 import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.main.fragment_event_list.*
 
 
 @Suppress("DEPRECATION")
@@ -36,32 +35,33 @@ class EventListFragment : BaseFragment() {
 
     val list = mutableListOf<EventInfo>()
     val map = mutableMapOf<String, HospitalInfo>()
-    private var lastVisible : DocumentSnapshot? = null
+    private var lastVisible: DocumentSnapshot? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_event_list, container, false)
+        return inflate(inflater, R.layout.fragment_event_list, container)
     }
+
+    private lateinit var binding: FragmentEventListBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareUi()
         resetData()
 
         // set recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.swapAdapter(EventRecyclerAdapter(context, list, map), false)
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.swapAdapter(EventRecyclerAdapter(context, list, map), false)
 
-        recyclerView.addOnItemClickListener(object: OnItemClickListener {
+        binding.recyclerView.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 // 디테일 뷰
-                startActivity(Intent(context, EventDetailActivity::class.java).putExtra(context?.OBJECT_KEY,list[position].objectId))
+                startActivity(Intent(context, EventDetailActivity::class.java).putExtra(context?.OBJECT_KEY, list[position].objectId))
             }
         })
 
         // set tabLayout click listener
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                when(tab.text){
+                when (tab.text) {
                     getString(R.string.popular_order) -> setAdapter(getString(R.string.buy_count))
                     getString(R.string.low_price_order) -> setAdapter(getString(R.string.price), Query.Direction.ASCENDING)
                     getString(R.string.high_price_order) -> setAdapter(getString(R.string.price), Query.Direction.DESCENDING)
@@ -81,6 +81,7 @@ class EventListFragment : BaseFragment() {
     }
 
     private fun prepareUi() {
+        binding = getBinding()
         context?.let { context ->
             context.setActionBarLeftImage(R.drawable.mypage)
             context.setActionBarCenterImage(R.drawable.andac_font)
@@ -94,12 +95,12 @@ class EventListFragment : BaseFragment() {
                 }
             })
             context.setOnActionBarRightClickListener(View.OnClickListener {
-//                MyToast.showShort(context, "TODO: 알림 설정")
+                //                MyToast.showShort(context, "TODO: 알림 설정")
             })
         }
     }
 
-    private fun setAdapter(type : String = getString(R.string.buy_count), direction : Query.Direction = Query.Direction.DESCENDING) {
+    private fun setAdapter(type: String = getString(R.string.buy_count), direction: Query.Direction = Query.Direction.DESCENDING) {
 
         // reset data
         resetData()
@@ -108,9 +109,9 @@ class EventListFragment : BaseFragment() {
         addDataToRecycler(type, direction)
 
         // add event to recycler's last
-        recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(rv: RecyclerView?, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_SETTLING && !recyclerView.canScrollVertically(1)) {
+                if (newState == RecyclerView.SCROLL_STATE_SETTLING && !binding.recyclerView.canScrollVertically(1)) {
                     addDataToRecycler(type, direction)
                 }
             }
@@ -123,30 +124,32 @@ class EventListFragment : BaseFragment() {
         lastVisible = null
     }
 
-    fun addDataToRecycler(type: String, direction : Query.Direction = Query.Direction.DESCENDING) {
+    fun addDataToRecycler(type: String, direction: Query.Direction = Query.Direction.DESCENDING) {
         context?.apply {
             showProgressDialog()
             getTripleDataTask(
                     getEvents()
                             .orderBy(type, direction)
-                            .let { query -> lastVisible?.let { query.startAfter(it) } ?: query }    // 쿼리 커서 시작 위치 지정
+                            .let { query ->
+                                lastVisible?.let { query.startAfter(it) } ?: query
+                            }    // 쿼리 커서 시작 위치 지정
                             .limit(PageSize.event.value)   // 페이지 단위
             )
                     ?.addOnSuccessListener {
                         list.addAll(it.first)
                         map.putAll(it.second)
-                        recyclerView.adapter.notifyDataSetChanged()
+                        binding.recyclerView.adapter.notifyDataSetChanged()
                     }
                     ?.addOnCompleteListener { hideProgressDialog() }
         }
     }
 
-    private fun getTripleDataTask(query : Query) : Task<Triple<List<EventInfo>, Map<String, HospitalInfo>, DocumentSnapshot?>>? {
+    private fun getTripleDataTask(query: Query): Task<Triple<List<EventInfo>, Map<String, HospitalInfo>, DocumentSnapshot?>>? {
         return context?.run {
-            var infos : List<EventInfo> = listOf()
+            var infos: List<EventInfo> = listOf()
             query.get()
                     .continueWith { it ->
-                        lastVisible = it.result.documents.let { it[it.size-1] }
+                        lastVisible = it.result.documents.let { it[it.size - 1] }
                         it.result.toObjects(EventInfo::class.java)
                     }.continueWithTask { it ->
                         infos = it.result
@@ -156,7 +159,7 @@ class EventListFragment : BaseFragment() {
                                 .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                     }.continueWith { it ->
                         Triple(infos, it.result.filterNotNull()
-                                .map { it.id to it.toObject(HospitalInfo::class.java)!!}
+                                .map { it.id to it.toObject(HospitalInfo::class.java)!! }
                                 .toMap(), lastVisible)
                     }
         }

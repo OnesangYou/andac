@@ -1,69 +1,72 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.dac.gapp.andac.fragment.BoardFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity"
-        android:orientation="vertical"
-        >
+        tools:context="com.dac.gapp.andac.fragment.BoardFragment">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabLayout"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".MainActivity">
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/free_board"
-                android:layout_width="wrap_content"
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/free_board"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/free_board" />
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/review_board"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/review_board" />
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/question_board"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/question_board" />
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/hot_board"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hot_board" />
+            </android.support.design.widget.TabLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/free_board" />
+                tools:listitem="@layout/item_card" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/review_board"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/review_board" />
+        </LinearLayout>
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/question_board"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/question_board" />
-            <android.support.design.widget.TabItem
-                android:id="@+id/hot_board"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hot_board" />
-        </android.support.design.widget.TabLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabWriteBoard"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/colorMain"
+            android:scaleType="centerCrop"
+            android:src="@drawable/write_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            tools:listitem="@layout/item_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            />
 
-    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabWriteBoard"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/write_button"
-        android:backgroundTint="@color/colorMain"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        />
-
-</android.support.design.widget.CoordinatorLayout>
+</layout>
