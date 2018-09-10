@@ -94,11 +94,13 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getAuth(): FirebaseAuth? = FirebaseAuth.getInstance()
 
     fun getCurrentUser(): FirebaseUser? = getAuth()?.currentUser
-            ?.also {
-                it.phoneNumber?.isEmpty()?.let { isEmpty ->
+            .also {
+                it?:goToLogin() // 로그아웃 상태
+                it?.phoneNumber?.isEmpty()?.let { isEmpty ->
                     if (isEmpty) goToLogin()
                 }
             } // 폰등록 안되 있는 경우는 login 이동
+
 
     private var mProgressDialog: ProgressDialog? = null
 

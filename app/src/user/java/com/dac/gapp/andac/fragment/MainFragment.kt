@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.*
-import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.adapter.AdPagerAdapter
+import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentMainBinding
 import com.dac.gapp.andac.dialog.MainPopupDialog
@@ -19,6 +19,8 @@ import com.dac.gapp.andac.enums.Extra
 import com.dac.gapp.andac.model.firebase.AdInfo
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.util.OnItemClickListener
+import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -180,6 +182,12 @@ class MainFragment : BaseFragment() {
                                                 .toMap().also { hospitalInfoMap ->
                                                     columnList.swapAdapter(ColumnRecyclerAdapter(this, columnInfos!!, hospitalInfoMap), false)
                                                     columnList.adapter.notifyDataSetChanged()
+                                                    columnList.addOnItemClickListener(object : OnItemClickListener {
+                                                        override fun onItemClicked(position: Int, view: View) {
+                                                            // 디테일
+                                                            startActivity(Intent(this@apply, ColumnDetailActivity::class.java).putExtra(OBJECT_KEY, columnInfos[position].objectId))
+                                                        }
+                                                    })
                                                 }
                                     }
                         }

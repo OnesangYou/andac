@@ -57,7 +57,7 @@ class ColumnWriteActivity : BaseActivity() {
             if(!validate()) return@setOnClickListener
 
             columnInfo.apply {
-                writerUid = getUid().toString()
+                writerUid = getUid()?:return@setOnClickListener
                 title = titleText.text.toString()
                 contents = contentsText.text.toString()
             }
