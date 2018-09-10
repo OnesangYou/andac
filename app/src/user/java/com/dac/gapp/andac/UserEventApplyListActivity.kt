@@ -31,6 +31,7 @@ class UserEventApplyListActivity : BaseActivity() {
         setContentView(R.layout.activity_user_event_apply_list)
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText("내 이벤트 관리")
+        hidActionBarRight()
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
         resetData()

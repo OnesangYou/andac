@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import com.dac.gapp.andac.adapter.ReplyRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.extension.loadImage
@@ -26,6 +27,7 @@ class BoardDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_detail)
+        prepareUi()
         intent.getStringExtra(OBJECT_KEY)?.also { boardKey ->
             getBoard(boardKey)?.addSnapshotListener { documentSnapshot, _ ->
                 val boardInfo = documentSnapshot?.toObject(BoardInfo::class.java)?:return@addSnapshotListener
@@ -110,5 +112,11 @@ class BoardDetailActivity : BaseActivity() {
 
         }
 
+    }
+
+    private fun prepareUi() {
+        setActionBarLeftImage(R.drawable.back)
+        hidActionBarRight()
+        setOnActionBarLeftClickListener(View.OnClickListener { finish() })
     }
 }
