@@ -14,7 +14,6 @@ import com.dac.gapp.andac.model.firebase.ReplyInfo
 import com.dac.gapp.andac.model.firebase.SomebodyInfo
 import com.dac.gapp.andac.util.getFullFormat
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_board_detail.*
 import kotlinx.android.synthetic.main.base_item_card.*
@@ -58,7 +57,7 @@ class BoardDetailActivity : BaseActivity() {
                         userProfileImage.loadImage(url)
                     }
 
-            // 댓글 달기
+
             replyEditView.addTextChangedListener(object : TextWatcher {
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                     // 입력되는 텍스트에 변화가 있을 때
@@ -67,6 +66,8 @@ class BoardDetailActivity : BaseActivity() {
                 override fun afterTextChanged(arg0: Editable) {}
                 override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             })
+
+            // 댓글 달기
             replySubmit.setOnClickListener { _ ->
                 val reference = getReplies(boardKey)?.document()?:return@setOnClickListener
                 showProgressDialog()
@@ -80,11 +81,7 @@ class BoardDetailActivity : BaseActivity() {
                 )
                         .onSuccessTask { _ ->
                             // 댓글 카운트 추가
-                            val boardRef = getBoard(boardKey)?:throw IllegalStateException()
-                            FirebaseFirestore.getInstance().runTransaction {
-                                val boardInfo = it.get(boardRef).toObject(BoardInfo::class.java)?:throw IllegalStateException()
-                                it.set(boardRef, boardInfo.apply { replyCount++; if(replyCount < 0) throw IllegalStateException("Reply Count is Zero") })
-                            }
+                            addReplyCount(boardKey)
                         }
                         .addOnSuccessListener { toast("댓글 추가 완료"); hideSoftKeyboard()}
                         .addOnCompleteListener { hideProgressDialog() }

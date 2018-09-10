@@ -58,10 +58,16 @@ class BoardRecyclerAdapter
                 text_nickname.text = nickName
             }
 
-            itemView.setOnClickListener{onItemClickListener?.invoke(item, userInfo)}
+            // 클릭시 디테일 게시물 이동
+            arrayListOf(button_writting,itemView).forEach { view -> view.setOnClickListener{onItemClickListener?.invoke(item, userInfo)} }
 
+            // 좋아요 클릭
             button_like.setOnClickListener {
                 Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()
+
+                // todo : 게시물 하위 컬렉션 추가 {유저키 : 날짜}
+                // todo : 유저 컨텐츠 도큐먼트 하뒤 컬렉션 추가 {게시물키 : 날짜}
+                context?.addLikeCount(item.objectId)
             }
 
             button_writting.setOnClickListener {

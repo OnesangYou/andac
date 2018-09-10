@@ -491,11 +491,10 @@ abstract class BaseActivity : AppCompatActivity() {
                 getReplies(replyInfo.boardId)?.document(replyInfo.objectId)
                         ?.delete()
                         ?.onSuccessTask { _ ->
-                            // 댓글 카운트 추가
-                            val boardRef = getBoard(replyInfo.boardId)?:throw IllegalStateException()
-                            FirebaseFirestore.getInstance().runTransaction {
-                                val boardInfo = it.get(boardRef).toObject(BoardInfo::class.java)?:throw IllegalStateException()
-                                it.set(boardRef, boardInfo.apply { replyCount-- })
+                            // 댓글 카운트 감소
+                            boardRunTransaction(replyInfo.boardId) { boardInfo ->
+                                boardInfo.replyCount--
+                                if(boardInfo.replyCount < 0) throw IllegalStateException("Reply Count is Zero")
                             }
                         }
                         ?.addOnSuccessListener { toast("댓글이 삭제되었습니다") }
@@ -511,4 +510,24 @@ abstract class BaseActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(
                 currentFocus!!.windowToken, 0)
     }
+
+    fun boardRunTransaction(boardKey : String, function: (boardInfo : BoardInfo) -> Unit) =
+        FirebaseFirestore.getInstance().runTransaction { transaction ->
+        val boardRef = getBoard(boardKey)?:throw IllegalStateException()
+        val boardInfo = transaction.get(boardRef).toObject(BoardInfo::class.java)?:throw IllegalStateException()
+        transaction.set(boardRef, boardInfo.also { function.invoke(it) })
+    }
+
+
+    fun addReplyCount(boardKey : String) =
+        boardRunTransaction(boardKey) { boardInfo ->
+            boardInfo.replyCount++
+            if(boardInfo.replyCount < 0) throw IllegalStateException("Reply Count is Zero")
+        }
+
+    fun addLikeCount(boardKey : String) =
+        boardRunTransaction(boardKey) { boardInfo ->
+            boardInfo.likeCount++
+            if(boardInfo.likeCount < 0) throw IllegalStateException("Like Count is Zero")
+        }
 }
