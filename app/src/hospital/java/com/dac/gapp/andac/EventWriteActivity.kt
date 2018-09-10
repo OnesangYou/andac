@@ -71,7 +71,7 @@ class EventWriteActivity : BaseActivity() {
             if(!validate()) return@setOnClickListener
 
             eventInfo.apply {
-                writerUid = getUid().toString()
+                writerUid = getUid()?:return@setOnClickListener
                 title = titleText.text.toString()
                 body = bodyText.text.toString()
                 price = priceText.text.toString().toInt()

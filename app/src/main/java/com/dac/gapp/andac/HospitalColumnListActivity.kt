@@ -108,7 +108,8 @@ class HospitalColumnListActivity : BaseActivity() {
                 .continueWithTask { getHospital()?.get() }
                 .continueWith {
                     it.result.toObject(HospitalInfo::class.java)?.let{hospitalInfo ->
-                        Triple(infos,  mapOf( getUid().toString() to hospitalInfo ), lastVisible)
+                        val uid = getUid()?:return@continueWith throw IllegalStateException()
+                        Triple(infos,  mapOf( uid to hospitalInfo ), lastVisible)
                     }
                 }
 
