@@ -22,11 +22,18 @@ import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.getFullFormat
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.base_item_card.view.*
 import org.jetbrains.anko.alert
 
-class BoardRecyclerAdapter
-(private val context : BaseActivity?, private var mDataList: List<BoardInfo>, private var userInfoMap: Map<String, UserInfo>, private var hospitalInfoMap: Map<String, HospitalInfo>, private var onItemClickListener : ((BoardInfo, UserInfo) -> Unit)? = null) : RecyclerView.Adapter<BoardRecyclerAdapter.BoardHolder>() {
+class BoardRecyclerAdapter(
+        private val context : BaseActivity?,
+        private var mDataList: List<BoardInfo>,
+        private var userInfoMap: Map<String, UserInfo>,
+        private var hospitalInfoMap: Map<String, HospitalInfo>,
+        private var onItemClickListener : ((BoardInfo, UserInfo) -> Unit)? = null
+) : RecyclerView.Adapter<BoardRecyclerAdapter.BoardHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardHolder {
         return BoardHolder(parent)
@@ -58,10 +65,16 @@ class BoardRecyclerAdapter
                 text_nickname.text = nickName
             }
 
-            itemView.setOnClickListener{onItemClickListener?.invoke(item, userInfo)}
+            // 클릭시 디테일 게시물 이동
+            arrayListOf(button_writting,itemView).forEach { view -> view.setOnClickListener{onItemClickListener?.invoke(item, userInfo)} }
 
+            // 좋아요 클릭
+            button_like.isEnabled = context?.isUser()?:return@with  // 유저만 사용 가능
             button_like.setOnClickListener {
                 Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()
+
+                context.clickLikeBtn(item.objectId)
+
             }
 
             button_writting.setOnClickListener {
@@ -141,4 +154,13 @@ class BoardRecyclerAdapter
         val replyText = itemView.replyText
         val likeText = itemView.likeText
     }
+}
+
+fun BaseActivity.clickLikeBtn(boardKey : String) {
+    val uid = getUid()?:return
+    // 게시물 하위 컬렉션 추가 {유저키 : 날짜}
+    getlikeUsers(boardKey)?.document(uid)?.set({"createdDate" to FieldValue.serverTimestamp()}, SetOptions.merge())
+    // 유저 컨텐츠 도큐먼트  컬렉션 추가 {게시물키 : 날짜}
+    getUserContents()?.collection("likeBoards")?.document(boardKey)?.set({"createdDate" to FieldValue.serverTimestamp()}, SetOptions.merge())
+    addLikeCount(boardKey)
 }
