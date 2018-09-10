@@ -70,6 +70,12 @@ class BoardRecyclerAdapter
 
             // 수정하기 버튼
             context?.let {ba->
+                // 비로그인
+                ba.getAuth()?.currentUser?: also{
+                    menu.visibility = View.INVISIBLE
+                    return@let
+                }
+
                 if(item.writerUid == ba.getUid()) {
                     menu.visibility = View.VISIBLE
                     menu.setOnClickListener {
