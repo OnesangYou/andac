@@ -1,109 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    tools:context="com.dac.gapp.andac.ColumnDetailActivity">
-    <ImageView
-        android:id="@+id/pictureImage"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@color/colorMain"
-        android:scaleType="centerCrop"
-        android:src="@drawable/main_top_pic"
-        app:layout_constraintDimensionRatio="w,3:2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout5"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/black35"
-        app:layout_constraintBottom_toBottomOf="@+id/pictureImage">
+        android:layout_height="match_parent"
 
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="17"
-            android:inputType="textMultiLine"
-            android:text="칼럼 제목이 표시되는 곳 입니다."
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+        tools:context="com.dac.gapp.andac.ColumnDetailActivity">
+
+
+
+        <ImageView
+            android:id="@+id/pictureImage"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@color/colorMain"
+            android:scaleType="centerCrop"
+            android:src="@drawable/main_top_pic"
+            app:layout_constraintDimensionRatio="w,3:2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/black35"
+            app:layout_constraintBottom_toBottomOf="@+id/pictureImage">
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="17"
+                android:inputType="textMultiLine"
+                android:text="칼럼 제목이 표시되는 곳 입니다."
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/writeDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="9dp"
+            android:text="작성일"
+            android:textSize="@dimen/_13sp"
+            app:layout_constraintStart_toEndOf="@+id/hospitalNameText"
+            app:layout_constraintTop_toBottomOf="@+id/pictureImage" />
+
+        <TextView
+            android:id="@+id/hospitalNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:text="병원명"
+            android:textColor="@color/colorMain"
+
+            android:textSize="@dimen/_13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pictureImage" />
+
+        <TextView
+            android:id="@+id/viewCountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="8dp"
+            android:text="조회수"
+            android:textSize="@dimen/_13sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pictureImage" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="9dp"
+            android:text="조회"
+            android:textSize="@dimen/_13sp"
+            app:layout_constraintEnd_toStartOf="@+id/viewCountText"
+            app:layout_constraintTop_toBottomOf="@+id/pictureImage" />
+
+
+        <TextView
+            android:id="@+id/contentsText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="35dp"
+            android:inputType="textMultiLine"
+            android:text="내용"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hospitalNameText" />
     </android.support.constraint.ConstraintLayout>
+</ScrollView>
 
-
-    <TextView
-        android:id="@+id/writeDateText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="9dp"
-        android:text="작성일"
-        android:textSize="@dimen/_13sp"
-        app:layout_constraintStart_toEndOf="@+id/hospitalNameText"
-        app:layout_constraintTop_toBottomOf="@+id/pictureImage" />
-
-    <TextView
-        android:id="@+id/hospitalNameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="8dp"
-        android:text="병원명"
-        android:textColor="@color/colorMain"
-
-        android:textSize="@dimen/_13sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pictureImage" />
-
-    <TextView
-        android:id="@+id/viewCountText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="8dp"
-        android:text="조회수"
-        android:textSize="@dimen/_13sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pictureImage" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="9dp"
-        android:text="조회"
-        android:textSize="@dimen/_13sp"
-        app:layout_constraintEnd_toStartOf="@+id/viewCountText"
-        app:layout_constraintTop_toBottomOf="@+id/pictureImage" />
-
-
-    <TextView
-        android:id="@+id/contentsText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="35dp"
-        android:inputType="textMultiLine"
-        android:text="내용"
-        android:textSize="18dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hospitalNameText" />
-</android.support.constraint.ConstraintLayout>

@@ -103,7 +103,8 @@ class MyBoardsFragment : BaseFragment() {
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
             }.continueWithTask { task ->
                 boardInfos = task.result.filterNotNull().map { it.toObject(BoardInfo::class.java)!! }
-                userInfoMap = mapOf(getUid().toString() to userInfo!!)
+                val uid = getUid()?:return@continueWithTask throw IllegalStateException()
+                userInfoMap = mapOf(uid to userInfo!!)
 
                 // set boardInfos
                 boardInfos.groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
