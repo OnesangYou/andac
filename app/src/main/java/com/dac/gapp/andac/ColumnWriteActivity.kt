@@ -7,6 +7,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.ColumnInfo
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -72,23 +73,24 @@ class ColumnWriteActivity : BaseActivity() {
 
             // picture 있을 경우 업로드 후 uri 받아오기, 데이터 업로드
             showProgressDialog()
-            pictureUri.let{ pictureUri ->
-                val setColumnInfoTask =
+            arrayListOf(pictureUri?.let { uri -> getColumnStorageRef()
+                .child(columnInfoRef.id)
+                .child("picture0.jpg")
+                .putFile(uri)
+                .continueWith { columnInfo.pictureUrl = it.result.downloadUrl.toString() }}
+            )
+                    .filterNotNull()
+                    .let { Tasks.whenAllSuccess<String>(it) }
+                    .onSuccessTask { list ->
                         FirebaseFirestore.getInstance().batch().run {
                             set(columnInfoRef, columnInfo, SetOptions.merge())
                             getHospitalColumn(columnInfoRef.id)
                                     ?.let { set(it, mapOf(dateFieldStr() to FieldValue.serverTimestamp()), SetOptions.merge()) }
                             commit()
                         }
-                pictureUri?.let { uri ->
-                    getColumnStorageRef().child(columnInfoRef.id).child("picture0.jpg").putFile(uri)
-                            .continueWith { columnInfo.pictureUrl = it.result.downloadUrl.toString() }
-                            .onSuccessTask { setColumnInfoTask }
-                }?:let { setColumnInfoTask }
-            }
-                    .addOnCompleteListener{hideProgressDialog()}
+                    }
+                    .addOnCompleteListener{ hideProgressDialog() }
                     .addOnSuccessListener{ toast("칼럼 업로드 완료"); setResult(Activity.RESULT_OK); finish() }
-
         }
 
     }
