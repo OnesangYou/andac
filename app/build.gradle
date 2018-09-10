@@ -50,7 +50,7 @@ android {
         hospital {
             dimension "target"
             applicationIdSuffix ".hospital"
-            manifestPlaceholders = [appLabel: "안닥 (병원용)"]
+            manifestPlaceholders = [appLabel: "안닥파트너스"]
             buildConfigField 'boolean', 'IS_USER', "false"
             versionCode new Date().format('yyMMddHHmm').toInteger()
         }

@@ -29,6 +29,7 @@ import com.dac.gapp.andac.BuildConfig
 import com.dac.gapp.andac.LoginActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SplashActivity
+import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.ReplyInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
@@ -489,6 +490,14 @@ abstract class BaseActivity : AppCompatActivity() {
                 showProgressDialog()
                 getReplies(replyInfo.boardId)?.document(replyInfo.objectId)
                         ?.delete()
+                        ?.onSuccessTask { _ ->
+                            // 댓글 카운트 추가
+                            val boardRef = getBoard(replyInfo.boardId)?:throw IllegalStateException()
+                            FirebaseFirestore.getInstance().runTransaction {
+                                val boardInfo = it.get(boardRef).toObject(BoardInfo::class.java)?:throw IllegalStateException()
+                                it.set(boardRef, boardInfo.apply { replyCount-- })
+                            }
+                        }
                         ?.addOnSuccessListener { toast("댓글이 삭제되었습니다") }
                         ?.addOnCompleteListener { hideProgressDialog() } ?: hideProgressDialog()
             }
