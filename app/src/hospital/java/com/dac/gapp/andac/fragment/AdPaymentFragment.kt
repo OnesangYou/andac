@@ -149,8 +149,9 @@ class AdPaymentFragment : BaseFragment() {
                                 }
                                 .addOnSuccessListener { photoUrl ->
                                     // TODO 광고 시작일, 종료일 은 관리자가 결정!!
-                                    context.getDb().collection(ad.collectionName).document(uid).set(AdInfo(photoUrl, Date(), Date(), eventObjectId?:""), SetOptions.merge())
+                                    context.getDb().collection(ad.collectionName).document(uid).set(AdInfo(photoUrl, false,  Date(), Date(), eventObjectId?:""), SetOptions.merge())
                                             .addOnSuccessListener {
+                                                AdInfo(photoUrl, false,  Date(), Date(), eventObjectId?:"").showingUp
                                                 Toast.makeText(context, "광고 정보 저장 성공", Toast.LENGTH_SHORT).show()
                                             }
                                             .addOnFailureListener {

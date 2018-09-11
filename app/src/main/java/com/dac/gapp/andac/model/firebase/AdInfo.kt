@@ -9,6 +9,7 @@ import java.util.*
  */
 data class AdInfo(
         var photoUrl: String = "",
+        var showingUp: Boolean = false,
         @ServerTimestamp var startDate: Date? = null,
         @ServerTimestamp var endDate: Date? = null,
         var eventId: String = ""

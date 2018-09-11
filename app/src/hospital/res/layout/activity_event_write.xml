@@ -20,102 +20,118 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
                 android:text="이벤트 정보 입력"
                 android:textColor="@color/colorMain"
-                android:textSize="@dimen/_15sp"
+                android:textSize="@dimen/_20sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="이벤트명 입력"
-                android:textSize="@dimen/_13sp"
-                app:layout_constraintStart_toStartOf="parent"
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="20dp"
+                android:background="@color/lightgray"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-            <TextView
-                android:id="@+id/textView29"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="이벤트 금액 입력"
-                android:textSize="@dimen/_13sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleText" />
-
-            <TextView
-                android:id="@+id/textView37"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="내용 입력"
-                android:textSize="@dimen/_13sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/priceText" />
 
             <EditText
                 android:id="@+id/titleText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:backgroundTint="@color/non"
                 android:ems="10"
                 android:hint="이벤트명"
                 android:inputType="textPersonName"
-                android:text=""
-                android:textSize="@dimen/_13sp"
+                android:textSize="@dimen/_15sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView4"
-                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="7dp"
+                android:background="@color/lightgray"
+                app:layout_constraintTop_toBottomOf="@+id/titleText" />
+
 
             <EditText
                 android:id="@+id/bodyText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="@color/non"
                 android:ems="10"
                 android:hint="내용"
                 android:inputType="textPersonName"
-                android:text=""
-                android:textSize="@dimen/_13sp"
+                android:textSize="@dimen/_15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView37"
-                app:layout_constraintTop_toBottomOf="@+id/textView37" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="7dp"
+                android:background="@color/lightgray"
+                app:layout_constraintTop_toBottomOf="@+id/bodyText" />
+
 
             <EditText
                 android:id="@+id/priceText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="@color/non"
                 android:ems="10"
                 android:hint="원 제외한 숫자"
                 android:inputType="number"
-                android:textSize="@dimen/_13sp"
+                android:textSize="@dimen/_15sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView29"
-                app:layout_constraintTop_toBottomOf="@+id/textView29" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="7dp"
+                android:background="@color/lightgray"
+                app:layout_constraintTop_toBottomOf="@+id/priceText" />
+
+            <TextView
+                android:id="@+id/textView36"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="13dp"
+                android:text="광고 상단, 메인 이미지를 설정해주세요"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view4" />
+
 
             <TextView
                 android:id="@+id/textView35"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="광고 하단, 세부 이미지를 설정해주세요. 너비는 동일 아래로 긴 이미지"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="13dp"
+                android:text="광고 하단, 세로형 세부 이미지를 설정해주세요."
                 android:textSize="@dimen/_13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/topImage" />
@@ -140,7 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginHorizontal="15dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/gray"
@@ -150,16 +166,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView36"
                 app:srcCompat="@drawable/album_ic_add_photo_white" />
 
-            <TextView
-                android:id="@+id/textView36"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="광고 상단, 메인 이미지를 설정해주세요"
-                android:textSize="@dimen/_13sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bodyText" />
 
             <Button
                 android:id="@+id/uploadBtn"

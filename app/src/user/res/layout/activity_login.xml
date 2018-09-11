@@ -11,7 +11,7 @@
         android:id="@+id/imgviewLoginBannerAd"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@drawable/popup_ad"
+        android:src="@drawable/main_popup_ad"
         android:scaleType="centerInside"
         android:background="@color/orange"
         app:layout_constraintDimensionRatio="w,3:2"

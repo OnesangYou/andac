@@ -29,14 +29,6 @@
                 android:background="@color/colorMain"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/imageView9"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/main_top_pic"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <Button
                     android:id="@+id/btnConsultingBoard"
@@ -54,52 +46,60 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <LinearLayout
+                <android.support.constraint.ConstraintLayout
                     android:id="@+id/dashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toTopOf="@+id/btnConsultingBoard"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/imageView9">
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <Button
-                        android:id="@+id/today_visit"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:layout_marginLeft="16dp"
-                        android:background="@drawable/buttonstyle2"
-                        android:text="방문자수\n\n0"
+                    <TextView
+                        android:id="@+id/hospital_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="25dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView12"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/imageView12"
+                        app:layout_constraintTop_toTopOf="@+id/imageView12" />
+
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="20dp"
+                        android:text="안닥의 파트너가 되어주셔서 \n진심으로 감사드립니다."
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="15dp"
-                        app:layout_constraintLeft_toRightOf="@+id/today_consulting" />
-
-                    <Button
-                        android:id="@+id/today_consulting"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:layout_marginLeft="16dp"
-                        android:background="@drawable/buttonstyle2"
-                        android:text="상담건수\n\n0"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        app:chainUseRtl="true"
-                        app:layout_constraintLeft_toRightOf="@+id/today_event" />
+                        android:textSize="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hospital_name" />
 
 
-                    <Button
-                        android:id="@+id/today_event"
-                        android:layout_width="90dp"
-                        android:layout_height="90dp"
-                        android:layout_marginLeft="16dp"
 
-                        android:background="@drawable/buttonstyle2"
-                        android:text="이벤트\n\n0"
-                        android:textColor="@color/white"
-                        android:textSize="15dp"
-                        app:chainUseRtl="true" />
-                </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imageView12"
+                        android:layout_width="20dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="20dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/logo_notext"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/requestText"
