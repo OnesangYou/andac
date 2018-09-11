@@ -31,6 +31,9 @@ class RequestSurgeryActivity : BaseActivity() {
         intent.getBooleanExtra("isOpen", true).let {
             binding.isOpen = it
         }
+        intent.getStringExtra("hospitalName")?.let {
+            binding.regionText1.text = it
+        }
     }
 
     fun createConsult(): ConsultInfo? {

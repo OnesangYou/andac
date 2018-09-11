@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="activity"
             type="com.dac.gapp.andac.RequestSurgeryActivity" />
@@ -10,18 +14,13 @@
             type="Boolean" />
     </data>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             tools:context="com.dac.gapp.andac.RequestConsultActivity">
 
             <TextView
@@ -60,8 +59,7 @@
                         android:background="@drawable/request_lasiclasex_btn"
                         android:button="@null"
                         android:checked="true"
-                        android:gravity="center"
-                        />
+                        android:gravity="center" />
 
                     <RadioButton
                         android:id="@+id/tag_2"
@@ -70,8 +68,7 @@
                         android:layout_marginLeft="4dp"
                         android:background="@drawable/request_insertlense_btn"
                         android:button="@null"
-                        android:gravity="center"
-                        />
+                        android:gravity="center" />
 
                     <RadioButton
                         android:id="@+id/tag_3"
@@ -80,8 +77,7 @@
                         android:layout_marginLeft="4dp"
                         android:background="@drawable/request_whiteeye_btn"
                         android:button="@null"
-                        android:gravity="center"
-                        />
+                        android:gravity="center" />
 
                     <RadioButton
                         android:id="@+id/tag_4"
@@ -90,8 +86,7 @@
                         android:layout_marginLeft="4dp"
                         android:background="@drawable/request_oldeye_btn"
                         android:button="@null"
-                        android:gravity="center"
-                        />
+                        android:gravity="center" />
 
                     <RadioButton
                         android:id="@+id/tag_5"
@@ -100,8 +95,7 @@
                         android:layout_marginLeft="4dp"
                         android:background="@drawable/request_eyesick_btn"
                         android:button="@null"
-                        android:gravity="center"
-                        />
+                        android:gravity="center" />
                 </RadioGroup>
 
 
@@ -236,12 +230,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="20dp"
                 android:text="부가설명이 필요한부분은 사진을 업로드하세요"
 
                 android:textSize="@dimen/_12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view6" />
+                app:layout_constraintTop_toBottomOf="@+id/regionText1" />
 
 
             <ImageView
@@ -308,32 +302,29 @@
                 app:layout_constraintStart_toEndOf="parent" />
 
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/regionText1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:text="지역선택 "
+                android:textSize="@dimen/_13sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/text_pic"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view6">
+                app:layout_constraintTop_toBottomOf="@+id/view6" />
 
-                <TextView
-                    android:id="@+id/regionText1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="지역선택 "
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_13sp"
-                    />
-
-                <Spinner
-                    android:id="@+id/regionSpinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/region_list"
-                    android:visibility="@{isOpen}"
-                    />
-            </LinearLayout>
+            <Spinner
+                android:id="@+id/regionSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:entries="@array/region_list"
+                android:visibility="@{isOpen}"
+                app:layout_constraintBottom_toBottomOf="@+id/regionText1"
+                app:layout_constraintStart_toEndOf="@+id/regionText1"
+                app:layout_constraintTop_toTopOf="@+id/regionText1" />
 
         </android.support.constraint.ConstraintLayout>
 

@@ -94,6 +94,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     fun onClickConsult(view: View) {
-        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen", false).putExtra("documentId", hospitalInfo.documentId))
+        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen", false).putExtra("documentId", hospitalInfo.documentId).putExtra("hospitalName",hospitalInfo.name))
     }
 }
