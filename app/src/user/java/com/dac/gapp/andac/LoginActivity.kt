@@ -79,14 +79,13 @@ open class LoginActivity : BaseLoginActivity() {
         getDb().collection(Ad.LOGIN_BANNER.collectionName)
                 .get()
                 .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
+                    if (task.isSuccessful && task.result.size() > 0) {
                         val photoUrls = ArrayList<String>()
                         for (document in task.result) {
                             val adInfo = document.toObject(AdInfo::class.java)
                             Timber.d("photoUrl: ${adInfo.photoUrl}")
                             photoUrls.add(adInfo.photoUrl)
                         }
-                        if(task.result.size() == 0) return@addOnCompleteListener
                         Glide.with(this).load(photoUrls[0]).into(imgviewLoginBannerAd)
                     }
                 }

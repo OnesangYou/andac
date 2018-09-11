@@ -84,11 +84,11 @@ class MainFragment : BaseFragment() {
                 //                MyToast.showShort(context, "TODO: 알림 설정")
             })
             context.getDb().collection(Ad.MAIN_BANNER.collectionName)
+                    .whereEqualTo("showingUp", true)
                     .get()
                     .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
+                        if (task.isSuccessful && task.result.size() > 0) {
                             val adInfoList = ArrayList<AdInfo>()
-                            adInfoList.add(AdInfo())
                             for (document in task.result) {
                                 val adInfo = document.toObject(AdInfo::class.java)
                                 Timber.d("photoUrl: ${adInfo.photoUrl}")
@@ -105,9 +105,10 @@ class MainFragment : BaseFragment() {
             if (mIsMainPopupAdFirst) {
                 mIsMainPopupAdFirst = false
                 context.getDb().collection(Ad.MAIN_POPUP.collectionName)
+                        .whereEqualTo("showingUp", true)
                         .get()
                         .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
+                            if (task.isSuccessful && task.result.size() > 0) {
                                 val adInfoList = ArrayList<AdInfo>()
                                 for (document in task.result) {
                                     val adInfo = document.toObject(AdInfo::class.java)
@@ -117,23 +118,26 @@ class MainFragment : BaseFragment() {
 
                                 // TODO 팝업 광고 랜덤으로 띄워야됨!!
                                 val dialog = MainPopupDialog(requireContext())
+                                val clickListener = View.OnClickListener {
+                                    if (adInfoList[0].eventId.isNotEmpty()) {
+                                        activity?.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfoList[0].eventId)
+                                    }
+                                    dialog.dismiss()
+                                }
                                 dialog
-                                        .setImage(if (adInfoList.size > 0 && adInfoList[0].photoUrl.isNotEmpty()) adInfoList[0].photoUrl else R.drawable.popup_ad)
-                                        .setOnImageClickListener(View.OnClickListener {
-                                            if (adInfoList.size > 0 && adInfoList[0].eventId.isNotEmpty()) {
-                                                activity?.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfoList[0].eventId)
-                                            }
-                                            dialog.dismiss()
-                                        })
-                                        .setOnCancelListener(View.OnClickListener {
-                                            if (adInfoList.size > 0 && adInfoList[0].eventId.isNotEmpty()) {
-                                                activity?.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfoList[0].eventId)
-                                            }
-                                            dialog.dismiss()
-                                        })
-                                        .setOnConfirmListener(View.OnClickListener {
-                                            dialog.dismiss()
-                                        }).show()
+                                        .setImage(if (adInfoList[0].photoUrl.isNotEmpty()) adInfoList[0].photoUrl else R.drawable.main_popup_ad)
+                                        .setOnImageClickListener(clickListener)
+                                        .setOnCancelListener(clickListener)
+                                        .setOnConfirmListener(View.OnClickListener { dialog.dismiss() })
+                                        .show()
+                            } else {
+                                val dialog = MainPopupDialog(requireContext())
+                                dialog
+                                        .setImage(R.drawable.main_popup_ad)
+                                        .setOnCancelListener(View.OnClickListener { dialog.dismiss() })
+                                        .setOnConfirmListener(View.OnClickListener { dialog.dismiss() })
+                                        .show()
+
                             }
                         }
                         .addOnFailureListener {
@@ -142,21 +146,17 @@ class MainFragment : BaseFragment() {
             }
 
             context.getDb().collection(Ad.MAIN_TODAY_HOSPITAL.collectionName)
+                    .whereEqualTo("showingUp", true)
                     .get()
                     .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
+                        if (task.isSuccessful && task.result.size() > 0) {
                             val photoUrls = ArrayList<String>()
-                            if (task.result.size() == 0) return@addOnCompleteListener
                             for (document in task.result) {
                                 val adInfo = document.toObject(AdInfo::class.java)
                                 Timber.d("photoUrl: ${adInfo.photoUrl}")
                                 photoUrls.add(adInfo.photoUrl)
                             }
-                            binding.imgviewTodaysHospitalAd?.let {
-                                Glide.with(context)
-                                        .load(if (photoUrls.size > 0) photoUrls[0] else R.drawable.main_todays_hospital_ad)
-                                        .into(it)
-                            }
+                            Glide.with(context).load(photoUrls[0]).into(binding.imgviewTodaysHospitalAd)
                         }
                     }
         }

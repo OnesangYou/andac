@@ -9,7 +9,7 @@
         android:layout_width="280dp"
         android:layout_height="280dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/popup_ad"
+        android:src="@drawable/main_popup_ad"
         app:layout_constraintBottom_toTopOf="@+id/btnCancel"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintLeft_toLeftOf="parent"
