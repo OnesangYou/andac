@@ -7,7 +7,7 @@ import kotlin.collections.ArrayList
 /**
  * Created by gimbyeongjin on 2018. 4. 4..
  */
-data class BoardInfo(
+data class BoardInfo (
         var hospitalUid: String = "",
         var tag: String = "",
         var type: String = "",

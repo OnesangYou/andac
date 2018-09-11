@@ -27,6 +27,7 @@ import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.RxBus
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 
@@ -37,6 +38,8 @@ class BoardFragment : BaseFragment() {
     val list = mutableListOf<BoardInfo>()
     val map = mutableMapOf<String, UserInfo>()
     val hospitalInfoMap = mutableMapOf<String, HospitalInfo>()
+    var likeSet = mutableSetOf<String>()
+
 
     var type: String? = null
     private var lastVisible: DocumentSnapshot? = null
@@ -66,7 +69,7 @@ class BoardFragment : BaseFragment() {
 
         // set recyclerView
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.swapAdapter((BoardRecyclerAdapter(context, list, map, hospitalInfoMap) { boardInfo, userInfo ->
+        binding.recyclerView.swapAdapter((BoardRecyclerAdapter(context, list, map, hospitalInfoMap, likeSet) { boardInfo, userInfo ->
             // 로그인 상태 체크
 //            getCurrentUser() ?: return@BoardRecyclerAdapter goToLogin(true)
             context?.startActivity(Intent(context, BoardDetailActivity::class.java).putExtra(context?.OBJECT_KEY, boardInfo.objectId))
@@ -147,6 +150,7 @@ class BoardFragment : BaseFragment() {
         list.clear()
         map.clear()
         hospitalInfoMap.clear()
+        likeSet.clear()
         lastVisible = null
     }
 
@@ -163,56 +167,71 @@ class BoardFragment : BaseFragment() {
                             .limit(PageSize.board.value)   // 페이지 단위
             )
                     ?.addOnSuccessListener {
-                        list.addAll(it.first)
-                        map.putAll(it.second)
-                        hospitalInfoMap.putAll(it.third)
+                        list.addAll(it.boardInfos)
+                        map.putAll(it.userInfoMap)
+                        hospitalInfoMap.putAll(it.hospitalInfoMap)
+                        likeSet.addAll(it.likeSet)
                         binding.recyclerView.adapter.notifyDataSetChanged()
+
                     }
                     ?.addOnCompleteListener { hideProgressDialog() }
         }
     }
 
-    private fun getTripleDataTask(query: Query): Task<Triple<List<BoardInfo>, Map<String, UserInfo>, Map<String, HospitalInfo>>>? {
-
-        var boardInfos = listOf<BoardInfo>()
-        var userInfoMap = mapOf<String, UserInfo>()
-        var hospitalInfoMap = mapOf<String, HospitalInfo>()
-
+    private fun getTripleDataTask(query: Query): Task<BoardAdapterData>? {
+//        context?:return null
+        val data = BoardAdapterData()
         return context?.run {
             query.get()
                     .continueWith { it ->
                         lastVisible = it.result.documents.let { it[it.size - 1] }
                         it.result.toObjects(BoardInfo::class.java)
                     }.continueWithTask { task ->
-                        boardInfos = task.result
+                        data.boardInfos = task.result
                         Tasks.whenAllSuccess<Void>(
                                 // set userInfoMap
-                                boardInfos.groupBy { it.writerUid }.filter { !it.key.isEmpty() }.mapNotNull {
+                                data.boardInfos.groupBy { it.writerUid }.filter { !it.key.isEmpty() }.mapNotNull {
                                     getUserInfo(it.key)?.continueWith { task -> it.key to task.result }
                                 }.let {
                                     Tasks.whenAllSuccess<Pair<String, UserInfo>>(it)
                                 }.continueWith {
-                                    userInfoMap = it.result.toMap()
+                                    data.userInfoMap = it.result.toMap()
                                 }
                                 ,
                                 // set hospitalInfoMap
-                                boardInfos.groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
+                                data.boardInfos.groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
                                     getHospitalInfo(it.key)?.continueWith { task -> it.key to task.result }
                                 }.let {
                                     Tasks.whenAllSuccess<Pair<String, HospitalInfo>>(it)
                                 }.continueWith {
-                                    hospitalInfoMap = it.result.toMap()
+                                    data.hospitalInfoMap = it.result.toMap()
                                 }
                         )
 
                     }
+                    .continueWithTask { task ->
+                        if(FirebaseAuth.getInstance().currentUser != null){
+                            getUserContents()?.collection("likeBoards")?.get()?.continueWith { task1 ->
+                                task1.result.mapNotNull { it.id }.toSet()
+                            }
+                        } else task.continueWith { setOf<String>() }
+                    }
                     .continueWith {
-                        Triple(boardInfos,
-                                userInfoMap,
-                                hospitalInfoMap)
+                        BoardAdapterData(data.boardInfos,
+                                data.userInfoMap,
+                                hospitalInfoMap,
+                                it.result
+                        )
                     }
         }
     }
+
+    data class BoardAdapterData(
+            var boardInfos : List<BoardInfo> = listOf(),
+            var userInfoMap : Map<String, UserInfo> = mapOf(),
+            var hospitalInfoMap : Map<String, HospitalInfo> = mapOf(),
+            var likeSet : Set<String> = setOf()
+    )
 
 }
 

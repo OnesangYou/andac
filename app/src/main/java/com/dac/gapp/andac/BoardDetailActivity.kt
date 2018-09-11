@@ -30,7 +30,7 @@ class BoardDetailActivity : BaseActivity() {
         intent.getStringExtra(OBJECT_KEY)?.also { boardKey ->
             getBoard(boardKey)?.addSnapshotListener { documentSnapshot, _ ->
                 val boardInfo = documentSnapshot?.toObject(BoardInfo::class.java)?:return@addSnapshotListener
-                title_text.text = title
+                title_text.text = boardInfo.title
                 contents_text.text = boardInfo.contents
                 val pictureList = arrayListOf(picture_1, picture_2, picture_3)
                 boardInfo.pictureUrls?.forEachIndexed { index, url ->
@@ -85,13 +85,16 @@ class BoardDetailActivity : BaseActivity() {
                             objectId = reference.id,
                             boardId = boardKey,
                             writerType = if (isUser()) "user" else "hospital"
-                    )
-                    )
+                    ))
                             .onSuccessTask { _ ->
                                 // 댓글 카운트 추가
                                 addReplyCount(boardKey)
                             }
-                            .addOnSuccessListener { toast("댓글 추가 완료"); hideSoftKeyboard()}
+                            .addOnSuccessListener {
+                                toast("댓글 추가 완료")
+                                hideSoftKeyboard()
+                                replyEditView.text.clear()
+                            }
                             .addOnCompleteListener { hideProgressDialog() }
 
                 }

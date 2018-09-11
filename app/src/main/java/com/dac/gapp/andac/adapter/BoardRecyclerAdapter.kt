@@ -3,25 +3,26 @@ package com.dac.gapp.andac.adapter
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupMenu
-import android.widget.TextView
-import android.widget.Toast
-import com.bumptech.glide.Glide
+import android.widget.ToggleButton
 import com.dac.gapp.andac.BoardWriteActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.databinding.ItemCardBinding
 import com.dac.gapp.andac.enums.RequestCode
+import com.dac.gapp.andac.extension.likeCnt
+import com.dac.gapp.andac.extension.loadImage
 import com.dac.gapp.andac.model.ActivityResultEvent
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.RxBus
-import com.dac.gapp.andac.util.getFullFormat
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.base_item_card.view.*
@@ -32,6 +33,7 @@ class BoardRecyclerAdapter(
         private var mDataList: List<BoardInfo>,
         private var userInfoMap: Map<String, UserInfo>,
         private var hospitalInfoMap: Map<String, HospitalInfo>,
+        private var likeSet: Set<String> = mutableSetOf(),
         private var onItemClickListener : ((BoardInfo, UserInfo) -> Unit)? = null
 ) : RecyclerView.Adapter<BoardRecyclerAdapter.BoardHolder>() {
 
@@ -41,72 +43,75 @@ class BoardRecyclerAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: BoardHolder, position: Int) {
-        val item = mDataList[position]
-        val userInfo = userInfoMap[item.writerUid]?:return
+        context?:return
 
-        with(holder){
-            title_text.text = item.title //아이템을 홀더에 넣어주면 되요 지금 타이틀넣은것
-            contents_text.text = item.contents //아이템을 홀더에 넣기 지금건 컨텐츠
-            date.text = item.writeDate?.getFullFormat()
-            replyText.text = "댓글 ${item.replyCount} 개"
-            likeText.text = "좋아요 ${item.likeCount} 개"
+        val boardInfo = mDataList[position]
+        val userInfo = userInfoMap[boardInfo.writerUid] ?: return
 
-            item.pictureUrls?.forEachIndexed { index, url ->
-                Glide.with(context).load(url).into(pictures[index])
+        with(holder) {
+
+            // binding 객체
+            binding?.also {
+                it.boardInfo = boardInfo
+                it.hospitalInfo = hospitalInfoMap[mDataList[position].hospitalUid]
+                it.userInfo = userInfo
             }
 
-            pictures.forEachIndexed { index, pic ->
-                if(item.pictureUrls != null && item.pictureUrls!!.size > index){
-                    Glide.with(context).load(item.pictureUrls!![index]).into(pic)
+            // 게시판 사진
+            boardInfo.pictureUrls?.forEachIndexed { index, url ->
+                pictures[index].loadImage(url)
+            }
+
+//            pictures.forEachIndexed { index, pic ->
+//                if (boardInfo.pictureUrls != null && boardInfo.pictureUrls!!.size > index) {
+//                    pic.loadImage(boardInfo.pictureUrls!![index])
+//                }
+//            }
+
+
+            // 클릭시 디테일 게시물 이동
+            arrayListOf(button_writting, itemView).forEach { view ->
+                view.setOnClickListener {
+                    if (context.isLogin()) onItemClickListener?.invoke(boardInfo, userInfo)
+                    else context.goToLogin()
                 }
             }
 
-            userInfo.apply {
-                text_nickname.text = nickName
-            }
-
-            // 클릭시 디테일 게시물 이동
-            arrayListOf(button_writting,itemView).forEach { view -> view.setOnClickListener{onItemClickListener?.invoke(item, userInfo)} }
-
             // 좋아요 클릭
-            button_like.isEnabled = context?.isUser()?:return@with  // 유저만 사용 가능
-            button_like.setOnClickListener {
-                Toast.makeText(context, "" + position, Toast.LENGTH_SHORT).show()
-
-//                context.clickLikeBtn(item.objectId)
-
+            button_like.isEnabled = context.isUser()  // 유저만 사용 가능
+            if (context.isLogin()) {
+                button_like.isChecked = likeSet.contains(boardInfo.objectId)
+                button_like.setOnClickListener {
+                    context.clickLikeBtn(boardInfo.objectId, button_like.isChecked)
+                    boardInfo.likeCount += if (button_like.isChecked) 1 else -1
+                    likeText.likeCnt(boardInfo.likeCount)
+                }
+            } else {
+                button_like.setOnClickListener {
+                    context.goToLogin()
+                    button_like.isChecked = false
+                }
             }
 
             // 수정하기 버튼
-            context?.let {ba->
-                // 비로그인
-                ba.getAuth()?.currentUser?: also{
-                    menu.visibility = View.INVISIBLE
-                    return@let
-                }
-
-                if(item.writerUid == ba.getUid()) {
-                    menu.visibility = View.VISIBLE
-                    menu.setOnClickListener {
-                        PopupMenu(context, it).apply {
-                            menuInflater.inflate(R.menu.board_menu, this.menu)
-                            setOnMenuItemClickListener { menuItem ->
-                                when (menuItem.itemId) {
-                                    R.id.modifyBtn -> ba.startActivityForResult(Intent(ba, BoardWriteActivity::class.java).putExtra(ba.OBJECT_KEY, item.objectId), RequestCode.OBJECT_ADD.value)
-                                    R.id.deleteBtn -> ba.showDeleteBoardDialog(item.objectId)
-                                }
-                                false
+            if(context.isLogin() && boardInfo.writerUid == context.getUid()){
+                menu.visibility = View.VISIBLE
+                menu.setOnClickListener {
+                    PopupMenu(this@BoardRecyclerAdapter.context, it).apply {
+                        menuInflater.inflate(R.menu.board_menu, this.menu)
+                        setOnMenuItemClickListener { menuItem ->
+                            when (menuItem.itemId) {
+                                R.id.modifyBtn -> context.startActivityForResult(Intent(context, BoardWriteActivity::class.java).putExtra(context.OBJECT_KEY, boardInfo.objectId), RequestCode.OBJECT_ADD.value)
+                                R.id.deleteBtn -> context.showDeleteBoardDialog(boardInfo.objectId)
                             }
-                        }.show()
+                            false
+                        }
+                    }.show()
 
-                    }
-                } else {
-                    menu.visibility = View.INVISIBLE
                 }
+            } else {
+                menu.visibility = View.INVISIBLE
             }
-
-            // hospital_hashtag
-            hospital_hashtag.text = hospitalInfoMap[item.hospitalUid]?.name
 
         }
     }
@@ -137,26 +142,30 @@ class BoardRecyclerAdapter(
     class BoardHolder(parent: ViewGroup) : AndroidExtensionsViewHolder(
             LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_card, parent, false)) {
-
-        val title_text: TextView = itemView.title_text
-        val contents_text: TextView = itemView.contents_text
-        val button_like: Button = itemView.button_like
+        var binding : ItemCardBinding? = DataBindingUtil.bind(itemView)
+        val button_like: ToggleButton = itemView.button_like
         val button_writting: Button = itemView.button_writting
-        val text_nickname: TextView = itemView.text_nickname
-        val date: TextView = itemView.date
         val pictures = arrayListOf(itemView.picture_1, itemView.picture_2, itemView.picture_3)
-        val hospital_hashtag: TextView = itemView.hospital_hashtag
         val menu: Button = itemView.menu
-        val replyText = itemView.replyText
         val likeText = itemView.likeText
     }
 }
 
-fun BaseActivity.clickLikeBtn(boardKey : String) {
+fun BaseActivity.clickLikeBtn(boardKey : String, setLike : Boolean) {
     val uid = getUid()?:return
-    // 게시물 하위 컬렉션 추가 {유저키 : 날짜}
-    getlikeUsers(boardKey)?.document(uid)?.set({"createdDate" to FieldValue.serverTimestamp()}, SetOptions.merge())
-    // 유저 컨텐츠 도큐먼트  컬렉션 추가 {게시물키 : 날짜}
-    getUserContents()?.collection("likeBoards")?.document(boardKey)?.set({"createdDate" to FieldValue.serverTimestamp()}, SetOptions.merge())
-    addLikeCount(boardKey)
+    if(setLike){
+        // 게시물 하위 컬렉션 추가 {유저키 : 날짜}
+        getlikeUsers(boardKey)?.document(uid)?.set({"createdDate" to FieldValue.serverTimestamp()}, SetOptions.merge())
+        // 유저 컨텐츠 도큐먼트  컬렉션 추가 {게시물키 : 날짜}
+        getUserContents()?.collection("likeBoards")?.document(boardKey)?.set({"createdDate" to FieldValue.serverTimestamp()}, SetOptions.merge())
+        // 카운트 증가
+        addLikeCount(boardKey)
+    } else {
+        // 게시물 하위 컬렉션 삭제
+        getlikeUsers(boardKey)?.document(uid)?.delete()
+        // 유저 컨텐츠 도큐먼트  컬렉션 삭제
+        getUserContents()?.collection("likeBoards")?.document(boardKey)?.delete()
+        // 카운트 감소
+        subLikeCount(boardKey)
+    }
 }

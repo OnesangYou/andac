@@ -93,6 +93,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getAuth(): FirebaseAuth? = FirebaseAuth.getInstance()
 
+    fun isLogin() = getAuth()?.currentUser != null
+
     fun getCurrentUser(): FirebaseUser? = getAuth()?.currentUser
             .also {
                 it?:goToLogin() // 로그아웃 상태

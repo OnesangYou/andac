@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="boardInfo"
+            type="com.dac.gapp.andac.model.firebase.BoardInfo"/>
+        <variable
+            name="hospitalInfo"
+            type="com.dac.gapp.andac.model.firebase.HospitalInfo"/>
+        <variable
+            name="userInfo"
+            type="com.dac.gapp.andac.model.firebase.UserInfo"/>
+        <variable
+            name="isLike"
+            type="Boolean"/>
+    </data>
+<android.support.v7.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,6 +27,10 @@
 
     <include
         layout="@layout/base_item_card"
+        bind:boardInfo="@{boardInfo}"
+        bind:userInfo="@{userInfo}"
+        bind:hospitalInfo="@{hospitalInfo}"
+        bind:isLike="@{isLike}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
@@ -20,3 +39,4 @@
 
 
 </android.support.v7.widget.CardView>
+</layout>
