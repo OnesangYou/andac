@@ -14,7 +14,6 @@ import com.dac.gapp.andac.databinding.FragmentMainBinding
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.NoticeInfo
-import com.dac.gapp.andac.util.MyToast
 import com.dac.gapp.andac.util.OnItemClickListener
 import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Tasks
@@ -22,6 +21,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.hospital.fragment_main.*
+import kotlinx.android.synthetic.hospital.fragment_main.view.*
 import org.jetbrains.anko.startActivity
 
 class MainFragment : BaseFragment() {
@@ -35,18 +35,19 @@ class MainFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareUi()
 
-        // get HospitalInfo
+        // get
         context?.getHospitalInfo()?.addOnSuccessListener { hospitalInfo ->
-            val hospitalInfo = hospitalInfo?:return@addOnSuccessListener
-
-
-            if(!hospitalInfo.isApproval){
+            val hospitalInfo = hospitalInfo ?: return@addOnSuccessListener
+            binding.dashboard.hospital_name.text = hospitalInfo.name
+            if (!hospitalInfo.isApproval) {
                 listOf(dashboard, btnConsultingBoard, buttonGroup).forEach { it.visibility = View.INVISIBLE }
                 requestText.visibility = View.VISIBLE
                 requestText.text = hospitalInfo.requestStr
-            }
 
+            }
         }
+
+
 
         btnConsultingBoard.setOnClickListener { startActivity(Intent(context, ConsultBoardActivity::class.java)) }
         btnHospitalEventManagement.setOnClickListener { context?.startActivity<HospitalEventListActivity>() }
@@ -125,7 +126,7 @@ class MainFragment : BaseFragment() {
                 }
             })
             context.setOnActionBarRightClickListener(View.OnClickListener {
-//                MyToast.showShort(context, "TODO: 알림 설정")
+                //                MyToast.showShort(context, "TODO: 알림 설정")
             })
         }
     }
