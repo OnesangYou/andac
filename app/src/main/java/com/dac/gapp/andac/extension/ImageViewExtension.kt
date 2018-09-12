@@ -8,9 +8,11 @@ import com.bumptech.glide.Glide
 @BindingAdapter("bind:imageUrl")
 fun ImageView.loadImage(url: String?) {
     if (url.isNullOrEmpty()) return
+    this.tag = null
     Glide.with(this.context).load(url).into(this)
 }
 
 fun ImageView.loadImageAny(model: Any) {
+    this.tag = null
     Glide.with(this.context).load(model).into(this)
 }
