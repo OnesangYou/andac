@@ -58,16 +58,10 @@ class BoardRecyclerAdapter(
             }
 
             // 게시판 사진
+            pictures.forEach { it.visibility = View.GONE }
             boardInfo.pictureUrls?.forEachIndexed { index, url ->
-                pictures[index].loadImage(url)
+                pictures[index].apply { visibility = View.VISIBLE }.loadImage(url)
             }
-
-//            pictures.forEachIndexed { index, pic ->
-//                if (boardInfo.pictureUrls != null && boardInfo.pictureUrls!!.size > index) {
-//                    pic.loadImage(boardInfo.pictureUrls!![index])
-//                }
-//            }
-
 
             // 클릭시 디테일 게시물 이동
             arrayListOf(button_writting, itemView).forEach { view ->
