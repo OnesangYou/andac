@@ -29,7 +29,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/profilepic" />
+            app:srcCompat="@drawable/profilepic"
+            android:scaleType="centerCrop"
+            />
 
         <TextView
             android:id="@+id/replyText"
