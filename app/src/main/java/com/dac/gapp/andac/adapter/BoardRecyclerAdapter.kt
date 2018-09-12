@@ -22,8 +22,8 @@ import com.dac.gapp.andac.model.ActivityResultEvent
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
+import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.RxBus
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.base_item_card.view.*
 import org.jetbrains.anko.alert
@@ -149,16 +149,16 @@ fun BaseActivity.clickLikeBtn(boardKey : String, setLike : Boolean) {
     val uid = getUid()?:return
     if(setLike){
         // 게시물 하위 컬렉션 추가 {유저키 : 날짜}
-        getlikeUsers(boardKey)?.document(uid)?.set({"createdDate" to FieldValue.serverTimestamp()}, SetOptions.merge())
+        getLikeUsers(boardKey)?.document(uid)?.set(Common.getCreateDate(), SetOptions.merge())
         // 유저 컨텐츠 도큐먼트  컬렉션 추가 {게시물키 : 날짜}
-        getUserContents()?.collection("likeBoards")?.document(boardKey)?.set({"createdDate" to FieldValue.serverTimestamp()}, SetOptions.merge())
+        getUserLikeBoard(boardKey)?.set(Common.getCreateDate(), SetOptions.merge())
         // 카운트 증가
         addLikeCount(boardKey)
     } else {
         // 게시물 하위 컬렉션 삭제
-        getlikeUsers(boardKey)?.document(uid)?.delete()
+        getLikeUsers(boardKey)?.document(uid)?.delete()
         // 유저 컨텐츠 도큐먼트  컬렉션 삭제
-        getUserContents()?.collection("likeBoards")?.document(boardKey)?.delete()
+        getUserLikeBoard(boardKey)?.delete()
         // 카운트 감소
         subLikeCount(boardKey)
     }

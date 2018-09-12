@@ -1,11 +1,9 @@
 package com.dac.gapp.andac.util
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
-import java.text.ParseException
-import java.text.SimpleDateFormat
+import com.google.firebase.firestore.FieldValue
 import java.util.*
 
 class Common {
@@ -24,5 +22,7 @@ class Common {
             calendar.set(Calendar.MILLISECOND, 0)
             return calendar.time
         }
+
+        fun getCreateDate() = {"createdDate" to FieldValue.serverTimestamp()}
     }
 }

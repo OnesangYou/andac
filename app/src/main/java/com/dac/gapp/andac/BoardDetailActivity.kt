@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import com.dac.gapp.andac.adapter.ReplyRecyclerAdapter
+import com.dac.gapp.andac.adapter.clickLikeBtn
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.extension.loadImage
 import com.dac.gapp.andac.model.firebase.BoardInfo
@@ -50,6 +51,9 @@ class BoardDetailActivity : BaseActivity() {
                 val hospitalUid = boardInfo.hospitalUid.also { if(it.isEmpty()) return@addSnapshotListener }
                 getHospital(hospitalUid).get()
                 .continueWith { hospital_hashtag.text = it.result.toObject(HospitalInfo::class.java)?.name }
+
+
+
             }?.let { addListenerRegistrations(it) }
 
             // 비로그인
@@ -98,6 +102,13 @@ class BoardDetailActivity : BaseActivity() {
                             .addOnCompleteListener { hideProgressDialog() }
 
                 }
+
+                // like 버튼
+                getUserLikeBoard(boardKey)?.get()?.addOnSuccessListener { snapshot ->
+                    button_like.isChecked = snapshot.exists()
+                    button_like.setOnClickListener { clickLikeBtn(boardKey,button_like.isChecked) }
+                }
+
             }
 
             // 댓글 리스트 출력
