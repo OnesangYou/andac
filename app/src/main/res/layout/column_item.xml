@@ -20,7 +20,11 @@
             android:id="@+id/titleText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="제목"
             android:textSize="@dimen/_13sp"
             android:textStyle="bold"
@@ -44,10 +48,12 @@
             android:id="@+id/viewCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dp"
             android:text="조회수"
-            android:textSize="@dimen/_8sp"
+            android:textSize="9dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
@@ -55,12 +61,14 @@
             android:id="@+id/hospitalName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:text="병원명"
-            android:textSize="@dimen/_8sp"
             android:textColor="@color/colorMain"
+            android:textSize="9dp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView"
             app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
@@ -68,11 +76,14 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:layout_marginEnd="4dp"
+            android:layout_marginTop="10dp"
             android:text="조회"
-            android:textSize="@dimen/_8sp"
+            android:textSize="9dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/viewCount"
-            app:layout_constraintTop_toTopOf="@+id/viewCount" />
+            app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
     </android.support.constraint.ConstraintLayout>
 
