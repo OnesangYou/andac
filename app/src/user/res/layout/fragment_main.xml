@@ -291,7 +291,7 @@
                             android:layout_height="100dp"
                             android:layout_marginBottom="5dp"
                             android:scaleType="centerInside"
-                            android:src="@drawable/defult_pic_1"
+                            android:src="@drawable/hospital_profile_default_not_approval"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/event_title"
                             app:layout_constraintStart_toStartOf="parent"

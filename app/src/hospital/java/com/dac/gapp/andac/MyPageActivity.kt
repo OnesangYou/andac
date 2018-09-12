@@ -5,16 +5,20 @@ import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseHospitalActivity
+import com.dac.gapp.andac.databinding.ActivityMyPageBinding
+import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.hospital.activity_my_page.*
-import kotlinx.android.synthetic.main.row.*
 
 
 class MyPageActivity : BaseHospitalActivity() {
 
+    private lateinit var binding : ActivityMyPageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
+        binding = getBinding()
+
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText(R.string.mypage)
         setActionBarRightText(R.string.logout)
@@ -31,16 +35,16 @@ class MyPageActivity : BaseHospitalActivity() {
         // Set Profile
         getHospital()?.get()?.addOnSuccessListener { documentSnapshot ->
             val hospitalInfo = documentSnapshot.toObject(HospitalInfo::class.java)
-            if (hospitalInfo != null) {
-                Glide.with(this@MyPageActivity)
-                        .load(if (hospitalInfo.profilePicUrl.isEmpty()) R.drawable.defult_pic_1 else hospitalInfo.profilePicUrl)
-                        .into(imgview_thumbnail)
-                txtview_title.text = hospitalInfo.name
-                txtview_address.text = hospitalInfo.address2
-                txtview_phone.text = hospitalInfo.phone
+            hospitalInfo?.let { hospitalInfo ->
+                binding.layoutHospitalInfo?.let { layoutHospitalInfo ->
+                    layoutHospitalInfo.imgviewThumbnail.loadImageAny(hospitalInfo.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (isApproval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
+                    layoutHospitalInfo.txtviewTitle.text = hospitalInfo.name
+                    layoutHospitalInfo.txtviewAddress.text = hospitalInfo.address2
+                    layoutHospitalInfo.txtviewPhone.text = hospitalInfo.phone
+                }
 
                 // check approval
-                if(!hospitalInfo.isApproval){
+                if (!hospitalInfo.isApproval) {
                     toast(hospitalInfo.requestStr.toString())
                 }
             }

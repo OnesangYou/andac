@@ -15,11 +15,14 @@ import com.bumptech.glide.Glide
 import com.dac.gapp.andac.HospitalActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.databinding.FragmentSearchHospitalForMapBinding
 import com.dac.gapp.andac.enums.Algolia
+import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.JsonUtil
 import com.dac.gapp.andac.util.MyToast
+import com.dac.gapp.andac.util.UiUtil
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationRequest
@@ -32,9 +35,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.fragment_search_hospital_for_map.*
-import kotlinx.android.synthetic.main.row.view.*
-import net.minidev.json.JSONUtil
 import timber.log.Timber
 import java.lang.Exception
 
@@ -78,10 +78,12 @@ class SearchHospitalFragmentForMap : BaseFragment() {
 
     private var prevMarker: Marker? = null
 
+    private lateinit var binding: FragmentSearchHospitalForMapBinding
     @SuppressLint("MissingPermission")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(R.layout.fragment_search_hospital_for_map, container, false)
-        mapView = view.findViewById<View>(R.id.map) as MapView
+        val view = inflate(inflater, R.layout.fragment_search_hospital_for_map, container)
+        binding = getBinding()
+        mapView = view?.findViewById<View>(R.id.map) as MapView
         mapView?.getMapAsync { map ->
             map.isMyLocationEnabled = true
             googleMap = map
@@ -89,17 +91,19 @@ class SearchHospitalFragmentForMap : BaseFragment() {
             googleMap?.setOnMarkerClickListener { marker ->
                 prevMarker?.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_on))
                 marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_clickpin))
-                layoutHospitalInfo.visibility = View.VISIBLE
                 val hospitalInfo = hospitals[marker.tag.toString()]
                 hospitalInfo?.let { info ->
-                    Glide.with(this).load(if (!info.profilePicUrl.isEmpty()) info.profilePicUrl else R.drawable.defult_pic_1).into(layoutHospitalInfo.imgview_thumbnail)
-                    layoutHospitalInfo.txtview_title.text = info.name
-                    layoutHospitalInfo.txtview_address.text = info.address1
-                    layoutHospitalInfo.txtview_phone.text = info.phone
-                    // TODO 병원 하트 카운트는 어디서??
-                    layoutHospitalInfo.heart_count.text = "1"
-                    layoutHospitalInfo.setOnClickListener {
-                        startActivity(HospitalActivity.createIntent(thisActivity(), hospitalInfo))
+                    binding.layoutHospitalInfo?.let {
+                        UiUtil.visibleOrGone(true, it.root)
+                        it.imgviewThumbnail.loadImageAny(info.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (isApproval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
+                        it.txtviewTitle.text = info.name
+                        it.txtviewAddress.text = info.address1
+                        it.txtviewPhone.text = info.phone
+                        // TODO 병원 하트 카운트는 어디서??
+                        it.heartCount.text = "1"
+                        it.root.setOnClickListener {
+                            startActivity(HospitalActivity.createIntent(thisActivity(), hospitalInfo))
+                        }
                     }
                 }
                 prevMarker = marker
@@ -112,7 +116,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        layoutHospitalInfo.visibility = View.GONE
+        UiUtil.visibleOrGone(false, binding.layoutHospitalInfo?.root)
         setupCurrentLocation()
         setupEventsOnCreate()
     }
@@ -190,28 +194,28 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     }
 
     private fun setupEventsOnCreate() {
-        btnClearMarkers.setOnClickListener {
+        binding.btnClearMarkers.setOnClickListener {
             googleMap?.clear()
         }
-        btnShowAllHospitals.setOnClickListener {
+        binding.btnShowAllHospitals.setOnClickListener {
             showAllHospitals()
         }
-        btnSetRadius.setOnClickListener {
+        binding.btnSetRadius.setOnClickListener {
             try {
-                val aroundRadius = Integer.parseInt(etAddress.text.toString())
+                val aroundRadius = Integer.parseInt(binding.etAddress.text.toString())
                 searchHospital(aroundRadius)
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "error: ${e.message}", Toast.LENGTH_SHORT).show()
                 e.printStackTrace()
             }
         }
-        btnGetLocation.setOnClickListener {
-            val address = Common.getFromLocationName(context, etAddress.text.toString())
+        binding.btnGetLocation.setOnClickListener {
+            val address = Common.getFromLocationName(context, binding.etAddress.text.toString())
             if (address != null) {
                 val latLng = LatLng(address.latitude, address.longitude)
                 val markerOptions = MarkerOptions()
                 markerOptions.position(latLng)
-                markerOptions.title(etAddress.text.toString())
+                markerOptions.title(binding.etAddress.text.toString())
                 googleMap?.addMarker(markerOptions)
                 googleMap?.moveCamera(CameraUpdateFactory.newLatLng(latLng))
                 googleMap?.animateCamera(CameraUpdateFactory.zoomTo(10f))

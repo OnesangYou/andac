@@ -51,18 +51,13 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         setActionBarCenterText(hospitalInfo.name)
         setActionBarRightImage(R.drawable.call)
         txtvieName.text = hospitalInfo.name
-        txtviewAddress.text = hospitalInfo.address1
-        txtviewBusinessHours.text = hospitalInfo.openDate
+        txtviewAddress.text = hospitalInfo.run { if (address2.isNotEmpty()) address2 else if (address1.isNotEmpty()) address1 else getString(R.string.no_hospital_addres_entered) }
+        txtviewBusinessHours.text = hospitalInfo.run { if (businessHours.isNotEmpty()) businessHours else getString(R.string.no_business_hours_entered) }
         txtviewDescription.text = hospitalInfo.description
 
-        val profilePicUrls = ArrayList<String>().apply {
-            if (hospitalInfo.profilePicUrl.isNotEmpty())
-                add(hospitalInfo.profilePicUrl)
-            else {
-                viewPager.setBackgroundResource(R.drawable.defult_pic_1)
-            }
-        }
-        viewPager.adapter = HospitalActivityPagerAdapter(this, supportFragmentManager, profilePicUrls)
+        viewPager.adapter = HospitalActivityPagerAdapter(this, supportFragmentManager, ArrayList<Any>().also {
+            it.add(hospitalInfo.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (isApproval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
+        })
 
         val fragmentManager = fragmentManager
         val mapFragment = fragmentManager.findFragmentById(R.id.map) as MapFragment
@@ -94,6 +89,6 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     fun onClickConsult(view: View) {
-        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen", false).putExtra("documentId", hospitalInfo.documentId).putExtra("hospitalName",hospitalInfo.name))
+        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen", false).putExtra("documentId", hospitalInfo.documentId).putExtra("hospitalName", hospitalInfo.name))
     }
 }

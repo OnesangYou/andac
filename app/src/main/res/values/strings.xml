@@ -111,5 +111,7 @@
     <string name="jeju">제주</string>
     <string name="gangwon">강원</string>
 
+    <string name="no_hospital_addres_entered">입력된 병원주소가 없습니다.</string>
+    <string name="no_business_hours_entered">입력된 영업시간이 없습니다.</string>
 </resources>
 

@@ -27,6 +27,8 @@ class HospitalInfo : Serializable {
             geoLocation.lat = JsonUtil.getDouble(geoJO, Algolia.LAT.value)
             geoLocation.lng = JsonUtil.getDouble(geoJO, Algolia.LNG.value)
             hospitalInfo._geoloc = geoLocation
+            hospitalInfo.objectID = JsonUtil.getString(jo, Algolia.OBJECT_ID.value)
+            hospitalInfo.isApproval = JsonUtil.getBoolean(jo, "approval")
             return hospitalInfo
         }
     }
@@ -36,8 +38,9 @@ class HospitalInfo : Serializable {
     var address2: String = ""
     var name: String = ""
     var number: Int = 0
-    var openDate: String = ""
     var phone: String = ""
+    var openDate: String = ""
+    var businessHours: String = ""
     var status: String = ""
     var type: String = ""
     var _geoloc: GeoLocation = GeoLocation()

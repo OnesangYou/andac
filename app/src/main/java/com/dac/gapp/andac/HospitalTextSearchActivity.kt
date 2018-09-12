@@ -42,21 +42,10 @@ class HospitalTextSearchActivity : BaseActivity() {
         // hospitalInfo 객체를 만들어서 호출한 곳에 보냄
         hits.setOnItemClickListener{ _: RecyclerView, i: Int, _: View ->
 
-            val hit = hits.get(i)
+            val jo = hits.get(i)
 
-            HospitalInfo().apply{
-                _geoloc.lat = hit.getJSONObject("_geoloc").getDouble("lat")
-                _geoloc.lng = hit.getJSONObject("_geoloc").getDouble("lng")
-                address1 = hit.getString("address1")
-                address2 = hit.getString("address2")
-                name = hit.getString("name")
-                openDate = hit.getString("openDate")
-                phone = hit.getString("phone")
-                status = hit.getString("status")
-                type = hit.getString("type")
-                objectID = hit.getString("objectID")
-            }.let { hospitalInfo ->
-                Intent().let{
+            HospitalInfo.create(jo).let { hospitalInfo ->
+                Intent().let {
                     it.putExtra("hospitalInfo", hospitalInfo)
                     setResult(Activity.RESULT_OK, it)
                     finish()

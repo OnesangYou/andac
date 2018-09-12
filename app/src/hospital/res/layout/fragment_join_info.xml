@@ -158,7 +158,7 @@
 
 
             <EditText
-                android:id="@+id/hospital_open_time"
+                android:id="@+id/hospitalBusinessHours"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -179,7 +179,7 @@
                 android:layout_height="1px"
                 android:layout_marginTop="7dp"
                 android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/hospital_open_time" />
+                app:layout_constraintTop_toBottomOf="@+id/hospitalBusinessHours" />
 
 
             <EditText

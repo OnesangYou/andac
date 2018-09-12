@@ -49,7 +49,7 @@
             android:requiresFadingEdge="vertical"
             algolia:autoHideKeyboard="true"
             algolia:hitsPerPage="10"
-            algolia:itemLayout="@layout/row" />
+            algolia:itemLayout="@layout/hospital_row" />
 
     </LinearLayout>
 
