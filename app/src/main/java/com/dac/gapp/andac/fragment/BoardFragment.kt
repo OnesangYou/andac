@@ -102,7 +102,7 @@ class BoardFragment : BaseFragment() {
         })
 
         // default
-        setAdapter(getString(R.string.free_board))
+        setAdapter(getString(R.string.hot_board))
 
     }
     private fun prepareUi() {
@@ -127,7 +127,7 @@ class BoardFragment : BaseFragment() {
         }
     }
 
-    private fun setAdapter(type: String = getString(R.string.free_board)) {
+    private fun setAdapter(type: String = getString(R.string.hot_board)) {
         this.type = type
 
         // reset data
@@ -159,8 +159,14 @@ class BoardFragment : BaseFragment() {
             showProgressDialog()
             getTripleDataTask(
                     getBoards()
-                            .whereEqualTo("type", type)
-                            .orderBy("writeDate", Query.Direction.DESCENDING)
+                            .let{boardRef->
+                                if(type == getString(R.string.hot_board)){
+                                    boardRef.orderBy("likeCount", Query.Direction.DESCENDING)
+                                } else {
+                                    boardRef.whereEqualTo("type", type)
+                                            .orderBy("writeDate", Query.Direction.DESCENDING)
+                                }
+                            }
                             .let { query ->
                                 lastVisible?.let { query.startAfter(it) } ?: query
                             }    // 쿼리 커서 시작 위치 지정
