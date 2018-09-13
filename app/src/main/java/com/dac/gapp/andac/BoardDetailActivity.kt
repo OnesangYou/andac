@@ -50,7 +50,9 @@ class BoardDetailActivity : BaseActivity() {
                 // Set Hospital Name
                 val hospitalUid = boardInfo.hospitalUid.also { if(it.isEmpty()) return@addSnapshotListener }
                 getHospital(hospitalUid).get()
-                .continueWith { hospital_hashtag.text = it.result.toObject(HospitalInfo::class.java)?.name }
+                .continueWith { it->
+                    hospital_hashtag.text = it.result.toObject(HospitalInfo::class.java)?.name
+                }
 
 
 

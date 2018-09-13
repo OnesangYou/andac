@@ -219,7 +219,7 @@ class BoardFragment : BaseFragment() {
                     .continueWith {
                         BoardAdapterData(data.boardInfos,
                                 data.userInfoMap,
-                                hospitalInfoMap,
+                                data.hospitalInfoMap,
                                 it.result
                         )
                     }
