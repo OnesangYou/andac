@@ -34,75 +34,83 @@
                 android:id="@+id/picture_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/colorMain"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toTopOf="@+id/picture_2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/contents_text" />
+                app:layout_constraintTop_toBottomOf="@+id/contents_text"
+                />
 
             <ImageView
                 android:id="@+id/picture_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/black35"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toTopOf="@+id/picture_3"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/picture_1" />
 
             <ImageView
                 android:id="@+id/picture_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/orange"
                 android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/replyText"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/picture_2"
+                />
 
             <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/profilepic"
-                    app:imageUrl="@{userInfo.profilePicUrl}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                android:id="@+id/imageView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/profilepic"
+                app:imageUrl="@{userInfo.profilePicUrl}"
+                app:layout_constraintBottom_toTopOf="@+id/title_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/title_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="20dp"
-                    android:text="@{boardInfo.title}"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            <TextView
+                android:id="@+id/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:text="@{boardInfo.title}"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                app:layout_constraintBottom_toTopOf="@id/hospital_hashtag"
+                />
 
 
-                <TextView
-                    android:id="@+id/contents_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="20dp"
-                    android:text="@{boardInfo.contents}"
-                    android:textSize="15dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/hospital_hashtag" />
+            <TextView
+                android:id="@+id/contents_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:text="@{boardInfo.contents}"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toTopOf="@id/picture_1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hospital_hashtag" />
 
                 <TextView
                     android:id="@+id/text_nickname"
@@ -112,33 +120,33 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="8dp"
                     android:text="@{userInfo.nickName}"
-                    android:textSize="13dp"
+                    android:textSize="15dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/imageView"
                     app:layout_constraintTop_toTopOf="@+id/imageView" />
 
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="3dp"
-                    android:text="@{boardInfo.writeDate}"
-                    android:textSize="13dp"
-                    app:layout_constraintStart_toEndOf="@+id/imageView"
-                    app:layout_constraintTop_toBottomOf="@+id/text_nickname" />
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="1dp"
+                android:text="@{boardInfo.writeDate}"
+                android:textSize="13dp"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/text_nickname" />
 
-                <TextView
-                    android:id="@+id/hospital_hashtag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
-                    android:text="@{hospitalInfo.name}"
-                    android:textSize="15dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title_text" />
+            <TextView
+                android:id="@+id/hospital_hashtag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="16dp"
+                android:text="@{hospitalInfo.name}"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toTopOf="@id/contents_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_text" />
 
                 <Button
                     android:id="@+id/menu"
@@ -155,19 +163,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                app:likeCnt="@{boardInfo.likeCount}"
+                android:layout_marginTop="5dp"
+                android:text="좋아요"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+                app:layout_constraintTop_toBottomOf="@+id/picture_3"
+                app:likeCnt="@{boardInfo.likeCount}" />
 
             <TextView
                 android:id="@+id/replyText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                app:replyCnt="@{boardInfo.replyCount}"
+                android:layout_marginStart="25dp"
+                android:text="댓글"
+                app:layout_constraintBottom_toBottomOf="@+id/likeText"
                 app:layout_constraintStart_toEndOf="@+id/likeText"
-                app:layout_constraintTop_toTopOf="@+id/likeText" />
+                app:layout_constraintTop_toTopOf="@+id/likeText"
+                app:replyCnt="@{boardInfo.replyCount}" />
 
         </android.support.constraint.ConstraintLayout>
 

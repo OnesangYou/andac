@@ -40,10 +40,13 @@
 
         <TextView
             android:id="@+id/txtview_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="190dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="address"
-            android:textSize="10sp"
+            android:textSize="@dimen/_15sp"
             algolia:attribute='@{"address1"}'
             algolia:highlighted='@{true}'
             app:layout_constraintStart_toStartOf="@+id/txtview_title"
@@ -53,9 +56,10 @@
         <TextView
             android:id="@+id/txtview_phone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
             android:text="phone"
-            android:textSize="10sp"
+            android:textSize="13sp"
             algolia:attribute='@{"phone"}'
             algolia:highlighted='@{true}'
             app:layout_constraintStart_toStartOf="@+id/txtview_address"

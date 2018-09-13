@@ -22,16 +22,13 @@
             android:id="@+id/replyImage"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
+            android:scaleType="centerCrop"
             app:imageUrl="@{somebodyInfo.profilePicUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/profilepic"
-            android:scaleType="centerCrop"
-            />
+            app:srcCompat="@drawable/profilepic" />
 
         <TextView
             android:id="@+id/replyText"
@@ -39,7 +36,8 @@
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:text="@{replyInfo.contents}"
-            android:textSize="@dimen/_13sp"
+            android:textSize="@dimen/_11sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/replyImage"
             app:layout_constraintStart_toEndOf="@+id/writerText"
             app:layout_constraintTop_toTopOf="@+id/replyImage"
@@ -51,7 +49,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:text="@{somebodyInfo.name}"
-            android:textSize="@dimen/_8sp"
+            android:textSize="@dimen/_13sp"
             app:layout_constraintBottom_toBottomOf="@+id/replyImage"
             app:layout_constraintStart_toEndOf="@+id/replyImage"
             app:layout_constraintTop_toTopOf="@+id/replyImage" />

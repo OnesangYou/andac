@@ -19,6 +19,7 @@
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/lightgray"
         app:layout_constraintBottom_toTopOf="@+id/userProfileImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,8 +39,7 @@
         android:id="@+id/replyEditView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="3dp"
         android:background="@color/white"
         android:hint="댓글을 작성해 주세요"
         android:textSize="@dimen/_15sp"
@@ -52,11 +52,14 @@
         android:id="@+id/replySubmit"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:text="댓글달기"
+        android:background="@color/colorMain"
         android:enabled="false"
+        android:text="댓글쓰기"
+        android:textColor="@color/white"
         android:textSize="@dimen/_15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/replyEditView"
         app:layout_constraintTop_toTopOf="@+id/replyEditView" />
 
 </android.support.constraint.ConstraintLayout>

@@ -12,7 +12,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal">
 
         <TextView
@@ -20,6 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:textSize="@dimen/_13sp"
             android:gravity="center"
             android:text="@{usermodel.createdTime}" />
 
@@ -29,6 +30,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:textSize="@dimen/_13sp"
             android:text="@{usermodel.user.nickName}"/>
 
         <TextView
@@ -37,24 +39,33 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
+            android:textSize="@dimen/_13sp"
             android:text="@{usermodel.user.phoneNumber}" />
 
         <TextView
             android:id="@+id/view_consult"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.2"
+            android:layout_weight="1.4"
             android:gravity="center"
             android:text="신청서보기"
+            android:textSize="@dimen/_13sp"
+            android:textColor="@color/colorMain"
+            android:textStyle="bold"
             android:onClick="@{(v) -> holder.onClickShowConsult(usermodel.uUid, usermodel.hUid, usermodel.isOpen)}"/>
 
         <TextView
             android:id="@+id/start_consult"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="1.4"
             android:gravity="center"
+            android:background="@color/colorMain"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:onClick="@{() -> holder.onClickStartChat(usermodel.uUid,usermodel.hUid)}"
-            android:text="상담가기" />
+            android:text="상담하기"
+            android:textSize="@dimen/_13sp"
+            />
     </LinearLayout>
 </layout>
