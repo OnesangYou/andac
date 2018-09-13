@@ -157,16 +157,38 @@
 
             <EditText
                 android:id="@+id/nameEdit"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="7dp"
                 android:backgroundTint="@color/non"
                 android:hint="신청인 이름을 입력해주세요."
                 android:textSize="@dimen/_15sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+            <EditText
+                android:id="@+id/oldEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/non"
+                android:hint="나이를 입력해주세요."
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/nameEdit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/nameEdit" />
+
+            <View
+                android:id="@+id/view_vertical"
+                android:layout_width="1px"
+                android:layout_height="45dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:background="@color/lightgray"
+                app:layout_constraintBottom_toTopOf="@+id/view4"
+                app:layout_constraintEnd_toStartOf="@+id/oldEdit"
+                app:layout_constraintStart_toEndOf="@+id/nameEdit"
                 app:layout_constraintTop_toBottomOf="@+id/view3" />
 
             <View
