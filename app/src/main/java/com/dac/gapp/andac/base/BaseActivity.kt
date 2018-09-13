@@ -29,10 +29,13 @@ import com.dac.gapp.andac.BuildConfig
 import com.dac.gapp.andac.LoginActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SplashActivity
+import com.dac.gapp.andac.enums.RequestCode
+import com.dac.gapp.andac.model.ActivityResultEvent
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.ReplyInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
+import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.UiUtil
 import com.google.android.gms.tasks.Task
@@ -544,4 +547,45 @@ abstract class BaseActivity : AppCompatActivity() {
             boardInfo.likeCount--
             if(boardInfo.likeCount < 0) throw IllegalStateException("Like Count is Zero")
         }
+    fun showDeleteBoardDialog(boardId : String){
+        showProgressDialog()
+        alert(title = "게시물 삭제", message = "게시물을 삭제하시겠습니까?") {
+            positiveButton("YES"){ _ ->
+                // 삭제 진행
+                showProgressDialog()
+                getBoard(boardId)?.delete()?.addOnCompleteListener {
+                    hideProgressDialog()
+                    RxBus.publish(ActivityResultEvent(
+                            requestCode = RequestCode.OBJECT_ADD.value,
+                            resultCode = Activity.RESULT_OK
+                    ))
+                }
+            }
+
+            negativeButton("NO"){hideProgressDialog()}
+        }.show()
+    }
+
+    fun clickLikeBtn(boardKey : String, setLike : Boolean): Task<MutableList<Task<*>>>? {
+        val uid = getUid()?:return null
+        return if(setLike){
+            Tasks.whenAllComplete(
+                    // 게시물 하위 컬렉션 추가 {유저키 : 날짜}
+                    getLikeUsers(boardKey)?.document(uid)?.set(Common.getCreateDate(), SetOptions.merge()),
+                    // 유저 컨텐츠 도큐먼트  컬렉션 추가 {게시물키 : 날짜}
+                    getUserLikeBoard(boardKey)?.set(Common.getCreateDate(), SetOptions.merge()),
+                    // 카운트 증가
+                    addLikeCount(boardKey)
+            )
+        } else {
+            Tasks.whenAllComplete(
+                    // 게시물 하위 컬렉션 삭제
+                    getLikeUsers(boardKey)?.document(uid)?.delete(),
+                    // 유저 컨텐츠 도큐먼트  컬렉션 삭제
+                    getUserLikeBoard(boardKey)?.delete(),
+                    // 카운트 감소
+                    subLikeCount(boardKey)
+            )
+        }
+    }
 }

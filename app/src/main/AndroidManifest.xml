@@ -33,11 +33,12 @@
         <activity android:name=".HospitalActivity" />
         <activity android:name=".BoardWriteActivity" />
         <activity android:name=".HospitalTextSearchActivity" />
+        <activity android:name=".BoardTextSearchActivity" />
         <activity android:name=".ColumnDetailActivity" />
         <activity android:name=".ColumnWriteActivity" />
         <activity android:name=".HospitalColumnListActivity" />
         <activity android:name=".JoinPhoneActivity" />
-        <activity android:name=".ConsultBoardActivity" />
+
 
         <service android:name=".util.FcmSendService">
             <intent-filter>

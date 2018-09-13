@@ -1,14 +1,16 @@
 package com.dac.gapp.andac
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.PopupMenu
 import com.dac.gapp.andac.adapter.ReplyRecyclerAdapter
-import com.dac.gapp.andac.adapter.clickLikeBtn
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.extension.loadImage
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
@@ -41,6 +43,26 @@ class BoardDetailActivity : BaseActivity() {
                 replyText.text = "댓글 ${boardInfo.replyCount} 개"
                 likeText.text = "좋아요 ${boardInfo.likeCount} 개"
 
+                // 메뉴
+                if(isLogin() && boardInfo.writerUid == getUid()){
+                    menu.visibility = View.VISIBLE
+                    menu.setOnClickListener {
+                        PopupMenu(this, it).apply {
+                            menuInflater.inflate(R.menu.board_menu, this.menu)
+                            setOnMenuItemClickListener { menuItem ->
+                                when (menuItem.itemId) {
+                                    R.id.modifyBtn -> startActivityForResult(Intent(this@BoardDetailActivity, BoardWriteActivity::class.java).putExtra(OBJECT_KEY, boardInfo.objectId), RequestCode.OBJECT_ADD.value)
+                                    R.id.deleteBtn -> showDeleteBoardDialog(boardInfo.objectId)
+                                }
+                                false
+                            }
+                        }.show()
+
+                    }
+                } else {
+                    menu.visibility = View.INVISIBLE
+                }
+
                 // Set Writer Profile
                 getUserInfo(boardInfo.writerUid)?.continueWith { task1 ->
                     text_nickname.text = task1.result.nickName
@@ -55,17 +77,16 @@ class BoardDetailActivity : BaseActivity() {
                 }
 
 
-
             }?.let { addListenerRegistrations(it) }
-
             // 비로그인
-            if(getAuth()?.currentUser == null ){
+            if(!isLogin()){
                 arrayListOf(replyEditView, replySubmit, userProfileImage).forEach { it.visibility = View.GONE }
             }
             // 로그인
             else {
                 // 댓글 프사
-                if(isUser()) getUserInfo()?.continueWith { it.result.profilePicUrl } else getHospitalInfo()?.continueWith { it.result?.profilePicUrl }
+                if(isUser()) getUserInfo()?.continueWith { it.result.profilePicUrl }
+                else getHospitalInfo()?.continueWith { it.result?.profilePicUrl }
                         ?.continueWith {
                             val url = it.result?:return@continueWith
                             userProfileImage.loadImage(url)
@@ -108,7 +129,10 @@ class BoardDetailActivity : BaseActivity() {
                 // like 버튼
                 getUserLikeBoard(boardKey)?.get()?.addOnSuccessListener { snapshot ->
                     button_like.isChecked = snapshot.exists()
-                    button_like.setOnClickListener { clickLikeBtn(boardKey,button_like.isChecked) }
+                    button_like.setOnClickListener { view ->
+                        view.isEnabled = false
+                        clickLikeBtn(boardKey,button_like.isChecked)?.addOnCompleteListener { view.isEnabled = true }
+                    }
                 }
 
             }

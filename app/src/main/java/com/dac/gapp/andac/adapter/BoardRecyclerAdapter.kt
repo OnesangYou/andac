@@ -1,7 +1,6 @@
 package com.dac.gapp.andac.adapter
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
@@ -18,15 +17,10 @@ import com.dac.gapp.andac.databinding.ItemCardBinding
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.extension.likeCnt
 import com.dac.gapp.andac.extension.loadImage
-import com.dac.gapp.andac.model.ActivityResultEvent
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
-import com.dac.gapp.andac.util.Common
-import com.dac.gapp.andac.util.RxBus
-import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.base_item_card.view.*
-import org.jetbrains.anko.alert
 
 class BoardRecyclerAdapter(
         private val context : BaseActivity?,
@@ -75,8 +69,10 @@ class BoardRecyclerAdapter(
             button_like.isEnabled = context.isUser()  // 유저만 사용 가능
             if (context.isLogin()) {
                 button_like.isChecked = likeSet.contains(boardInfo.objectId)
-                button_like.setOnClickListener {
-                    context.clickLikeBtn(boardInfo.objectId, button_like.isChecked)
+                button_like.setOnClickListener {view->
+                    view.isEnabled = false
+                    context.clickLikeBtn(boardInfo.objectId, button_like.isChecked)?.addOnCompleteListener { view.isEnabled = true }
+
                     boardInfo.likeCount += if (button_like.isChecked) 1 else -1
                     likeText.likeCnt(boardInfo.likeCount)
                 }
@@ -110,24 +106,7 @@ class BoardRecyclerAdapter(
         }
     }
 
-    private fun BaseActivity.showDeleteBoardDialog(boardId : String){
-        showProgressDialog()
-        alert(title = "게시물 삭제", message = "게시물을 삭제하시겠습니까?") {
-            positiveButton("YES"){ _ ->
-                // 삭제 진행
-                showProgressDialog()
-                getBoard(boardId)?.delete()?.addOnCompleteListener {
-                    hideProgressDialog()
-                    RxBus.publish(ActivityResultEvent(
-                            requestCode = RequestCode.OBJECT_ADD.value,
-                            resultCode = Activity.RESULT_OK
-                    ))
-                }
-            }
 
-            negativeButton("NO"){hideProgressDialog()}
-        }.show()
-    }
 
     override fun getItemCount(): Int {
         return mDataList.size
@@ -142,24 +121,5 @@ class BoardRecyclerAdapter(
         val pictures = arrayListOf(itemView.picture_1, itemView.picture_2, itemView.picture_3)
         val menu: Button = itemView.menu
         val likeText = itemView.likeText
-    }
-}
-
-fun BaseActivity.clickLikeBtn(boardKey : String, setLike : Boolean) {
-    val uid = getUid()?:return
-    if(setLike){
-        // 게시물 하위 컬렉션 추가 {유저키 : 날짜}
-        getLikeUsers(boardKey)?.document(uid)?.set(Common.getCreateDate(), SetOptions.merge())
-        // 유저 컨텐츠 도큐먼트  컬렉션 추가 {게시물키 : 날짜}
-        getUserLikeBoard(boardKey)?.set(Common.getCreateDate(), SetOptions.merge())
-        // 카운트 증가
-        addLikeCount(boardKey)
-    } else {
-        // 게시물 하위 컬렉션 삭제
-        getLikeUsers(boardKey)?.document(uid)?.delete()
-        // 유저 컨텐츠 도큐먼트  컬렉션 삭제
-        getUserLikeBoard(boardKey)?.delete()
-        // 카운트 감소
-        subLikeCount(boardKey)
     }
 }

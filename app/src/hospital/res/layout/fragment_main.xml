@@ -29,6 +29,13 @@
                 android:background="@color/colorMain"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/main_pic_1"
+                    android:scaleType="centerCrop"
+                    />
+
 
                 <Button
                     android:id="@+id/btnConsultingBoard"
@@ -37,7 +44,7 @@
                     android:layout_marginBottom="20dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
-                    android:background="@drawable/buttonstyle2"
+                    android:background="@drawable/buttonstyle5"
                     android:text="@string/string_consulting_board"
                     android:textColor="@color/white"
                     android:textSize="17sp"
@@ -63,7 +70,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:text=""
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorMain"
                         android:textSize="25dp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView12"
@@ -80,8 +87,9 @@
                         android:layout_marginTop="20dp"
                         android:text="안닥의 파트너가 되어주셔서 \n진심으로 감사드립니다."
                         android:textAlignment="center"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorMain"
                         android:textSize="16dp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +103,7 @@
                         android:layout_height="60dp"
                         android:layout_marginTop="20dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/logo_notext"
+                        android:src="@drawable/logo_notext_2"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -134,25 +142,22 @@
                     android:id="@+id/btnHospitalEventManagement"
                     android:layout_width="90dp"
                     android:layout_height="37dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginLeft="3dp"
                     android:layout_marginStart="3dp"
                     android:background="@color/non"
                     android:text="@string/hospital_event_management"
-                    android:textColor="@color/colorMain"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toTopOf="@+id/view4"
-                    app:layout_constraintEnd_toStartOf="@+id/view3"
+                    app:layout_constraintEnd_toStartOf="@+id/myColumnsBtn"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:id="@+id/view4"
                     android:layout_width="wrap_content"
-                    android:layout_height="2px"
+                    android:layout_height="1dp"
                     android:layout_marginTop="50dp"
-                    android:background="@color/colorMain"
+                    android:background="@color/lightgray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -161,88 +166,42 @@
                     android:id="@+id/btnHospitalAdManagement"
                     android:layout_width="90dp"
                     android:layout_height="37dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginStart="2dp"
                     android:background="@color/non"
                     android:text="@string/hospital_ad_management"
-                    android:textColor="@color/colorMain"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toTopOf="@+id/view4"
-                    app:layout_constraintEnd_toStartOf="@+id/view6"
-                    app:layout_constraintStart_toEndOf="@+id/view5"
+                    app:layout_constraintEnd_toStartOf="@+id/btnHospitalAdApplication"
+                    app:layout_constraintStart_toEndOf="@+id/myColumnsBtn"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/myColumnsBtn"
                     android:layout_width="90dp"
                     android:layout_height="37dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginStart="2dp"
                     android:background="@color/non"
                     android:text="컬럼 관리"
-                    android:textColor="@color/colorMain"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toTopOf="@+id/view4"
-                    app:layout_constraintEnd_toStartOf="@+id/view5"
-                    app:layout_constraintStart_toEndOf="@+id/view3"
+                    app:layout_constraintEnd_toStartOf="@+id/btnHospitalAdManagement"
+                    app:layout_constraintStart_toEndOf="@+id/btnHospitalEventManagement"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/btnHospitalAdApplication"
                     android:layout_width="90dp"
                     android:layout_height="37dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginRight="3dp"
-                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="5dp"
                     android:background="@color/non"
                     android:text="@string/hospital_ad_application"
-                    android:textColor="@color/colorMain"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toTopOf="@+id/view4"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/view6"
+                    app:layout_constraintStart_toEndOf="@+id/btnHospitalAdManagement"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
-
-                <View
-                    android:id="@+id/view3"
-                    android:layout_width="2px"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginStart="2dp"
-                    android:background="@color/colorMain"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/myColumnsBtn"
-                    app:layout_constraintStart_toEndOf="@+id/btnHospitalEventManagement"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/view5"
-                    android:layout_width="2px"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginStart="2dp"
-                    android:background="@color/colorMain"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btnHospitalAdManagement"
-                    app:layout_constraintStart_toEndOf="@+id/myColumnsBtn"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <View
-                    android:id="@+id/view6"
-                    android:layout_width="2px"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_marginStart="2dp"
-                    android:background="@color/colorMain"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btnHospitalAdApplication"
-                    app:layout_constraintStart_toEndOf="@+id/btnHospitalAdManagement"
-                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </android.support.constraint.ConstraintLayout>
@@ -253,7 +212,7 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="30dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/banner_main"
+                android:src="@drawable/main_banner_white"
                 app:layout_constraintTop_toBottomOf="@+id/buttonGroup" />
 
             <android.support.constraint.ConstraintLayout
@@ -270,10 +229,11 @@
                     android:id="@+id/notice_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="20dp"
                     android:text="안닥 공지사항"
-                    android:textSize="15sp"
+                    android:textSize="20dp"
                     android:textStyle="bold"
+                    android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -456,10 +416,10 @@
                     android:id="@+id/best_calrum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="20dp"
                     android:text="베스트 칼럼"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="20dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent" />
 

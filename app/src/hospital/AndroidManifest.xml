@@ -35,6 +35,7 @@
         <activity android:name=".HospitalActivity" />
         <activity android:name=".BoardWriteActivity" />
         <activity android:name=".MyPageActivity" />
+        <activity android:name=".ConsultBoardActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />

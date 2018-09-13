@@ -2,8 +2,8 @@ package com.dac.gapp.andac
 
 import android.os.Bundle
 import android.view.View
-import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseMyPageActivity
+import com.dac.gapp.andac.extension.loadImage
 import com.dac.gapp.andac.fragment.AccountSettingFragment
 import com.dac.gapp.andac.fragment.FavoritesFragment
 import com.dac.gapp.andac.fragment.MyBoardsFragment
@@ -46,11 +46,13 @@ open class MyPageActivity : BaseMyPageActivity() {
         accountSettingBtn.performClick()
 
         // Set Profile
-        getUserInfo()?.addOnSuccessListener { userInfo ->
+        getUser()?.addSnapshotListener { snapshot, _ ->
+            snapshot?:return@addSnapshotListener
+            val userInfo = snapshot.toObject(UserInfo::class.java)?:return@addSnapshotListener
             this@MyPageActivity.userInfo = userInfo
-            if(userInfo.profilePicUrl.isNotEmpty()) Glide.with(this@MyPageActivity).load(userInfo.profilePicUrl).into(profilePic)
+            if(userInfo.profilePicUrl.isNotEmpty()) profilePic.loadImage(userInfo.profilePicUrl)
             nameText.text = userInfo.nickName
-        }
+        }?.let { addListenerRegistrations(it) }
     }
 
 }

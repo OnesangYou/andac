@@ -18,46 +18,36 @@
                 android:background="@color/colorMain"
                 app:layout_constraintTop_toTopOf="parent">
 
-
                 <ImageView
-                    android:id="@+id/logo_water"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/logo_notext"
-                    app:layout_constraintBottom_toTopOf="@+id/requestSurgery"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView9"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/main_pic_1"
+                    android:scaleType="centerCrop"
+                    />
 
 
                 <ImageView
                     android:id="@+id/imageView9"
-                    android:layout_width="170dp"
-                    android:layout_height="160dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/main_text"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:src="@drawable/main_pic_2"
+                    app:layout_constraintBottom_toTopOf="@+id/requestSurgery"
+                    app:layout_constraintStart_toStartOf="@+id/requestSurgery"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
                 <Button
                     android:id="@+id/requestSurgery"
                     android:layout_width="320dp"
-                    android:layout_height="50dp"
+                    android:layout_height="45dp"
                     android:layout_marginBottom="20dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:background="@drawable/buttonstyle2"
+                    android:background="@drawable/buttonstyle5"
                     android:text="1:1 상담신청서 작성"
                     android:textColor="@color/white"
-                    android:textSize="20dp"
+                    android:textSize="18dp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -82,13 +72,13 @@
                     android:id="@+id/main_my_event"
                     android:layout_width="wrap_content"
                     android:layout_height="37dp"
+                    android:layout_marginStart="5dp"
                     android:background="@color/non"
-                    android:text="내가 신청한 이벤트"
-                    android:textColor="@color/colorMain"
-                    android:textSize="14dp"
-                    android:textStyle="bold"
+                    android:text="신청한 이벤트"
+                    android:textColor="@color/black"
+                    android:textSize="13dp"
                     app:layout_constraintBottom_toTopOf="@+id/view4"
-                    app:layout_constraintEnd_toStartOf="@+id/view5"
+                    app:layout_constraintEnd_toStartOf="@+id/main_my_consulting"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -96,9 +86,9 @@
                 <View
                     android:id="@+id/view4"
                     android:layout_width="wrap_content"
-                    android:layout_height="4px"
+                    android:layout_height="1dp"
                     android:layout_marginTop="50dp"
-                    android:background="@color/colorMain"
+                    android:background="@color/lightgray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -106,30 +96,31 @@
 
 
                 <Button
-                    android:id="@+id/main_my_checklist"
+                    android:id="@+id/main_my_consulting"
                     android:layout_width="wrap_content"
                     android:layout_height="37dp"
                     android:background="@color/non"
-                    android:text="눈건강 체크리스트 \u0026 시력검사"
-                    android:textColor="@color/colorMain"
-                    android:textSize="14dp"
-                    android:textStyle="bold"
+                    android:text="내 상담내역"
+                    android:textColor="@color/black"
+                    android:textSize="13dp"
                     app:layout_constraintBottom_toTopOf="@+id/view4"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/view5"
+                    app:layout_constraintEnd_toStartOf="@+id/main_my_checklist"
+                    app:layout_constraintStart_toEndOf="@+id/main_my_event"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <View
-                    android:id="@+id/view5"
-                    android:layout_width="2px"
-                    android:layout_height="40dp"
+                <Button
+                    android:id="@+id/main_my_checklist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="37dp"
                     android:layout_marginEnd="5dp"
-                    android:layout_marginStart="5dp"
-                    android:background="@color/colorMain"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/main_my_checklist"
-                    app:layout_constraintStart_toEndOf="@+id/main_my_event"
+                    android:background="@color/non"
+                    android:text="눈건강 체크리스트 \u0026 시력검사"
+                    android:textColor="@color/black"
+                    android:textSize="13dp"
+                    app:layout_constraintBottom_toTopOf="@+id/view4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/main_my_consulting"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -139,22 +130,24 @@
                 android:id="@+id/viewPagerMainBannerAd"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_marginTop="22dp"
-                android:background="@drawable/banner_main"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/main_banner_white"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout5_user" />
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraintLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewPagerMainBannerAd">
 
                 <TextView
                     android:id="@+id/best_calum_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="20dp"
                     android:text="인기 칼럼"
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -187,7 +180,7 @@
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="20dp"
                         android:text="오늘의 병원"
                         android:textColor="@color/black"
                         android:textSize="20sp"
@@ -214,13 +207,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/todays_hospital_layout">
 
                     <TextView
                         android:id="@+id/best_board_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="20dp"
                         android:text="인기 게시판"
                         android:textColor="@color/black"
                         android:textSize="20sp"
@@ -264,13 +259,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/best_board_layout">
 
                     <TextView
                         android:id="@+id/super_event_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="20dp"
                         android:text="이벤트 기획전"
                         android:textColor="@color/black"
                         android:textSize="20sp"

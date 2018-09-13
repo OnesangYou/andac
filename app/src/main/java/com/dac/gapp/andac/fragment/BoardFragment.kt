@@ -11,10 +11,7 @@ import android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.dac.gapp.andac.BoardDetailActivity
-import com.dac.gapp.andac.BoardWriteActivity
-import com.dac.gapp.andac.MyPageActivity
-import com.dac.gapp.andac.R
+import com.dac.gapp.andac.*
 import com.dac.gapp.andac.adapter.BoardRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentBoardBinding
@@ -30,6 +27,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import org.jetbrains.anko.startActivity
 
 
 @Suppress("DEPRECATION")
@@ -104,7 +102,7 @@ class BoardFragment : BaseFragment() {
         })
 
         // default
-        setAdapter(getString(R.string.free_board))
+        setAdapter(getString(R.string.hot_board))
 
     }
     private fun prepareUi() {
@@ -112,7 +110,7 @@ class BoardFragment : BaseFragment() {
         context?.let { context ->
             context.setActionBarLeftImage(R.drawable.mypage)
             context.setActionBarCenterImage(R.drawable.andac_font)
-            context.setActionBarRightImage(R.drawable.bell)
+            context.setActionBarRightImage(R.drawable.finder)
             context.setOnActionBarLeftClickListener(View.OnClickListener {
                 // 로그인 상태 체크
                 if (getCurrentUser() == null) {
@@ -122,12 +120,14 @@ class BoardFragment : BaseFragment() {
                 }
             })
             context.setOnActionBarRightClickListener(View.OnClickListener {
-                //                MyToast.showShort(context, "TODO: 알림 설정")
+                // 게시판 검색
+                context.startActivity<BoardTextSearchActivity>()
+
             })
         }
     }
 
-    private fun setAdapter(type: String = getString(R.string.free_board)) {
+    private fun setAdapter(type: String = getString(R.string.hot_board)) {
         this.type = type
 
         // reset data
@@ -159,8 +159,14 @@ class BoardFragment : BaseFragment() {
             showProgressDialog()
             getTripleDataTask(
                     getBoards()
-                            .whereEqualTo("type", type)
-                            .orderBy("writeDate", Query.Direction.DESCENDING)
+                            .let{boardRef->
+                                if(type == getString(R.string.hot_board)){
+                                    boardRef.orderBy("likeCount", Query.Direction.DESCENDING)
+                                } else {
+                                    boardRef.whereEqualTo("type", type)
+                                            .orderBy("writeDate", Query.Direction.DESCENDING)
+                                }
+                            }
                             .let { query ->
                                 lastVisible?.let { query.startAfter(it) } ?: query
                             }    // 쿼리 커서 시작 위치 지정

@@ -73,12 +73,13 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:src="@drawable/profilepic"
+                android:src="@drawable/defalt_profile"
+                android:scaleType="centerCrop"
                 app:imageUrl="@{userInfo.profilePicUrl}"
                 app:layout_constraintBottom_toTopOf="@+id/title_text"
                 app:layout_constraintStart_toStartOf="parent"
@@ -105,9 +106,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:text="@{boardInfo.contents}"
-                android:textSize="15dp"
+                android:textSize="18dp"
                 app:layout_constraintBottom_toTopOf="@id/picture_1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/hospital_hashtag" />

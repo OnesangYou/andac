@@ -21,11 +21,12 @@
 
     <ImageView
         android:id="@+id/profilePic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/profilepic"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/defalt_profile"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -34,23 +35,20 @@
         android:id="@+id/nickName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="6dp"
         android:hint="nick name"
-        android:textSize="@dimen/_15sp"
+        android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/profilePic"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toTopOf="@+id/profilePic" />
 
     <RadioGroup
         android:id="@+id/radioGroupType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="3dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/profilePic"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/nickName"
         app:layout_constraintTop_toBottomOf="@+id/nickName">
 
@@ -146,20 +144,24 @@
     <EditText
         android:id="@+id/edit_text_contents"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_height="220dp"
         android:layout_margin="20dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="20dp"
         android:background="@null"
         android:hint="내용을 입력해주세요"
         android:textSize="18dp"
+        android:gravity="top"
+        app:layout_constraintBottom_toTopOf="@+id/textView14"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <TextView
+        android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:text="최대3장까지 사진삽입이 가능합니다"
+        android:text="클릭하여 3장까지 사진삽입이 가능합니다"
         android:textColor="@color/lightgray"
         android:textSize="13sp"
         android:textStyle="bold"
@@ -182,14 +184,14 @@
         <ImageView
             android:id="@+id/picture_1"
             android:layout_width="60dp"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             android:background="@color/lightgray"
             android:src="@android:drawable/ic_menu_camera" />
 
         <ImageView
             android:id="@+id/picture_2"
             android:layout_width="60dp"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="15dp"
             android:background="@color/lightgray"
             android:src="@android:drawable/ic_menu_camera" />
@@ -197,7 +199,7 @@
         <ImageView
             android:id="@+id/picture_3"
             android:layout_width="60dp"
-            android:layout_height="80dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="15dp"
             android:background="@color/lightgray"
             android:src="@android:drawable/ic_menu_camera" />

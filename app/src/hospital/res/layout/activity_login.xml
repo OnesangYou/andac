@@ -19,7 +19,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/message_2"
+            android:src="@drawable/main_pic_1"
             android:scaleType="centerCrop"
             />
 
@@ -30,7 +30,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="25dp"
             android:text="병원 관리자님,\nANDAC이 처음이세요?"
-            android:textColor="@color/white"
+            android:textColor="@color/colorMain"
+            android:textStyle="bold"
             android:textSize="25dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +43,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
             android:text="회원가입전, 안닥리스트에 병원이\n등재되어 있는지 확인하세요."
-            android:textColor="@color/white"
+            android:textColor="@color/colorMain"
             android:textSize="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView28"
@@ -54,7 +55,7 @@
             android:layout_width="320dp"
             android:layout_height="50dp"
             android:layout_marginBottom="25dp"
-            android:background="@drawable/buttonstyle2"
+            android:background="@drawable/buttonstyle5"
             android:text="안닥리스트 확인 후 회원가입"
             android:textColor="@color/white"
             android:textSize="15dp"
