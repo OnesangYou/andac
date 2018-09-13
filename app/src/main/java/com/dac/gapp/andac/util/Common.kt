@@ -23,6 +23,6 @@ class Common {
             return calendar.time
         }
 
-        fun getCreateDate() = {"createdDate" to FieldValue.serverTimestamp()}
+        fun getCreateDate() = mapOf("createdDate" to FieldValue.serverTimestamp())
     }
 }
