@@ -16,6 +16,8 @@ import com.dac.gapp.andac.databinding.FragmentMainBinding
 import com.dac.gapp.andac.dialog.MainPopupDialog
 import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.enums.Extra
+import com.dac.gapp.andac.extension.loadImageAny
+import com.dac.gapp.andac.extension.random
 import com.dac.gapp.andac.model.firebase.AdInfo
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
@@ -24,7 +26,6 @@ import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.user.fragment_main.*
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import java.util.*
@@ -50,18 +51,18 @@ class MainFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareUi()
 
-        requestSurgery.setOnClickListener {
+        binding.requestSurgery.setOnClickListener {
             startActivity(Intent(context, RequestSurgeryActivity::class.java).putExtra("isOpen", true))
         }
 
-        more_calum.setOnClickListener {
+        binding.moreCalum.setOnClickListener {
             startActivity(Intent(context, ColumnActivity::class.java))
         }
 
-        columnList.layoutManager = GridLayoutManager(context, 2)
+        binding.columnList.layoutManager = GridLayoutManager(context, 2)
         setAdapter()
 
-        main_my_event.setOnClickListener {
+        binding.mainMyEvent.setOnClickListener {
             context?.startActivity<UserEventApplyListActivity>()
         }
     }
@@ -94,7 +95,7 @@ class MainFragment : BaseFragment() {
                                 Timber.d("photoUrl: ${adInfo.photoUrl}")
                                 adInfoList.add(adInfo)
                             }
-                            viewPagerMainBannerAd.adapter = AdPagerAdapter(context, adInfoList)
+                            binding.viewPagerMainBannerAd.adapter = AdPagerAdapter(context, adInfoList)
                         }
                     }
                     .addOnFailureListener {
@@ -116,16 +117,16 @@ class MainFragment : BaseFragment() {
                                     adInfoList.add(adInfo)
                                 }
 
-                                // TODO 팝업 광고 랜덤으로 띄워야됨!!
+                                val index = (0..adInfoList.lastIndex).random()
                                 val dialog = MainPopupDialog(requireContext())
                                 val clickListener = View.OnClickListener {
-                                    if (adInfoList[0].eventId.isNotEmpty()) {
-                                        activity?.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfoList[0].eventId)
+                                    if (adInfoList[index].eventId.isNotEmpty()) {
+                                        activity?.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfoList[index].eventId)
                                     }
                                     dialog.dismiss()
                                 }
                                 dialog
-                                        .setImage(if (adInfoList[0].photoUrl.isNotEmpty()) adInfoList[0].photoUrl else R.drawable.main_popup_ad)
+                                        .setImage(if (adInfoList[index].photoUrl.isNotEmpty()) adInfoList[index].photoUrl else R.drawable.main_popup_ad)
                                         .setOnImageClickListener(clickListener)
                                         .setOnCancelListener(clickListener)
                                         .setOnConfirmListener(View.OnClickListener { dialog.dismiss() })
@@ -150,13 +151,14 @@ class MainFragment : BaseFragment() {
                     .get()
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful && task.result.size() > 0) {
-                            val photoUrls = ArrayList<String>()
+                            val adInfoList = ArrayList<AdInfo>()
                             for (document in task.result) {
                                 val adInfo = document.toObject(AdInfo::class.java)
                                 Timber.d("photoUrl: ${adInfo.photoUrl}")
-                                photoUrls.add(adInfo.photoUrl)
+                                adInfoList.add(adInfo)
                             }
-                            Glide.with(context).load(photoUrls[0]).into(binding.imgviewTodaysHospitalAd)
+                            val index = (0..adInfoList.lastIndex).random()
+                            binding.imgviewTodaysHospitalAd.loadImageAny(adInfoList[index].photoUrl)
                         }
                     }
         }
@@ -180,10 +182,10 @@ class MainFragment : BaseFragment() {
                                                 .filterNotNull()
                                                 .map { it.id to it.toObject(HospitalInfo::class.java) }
                                                 .toMap().also { hospitalInfoMap ->
-                                                    columnList?.apply {
-                                                        columnList.swapAdapter(ColumnRecyclerAdapter(activity, columnInfos!!, hospitalInfoMap), false)
-                                                        columnList.adapter.notifyDataSetChanged()
-                                                        columnList.addOnItemClickListener(object : OnItemClickListener {
+                                                    binding.columnList?.apply {
+                                                        binding.columnList.swapAdapter(ColumnRecyclerAdapter(activity, columnInfos!!, hospitalInfoMap), false)
+                                                        binding.columnList.adapter.notifyDataSetChanged()
+                                                        binding.columnList.addOnItemClickListener(object : OnItemClickListener {
                                                             override fun onItemClicked(position: Int, view: View) {
                                                                 // 디테일
                                                                 activity.startActivity<ColumnDetailActivity>(Extra.OBJECT_KEY.name to columnInfos[position].objectId)
@@ -205,7 +207,7 @@ class MainFragment : BaseFragment() {
         /*After setting the adapter use the timer */
         val handler = Handler()
         val adAutoScrollRunnable = Runnable {
-            viewPagerMainBannerAd.let {
+            binding.viewPagerMainBannerAd.let {
                 val nextItem = it.currentItem + 1
                 it.setCurrentItem(if (nextItem < it.childCount) nextItem else 0, true)
             }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseLoginActivity
 import com.dac.gapp.andac.enums.Ad
+import com.dac.gapp.andac.extension.random
 import com.dac.gapp.andac.model.firebase.AdInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -81,13 +82,14 @@ open class LoginActivity : BaseLoginActivity() {
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful && task.result.size() > 0) {
-                        val photoUrls = ArrayList<String>()
+                        val adInfoList = ArrayList<AdInfo>()
                         for (document in task.result) {
                             val adInfo = document.toObject(AdInfo::class.java)
                             Timber.d("photoUrl: ${adInfo.photoUrl}")
-                            photoUrls.add(adInfo.photoUrl)
+                            adInfoList.add(adInfo)
                         }
-                        Glide.with(this).load(photoUrls[0]).into(imgviewLoginBannerAd)
+                        val index = (0..adInfoList.lastIndex).random()
+                        Glide.with(this).load(adInfoList[index].photoUrl).into(imgviewLoginBannerAd)
                     }
                 }
     }
