@@ -63,7 +63,8 @@ class MainFragment : BaseFragment() {
         setAdapter()
 
         binding.mainMyEvent.setOnClickListener {
-            context?.startActivity<UserEventApplyListActivity>()
+//            context?.startActivity<UserEventApplyListActivity>()
+            context?.afterCheckLoginDo { context?.startActivity<UserEventApplyListActivity>() }
         }
     }
 

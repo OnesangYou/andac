@@ -45,6 +45,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.gun0912.tedonactivityresult.TedOnActivityResult
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.alert
@@ -248,6 +249,22 @@ abstract class BaseActivity : AppCompatActivity() {
             if (gotoMyPage) it.putExtra(GOTO_MYPAGE, true)
             startActivity(it)
         }
+    }
+
+    fun goToLogin(function: () -> Unit) {
+        Intent(this, LoginActivity::class.java).let {
+            TedOnActivityResult.with(this)
+                .setIntent(it).setListener { resultCode, data ->
+                    if (resultCode == RESULT_OK) {
+                        function.invoke()
+                    }
+                }.startActivityForResult()
+        }
+    }
+
+    fun afterCheckLoginDo(function: () -> Unit){
+        if(!isLogin())goToLogin(function)
+        else function.invoke()
     }
 
     fun getHospitalInfo(uid: String? = getUid()) = uid?.let { s -> getHospital(s).get().continueWith { it.result.toObject(HospitalInfo::class.java) } }

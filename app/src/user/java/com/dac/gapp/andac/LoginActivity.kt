@@ -1,6 +1,7 @@
 package com.dac.gapp.andac
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.bumptech.glide.Glide
@@ -112,6 +113,7 @@ open class LoginActivity : BaseLoginActivity() {
 
             toast(getString(R.string.successLogin))
             if (intent.getBooleanExtra(GOTO_MYPAGE, false)) startActivity(Intent(this, MyPageActivity::class.java))
+            setResult(Activity.RESULT_OK)
             finish()
         }
     }
