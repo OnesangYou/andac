@@ -12,7 +12,6 @@ import com.dac.gapp.andac.model.firebase.AdInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.user.activity_login.*
-import org.jetbrains.anko.startActivity
 import timber.log.Timber
 
 open class LoginActivity : BaseLoginActivity() {
@@ -28,10 +27,8 @@ open class LoginActivity : BaseLoginActivity() {
 
         prepareUi()
 
-        goToJoin.setOnClickListener {
-            Intent(this@LoginActivity, JoinActivity::class.java).let {
-                startActivity(it)
-            }
+        goToJoin.setOnClickListener { _ ->
+            startActivity(Intent(this@LoginActivity, JoinActivity::class.java))
         }
 
         loginBtn.setOnClickListener {

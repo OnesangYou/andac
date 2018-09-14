@@ -9,6 +9,7 @@ import com.dac.gapp.andac.fragment.FavoritesFragment
 import com.dac.gapp.andac.fragment.MyBoardsFragment
 import com.dac.gapp.andac.model.firebase.UserInfo
 import kotlinx.android.synthetic.user.activity_my_page.*
+import org.jetbrains.anko.alert
 
 open class MyPageActivity : BaseMyPageActivity() {
 
@@ -23,9 +24,14 @@ open class MyPageActivity : BaseMyPageActivity() {
         setOnActionBarLeftClickListener(View.OnClickListener {
             finish()
         })
-        setOnActionBarRightClickListener(View.OnClickListener {
-            getAuth()!!.signOut()
-            finish()
+        setOnActionBarRightClickListener(View.OnClickListener { _ ->
+            alert(title = "로그아웃", message = "정말 로그아웃 하시겠습니까?") {
+                positiveButton("YES") { _ ->
+                    getAuth()!!.signOut()
+                    finish()
+                }
+                negativeButton("NO") {}
+            }.show()
         })
 
         // 버튼 그룹 리스너

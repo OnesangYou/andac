@@ -7,7 +7,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import com.dac.gapp.andac.*
 import com.dac.gapp.andac.adapter.AdPagerAdapter
 import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
@@ -183,7 +182,7 @@ class MainFragment : BaseFragment() {
                                                 .filterNotNull()
                                                 .map { it.id to it.toObject(HospitalInfo::class.java) }
                                                 .toMap().also { hospitalInfoMap ->
-                                                    binding.columnList?.apply {
+                                                    binding.columnList.apply {
                                                         binding.columnList.swapAdapter(ColumnRecyclerAdapter(activity, columnInfos!!, hospitalInfoMap), false)
                                                         binding.columnList.adapter.notifyDataSetChanged()
                                                         binding.columnList.addOnItemClickListener(object : OnItemClickListener {
