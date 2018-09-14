@@ -101,11 +101,12 @@ open class LoginActivity : BaseLoginActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         hideProgressDialog()
-        currentUser?.let { user ->
-            if (currentUser.phoneNumber.isNullOrEmpty()) {
-                startActivity<JoinPhoneActivity>()
-                return
-            }
+        currentUser?.let { _ ->
+            // TODO : 문자인증 게시판 채우기 위해 한시적으로 막아놓음, 10월 초에 풀기
+//            if (currentUser.phoneNumber.isNullOrEmpty()) {
+//                startActivity<JoinPhoneActivity>()
+//                return
+//            }
 
             toast(getString(R.string.successLogin))
             if (intent.getBooleanExtra(GOTO_MYPAGE, false)) startActivity(Intent(this, MyPageActivity::class.java))
