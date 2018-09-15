@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,9 +10,7 @@
             type="com.dac.gapp.andac.HospitalActivity" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.dac.gapp.andac.HospitalActivity">
@@ -38,7 +38,8 @@
                         android:layout_height="250dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
 
                     <!-- 병원 정보 -->
                     <android.support.constraint.ConstraintLayout
@@ -211,6 +212,7 @@
 
 
                     <ImageView
+                        android:id="@+id/imageView5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="15dp"
@@ -223,11 +225,15 @@
                         android:id="@+id/imgviewFavorite"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_marginEnd="27dp"
-                        android:layout_marginTop="235dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
                         android:src="@drawable/heart_fill"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+                        app:layout_constraintStart_toStartOf="@+id/imageView5"
+                        app:layout_constraintTop_toTopOf="@+id/imageView5" />
 
                     <TextView
                         android:id="@+id/txtviewFavorite"

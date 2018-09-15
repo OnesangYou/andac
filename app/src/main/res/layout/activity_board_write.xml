@@ -185,7 +185,7 @@
             android:id="@+id/picture_1"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@color/lightgray"
+            android:background="@color/verylightgray"
             android:src="@android:drawable/ic_menu_camera" />
 
         <ImageView
@@ -193,7 +193,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginLeft="15dp"
-            android:background="@color/lightgray"
+            android:background="@color/verylightgray"
             android:src="@android:drawable/ic_menu_camera" />
 
         <ImageView
@@ -201,7 +201,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginLeft="15dp"
-            android:background="@color/lightgray"
+            android:background="@color/verylightgray"
             android:src="@android:drawable/ic_menu_camera" />
 
     </LinearLayout>
