@@ -12,17 +12,22 @@
     <LinearLayout
         android:id="@+id/my_info_setting"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="0dp"
         android:background="@color/lightgray"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
-            android:text="내계정 설정" />
+            android:text="내계정 설정"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            />
 
     </LinearLayout>
 
@@ -35,22 +40,13 @@
         >
 
         <TextView
-            android:id="@+id/profile_text_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="내정보 수정"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            />
-
-
-        <TextView
             android:id="@+id/profile_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="비밀번호 변경"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="25dp"
+            android:textSize="15dp"
             />
 
         <TextView
@@ -61,6 +57,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="25dp"
+            android:textSize="15dp"
             />
 
     </LinearLayout>
@@ -69,7 +66,7 @@
     <LinearLayout
         android:id="@+id/settings"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="0dp"
         android:background="@color/lightgray"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/my_info_setting_layout"
@@ -81,6 +78,9 @@
             android:text="설정"
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
             />
 
     </LinearLayout>
@@ -125,7 +125,7 @@
             android:id="@+id/setting_text_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="안닥 계약하"
+            android:text="안닥 계약하기"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="25dp"
             />

@@ -22,16 +22,17 @@
 
             <ImageView
                 android:id="@+id/mainImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:adjustViewBounds="true"
 
                 android:orientation="horizontal"
+                android:scaleType="centerCrop"
                 android:src="@drawable/event2"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout8"
-                app:layout_constraintDimensionRatio="w,3:2"
 
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints">
@@ -134,7 +135,7 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginEnd="32dp"
-                android:layout_marginTop="168dp"
+                android:layout_marginTop="220dp"
                 android:src="@drawable/circle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -162,7 +163,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:gravity="end"
-                android:text="1121"
+                android:text="0"
                 app:layout_constraintEnd_toEndOf="@+id/imageView3"
                 app:layout_constraintStart_toStartOf="@+id/imageView3"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3" />
