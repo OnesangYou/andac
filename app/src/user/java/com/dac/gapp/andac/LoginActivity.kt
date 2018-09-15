@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseLoginActivity
 import com.dac.gapp.andac.enums.Ad
+import com.dac.gapp.andac.extension.random
 import com.dac.gapp.andac.model.firebase.AdInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -81,13 +82,14 @@ open class LoginActivity : BaseLoginActivity() {
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful && task.result.size() > 0) {
-                        val photoUrls = ArrayList<String>()
+                        val adInfoList = ArrayList<AdInfo>()
                         for (document in task.result) {
                             val adInfo = document.toObject(AdInfo::class.java)
                             Timber.d("photoUrl: ${adInfo.photoUrl}")
-                            photoUrls.add(adInfo.photoUrl)
+                            adInfoList.add(adInfo)
                         }
-                        Glide.with(this).load(photoUrls[0]).into(imgviewLoginBannerAd)
+                        val index = (0..adInfoList.lastIndex).random()
+                        Glide.with(this).load(adInfoList[index].photoUrl).into(imgviewLoginBannerAd)
                     }
                 }
     }
@@ -101,11 +103,12 @@ open class LoginActivity : BaseLoginActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         hideProgressDialog()
-        currentUser?.let { user ->
-            if (currentUser.phoneNumber.isNullOrEmpty()) {
-                startActivity<JoinPhoneActivity>()
-                return
-            }
+        currentUser?.let { _ ->
+            // TODO : 문자인증 게시판 채우기 위해 한시적으로 막아놓음, 10월 초에 풀기
+//            if (currentUser.phoneNumber.isNullOrEmpty()) {
+//                startActivity<JoinPhoneActivity>()
+//                return
+//            }
 
             toast(getString(R.string.successLogin))
             if (intent.getBooleanExtra(GOTO_MYPAGE, false)) startActivity(Intent(this, MyPageActivity::class.java))
