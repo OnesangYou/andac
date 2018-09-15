@@ -5,52 +5,54 @@ import android.content.Intent
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseLoginActivity
+import com.dac.gapp.andac.databinding.ActivityLoginBinding
 import com.dac.gapp.andac.enums.Ad
+import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.extension.random
 import com.dac.gapp.andac.model.firebase.AdInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.user.activity_login.*
-import org.jetbrains.anko.startActivity
 import timber.log.Timber
 
 open class LoginActivity : BaseLoginActivity() {
     private var mAuth: FirebaseAuth? = null
 
+    private lateinit var binding : ActivityLoginBinding
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        binding = getBinding()
 
         // Initialize Firebase Auth
         mAuth = getAuth()
 
         prepareUi()
 
-        goToJoin.setOnClickListener {
+        binding.goToJoin.setOnClickListener {
             Intent(this@LoginActivity, JoinActivity::class.java).let {
                 startActivity(it)
             }
         }
 
-        loginBtn.setOnClickListener {
+        binding.loginBtn.setOnClickListener {
             val mAuth = getAuth()
 
-            if (emailEdit.text.isEmpty()) {
+            if (binding.emailEdit.text.isEmpty()) {
                 toast("이메일을 입력하세요")
                 return@setOnClickListener
             }
 
-            if (passwordLoginEdit.text.isEmpty()) {
+            if (binding.passwordLoginEdit.text.isEmpty()) {
                 toast("패스워드를 입력하세요")
                 return@setOnClickListener
             }
 
             // 유저인지 확인 (병원계정 접근 금지)
             showProgressDialog()
-            onCheckNormalUser(emailEdit.text.toString()) { isUser ->
+            onCheckNormalUser(binding.emailEdit.text.toString()) { isUser ->
                 if (isUser) {
-                    mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())?.addOnCompleteListener { task ->
+                    mAuth?.signInWithEmailAndPassword(binding.emailEdit.text.toString(), binding.passwordLoginEdit.text.toString())?.addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
                             Timber.tag(KBJ).d("signInWithEmail:success")
@@ -70,7 +72,7 @@ open class LoginActivity : BaseLoginActivity() {
             }
         }
 
-        findPasswordBtn.setOnClickListener {
+        binding.findPasswordBtn.setOnClickListener {
             findPassword()
         }
     }
@@ -89,7 +91,7 @@ open class LoginActivity : BaseLoginActivity() {
                             adInfoList.add(adInfo)
                         }
                         val index = (0..adInfoList.lastIndex).random()
-                        Glide.with(this).load(adInfoList[index].photoUrl).into(imgviewLoginBannerAd)
+                        binding.imgviewLoginBannerAd.loadImageAny(adInfoList[index].photoUrl)
                     }
                 }
     }
