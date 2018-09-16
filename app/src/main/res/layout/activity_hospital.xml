@@ -48,6 +48,7 @@
                         android:layout_height="120dp"
                         android:background="@color/white"
                         app:layout_constraintLeft_toLeftOf="parent"
+                        android:padding="10dp"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/viewPager">
 
@@ -56,14 +57,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            app:layout_constraintGuide_percent="0.70" />
+                            app:layout_constraintGuide_begin="341dp" />
 
                         <TextView
                             android:id="@+id/txtvieName"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginStart="5dp"
                             android:text="아이리움안과의원"
                             android:textColor="@color/black"
                             android:textSize="20sp"
@@ -75,10 +75,11 @@
                             android:id="@+id/txtviewAddress"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
+                            android:layout_marginStart="5dp"
+                            android:maxLines="2"
                             android:text="서울특별시 강남구 역삼1동 강남대로 388"
                             android:textColor="@color/black"
-                            android:textSize="12sp"
+                            android:textSize="15dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/txtvieName" />
 
@@ -86,7 +87,8 @@
                             android:id="@+id/txtviewBusinessHours"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="1dp"
                             android:text="open 10:10 ~ close 19:30"
                             android:textColor="@color/black"
                             android:textSize="12sp"
@@ -97,9 +99,9 @@
                             android:id="@+id/txtviewDescription"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
+                            android:layout_marginStart="5dp"
                             android:layout_marginTop="12dp"
-                            android:text="당일 검사 후 당일 바로 수술!\n우수한 안정성이 바로 아이리움의 자부심입니다!"
+                            android:text="당일 검사 후 당일 바로 수술!"
                             android:textSize="10sp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +123,7 @@
                             class="com.google.android.gms.maps.MapFragment"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:layout_marginTop="12dp"
+                            android:layout_marginTop="5dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"

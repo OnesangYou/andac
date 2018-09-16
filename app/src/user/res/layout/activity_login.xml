@@ -1,131 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.dac.gapp.andac.LoginActivity">
-
-
-    <ImageView
-        android:id="@+id/imgviewLoginBannerAd"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:src="@drawable/main_popup_ad"
-        android:scaleType="centerInside"
-        android:background="@color/orange"
-        app:layout_constraintDimensionRatio="w,3:2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/id_pw_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/loginBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgviewLoginBannerAd">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.dac.gapp.andac.LoginActivity">
 
 
-        <EditText
-            android:id="@+id/emailEdit"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:ems="10"
-
-            android:hint="이메일을 입력해주세요"
-            android:inputType="textEmailAddress"
-            android:textSize="18dp"
+        <ImageView
+            android:id="@+id/imgviewLoginBannerAd"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@color/orange"
+            android:scaleType="centerInside"
+            android:src="@drawable/main_popup_ad"
+            app:layout_constraintDimensionRatio="w,3:2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/passwordLoginEdit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="비밀번호를 입력해주세요"
-            android:inputType="textPassword"
-            android:textSize="18dp"
-            app:layout_constraintBottom_toTopOf="@+id/findIdBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
 
-
-        <Button
-            android:id="@+id/findIdBtn"
-            android:layout_width="70dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/non"
-            android:text="ID 찾기"
-            android:textColor="@color/colorMain"
-            android:textSize="13dp"
-            app:layout_constraintStart_toEndOf="@+id/goToJoin"
-            app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
-
-        <Button
-            android:id="@+id/findPasswordBtn"
-            android:layout_width="70dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/non"
-            android:text="PW 찾기"
-            android:textColor="@color/colorMain"
-            android:textSize="13dp"
-            app:layout_constraintStart_toEndOf="@+id/findIdBtn"
-            app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
-
-        <TextView
-            android:id="@+id/join_text"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/id_pw_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
-            android:text="회원이 아니세요?"
-            android:textColor="@color/gray"
-            android:textSize="13dp"
-            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/loginBtn"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+            app:layout_constraintTop_toBottomOf="@+id/imgviewLoginBannerAd">
+
+
+            <EditText
+                android:id="@+id/emailEdit"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:ems="10"
+
+                android:hint="이메일을 입력해주세요"
+                android:inputType="textEmailAddress"
+                android:textSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/passwordLoginEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:hint="비밀번호를 입력해주세요"
+                android:inputType="textPassword"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toTopOf="@+id/findIdBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
+
+
+            <Button
+                android:id="@+id/findIdBtn"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/non"
+                android:text="ID 찾기"
+                android:textColor="@color/colorMain"
+                android:textSize="13dp"
+                app:layout_constraintStart_toEndOf="@+id/goToJoin"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+
+            <Button
+                android:id="@+id/findPasswordBtn"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/non"
+                android:text="PW 찾기"
+                android:textColor="@color/colorMain"
+                android:textSize="13dp"
+                app:layout_constraintStart_toEndOf="@+id/findIdBtn"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+
+            <TextView
+                android:id="@+id/join_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:text="회원이 아니세요?"
+                android:textColor="@color/gray"
+                android:textSize="13dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+
+            <Button
+                android:id="@+id/goToJoin"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="160dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/non"
+                android:text="회원가입"
+                android:textColor="@color/colorMain"
+                android:textSize="13dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/join_text"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+
+        </android.support.constraint.ConstraintLayout>
+
 
         <Button
-            android:id="@+id/goToJoin"
-            android:layout_width="70dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="160dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/non"
-            android:text="회원가입"
-            android:textColor="@color/colorMain"
-            android:textSize="13dp"
-            android:textStyle="bold"
+            android:id="@+id/loginBtn"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:background="@color/colorMain"
+            android:text="로그인"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/join_text"
-            app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
+
 
     </android.support.constraint.ConstraintLayout>
 
-
-    <Button
-        android:id="@+id/loginBtn"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:background="@color/colorMain"
-        android:text="로그인"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
-
-
-</android.support.constraint.ConstraintLayout>
+</layout>
