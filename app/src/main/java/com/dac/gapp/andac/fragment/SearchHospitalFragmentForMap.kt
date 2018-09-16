@@ -286,10 +286,17 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     }
 
     private fun moveCamera(latLng: LatLng) {
-        googleMap?.let {
-            it.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-            // 14.5f
-            it.animateCamera(CameraUpdateFactory.zoomTo(14.0f))
+        googleMap?.apply {
+            animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f), 1, object : GoogleMap.CancelableCallback {
+                override fun onFinish() {
+                    Timber.d("animateCamera onFinish()")
+                }
+
+                override fun onCancel() {
+                    Timber.d("animateCamera onCancel()")
+                    animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f), 1, this)
+                }
+            })
         }
     }
 

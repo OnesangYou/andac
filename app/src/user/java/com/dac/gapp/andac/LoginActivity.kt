@@ -17,7 +17,7 @@ import timber.log.Timber
 open class LoginActivity : BaseLoginActivity() {
     private var mAuth: FirebaseAuth? = null
 
-    private lateinit var binding : ActivityLoginBinding
+    private lateinit var binding: ActivityLoginBinding
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +91,8 @@ open class LoginActivity : BaseLoginActivity() {
                             adInfoList.add(adInfo)
                         }
                         val index = (0..adInfoList.lastIndex).random()
-                        binding.imgviewLoginBannerAd.loadImageAny(adInfoList[index].photoUrl)
+                        if (!isFinishing)
+                            binding.imgviewLoginBannerAd.loadImageAny(adInfoList[index].photoUrl)
                     }
                 }
     }
