@@ -38,6 +38,8 @@ class AccountSettingFragment : BaseFragment() {
                 }
             }
         }
+
+        change_pw_btn.setOnClickListener { context?.findPassword() }
     }
 
 }// Required empty public constructor

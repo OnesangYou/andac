@@ -79,12 +79,11 @@ class LoginActivity : BaseHospitalActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if(currentUser != null){
-            // TODO : 문자인증 게시판 채우기 위해 한시적으로 막아놓음, 10월 초에 풀기
-//            // 폰번호 인증
-//            if(currentUser.phoneNumber.isNullOrEmpty()){
-//                startActivity<JoinPhoneActivity>()
-//                return
-//            }
+            // 폰번호 인증
+            if(!isExistPhoneNumber()){
+                startActivity<JoinPhoneActivity>()
+                return
+            }
 
             // 관리자 승인 확인
             onCheckApproval { isCheck ->

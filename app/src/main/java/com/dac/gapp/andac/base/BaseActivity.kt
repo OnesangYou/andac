@@ -102,11 +102,13 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getCurrentUser(): FirebaseUser? = getAuth()?.currentUser
             .also {
                 it?:goToLogin() // 로그아웃 상태
-                it?.phoneNumber?.isEmpty()?.let { isEmpty ->
-                    if (isEmpty) goToLogin()
-                }
+                if (!isExistPhoneNumber()) goToLogin()
             } // 폰등록 안되 있는 경우는 login 이동
 
+    fun isExistPhoneNumber(): Boolean {
+        return true // TODO : 문자인증 게시판 채우기 위해 한시적으로 막아놓음, 10월 초에 풀기
+        return !(getAuth()?.currentUser?.phoneNumber.isNullOrEmpty())
+    }
 
     private var mProgressDialog: ProgressDialog? = null
 

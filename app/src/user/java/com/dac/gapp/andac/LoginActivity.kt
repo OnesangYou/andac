@@ -14,6 +14,7 @@ import com.dac.gapp.andac.model.firebase.AdInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.user.activity_login.*
+import org.jetbrains.anko.startActivity
 import timber.log.Timber
 
 open class LoginActivity : BaseLoginActivity() {
@@ -107,11 +108,10 @@ open class LoginActivity : BaseLoginActivity() {
     private fun updateUI(currentUser: FirebaseUser?) {
         hideProgressDialog()
         currentUser?.let { _ ->
-            // TODO : 문자인증 게시판 채우기 위해 한시적으로 막아놓음, 10월 초에 풀기
-//            if (currentUser.phoneNumber.isNullOrEmpty()) {
-//                startActivity<JoinPhoneActivity>()
-//                return
-//            }
+            if (!isExistPhoneNumber()) {
+                startActivity<JoinPhoneActivity>()
+                return
+            }
 
             toast(getString(R.string.successLogin))
             if (intent.getBooleanExtra(GOTO_MYPAGE, false)) startActivity(Intent(this, MyPageActivity::class.java))
