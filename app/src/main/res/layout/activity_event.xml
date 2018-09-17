@@ -83,7 +83,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/sub_title"
+                    android:id="@+id/hospitalNameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="아이리움안과의원 [서울 / 청담]"
@@ -102,8 +102,8 @@
                     android:textColor="@color/orange"
                     android:textSize="20dp"
                     app:layout_constraintBottom_toTopOf="@+id/body"
-                    app:layout_constraintStart_toStartOf="@+id/sub_title"
-                    app:layout_constraintTop_toBottomOf="@+id/sub_title" />
+                    app:layout_constraintStart_toStartOf="@+id/hospitalNameText"
+                    app:layout_constraintTop_toBottomOf="@+id/hospitalNameText" />
 
                 <TextView
                     android:id="@+id/price"
