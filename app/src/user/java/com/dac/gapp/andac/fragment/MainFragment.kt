@@ -4,20 +4,25 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.*
 import com.dac.gapp.andac.adapter.AdPagerAdapter
+import com.dac.gapp.andac.adapter.BoardListRecyclerViewAdapter
 import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentMainBinding
 import com.dac.gapp.andac.dialog.MainPopupDialog
 import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.enums.Extra
+import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.extension.random
 import com.dac.gapp.andac.model.firebase.AdInfo
+import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.OnItemClickListener
@@ -25,9 +30,12 @@ import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainFragment : BaseFragment() {
@@ -36,6 +44,11 @@ class MainFragment : BaseFragment() {
         const val IS_FIRST_MAIN_POPUP_AD = "isFirstMainPopupAd"
         const val DELAY_MS: Long = 500
         const val PERIOD_MS: Long = 3000
+
+        private val mTextViewEventBehaviorSubject: BehaviorSubject<View> = BehaviorSubject.create()
+        fun observeTxtviewBoardEvent(): Observable<View> {
+            return mTextViewEventBehaviorSubject.hide()
+        }
     }
 
     private var mIsMainPopupAdFirst: Boolean = true
@@ -65,6 +78,11 @@ class MainFragment : BaseFragment() {
 //            context?.startActivity<UserEventApplyListActivity>()
             context?.afterCheckLoginDo { context?.startActivity<UserEventApplyListActivity>() }
         }
+
+        binding.txtviewBoard.setOnClickListener {
+            mTextViewEventBehaviorSubject.onNext(it)
+        }
+
     }
 
     private fun prepareUi() {
@@ -159,6 +177,30 @@ class MainFragment : BaseFragment() {
                             }
                             val index = (0..adInfoList.lastIndex).random()
                             binding.imgviewTodaysHospitalAd.loadImageAny(adInfoList[index].photoUrl)
+                        }
+                    }
+
+            context.getBoards()
+                    .orderBy("likeCount", Query.Direction.DESCENDING)
+                    .limit(PageSize.board.value)   // 페이지 단위
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful && task.result.size() > 0) {
+                            val boardInfoList = ArrayList<BoardInfo>()
+                            for (document in task.result) {
+                                val boardInfo = document.toObject(BoardInfo::class.java)
+                                Timber.d("title: ${boardInfo.title}")
+                                boardInfoList.add(boardInfo)
+                            }
+                            binding.recyclerViewBoard.apply {
+                                layoutManager = LinearLayoutManager(context)
+                                adapter = BoardListRecyclerViewAdapter(boardInfoList)
+                                addOnItemClickListener(object : OnItemClickListener {
+                                    override fun onItemClicked(position: Int, view: View) {
+                                        activity?.startActivity<BoardDetailActivity>(Extra.OBJECT_KEY.name to boardInfoList[position].objectId)
+                                    }
+                                })
+                            }
                         }
                     }
         }

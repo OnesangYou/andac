@@ -16,7 +16,7 @@ import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.activity_hospital.*
+import timber.log.Timber
 
 const val EXTRA_HOSPITAL_INFO = "EXTRA_HOSPITAL_INFO"
 
@@ -50,12 +50,12 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText(hospitalInfo.name)
         setActionBarRightImage(R.drawable.call)
-        txtvieName.text = hospitalInfo.name
-        txtviewAddress.text = hospitalInfo.run { if (address2.isNotEmpty()) address2 else if (address1.isNotEmpty()) address1 else getString(R.string.no_hospital_addres_entered) }
-        txtviewBusinessHours.text = hospitalInfo.run { if (businessHours.isNotEmpty()) businessHours else getString(R.string.no_business_hours_entered) }
-        txtviewDescription.text = hospitalInfo.description
+        binding.txtvieName.text = hospitalInfo.name
+        binding.txtviewAddress.text = hospitalInfo.run { if (address2.isNotEmpty()) address2 else if (address1.isNotEmpty()) address1 else getString(R.string.no_hospital_addres_entered) }
+        binding.txtviewBusinessHours.text = hospitalInfo.run { if (businessHours.isNotEmpty()) businessHours else getString(R.string.no_business_hours_entered) }
+        binding.txtviewDescription.text = hospitalInfo.description
 
-        viewPager.adapter = HospitalActivityPagerAdapter(this, supportFragmentManager, ArrayList<Any>().also {
+        binding.viewPager.adapter = HospitalActivityPagerAdapter(this, supportFragmentManager, ArrayList<Any>().also {
             it.add(hospitalInfo.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (isApproval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
         })
 
@@ -75,20 +75,24 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(map: GoogleMap?) {
-        map?.let {
-            it.addMarker(
-                    MarkerOptions().apply {
-                        icon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_on))
-                        position(hospitalInfo.getLatLng())
-                    }
-            )
-            it.moveCamera(CameraUpdateFactory.newLatLng(hospitalInfo.getLatLng()))
-            it.animateCamera(CameraUpdateFactory.zoomTo(15f))
-            googleMap = it
+        map?.apply {
+            addMarker(MarkerOptions().apply { icon(BitmapDescriptorFactory.fromResource(R.drawable.hospital_on)); position(hospitalInfo.getLatLng()) })
+            animateCamera(CameraUpdateFactory.newLatLngZoom(hospitalInfo.getLatLng(), 15f), 1, object : GoogleMap.CancelableCallback {
+                override fun onFinish() {
+                    Timber.d("animateCamera onFinish()")
+                }
+
+                override fun onCancel() {
+                    Timber.d("animateCamera onCancel()")
+                    animateCamera(CameraUpdateFactory.newLatLngZoom(hospitalInfo.getLatLng(), 15f), 1, this)
+                }
+            })
+            googleMap = this
         }
     }
 
     fun onClickConsult(view: View) {
-        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen", false).putExtra("documentId", hospitalInfo.documentId).putExtra("hospitalName", hospitalInfo.name))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(hospitalInfo.getLatLng()))
+//        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen", false).putExtra("documentId", hospitalInfo.documentId).putExtra("hospitalName", hospitalInfo.name))
     }
 }

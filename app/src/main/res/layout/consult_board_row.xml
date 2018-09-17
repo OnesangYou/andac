@@ -54,18 +54,21 @@
             android:textStyle="bold"
             android:onClick="@{(v) -> holder.onClickShowConsult(usermodel.uUid, usermodel.hUid, usermodel.isOpen)}"/>
 
+
         <TextView
             android:id="@+id/start_consult"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.4"
             android:gravity="center"
+            android:layout_margin="5dp"
             android:background="@color/colorMain"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:onClick="@{() -> holder.onClickStartChat(usermodel.uUid,usermodel.hUid)}"
             android:text="상담하기"
             android:textSize="@dimen/_13sp"
-            />
+        />
+
     </LinearLayout>
 </layout>

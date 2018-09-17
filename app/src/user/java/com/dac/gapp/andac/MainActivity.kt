@@ -15,6 +15,7 @@ import com.dac.gapp.andac.fragment.*
 import com.dac.gapp.andac.model.ActivityResultEvent
 import com.dac.gapp.andac.util.MyToast
 import com.dac.gapp.andac.util.RxBus
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
@@ -64,6 +65,23 @@ class MainActivity : BaseActivity() {
         // Add the fragment to the 'fragment_container' FrameLayout
         supportFragmentManager.beginTransaction()
                 .add(R.id.layoutFragmentContainer, firstFragment).commit()
+    }
+
+    private var mDisposable: Disposable? = null
+
+    override fun onResume() {
+        super.onResume()
+        mDisposable = MainFragment.observeTxtviewBoardEvent()
+                .subscribe {
+                    navigation?.apply {
+                        selectedItemId = R.id.navigation_board
+                    }
+                }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mDisposable?.dispose()
     }
 
     internal object BottomNavigationViewHelper {

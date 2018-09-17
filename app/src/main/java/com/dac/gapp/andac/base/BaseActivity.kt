@@ -333,6 +333,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun setActionBarImage(resId: Int, imageView: ImageView, textView: TextView) {
+        textView.apply { text = "" }
         Glide.with(this).load(resId).into(imageView); UiUtil.visibleOrGone(true, imageView); UiUtil.visibleOrGone(false, textView)
     }
 
@@ -361,6 +362,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun setActionBarText(text: String, textView: TextView, imageView: ImageView) {
+        imageView.apply { setImageResource(0); setImageBitmap(null) }
         textView.text = text; UiUtil.visibleOrGone(true, textView); UiUtil.visibleOrGone(false, imageView)
     }
 
