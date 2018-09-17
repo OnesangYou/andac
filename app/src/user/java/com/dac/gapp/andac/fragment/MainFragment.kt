@@ -31,6 +31,8 @@ import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import java.util.*
@@ -43,6 +45,11 @@ class MainFragment : BaseFragment() {
         const val IS_FIRST_MAIN_POPUP_AD = "isFirstMainPopupAd"
         const val DELAY_MS: Long = 500
         const val PERIOD_MS: Long = 3000
+
+        private val mTextViewEventBehaviorSubject: BehaviorSubject<View> = BehaviorSubject.create()
+        fun observeTxtviewBoardEvent(): Observable<View> {
+            return mTextViewEventBehaviorSubject.hide()
+        }
     }
 
     private var mIsMainPopupAdFirst: Boolean = true
@@ -70,6 +77,10 @@ class MainFragment : BaseFragment() {
 
         binding.mainMyEvent.setOnClickListener {
             context?.startActivity<UserEventApplyListActivity>()
+        }
+
+        binding.txtviewBoard.setOnClickListener {
+            mTextViewEventBehaviorSubject.onNext(it)
         }
 
     }
