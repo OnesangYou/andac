@@ -45,6 +45,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.gun0912.tedonactivityresult.TedOnActivityResult
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.alert
@@ -101,11 +102,13 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getCurrentUser(): FirebaseUser? = getAuth()?.currentUser
             .also {
                 it?:goToLogin() // 로그아웃 상태
-                it?.phoneNumber?.isEmpty()?.let { isEmpty ->
-                    if (isEmpty) goToLogin()
-                }
+                if (!isExistPhoneNumber()) goToLogin()
             } // 폰등록 안되 있는 경우는 login 이동
 
+    fun isExistPhoneNumber(): Boolean {
+        return true // TODO : 문자인증 게시판 채우기 위해 한시적으로 막아놓음, 10월 초에 풀기
+        return !(getAuth()?.currentUser?.phoneNumber.isNullOrEmpty())
+    }
 
     private var mProgressDialog: ProgressDialog? = null
 
@@ -250,6 +253,22 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    fun goToLogin(function: () -> Unit) {
+        Intent(this, LoginActivity::class.java).let {
+            TedOnActivityResult.with(this)
+                .setIntent(it).setListener { resultCode, data ->
+                    if (resultCode == RESULT_OK) {
+                        function.invoke()
+                    }
+                }.startActivityForResult()
+        }
+    }
+
+    fun afterCheckLoginDo(function: () -> Unit){
+        if(!isLogin())goToLogin(function)
+        else function.invoke()
+    }
+
     fun getHospitalInfo(uid: String? = getUid()) = uid?.let { s -> getHospital(s).get().continueWith { it.result.toObject(HospitalInfo::class.java) } }
 
     private var viewDataBinding: ViewDataBinding? = null
@@ -316,6 +335,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun setActionBarImage(resId: Int, imageView: ImageView, textView: TextView) {
+        textView.apply { text = "" }
         Glide.with(this).load(resId).into(imageView); UiUtil.visibleOrGone(true, imageView); UiUtil.visibleOrGone(false, textView)
     }
 
@@ -344,6 +364,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun setActionBarText(text: String, textView: TextView, imageView: ImageView) {
+        imageView.apply { setImageResource(0); setImageBitmap(null) }
         textView.text = text; UiUtil.visibleOrGone(true, textView); UiUtil.visibleOrGone(false, imageView)
     }
 
@@ -548,6 +569,8 @@ abstract class BaseActivity : AppCompatActivity() {
             if(boardInfo.likeCount < 0) throw IllegalStateException("Like Count is Zero")
         }
     fun showDeleteBoardDialog(boardId : String){
+        // TODO : 삭제 시, 좋아요 연관 데이터도 모두 지워야함
+        return toast("삭제 기능은 곧 업데이트 될 예정입니다")
         showProgressDialog()
         alert(title = "게시물 삭제", message = "게시물을 삭제하시겠습니까?") {
             positiveButton("YES"){ _ ->

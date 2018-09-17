@@ -63,7 +63,7 @@
                 android:background="@color/white"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mainImage"
                 tools:ignore="MissingConstraints">
@@ -73,22 +73,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="15dp"
                     android:text="아이리움 스마일라식"
+                    android:ems="11"
+                    android:maxLines="2"
                     android:textSize="@dimen/_20sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/sub_title"
+                    android:id="@+id/hospitalNameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="25dp"
                     android:text="아이리움안과의원 [서울 / 청담]"
-                    android:textSize="@dimen/_13sp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@color/colorMain"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/event_title"
                     app:layout_constraintTop_toBottomOf="@+id/event_title" />
 
 
@@ -96,34 +98,50 @@
                     android:id="@+id/deal_kind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:text="할인가"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sub_title" />
+                    android:textColor="@color/orange"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toTopOf="@+id/body"
+                    app:layout_constraintStart_toStartOf="@+id/hospitalNameText"
+                    app:layout_constraintTop_toBottomOf="@+id/hospitalNameText" />
 
                 <TextView
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
-                    android:layout_height="34dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="800,000원"
-                    android:textSize="20sp"
+                    android:text="800,000"
+                    android:textColor="@color/black"
+                    android:textSize="23dp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/deal_kind"
                     app:layout_constraintStart_toEndOf="@+id/deal_kind"
-                    app:layout_constraintTop_toBottomOf="@+id/sub_title" />
+                    app:layout_constraintTop_toTopOf="@+id/deal_kind" />
+
+                <TextView
+                    android:id="@+id/one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:text="원"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/price"
+                    app:layout_constraintStart_toEndOf="@+id/price" />
+
 
                 <TextView
                     android:id="@+id/body"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
                     android:layout_marginStart="16dp"
                     android:text="2018.06.30 ~ 2018.08.25"
-                    android:textSize="@dimen/_10sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/deal_kind" />
-
+                    android:textColor="@color/gray"
+                    android:textSize="13dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
 
             </android.support.constraint.ConstraintLayout>
@@ -134,8 +152,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_marginEnd="32dp"
-                android:layout_marginTop="220dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="225dp"
                 android:src="@drawable/circle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -143,8 +161,8 @@
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"

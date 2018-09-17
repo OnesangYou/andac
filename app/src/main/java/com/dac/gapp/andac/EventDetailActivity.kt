@@ -36,7 +36,7 @@ class EventDetailActivity : BaseActivity() {
             getEvent(objectId)?.get()?.continueWith { it.result.toObject(EventInfo::class.java) }
                     ?.addOnSuccessListener { it -> it?.also { eventInfo ->
                         event_title.text = eventInfo.title
-                        sub_title.text = eventInfo.sub_title
+                        hospitalNameText.text = eventInfo.sub_title
                         body.text = eventInfo.body
                         deal_kind.text = eventInfo.deal_kind
                         price.text = eventInfo.price.toString()
@@ -49,14 +49,16 @@ class EventDetailActivity : BaseActivity() {
                         getHospitalInfo(eventInfo.writerUid)?.addOnSuccessListener { it ->
                             it?.also { hospitalInfo ->
                                 setActionBarCenterText("${hospitalInfo.name} 병원 이벤트")
+                                hospitalNameText.text = hospitalInfo.name
 
-                            // Set hospital Btn
-                            hospital.setOnClickListener { startActivity(HospitalActivity.createIntent(this@EventDetailActivity, hospitalInfo)) }
+                                // Set hospital Btn
+                                hospital.setOnClickListener { startActivity(HospitalActivity.createIntent(this@EventDetailActivity, hospitalInfo)) }
 
-                            setOnActionBarRightClickListener(View.OnClickListener {
-                                startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))
-                            })
-                        }}
+                                setOnActionBarRightClickListener(View.OnClickListener {
+                                    startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))
+                                })
+                            }
+                        }
 
                     } }
                     ?.addOnCompleteListener { hideProgressDialog() }

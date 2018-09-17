@@ -83,7 +83,7 @@ class BoardRecyclerAdapter(
                 }
             }
 
-            // 수정하기 버튼
+            // 메뉴 버튼
             if(context.isLogin() && boardInfo.writerUid == context.getUid()){
                 menu.visibility = View.VISIBLE
                 menu.setOnClickListener {

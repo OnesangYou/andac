@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import com.dac.gapp.andac.*
 import com.dac.gapp.andac.adapter.AdPagerAdapter
 import com.dac.gapp.andac.adapter.BoardListRecyclerViewAdapter
@@ -31,6 +30,8 @@ import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import java.util.*
@@ -43,6 +44,11 @@ class MainFragment : BaseFragment() {
         const val IS_FIRST_MAIN_POPUP_AD = "isFirstMainPopupAd"
         const val DELAY_MS: Long = 500
         const val PERIOD_MS: Long = 3000
+
+        private val mTextViewEventBehaviorSubject: BehaviorSubject<View> = BehaviorSubject.create()
+        fun observeTxtviewBoardEvent(): Observable<View> {
+            return mTextViewEventBehaviorSubject.hide()
+        }
     }
 
     private var mIsMainPopupAdFirst: Boolean = true
@@ -69,7 +75,12 @@ class MainFragment : BaseFragment() {
         setAdapter()
 
         binding.mainMyEvent.setOnClickListener {
-            context?.startActivity<UserEventApplyListActivity>()
+//            context?.startActivity<UserEventApplyListActivity>()
+            context?.afterCheckLoginDo { context?.startActivity<UserEventApplyListActivity>() }
+        }
+
+        binding.txtviewBoard.setOnClickListener {
+            mTextViewEventBehaviorSubject.onNext(it)
         }
 
     }
@@ -213,7 +224,7 @@ class MainFragment : BaseFragment() {
                                                 .filterNotNull()
                                                 .map { it.id to it.toObject(HospitalInfo::class.java) }
                                                 .toMap().also { hospitalInfoMap ->
-                                                    binding.columnList?.apply {
+                                                    binding.columnList.apply {
                                                         binding.columnList.swapAdapter(ColumnRecyclerAdapter(activity, columnInfos!!, hospitalInfoMap), false)
                                                         binding.columnList.adapter.notifyDataSetChanged()
                                                         binding.columnList.addOnItemClickListener(object : OnItemClickListener {

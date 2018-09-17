@@ -80,7 +80,7 @@ class LoginActivity : BaseHospitalActivity() {
     private fun updateUI(currentUser: FirebaseUser?) {
         if(currentUser != null){
             // 폰번호 인증
-            if(currentUser.phoneNumber.isNullOrEmpty()){
+            if(!isExistPhoneNumber()){
                 startActivity<JoinPhoneActivity>()
                 return
             }
