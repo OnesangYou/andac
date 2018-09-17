@@ -9,18 +9,19 @@
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginBottom="5dp"
         >
 
         <ImageView
             android:id="@+id/imgview_thumbnail"
             android:layout_width="150dp"
             android:layout_height="100dp"
-            android:src="@drawable/hospital_profile_default_not_approval"
             android:scaleType="centerCrop"
+            android:src="@drawable/hospital_profile_default_not_approval"
+            algolia:attribute='@{"profilePicUrl"}'
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/txtview_title"
             app:layout_constraintStart_toStartOf="parent"
-            algolia:attribute='@{"profilePicUrl"}'
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
