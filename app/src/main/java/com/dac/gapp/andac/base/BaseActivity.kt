@@ -567,6 +567,8 @@ abstract class BaseActivity : AppCompatActivity() {
             if(boardInfo.likeCount < 0) throw IllegalStateException("Like Count is Zero")
         }
     fun showDeleteBoardDialog(boardId : String){
+        // TODO : 삭제 시, 좋아요 연관 데이터도 모두 지워야함
+        return toast("삭제 기능은 곧 업데이트 될 예정입니다")
         showProgressDialog()
         alert(title = "게시물 삭제", message = "게시물을 삭제하시겠습니까?") {
             positiveButton("YES"){ _ ->
