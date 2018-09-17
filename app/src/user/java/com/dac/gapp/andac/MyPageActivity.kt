@@ -1,5 +1,6 @@
 package com.dac.gapp.andac
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import com.dac.gapp.andac.base.BaseMyPageActivity
@@ -15,6 +16,7 @@ open class MyPageActivity : BaseMyPageActivity() {
 
     var userInfo: UserInfo? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
@@ -58,6 +60,7 @@ open class MyPageActivity : BaseMyPageActivity() {
             this@MyPageActivity.userInfo = userInfo
             if(userInfo.profilePicUrl.isNotEmpty()) profilePic.loadImage(userInfo.profilePicUrl)
             nameText.text = userInfo.nickName
+            emailText.text = "( ${userInfo.email} )"
         }?.let { addListenerRegistrations(it) }
     }
 
