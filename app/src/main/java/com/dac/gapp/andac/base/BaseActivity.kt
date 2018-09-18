@@ -208,7 +208,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
 
     // User Contents
-    fun getUserContents(uid: String? = getUid()) = uid?.let { getDb().collection("userContents").document(it) }
+    fun getUserContents(uid: String? = getUid()) = uid?.let { if(isUser()) getDb().collection("userContents").document(it) else null }
     fun getUserBoards() = getUserContents()?.collection("boards")
     fun getUserLikeBoards() = getUserContents()?.collection("likeBoards")
     fun getUserLikeBoard(boardKey: String) = getUserContents()?.collection("likeBoards")?.document(boardKey)
