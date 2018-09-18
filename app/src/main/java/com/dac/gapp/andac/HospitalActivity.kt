@@ -62,6 +62,15 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         val fragmentManager = fragmentManager
         val mapFragment = fragmentManager.findFragmentById(R.id.map) as MapFragment
         mapFragment.getMapAsync(this)
+
+        // isLike
+        binding.imgviewFavorite.isEnabled = false
+        getLikeHospital(hospitalInfo.objectID)?.get()?.addOnSuccessListener {
+            binding.imgviewFavorite.isChecked = it.exists()
+            binding.imgviewFavorite.isEnabled = true
+
+            // TODO : 병원 좋아요 클릭 리스너 이벤트 달기
+        }
     }
 
     @SuppressLint("MissingPermission")

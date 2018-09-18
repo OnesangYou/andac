@@ -201,9 +201,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     // Boards
     fun getBoardStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("boards")
-
     fun getBoards(): CollectionReference = getDb().collection("boards")
     fun getBoard(key: String): DocumentReference? = if (key.isEmpty()) null else getBoards().document(key)
+    fun getReplies(boardKey: String) = getBoard(boardKey)?.collection("replies")
+    fun getLikeUsers(boardKey: String) = getBoard(boardKey)?.collection("likeUsers")
+
+
+    // User Contents
     fun getUserContents(uid: String? = getUid()) = uid?.let { getDb().collection("userContents").document(it) }
     fun getUserBoards() = getUserContents()?.collection("boards")
     fun getUserLikeBoards() = getUserContents()?.collection("likeBoards")
@@ -212,9 +216,9 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getViewedColumns() = getUserContents()?.collection("viewedColumns")
     fun getUserEvents() = getUserContents()?.collection("events")
     fun getUserEvent(eventKey: String) = getUserEvents()?.document(eventKey)
-    fun getReplies(boardKey: String) = getBoard(boardKey)?.collection("replies")
-    fun getLikeUsers(boardKey: String) = getBoard(boardKey)?.collection("likeUsers")
 
+    fun getLikeHospitals() = getUserContents()?.collection("likeHospitals")
+    fun getLikeHospital(hospitalKey : String) = getLikeHospitals()?.document(hospitalKey)
 
 
     // Column
