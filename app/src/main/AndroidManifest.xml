@@ -39,7 +39,6 @@
         <activity android:name=".HospitalColumnListActivity" />
         <activity android:name=".JoinPhoneActivity" />
 
-
         <service android:name=".util.FcmSendService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -51,7 +50,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".BoardDetailActivity"></activity>
+        <activity android:name=".BoardDetailActivity" />
+        <activity android:name=".EventTextSearchActivity"></activity>
     </application>
 
 </manifest>

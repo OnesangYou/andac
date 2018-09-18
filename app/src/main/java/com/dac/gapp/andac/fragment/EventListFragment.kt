@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.EventDetailActivity
+import com.dac.gapp.andac.EventTextSearchActivity
 import com.dac.gapp.andac.MyPageActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
@@ -25,6 +26,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
+import org.jetbrains.anko.startActivity
 
 
 @Suppress("DEPRECATION")
@@ -85,7 +87,7 @@ class EventListFragment : BaseFragment() {
         context?.let { context ->
             context.setActionBarLeftImage(R.drawable.mypage)
             context.setActionBarCenterImage(R.drawable.andac_font)
-            context.setActionBarRightImage(R.drawable.bell)
+            context.setActionBarRightImage(R.drawable.finder)
             context.setOnActionBarLeftClickListener(View.OnClickListener {
                 // 로그인 상태 체크
                 if (getCurrentUser() == null) {
@@ -95,7 +97,8 @@ class EventListFragment : BaseFragment() {
                 }
             })
             context.setOnActionBarRightClickListener(View.OnClickListener {
-                //                MyToast.showShort(context, "TODO: 알림 설정")
+                // 검색 기능
+                context.startActivity<EventTextSearchActivity>()
             })
         }
     }
