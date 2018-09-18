@@ -38,7 +38,7 @@ class EventWriteActivity : BaseActivity() {
                 eventInfo = this
                 titleText.setText(title)
                 bodyText.setText(body)
-                priceText.setText(price.toString())
+                priceText.setText(if(price == 0) "병원문의" else price.toString())
                 Glide.with(this@EventWriteActivity).load(pictureUrl).into(topImage)
                 Glide.with(this@EventWriteActivity).load(detailPictureUrl).into(bottomImage)
 
@@ -77,7 +77,7 @@ class EventWriteActivity : BaseActivity() {
                 writerUid = getUid()?:return@setOnClickListener
                 title = titleText.text.toString()
                 body = bodyText.text.toString()
-                price = priceText.text.toString().toInt()
+                price = priceText.text.toString().toIntOrNull()?:0
             }
 
             val eventInfoRef = intent.getStringExtra(OBJECT_KEY)?.let{

@@ -39,7 +39,7 @@ class EventDetailActivity : BaseActivity() {
                         hospitalNameText.text = eventInfo.sub_title
                         body.text = eventInfo.body
                         deal_kind.text = eventInfo.deal_kind
-                        price.text = eventInfo.price.toString()
+                        price.text = if(eventInfo.price == 0) "병원문의" else eventInfo.price.toString()
                         buy_count.text = eventInfo.buy_count.toString()
 
                         Glide.with(this@EventDetailActivity).load(eventInfo.pictureUrl).into(mainImage)

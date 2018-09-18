@@ -47,7 +47,7 @@ class HospitalEventApplicantListActivity : BaseActivity() {
                 event_title.text = eventInfo.title
                 body.text = eventInfo.body
                 deal_kind.text = eventInfo.deal_kind
-                price.text = eventInfo.price.toString()
+                price.text = if(eventInfo.price == 0) "병원문의" else eventInfo.price.toString()
                 buy_count.text = eventInfo.buy_count.toString()
 
                 // sub_title(병원명)
