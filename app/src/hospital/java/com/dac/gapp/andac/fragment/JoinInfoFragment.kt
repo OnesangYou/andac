@@ -52,6 +52,7 @@ class JoinInfoFragment : JoinBaseFragment() {
                 val hospitalStr = hospitalName.text.toString()
                 val addressStr = addressEdit.text.toString()
                 val businessHoursStr = hospitalBusinessHours.text.toString()
+                val phoneStr = phoneEdit.text.toString()
 
                 // 병원명 공백체크
                 if(hospitalStr == ""){
@@ -68,6 +69,7 @@ class JoinInfoFragment : JoinBaseFragment() {
                     name = hospitalStr
                     address2 = addressStr
                     businessHours = businessHoursStr
+                    phone = phoneStr
                 }
 
                 goToNextView()
