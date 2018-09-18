@@ -465,7 +465,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun showDeleteObjectDialog(objectStr: String, objectRef: DocumentReference) {
 
-        alert(title = "$objectStr 삭제", message = "${objectStr}을 삭제하시겠습니까?") {
+        alert(title = "$objectStr 삭제", message = "${objectStr} 삭제하시겠습니까?") {
             positiveButton("YES") { it ->
                 // 삭제 진행
                 showProgressDialog()

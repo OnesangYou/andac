@@ -38,12 +38,15 @@ class EventWriteActivity : BaseActivity() {
                 eventInfo = this
                 titleText.setText(title)
                 bodyText.setText(body)
-                priceText.setText(price.toString())
+                priceText.setText(if(price == 0) "병원문의" else price.toString())
                 Glide.with(this@EventWriteActivity).load(pictureUrl).into(topImage)
                 Glide.with(this@EventWriteActivity).load(detailPictureUrl).into(bottomImage)
 
             }}?.addOnCompleteListener { hideProgressDialog() }
             setOnActionBarRightClickListener(View.OnClickListener {
+                // TODO 삭제 기능 일단 막고, 나중에 신청자 정보 삭제와 연동
+                toast("삭제 기능은 곧 구현예정입니다")
+                return@OnClickListener
                 showDeleteEventDialog(key)
             })
             showActionBarRight()
@@ -74,7 +77,7 @@ class EventWriteActivity : BaseActivity() {
                 writerUid = getUid()?:return@setOnClickListener
                 title = titleText.text.toString()
                 body = bodyText.text.toString()
-                price = priceText.text.toString().toInt()
+                price = priceText.text.toString().toIntOrNull()?:0
             }
 
             val eventInfoRef = intent.getStringExtra(OBJECT_KEY)?.let{

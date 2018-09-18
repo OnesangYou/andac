@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_column.*
+import org.jetbrains.anko.startActivity
 
 @Suppress("DEPRECATION")
 class ColumnActivity : BaseActivity() {
@@ -30,8 +31,12 @@ class ColumnActivity : BaseActivity() {
         setContentView(R.layout.activity_column)
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText("컬럼 게시판 보기")
-        hidActionBarRight()
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
+        setActionBarRightImage(R.drawable.finder)
+        setOnActionBarRightClickListener(View.OnClickListener {
+            // 검색 기능
+            startActivity<ColumnTextSearchActivity>()
+        })
 
         resetData()
 

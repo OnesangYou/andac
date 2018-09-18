@@ -1,8 +1,7 @@
 package com.dac.gapp.andac.model.firebase
 
-import com.dac.gapp.andac.enums.Algolia
-import com.dac.gapp.andac.util.JsonUtil
 import com.google.android.gms.maps.model.LatLng
+import com.google.gson.Gson
 import org.json.JSONObject
 import java.io.Serializable
 import java.util.*
@@ -10,27 +9,7 @@ import java.util.*
 class HospitalInfo : Serializable {
     // static method
     companion object {
-        fun create(jo: JSONObject): HospitalInfo {
-            val hospitalInfo = HospitalInfo()
-            hospitalInfo.documentId = JsonUtil.getString(jo, Algolia.OBJECT_ID.value)
-            hospitalInfo.address1 = JsonUtil.getString(jo, Algolia.ADDRESS1.value)
-            hospitalInfo.address2 = JsonUtil.getString(jo, Algolia.ADDRESS2.value)
-            hospitalInfo.name = JsonUtil.getString(jo, Algolia.NAME.value)
-            hospitalInfo.number = JsonUtil.getInt(jo, Algolia.NUMBER.value)
-            hospitalInfo.openDate = JsonUtil.getString(jo, Algolia.OPEN_DATE.value)
-            hospitalInfo.phone = JsonUtil.getString(jo, Algolia.PHONE.value)
-            hospitalInfo.status = JsonUtil.getString(jo, Algolia.STATUS.value)
-            hospitalInfo.type = JsonUtil.getString(jo, Algolia.TYPE.value)
-            hospitalInfo.profilePicUrl = JsonUtil.getString(jo, "profilePicUrl")
-            val geoLocation = GeoLocation()
-            val geoJO = JsonUtil.getObject(jo, Algolia.GEOLOC.value)
-            geoLocation.lat = JsonUtil.getDouble(geoJO, Algolia.LAT.value)
-            geoLocation.lng = JsonUtil.getDouble(geoJO, Algolia.LNG.value)
-            hospitalInfo._geoloc = geoLocation
-            hospitalInfo.objectID = JsonUtil.getString(jo, Algolia.OBJECT_ID.value)
-            hospitalInfo.isApproval = JsonUtil.getBoolean(jo, "approval")
-            return hospitalInfo
-        }
+        fun create(jo: JSONObject) = Gson().fromJson(jo.toString(), HospitalInfo::class.java)
     }
 
     var documentId: String = ""

@@ -12,6 +12,7 @@ import com.algolia.search.saas.Query
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.enums.Algolia
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_hospital_text_search.*
 
 
@@ -43,8 +44,7 @@ class HospitalTextSearchActivity : BaseActivity() {
         hits.setOnItemClickListener{ _: RecyclerView, i: Int, _: View ->
 
             val jo = hits.get(i)
-
-            HospitalInfo.create(jo).let { hospitalInfo ->
+            Gson().fromJson(jo.toString(), HospitalInfo::class.java).let { hospitalInfo ->
                 Intent().let {
                     it.putExtra("hospitalInfo", hospitalInfo)
                     setResult(Activity.RESULT_OK, it)

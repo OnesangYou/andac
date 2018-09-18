@@ -24,7 +24,7 @@ class EventInfoRecyclerviewAdapter(var context: Context?, var list: List<EventIn
         holder.sub_title.text = item.sub_title
         holder.body.text = item.body
         holder.deal_kind.text = item.deal_kind
-        holder.price.text = item.price.toString()
+        holder.price.text = if(item.price == 0) "병원문의" else item.price.toString()
         holder.buy_count.text = item.buy_count.toString()
     }
 }

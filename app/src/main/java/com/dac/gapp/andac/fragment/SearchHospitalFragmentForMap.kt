@@ -11,7 +11,6 @@ import android.widget.Toast
 import com.algolia.instantsearch.helpers.Searcher
 import com.algolia.search.saas.AbstractQuery
 import com.algolia.search.saas.Query
-import com.bumptech.glide.Glide
 import com.dac.gapp.andac.HospitalActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
@@ -293,8 +292,12 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 }
 
                 override fun onCancel() {
-                    Timber.d("animateCamera onCancel()")
-                    animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f), 1, this)
+                    try {
+                        Timber.d("animateCamera onCancel()")
+                        animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f), 1, this)
+                    } catch (e : Exception) {
+                        e.printStackTrace()
+                    }
                 }
             })
         }
