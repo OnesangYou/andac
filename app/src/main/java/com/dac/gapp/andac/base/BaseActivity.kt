@@ -81,6 +81,8 @@ abstract class BaseActivity : AppCompatActivity() {
         getDb().collection("hospitalContents").document(it)
     }
 
+    fun getHospitalLikeUsers(hospitalKey: String) = getHospitalContents(hospitalKey)?.collection("likeUsers")
+
     fun getHospitalEvent(eventKey: String) = getHospitalEvents()?.document(eventKey)
 
     fun getHospitalColumn(columnKey: String) = getHospitalColumns()?.document(columnKey)
@@ -547,11 +549,18 @@ abstract class BaseActivity : AppCompatActivity() {
                 currentFocus!!.windowToken, 0)
     }
 
-    fun boardRunTransaction(boardKey : String, function: (boardInfo : BoardInfo) -> Unit) =
+    fun boardRunTransaction(key : String, function: (info : BoardInfo) -> Unit) =
         FirebaseFirestore.getInstance().runTransaction { transaction ->
-        val boardRef = getBoard(boardKey)?:throw IllegalStateException()
-        val boardInfo = transaction.get(boardRef).toObject(BoardInfo::class.java)?:throw IllegalStateException()
-        transaction.set(boardRef, boardInfo.also { function.invoke(it) })
+        val ref = getBoard(key)?:throw IllegalStateException()
+        val info = transaction.get(ref).toObject(BoardInfo::class.java)?:throw IllegalStateException()
+        transaction.set(ref, info.also { function.invoke(it) })
+    }
+
+    fun hospitalRunTransaction(key : String, function: (info : HospitalInfo) -> Unit) =
+        FirebaseFirestore.getInstance().runTransaction { transaction ->
+            val ref = getHospital(key)
+            val info = transaction.get(ref).toObject(HospitalInfo::class.java)?:throw IllegalStateException()
+            transaction.set(ref, info.also { function.invoke(it) })
     }
 
 
@@ -561,17 +570,6 @@ abstract class BaseActivity : AppCompatActivity() {
             if(boardInfo.replyCount < 0) throw IllegalStateException("Reply Count is Zero")
         }
 
-    fun addLikeCount(boardKey : String) =
-        boardRunTransaction(boardKey) { boardInfo ->
-            boardInfo.likeCount++
-            if(boardInfo.likeCount < 0) throw IllegalStateException("Like Count is Zero")
-        }
-
-    fun subLikeCount(boardKey : String) =
-        boardRunTransaction(boardKey) { boardInfo ->
-            boardInfo.likeCount--
-            if(boardInfo.likeCount < 0) throw IllegalStateException("Like Count is Zero")
-        }
     fun showDeleteBoardDialog(boardId : String){
         // TODO : 삭제 시, 좋아요 연관 데이터도 모두 지워야함
         return toast("삭제 기능은 곧 업데이트 될 예정입니다")
@@ -593,7 +591,7 @@ abstract class BaseActivity : AppCompatActivity() {
         }.show()
     }
 
-    fun clickLikeBtn(boardKey : String, setLike : Boolean): Task<MutableList<Task<*>>>? {
+    fun clickBoardLikeBtn(boardKey : String, setLike : Boolean): Task<MutableList<Task<*>>>? {
         val uid = getUid()?:return null
         return if(setLike){
             Tasks.whenAllComplete(
@@ -602,7 +600,11 @@ abstract class BaseActivity : AppCompatActivity() {
                     // 유저 컨텐츠 도큐먼트  컬렉션 추가 {게시물키 : 날짜}
                     getUserLikeBoard(boardKey)?.set(Common.getCreateDate(), SetOptions.merge()),
                     // 카운트 증가
-                    addLikeCount(boardKey)
+                    boardRunTransaction(boardKey) { boardInfo ->
+                        boardInfo.likeCount++
+                        if(boardInfo.likeCount < 0) throw IllegalStateException("Like Count is Zero")
+                    }
+
             )
         } else {
             Tasks.whenAllComplete(
@@ -611,7 +613,39 @@ abstract class BaseActivity : AppCompatActivity() {
                     // 유저 컨텐츠 도큐먼트  컬렉션 삭제
                     getUserLikeBoard(boardKey)?.delete(),
                     // 카운트 감소
-                    subLikeCount(boardKey)
+                    boardRunTransaction(boardKey) { boardInfo ->
+                        boardInfo.likeCount--
+                        if(boardInfo.likeCount < 0) throw IllegalStateException("Like Count is Zero")
+                    }
+            )
+        }
+    }
+
+    fun clickHospitalLikeBtn(hospitalKey: String, setLike: Boolean): Task<MutableList<Task<*>>>?{
+        val uid = getUid()?:return null
+        return if(setLike) {
+            Tasks.whenAllComplete(
+                    // 병원 하위 컬렉션 추가 {유저키 : 날짜}
+                    getHospitalLikeUsers(hospitalKey)?.document(uid)?.set(Common.getCreateDate(), SetOptions.merge()),
+                    // 유저 컨텐츠 도큐먼트  컬렉션 추가 {병원키 : 날짜}
+                    getLikeHospital(hospitalKey)?.set(Common.getCreateDate(), SetOptions.merge()),
+                    // 카운트 증가
+                    hospitalRunTransaction(hospitalKey){info ->
+                        info.likeCount++
+                        if(info.likeCount < 0) throw IllegalStateException("Like Count is Zero")
+                    }
+            )
+        } else {
+            Tasks.whenAllComplete(
+                    // 병원 하위 컬렉션 삭제
+                    getHospitalLikeUsers(hospitalKey)?.document(uid)?.delete(),
+                    // 유저 컨텐츠 도큐먼트  컬렉션 삭제
+                    getLikeHospital(hospitalKey)?.delete(),
+                    // 카운트 감소
+                    hospitalRunTransaction(hospitalKey){info ->
+                        info.likeCount--
+                        if(info.likeCount < 0) throw IllegalStateException("Like Count is Zero")
+                    }
             )
         }
     }

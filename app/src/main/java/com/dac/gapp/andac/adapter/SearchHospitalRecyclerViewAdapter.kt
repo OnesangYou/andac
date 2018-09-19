@@ -19,7 +19,7 @@ class SearchHospitalRecyclerViewAdapter(private var context: Context?, private v
 
     override fun onBindViewHolder(holder: SearchHospitalViewHolder, position: Int) {
         val item = itemList[position]
-        holder.thumbnail.loadImageAny(item.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if(isApproval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
+        holder.thumbnail.loadImageAny(item.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if(approval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
         holder.title.text = item.name
         holder.address.text = item.address1
         holder.description.text = item.description

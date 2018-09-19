@@ -71,7 +71,7 @@ class BoardRecyclerAdapter(
                 button_like.isChecked = likeSet.contains(boardInfo.objectId)
                 button_like.setOnClickListener {view->
                     view.isEnabled = false
-                    context.clickLikeBtn(boardInfo.objectId, button_like.isChecked)?.addOnCompleteListener { view.isEnabled = true }
+                    context.clickBoardLikeBtn(boardInfo.objectId, button_like.isChecked)?.addOnCompleteListener { view.isEnabled = true }
 
                     boardInfo.likeCount += if (button_like.isChecked) 1 else -1
                     likeText.likeCnt(boardInfo.likeCount)

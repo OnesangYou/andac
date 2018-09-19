@@ -12,7 +12,7 @@ open class BaseHospitalActivity : BaseActivity() {
                 if(task.isSuccessful){
                     val hospitalInfo = task.result.toObject(HospitalInfo::class.java)
                     if(hospitalInfo != null) {
-                        onSuccess(hospitalInfo.isApproval)
+                        onSuccess(hospitalInfo.approval)
                     }
                 } else {
                     onSuccess(false)

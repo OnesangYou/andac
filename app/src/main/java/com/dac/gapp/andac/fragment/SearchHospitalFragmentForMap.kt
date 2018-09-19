@@ -94,7 +94,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 hospitalInfo?.let { info ->
                     binding.layoutHospitalInfo?.let {
                         UiUtil.visibleOrGone(true, it.root)
-                        it.imgviewThumbnail.loadImageAny(info.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (isApproval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
+                        it.imgviewThumbnail.loadImageAny(info.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (approval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
                         it.txtviewTitle.text = info.name
                         it.txtviewAddress.text = info.address2
                         it.txtviewPhone.text = info.phone

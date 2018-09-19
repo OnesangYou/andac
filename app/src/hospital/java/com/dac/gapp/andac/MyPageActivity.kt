@@ -37,14 +37,14 @@ class MyPageActivity : BaseHospitalActivity() {
             val hospitalInfo = documentSnapshot.toObject(HospitalInfo::class.java)
             hospitalInfo?.let { hospitalInfo ->
                 binding.layoutHospitalInfo?.let { layoutHospitalInfo ->
-                    layoutHospitalInfo.imgviewThumbnail.loadImageAny(hospitalInfo.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (isApproval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
+                    layoutHospitalInfo.imgviewThumbnail.loadImageAny(hospitalInfo.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (approval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
                     layoutHospitalInfo.txtviewTitle.text = hospitalInfo.name
                     layoutHospitalInfo.txtviewAddress.text = hospitalInfo.address2
                     layoutHospitalInfo.txtviewPhone.text = hospitalInfo.phone
                 }
 
                 // check approval
-                if (!hospitalInfo.isApproval) {
+                if (!hospitalInfo.approval) {
                     toast(hospitalInfo.requestStr.toString())
                 }
             }
