@@ -12,7 +12,6 @@ class HospitalInfo : Serializable {
         fun create(jo: JSONObject) = Gson().fromJson(jo.toString(), HospitalInfo::class.java)
     }
 
-    var documentId: String = ""
     var address1: String = ""
     var address2: String = ""
     var name: String = ""
