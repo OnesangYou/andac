@@ -53,5 +53,8 @@ class MyPageActivity : BaseHospitalActivity() {
         profile_change.setOnClickListener { startActivity(Intent(this, ChangeProfileActivity::class.java)) }
 
         password_change.setOnClickListener { findPassword() }
+
+        // 버전 정보
+        versionText.setOnClickListener { toastVersion() }
     }
 }

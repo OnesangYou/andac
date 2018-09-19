@@ -113,10 +113,10 @@
             />
 
         <TextView
-            android:id="@+id/setting_text_3"
+            android:id="@+id/versionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="버전정보"
+            android:text="버전 정보"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="25dp"
             />

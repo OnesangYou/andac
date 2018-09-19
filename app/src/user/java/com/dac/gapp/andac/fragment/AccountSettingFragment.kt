@@ -40,6 +40,9 @@ class AccountSettingFragment : BaseFragment() {
         }
 
         change_pw_btn.setOnClickListener { context?.findPassword() }
+
+        // 버전 정보
+        versionText.setOnClickListener { context?.toastVersion() }
     }
 
 }// Required empty public constructor
