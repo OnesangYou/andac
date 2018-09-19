@@ -23,6 +23,7 @@ class SearchHospitalRecyclerViewAdapter(private var context: Context?, private v
         holder.title.text = item.name
         holder.address.text = item.address1
         holder.description.text = item.description
+        holder.likeCntText.text = item.likeCount.toString()
         holder.itemView.setOnClickListener {
             context!!.startActivity(HospitalActivity.createIntent(context!!, item))
         }

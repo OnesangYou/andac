@@ -98,8 +98,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                         it.txtviewTitle.text = info.name
                         it.txtviewAddress.text = info.address2
                         it.txtviewPhone.text = info.phone
-                        // TODO 병원 하트 카운트는 어디서??
-                        it.heartCount.text = "1"
+                        it.heartCount.text = info.likeCount.toString()
                         it.root.setOnClickListener {
                             startActivity(HospitalActivity.createIntent(thisActivity(), hospitalInfo))
                         }
