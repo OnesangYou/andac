@@ -87,7 +87,7 @@ class SearchHospitalFragmentForList : BaseFragment() {
         val client = Client(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value)
         val index = client.getIndex(Algolia.INDEX_NAME_HOSPITAL.value)
         val query = Query()
-        query.query = queryString
+        if(queryString != getString(R.string.popularity)) query.query = queryString
         query.setFacets("address1")
         query.hitsPerPage = Integer.MAX_VALUE
 //        query.filters = "address1:\"서울\""
