@@ -261,6 +261,7 @@
                 android:background="@color/colorMain"
                 android:onClick="@{activity::onClickConsult}"
                 android:text="1:1 상담신청서 작성하기"
+                android:enabled="false"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent" />
