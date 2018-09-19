@@ -52,7 +52,7 @@ class EventDetailActivity : BaseActivity() {
                                 hospitalNameText.text = hospitalInfo.name
 
                                 // Set hospital Btn
-                                hospital.setOnClickListener { startActivity(HospitalActivity.createIntent(this@EventDetailActivity, hospitalInfo)) }
+                                hospital.setOnClickListener { startActivity(HospitalActivity.createIntent(this@EventDetailActivity, hospitalInfo.apply { objectID = eventInfo.writerUid })) }
 
                                 setOnActionBarRightClickListener(View.OnClickListener {
                                     startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))

@@ -12,7 +12,6 @@ class HospitalInfo : Serializable {
         fun create(jo: JSONObject) = Gson().fromJson(jo.toString(), HospitalInfo::class.java)
     }
 
-    var documentId: String = ""
     var address1: String = ""
     var address2: String = ""
     var name: String = ""
@@ -29,7 +28,7 @@ class HospitalInfo : Serializable {
     var email: String = ""
     var cellPhone: String = ""
     var isAgreeAlarm: Boolean = false
-    var isApproval: Boolean = false
+    var approval: Boolean = false
     var createdDate: Date? = null
     var thumbnail: Int = 0
 
@@ -51,6 +50,7 @@ class HospitalInfo : Serializable {
     var bankAccountMaster: String = ""
 
     var requestStr: String? = "관리자 승인 요청 중입니다"
+    var likeCount : Int = 0
 
     fun getLatLng(): LatLng {
         return LatLng(_geoloc.lat!!, _geoloc.lng!!)

@@ -223,7 +223,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
+                    <ToggleButton
                         android:id="@+id/imgviewFavorite"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -231,14 +231,16 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:src="@drawable/heart_fill"
+                        android:background="@drawable/heart_btn"
+                        android:textOff=""
+                        android:textOn=""
                         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
                         app:layout_constraintEnd_toEndOf="@+id/imageView5"
                         app:layout_constraintStart_toStartOf="@+id/imageView5"
                         app:layout_constraintTop_toTopOf="@+id/imageView5" />
 
                     <TextView
-                        android:id="@+id/txtviewFavorite"
+                        android:id="@+id/favoriteCntText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -259,6 +261,7 @@
                 android:background="@color/colorMain"
                 android:onClick="@{activity::onClickConsult}"
                 android:text="1:1 상담신청서 작성하기"
+                android:enabled="false"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent" />

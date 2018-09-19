@@ -131,7 +131,7 @@ class BoardDetailActivity : BaseActivity() {
                     button_like.isChecked = snapshot.exists()
                     button_like.setOnClickListener { view ->
                         view.isEnabled = false
-                        clickLikeBtn(boardKey,button_like.isChecked)?.addOnCompleteListener { view.isEnabled = true }
+                        clickBoardLikeBtn(boardKey,button_like.isChecked)?.addOnCompleteListener { view.isEnabled = true }
                     }
                 }
 
@@ -158,7 +158,7 @@ class BoardDetailActivity : BaseActivity() {
 
     }
 
-    fun amIWriter(replyInfo: ReplyInfo) =
+    private fun amIWriter(replyInfo: ReplyInfo) =
             if(getAuth()?.currentUser == null) false
             else replyInfo.writerUid == getUid()
 

@@ -94,12 +94,11 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                 hospitalInfo?.let { info ->
                     binding.layoutHospitalInfo?.let {
                         UiUtil.visibleOrGone(true, it.root)
-                        it.imgviewThumbnail.loadImageAny(info.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (isApproval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
+                        it.imgviewThumbnail.loadImageAny(info.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (approval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
                         it.txtviewTitle.text = info.name
-                        it.txtviewAddress.text = info.address1
+                        it.txtviewAddress.text = info.address2
                         it.txtviewPhone.text = info.phone
-                        // TODO 병원 하트 카운트는 어디서??
-                        it.heartCount.text = "1"
+                        it.heartCount.text = info.likeCount.toString()
                         it.root.setOnClickListener {
                             startActivity(HospitalActivity.createIntent(thisActivity(), hospitalInfo))
                         }
@@ -245,8 +244,8 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                         val jo = hits.getJSONObject(i)
 //                    Timber.d("jsonObject[$i]: ${jo.toString(4)}")
                         val hospitalInfo = HospitalInfo.create(jo)
-                        hospitals[hospitalInfo.documentId] = hospitalInfo
-                        addMarker(hospitalInfo.documentId, hospitalInfo.getLatLng())
+                        hospitals[hospitalInfo.objectID] = hospitalInfo
+                        addMarker(hospitalInfo.objectID, hospitalInfo.getLatLng())
                         i++
                     }
 

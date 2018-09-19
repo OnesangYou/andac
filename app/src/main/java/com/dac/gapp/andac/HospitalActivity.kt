@@ -47,21 +47,44 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     private fun prepareUi() {
-        setActionBarLeftImage(R.drawable.back)
-        setActionBarCenterText(hospitalInfo.name)
-        setActionBarRightImage(R.drawable.call)
-        binding.txtvieName.text = hospitalInfo.name
-        binding.txtviewAddress.text = hospitalInfo.run { if (address2.isNotEmpty()) address2 else if (address1.isNotEmpty()) address1 else getString(R.string.no_hospital_addres_entered) }
-        binding.txtviewBusinessHours.text = hospitalInfo.run { if (businessHours.isNotEmpty()) businessHours else getString(R.string.no_business_hours_entered) }
-        binding.txtviewDescription.text = hospitalInfo.description
+        addListenerRegistrations(getHospital(hospitalInfo.objectID).addSnapshotListener { snapshot, exception ->
+            val hospitalInfo = snapshot?.toObject(HospitalInfo::class.java).apply { this?.objectID = hospitalInfo.objectID }?:return@addSnapshotListener
 
-        binding.viewPager.adapter = HospitalActivityPagerAdapter(this, supportFragmentManager, ArrayList<Any>().also {
-            it.add(hospitalInfo.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (isApproval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
+            setActionBarLeftImage(R.drawable.back)
+            setActionBarCenterText(hospitalInfo.name)
+            setActionBarRightImage(R.drawable.call)
+            binding.txtvieName.text = hospitalInfo.name
+            binding.txtviewAddress.text = hospitalInfo.run { if (address2.isNotEmpty()) address2 else if (address1.isNotEmpty()) address1 else getString(R.string.no_hospital_addres_entered) }
+            binding.txtviewBusinessHours.text = hospitalInfo.run { if (businessHours.isNotEmpty()) businessHours else getString(R.string.no_business_hours_entered) }
+            binding.txtviewDescription.text = hospitalInfo.description
+
+            binding.viewPager.adapter = HospitalActivityPagerAdapter(this, supportFragmentManager, ArrayList<Any>().also {
+                it.add(hospitalInfo.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (approval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
+            })
+
+            val fragmentManager = fragmentManager
+            val mapFragment = fragmentManager.findFragmentById(R.id.map) as MapFragment
+            mapFragment.getMapAsync(this)
+
+            binding.favoriteCntText.text = hospitalInfo.likeCount.toString()
+
+            // isLike
+            binding.imgviewFavorite.isEnabled = false
+            if(hospitalInfo.approval){    // 승인된 병원만 좋아요 버튼 허가
+                getLikeHospital(hospitalInfo.objectID)?.get()?.addOnSuccessListener { documentSnapshot ->
+                    binding.imgviewFavorite.isChecked = documentSnapshot.exists()
+                    binding.imgviewFavorite.isEnabled = true
+
+                    // 병원 좋아요 클릭 리스너 이벤트 달기
+                    binding.imgviewFavorite.setOnClickListener { _ ->
+                        binding.imgviewFavorite.isEnabled = false
+                        clickHospitalLikeBtn(hospitalInfo.objectID, binding.imgviewFavorite.isChecked)?.addOnSuccessListener {
+                            binding.imgviewFavorite.isEnabled = true
+                        }
+                    }
+                }
+            }
         })
-
-        val fragmentManager = fragmentManager
-        val mapFragment = fragmentManager.findFragmentById(R.id.map) as MapFragment
-        mapFragment.getMapAsync(this)
     }
 
     @SuppressLint("MissingPermission")

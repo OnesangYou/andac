@@ -39,7 +39,7 @@ class MainFragment : BaseFragment() {
         context?.getHospitalInfo()?.addOnSuccessListener { hospitalInfo ->
             val hospitalInfo = hospitalInfo ?: return@addOnSuccessListener
             binding.dashboard.hospital_name.text = hospitalInfo.name
-            if (!hospitalInfo.isApproval) {
+            if (!hospitalInfo.approval) {
                 listOf(dashboard, btnConsultingBoard, buttonGroup).forEach { it.visibility = View.INVISIBLE }
                 requestText.visibility = View.VISIBLE
                 requestText.text = hospitalInfo.requestStr

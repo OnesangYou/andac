@@ -5,5 +5,7 @@
         android:drawable="@drawable/heart_fill"
         />
     <!-- 클릭하지 않은 경우 -->
-    <item android:state_checked="false" android:drawable="@drawable/heart"/>
+    <item android:state_checked="false"
+        android:drawable="@drawable/heart"
+        />
 </selector>
