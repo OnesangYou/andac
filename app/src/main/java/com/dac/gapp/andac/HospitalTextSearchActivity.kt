@@ -14,6 +14,7 @@ import com.dac.gapp.andac.enums.Algolia
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_hospital_text_search.*
+import org.json.JSONArray
 
 
 class HospitalTextSearchActivity : BaseActivity() {
@@ -39,6 +40,20 @@ class HospitalTextSearchActivity : BaseActivity() {
         searcher
                 .setQuery(Query().setFilters(intent.getStringExtra("filterStr")))
                 .search(intent)
+
+                // likeCount 필드가 없을 경우 0으로 초기화
+                .registerResultListener { results, _ ->
+                    val likeCountStr = "likeCount"
+                    val jsonArray : JSONArray = results.hits
+                    for (i in 0..(jsonArray.length() - 1)) {
+                        val item = jsonArray.getJSONObject(i)
+                        // Your code here
+                        if(!item.has(likeCountStr)) {
+                            item.put(likeCountStr, 0)
+                        }
+                    }
+                }
+
 
         // hospitalInfo 객체를 만들어서 호출한 곳에 보냄
         hits.setOnItemClickListener{ _: RecyclerView, i: Int, _: View ->
