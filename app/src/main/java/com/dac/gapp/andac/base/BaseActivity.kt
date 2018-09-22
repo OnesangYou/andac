@@ -46,6 +46,7 @@ import com.gun0912.tedonactivityresult.TedOnActivityResult
 import io.reactivex.Observable
 import org.jetbrains.anko.alert
 import timber.log.Timber
+import kotlinx.android.synthetic.main.activity_base.*
 
 
 abstract class BaseActivity : AppCompatActivity() {
