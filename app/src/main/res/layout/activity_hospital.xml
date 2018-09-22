@@ -44,7 +44,7 @@
                     <android.support.constraint.ConstraintLayout
                         android:id="@+id/layoutHospitalInfo"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
+                        android:layout_height="wrap_content"
                         android:background="@color/white"
                         android:padding="10dp"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -103,12 +103,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
+                            android:layout_marginTop="10dp"
                             android:text="당일 검사 후 당일 바로 수술!"
                             android:textColor="@color/colorMain"
                             android:textSize="13dp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/txtviewBusinessHours" />
 
                     </android.support.constraint.ConstraintLayout>
 
