@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Toast
 import com.dac.gapp.andac.ChatActivity
+import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.databinding.ConsultBoardRowBinding
 import com.dac.gapp.andac.dialog.ConsultContentDialog
 import com.dac.gapp.andac.model.firebase.ChatListInfo
@@ -24,21 +25,18 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
     fun onClickShowConsult(uUid: String?, hUid: String?,isOpen: Boolean?) {
         val db = FirebaseFirestore.getInstance()
         isOpen?: return
-        hUid?: return
         uUid?: return
 
         if(isOpen){
-            db.collection("openConsult")
-                    .document(uUid)
-                    .collection("content")
-                    .document(uUid)
-                    .get()
-                    .addOnSuccessListener { querySnapshot ->
-                        val consultInfo = querySnapshot.toObject(ConsultInfo::class.java)
-                        val dialog = context?.let { ConsultContentDialog(it, consultInfo) }
-                        dialog?.show()
-                    }
+            val baseActivity = context as BaseActivity
+            baseActivity.getOpenConsult(uUid).get().addOnSuccessListener { querySnapshot ->
+                val consultInfo = querySnapshot.toObject(ConsultInfo::class.java)
+                val dialog = context?.let { ConsultContentDialog(it, consultInfo) }
+                dialog?.show()
+            }
+
         }else{
+            hUid?: return
             db.collection("selectConsult")
                     .document(hUid)
                     .collection("users")
@@ -60,7 +58,7 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
 
         doAsync {
             val db = FirebaseFirestore.getInstance()
-            var task: Task<DocumentSnapshot> = db
+            val task: Task<DocumentSnapshot> = db
                     .collection("chatList")
                     .document(hUid)
                     .collection("attendants")

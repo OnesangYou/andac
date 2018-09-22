@@ -9,7 +9,9 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.ConsultBoardRecytclerViewAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.model.OpenConsultInfo
+import com.dac.gapp.andac.model.firebase.ConsultInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_consult_board_list.*
 import timber.log.Timber
@@ -56,22 +58,26 @@ class ConsultBoardFragmentForList : BaseFragment() {
     fun openData() {
         val uid = getUid() ?: return
 
-        val db = FirebaseFirestore.getInstance()
-        db.collection("openConsult")
-                .get()
-                .addOnSuccessListener { querySnapshot ->
-                    for (data in querySnapshot.documents) {
-                        db.collection("users")
-                                .document(data.id)
-                                .get()
-                                .addOnSuccessListener { querySnapshot ->
-                                    val user = querySnapshot.toObject(UserInfo::class.java)!!
-                                    datalist.add(OpenConsultInfo(user, data["createdDate"] as Date, querySnapshot.id, uid,true))
-                                    recycler_view?.adapter?.notifyDataSetChanged()
-                                    Timber.d(user.toString())
-                                }
+        context?.apply {
+            showProgressDialog()
+            getOpenConsults().get().continueWithTask {
+                Tasks.whenAll(
+                    it.result.toObjects(ConsultInfo::class.java).mapNotNull{consultInfo ->
+                        getUserInfo(consultInfo.userId)?.continueWith {
+                            datalist.add(OpenConsultInfo(
+                                    user = it.result,
+                                    createdTime = consultInfo.writeDate,
+                                    uUid = consultInfo.userId,
+                                    isOpen = true
+                            ))
+                            recycler_view?.adapter?.notifyDataSetChanged()
+                        }
                     }
-                }
+                )
+            }
+                    .addOnCompleteListener { hideProgressDialog() }
+        }
+
     }
 
     fun selectData() {
