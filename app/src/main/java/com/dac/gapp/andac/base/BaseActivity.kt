@@ -675,4 +675,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun toastVersion() = toast( "Version : ${BuildConfig.VERSION_NAME}.${BuildConfig.VERSION_CODE}")
+
+    fun getOpenConsults() = getDb().collection("openConsults");
+    fun getOpenConsult(uid : String? = getUid()) = getDb().collection("openConsults").document(uid!!)
 }

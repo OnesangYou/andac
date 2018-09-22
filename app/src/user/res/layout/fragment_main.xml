@@ -48,7 +48,6 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/buttonstyle5"
                     android:text="1:1 상담신청서 작성"
-                    android:enabled="false"
                     android:textColor="@color/white"
                     android:textSize="18dp"
                     android:textStyle="bold"
