@@ -28,6 +28,7 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
         uUid?: return
 
         if(isOpen){
+            // 오픈 상담 신청서
             val baseActivity = context as BaseActivity
             baseActivity.getOpenConsult(uUid).get().addOnSuccessListener { querySnapshot ->
                 val consultInfo = querySnapshot.toObject(ConsultInfo::class.java)
@@ -36,18 +37,19 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
             }
 
         }else{
+            // 지정 상담 신청서
             hUid?: return
-            db.collection("selectConsult")
-                    .document(hUid)
-                    .collection("users")
-                    .document(uUid)
-                    .collection("content")
-                    .document(uUid)
+            val baseActivity = context as BaseActivity
+            baseActivity.getSelectConsult(hUid, uUid)
                     .get()
                     .addOnSuccessListener { querySnapshot ->
-                        val consultInfo = querySnapshot.toObject(ConsultInfo::class.java)
-                        val dialog = context?.let { ConsultContentDialog(it, consultInfo) }
-                        dialog?.show()
+                        if(querySnapshot.isEmpty) return@addOnSuccessListener
+                        querySnapshot.toObjects(ConsultInfo::class.java).also { if(it.isEmpty()) return@addOnSuccessListener }.let { it[0] }.let {consultInfo ->
+                            val dialog = context?.let { ConsultContentDialog(it, consultInfo) }
+                            dialog?.show()
+                        }
+                    }.addOnCompleteListener {
+                        val task = it
                     }
         }
     }
