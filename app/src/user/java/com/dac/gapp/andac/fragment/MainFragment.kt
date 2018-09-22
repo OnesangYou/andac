@@ -192,7 +192,7 @@ class MainFragment : BaseFragment() {
             getTripleDataTask(
                     context.getEvents()
                             .orderBy(getString(R.string.buy_count), Query.Direction.DESCENDING)
-                            .limit(PageSize.event.value)   // 페이지 단위
+                            .limit(10)   // 페이지 단위 페이지 갯수
             )
                     ?.addOnSuccessListener {
                         list.addAll(it.first)
