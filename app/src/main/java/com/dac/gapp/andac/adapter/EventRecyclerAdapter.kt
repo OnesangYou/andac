@@ -34,7 +34,7 @@ class EventRecyclerAdapter
             dealKindText.text = item.deal_kind
             priceText.text = if(item.price == 0) "병원문의" else item.price.toString()
             hospitalName.text = hospital?.name
-            buyCount.text = item.buy_count.toString()
+            likeCountText.text = item.likeCount.toString()
 
         }
     }
@@ -50,7 +50,7 @@ class EventRecyclerAdapter
         val dealKindText: TextView = itemView.deal_kind
         val priceText: TextView = itemView.price
         val hospitalName: TextView = itemView.sub_title
-        val buyCount: TextView = itemView.buy_count
+        val likeCountText: TextView = itemView.likeCountText
         val layout: ConstraintLayout = itemView.layout
     }
 

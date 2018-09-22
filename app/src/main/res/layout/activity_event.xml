@@ -59,7 +59,7 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraintLayout8"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="151dp"
                 android:background="@color/white"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -147,23 +147,22 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints" />
 
-            <ImageView
-                android:id="@+id/imageView4"
+            <ToggleButton
+                android:id="@+id/likeBtn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/heart_fill"
+                android:background="@drawable/heart_btn"
+                android:textOff=""
+                android:textOn=""
+                tools:ignore="MissingConstraints"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                 app:layout_constraintEnd_toEndOf="@+id/imageView3"
                 app:layout_constraintStart_toStartOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="@+id/imageView3"
-                tools:ignore="MissingConstraints" />
+                />
 
             <TextView
-                android:id="@+id/buy_count"
+                android:id="@+id/likeCountText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"

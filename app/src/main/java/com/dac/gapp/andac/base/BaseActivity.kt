@@ -31,10 +31,7 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SplashActivity
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.ActivityResultEvent
-import com.dac.gapp.andac.model.firebase.BoardInfo
-import com.dac.gapp.andac.model.firebase.HospitalInfo
-import com.dac.gapp.andac.model.firebase.ReplyInfo
-import com.dac.gapp.andac.model.firebase.UserInfo
+import com.dac.gapp.andac.model.firebase.*
 import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.UiUtil
@@ -82,6 +79,8 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun getHospitalLikeUsers(hospitalKey: String) = getHospitalContents(hospitalKey)?.collection("likeUsers")
+
+    fun getEventLikeUsers(eventKey: String) = getEvent(eventKey)?.collection("likeUsers")
 
     fun getHospitalEvent(eventKey: String) = getHospitalEvents()?.document(eventKey)
 
@@ -221,6 +220,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getLikeHospitals() = getUserContents()?.collection("likeHospitals")
     fun getLikeHospital(hospitalKey : String) = getLikeHospitals()?.document(hospitalKey)
+
+    fun getLikeEvents() = getUserContents()?.collection("likeEvents")
+    fun getLikeEvent(eventKey : String) = getLikeEvents()?.document(eventKey)
 
 
     // Column
@@ -530,7 +532,7 @@ abstract class BaseActivity : AppCompatActivity() {
                         ?.delete()
                         ?.onSuccessTask { _ ->
                             // 댓글 카운트 감소
-                            boardRunTransaction(replyInfo.boardId) { boardInfo ->
+                            runTransaction<BoardInfo>(getBoard(replyInfo.boardId)?:throw IllegalStateException()){boardInfo ->
                                 boardInfo.replyCount--
                                 if(boardInfo.replyCount < 0) throw IllegalStateException("Reply Count is Zero")
                             }
@@ -549,23 +551,16 @@ abstract class BaseActivity : AppCompatActivity() {
                 currentFocus!!.windowToken, 0)
     }
 
-    fun boardRunTransaction(key : String, function: (info : BoardInfo) -> Unit) =
+    // 트랜잭션
+    private inline fun <reified T> runTransaction(ref : DocumentReference, crossinline function: (info : T) -> Unit) =
         FirebaseFirestore.getInstance().runTransaction { transaction ->
-        val ref = getBoard(key)?:throw IllegalStateException()
-        val info = transaction.get(ref).toObject(BoardInfo::class.java)?:throw IllegalStateException()
-        transaction.set(ref, info.also { function.invoke(it) })
+        //val ref = getBoard(key)?:throw IllegalStateException()  // getBoard(key)?:throw IllegalStateException() // getHospital()
+        val info = transaction.get(ref).toObject(T::class.java)?:throw IllegalStateException()
+        transaction.set(ref, info.also { function.invoke(it) } as Any)
     }
-
-    fun hospitalRunTransaction(key : String, function: (info : HospitalInfo) -> Unit) =
-        FirebaseFirestore.getInstance().runTransaction { transaction ->
-            val ref = getHospital(key)
-            val info = transaction.get(ref).toObject(HospitalInfo::class.java)?:throw IllegalStateException()
-            transaction.set(ref, info.also { function.invoke(it) })
-    }
-
 
     fun addReplyCount(boardKey : String) =
-        boardRunTransaction(boardKey) { boardInfo ->
+            runTransaction<BoardInfo>(getBoard(boardKey)?:throw IllegalStateException()) { boardInfo ->
             boardInfo.replyCount++
             if(boardInfo.replyCount < 0) throw IllegalStateException("Reply Count is Zero")
         }
@@ -600,7 +595,7 @@ abstract class BaseActivity : AppCompatActivity() {
                     // 유저 컨텐츠 도큐먼트  컬렉션 추가 {게시물키 : 날짜}
                     getUserLikeBoard(boardKey)?.set(Common.getCreateDate(), SetOptions.merge()),
                     // 카운트 증가
-                    boardRunTransaction(boardKey) { boardInfo ->
+                    runTransaction<BoardInfo>(getBoard(boardKey)?:throw IllegalStateException()) { boardInfo ->
                         boardInfo.likeCount++
                         if(boardInfo.likeCount < 0) throw IllegalStateException("Like Count is Zero")
                     }
@@ -613,7 +608,7 @@ abstract class BaseActivity : AppCompatActivity() {
                     // 유저 컨텐츠 도큐먼트  컬렉션 삭제
                     getUserLikeBoard(boardKey)?.delete(),
                     // 카운트 감소
-                    boardRunTransaction(boardKey) { boardInfo ->
+                    runTransaction<BoardInfo>(getBoard(boardKey)?:throw IllegalStateException()) { boardInfo ->
                         boardInfo.likeCount--
                         if(boardInfo.likeCount < 0) throw IllegalStateException("Like Count is Zero")
                     }
@@ -630,7 +625,7 @@ abstract class BaseActivity : AppCompatActivity() {
                     // 유저 컨텐츠 도큐먼트  컬렉션 추가 {병원키 : 날짜}
                     getLikeHospital(hospitalKey)?.set(Common.getCreateDate(), SetOptions.merge()),
                     // 카운트 증가
-                    hospitalRunTransaction(hospitalKey){info ->
+                    runTransaction<HospitalInfo>(getHospital(hospitalKey)){info ->
                         info.likeCount++
                         if(info.likeCount < 0) throw IllegalStateException("Like Count is Zero")
                     }
@@ -642,7 +637,36 @@ abstract class BaseActivity : AppCompatActivity() {
                     // 유저 컨텐츠 도큐먼트  컬렉션 삭제
                     getLikeHospital(hospitalKey)?.delete(),
                     // 카운트 감소
-                    hospitalRunTransaction(hospitalKey){info ->
+                    runTransaction<HospitalInfo>(getHospital(hospitalKey)){info ->
+                        info.likeCount--
+                        if(info.likeCount < 0) throw IllegalStateException("Like Count is Zero")
+                    }
+            )
+        }
+    }
+
+    fun clickEventLikeBtn(eventKey: String, setLike: Boolean): Task<MutableList<Task<*>>>?{
+        val uid = getUid()?:return null
+        return if(setLike) {
+            Tasks.whenAllComplete(
+                    // 이벤트 하위 컬렉션 추가 {유저키 : 날짜}
+                    getEventLikeUsers(eventKey)?.document(uid)?.set(Common.getCreateDate(), SetOptions.merge()),
+                    // 유저 컨텐츠 도큐먼트  컬렉션 추가 {이벤트키 : 날짜}
+                    getLikeEvent(eventKey)?.set(Common.getCreateDate(), SetOptions.merge()),
+                    // 카운트 증가
+                    runTransaction<EventInfo>(getEvent(eventKey)?:throw IllegalStateException()){ info ->
+                        info.likeCount++
+                        if(info.likeCount < 0) throw IllegalStateException("Like Count is Zero")
+                    }
+            )
+        } else {
+            Tasks.whenAllComplete(
+                    // 이벤트 하위 컬렉션 삭제
+                    getEventLikeUsers(eventKey)?.document(uid)?.delete(),
+                    // 유저 컨텐츠 도큐먼트  컬렉션 삭제
+                    getLikeEvent(eventKey)?.delete(),
+                    // 카운트 감소
+                    runTransaction<EventInfo>(getEvent(eventKey)?:throw IllegalStateException()){ info ->
                         info.likeCount--
                         if(info.likeCount < 0) throw IllegalStateException("Like Count is Zero")
                     }
