@@ -14,7 +14,7 @@
     </data>
 
     <ScrollView
-        android:id="@+id/main_scrollview"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -22,8 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
+            <!-- 상담신청 -->
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraintLayout3"
+                android:id="@+id/layoutConsultationForm"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:background="@color/colorMain"
@@ -31,11 +33,58 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/main_pic_1"
+                    android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    />
+                    android:src="@drawable/main_pic_1" />
 
+                <!-- 대쉬보드 -->
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/layoutDashboard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="30dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imgviewDashboard"
+                        android:layout_width="10dp"
+                        android:layout_height="30dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/logo_notext_2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/txtviewHospitalName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/colorMain"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imgviewDashboard"
+                        app:layout_constraintStart_toEndOf="@+id/imgviewDashboard"
+                        app:layout_constraintTop_toTopOf="@+id/imgviewDashboard" />
+
+                    <TextView
+                        android:id="@+id/txtviwDashboard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/string_hospital_dashboard"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/colorMain"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtviewHospitalName" />
+
+                </android.support.constraint.ConstraintLayout>
 
                 <Button
                     android:id="@+id/btnConsultingBoard"
@@ -53,57 +102,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/dashboard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    app:layout_constraintBottom_toTopOf="@+id/btnConsultingBoard"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/hospital_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginTop="8dp"
-                        android:text=""
-                        android:textColor="@color/colorMain"
-                        android:textSize="13dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/imageView12"
-                        app:layout_constraintStart_toEndOf="@+id/imageView12"
-                        app:layout_constraintTop_toTopOf="@+id/imageView12" />
-
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="파트너가 \n되어주셔서 \n감사드립니다."
-                        android:textAlignment="textStart"
-                        android:textColor="@color/colorMain"
-                        android:textSize="25dp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/hospital_name" />
-
-
-                    <ImageView
-                        android:id="@+id/imageView12"
-                        android:layout_width="10dp"
-                        android:layout_height="30dp"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/logo_notext_2"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </android.support.constraint.ConstraintLayout>
-
                 <TextView
                     android:id="@+id/requestText"
                     android:layout_width="wrap_content"
@@ -113,8 +111,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="요청 사항"
-                    android:textSize="@dimen/_15sp"
                     android:textColor="@color/white"
+                    android:textSize="@dimen/_15sp"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnConsultingBoard"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -123,15 +121,16 @@
 
             </android.support.constraint.ConstraintLayout>
 
+            <!-- 병원 관리 -->
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/buttonGroup"
+                android:id="@+id/layoutManagement"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginEnd="3dp"
                 android:layout_marginStart="3dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
+                app:layout_constraintTop_toBottomOf="@+id/layoutConsultationForm">
 
                 <Button
                     android:id="@+id/btnHospitalEventManagement"
@@ -156,7 +155,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-
                 <Button
                     android:id="@+id/btnHospitalAdManagement"
                     android:layout_width="90dp"
@@ -175,7 +173,7 @@
                     android:layout_width="90dp"
                     android:layout_height="37dp"
                     android:background="@color/non"
-                    android:text="컬럼 관리"
+                    android:text="@string/column_management"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toTopOf="@+id/view4"
@@ -198,11 +196,11 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
 
-
             </android.support.constraint.ConstraintLayout>
 
+            <!-- 메인 배너 광고 -->
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/imgviewMainBannerAd"
                 android:layout_width="match_parent"
                 android:layout_height="93dp"
                 android:layout_marginTop="30dp"
@@ -211,41 +209,41 @@
                 android:src="@drawable/main_banner_white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonGroup" />
+                app:layout_constraintTop_toBottomOf="@+id/layoutManagement" />
 
+            <!-- 공지사항 -->
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/notice_layout"
+                android:id="@+id/layoutNotice"
                 android:layout_width="0dp"
                 android:layout_height="137dp"
                 android:layout_marginTop="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView5">
-
+                app:layout_constraintTop_toBottomOf="@+id/imgviewMainBannerAd">
 
                 <TextView
-                    android:id="@+id/notice_text"
+                    android:id="@+id/txtviewNotice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:text="안닥 공지사항"
-                    android:textSize="20dp"
-                    android:textStyle="bold"
+                    android:text="@string/andac_notice"
                     android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/more_notice"
+                    android:id="@+id/txtviewMoreNotice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:layout_marginEnd="16dp"
-                    android:text="공지 더보기"
+                    android:text="@string/more_notice"
                     android:textColor="@color/gray"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/view"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtviewNotice"
                     app:layout_constraintEnd_toEndOf="parent" />
 
                 <View
@@ -259,10 +257,10 @@
                     android:background="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/notice_text" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtviewNotice" />
 
                 <LinearLayout
-                    android:id="@+id/noice_linear"
+                    android:id="@+id/layoutInnerNotice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -302,9 +300,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:orientation="horizontal"
-
-                        >
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/notice_date_2"
@@ -396,19 +392,20 @@
                     android:background="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/noice_linear" />
+                    app:layout_constraintTop_toBottomOf="@+id/layoutInnerNotice" />
 
             </android.support.constraint.ConstraintLayout>
 
+            <!-- 인기칼럼 -->
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraintLayout4"
+                android:id="@+id/layoutColumn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
                 android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/notice_layout">
+                app:layout_constraintTop_toBottomOf="@+id/layoutNotice">
 
                 <TextView
                     android:id="@+id/best_calrum"

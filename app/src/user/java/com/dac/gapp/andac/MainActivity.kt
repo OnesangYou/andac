@@ -8,12 +8,9 @@ import android.support.design.internal.BottomNavigationItemView
 import android.support.design.internal.BottomNavigationMenuView
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
-import android.support.v7.widget.Toolbar
-import android.view.View
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.fragment.*
 import com.dac.gapp.andac.model.ActivityResultEvent
-import com.dac.gapp.andac.util.MyToast
 import com.dac.gapp.andac.util.RxBus
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
@@ -71,10 +68,10 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        mDisposable = MainFragment.observeTxtviewBoardEvent()
-                .subscribe {
+        mDisposable = MainFragment.observeTextViewClickEvent()
+                .subscribe {id ->
                     navigation?.apply {
-                        selectedItemId = R.id.navigation_board
+                        selectedItemId = id
                     }
                 }
     }
