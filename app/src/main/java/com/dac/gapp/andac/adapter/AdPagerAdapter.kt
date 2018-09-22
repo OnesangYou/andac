@@ -16,7 +16,7 @@ class AdPagerAdapter(val activity: Activity, private val adInfoList: ArrayList<A
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val imageView = ImageView(container.context)
         imageView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        imageView.scaleType = ImageView.ScaleType.FIT_XY
+        imageView.scaleType = ImageView.ScaleType.CENTER_CROP
         imageView.setOnClickListener {
             if (adInfoList[position].eventId.isNotEmpty()) {
                 activity.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfoList[position].eventId)
