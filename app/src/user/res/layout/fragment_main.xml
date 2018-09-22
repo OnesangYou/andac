@@ -43,7 +43,6 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/buttonstyle5"
-                    android:enabled="false"
                     android:text="@string/write_consultation_form"
                     android:textColor="@color/white"
                     android:textSize="18sp"

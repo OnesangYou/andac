@@ -115,7 +115,13 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     fun onClickConsult(view: View) {
+        // 승인 받은 병원인지 확인
+        if(!hospitalInfo.approval) {
+            toast("아직 승인받지 않은 병원입니다.")
+            return
+        }
+
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(hospitalInfo.getLatLng()))
-//        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen", false).putExtra("documentId", hospitalInfo.documentId).putExtra("hospitalName", hospitalInfo.name))
+        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen", false).putExtra("hospitalId", hospitalInfo.objectID).putExtra("hospitalName", hospitalInfo.name))
     }
 }

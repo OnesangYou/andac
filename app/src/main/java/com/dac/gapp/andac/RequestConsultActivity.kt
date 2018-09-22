@@ -7,8 +7,6 @@ import android.widget.Toast
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.databinding.ActivityRequestConsultBinding
 import com.dac.gapp.andac.model.firebase.ConsultInfo
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_request_consult.*
 import timber.log.Timber
@@ -25,11 +23,11 @@ class RequestSurgeryActivity : BaseActivity() {
         binding = getBinding()
         binding.activity = this
 
-        intent.getBooleanExtra("isOpen", true).let {
-            binding.isOpen = it
+        intent.getBooleanExtra("isOpen", true).let { binding.isOpen = it }
 
-            // 이미 Open 신청 되었는지 확인
-            // 이미 Open 신청했으면 수정 모드
+        // 이미 신청했으면 수정 모드
+        if(binding.isOpen?:return){
+            // Open 상담
             showProgressDialog()
             getOpenConsult().get()
                     .addOnSuccessListener {
@@ -52,7 +50,31 @@ class RequestSurgeryActivity : BaseActivity() {
                         }
                     }
                     .addOnCompleteListener { hideProgressDialog() }
+        } else {
+            // 지정 상담
+            val hospitalId = intent.getStringExtra("hospitalId")?:return
+            showProgressDialog()
+            val userId = getUid()?:return
+            getSelectConsult(hospitalId, userId).get()
+                    .addOnSuccessListener {
+                        if(it.isEmpty) return@addOnSuccessListener
+                        it.toObjects(ConsultInfo::class.java).also { if(it.isEmpty()) return@addOnSuccessListener }.let { it[0] }.apply {
+                            arrayOf(tag_1, tag_2, tag_3, tag_4).forEach {
+                                it.isChecked = it.tag == tag
+                            }
+                            visualacuityEdit.setText(visualacuity)
+                            diseaseEdit.setText(disease)
+                            nameEdit.setText(name)
+                            phoneEdit.setText(phone)
+                            insert_text_Edit.setText(text)
+                            oldEdit.setText(age.toString())
+
+                        }
+                        intent.putExtra("objectId", it.documentChanges[0].document.id)  // 수정모드
+                    }
+                    .addOnCompleteListener { hideProgressDialog() }
         }
+
         intent.getStringExtra("hospitalName")?.let {
             binding.regionText1.text = it
         }
@@ -94,23 +116,25 @@ class RequestSurgeryActivity : BaseActivity() {
 
     fun onClickSelecet(view: View) {
 
-        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        // 유효성 검사
+        arrayOf(visualacuityEdit, diseaseEdit, nameEdit, phoneEdit, insert_text_Edit, oldEdit).forEach {
+            if(it.text.isBlank()) return toast(it.hint)
+        }
 
-        db.collection("selectConsults")
+        val hospitalId = intent.getStringExtra("hospitalId")?:return
+        val consultInfo = createConsult().also { it?.hospitalId = hospitalId }?:return
 
-        getUid()?.let { uid ->
-            val batch = db.batch()
-            val dr = db.collection("selectConsult").document(intent.getStringExtra("documentId")).collection("users").document(uid)
+        // 수정모드 인지 검사
+        val objectId = intent.getStringExtra("objectId")?:null
 
-            FieldValue.serverTimestamp().let { batch.set(dr, mapOf("createdDate" to it)) }
-            createConsult()?.let { batch.set(dr.collection("content").document(uid), it) }
-
-            batch.commit().addOnSuccessListener {
-                Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
-                finish()
-            }.addOnCanceledListener {
-                Toast.makeText(this, "신청 실패 다시시도", Toast.LENGTH_SHORT).show()
-            }
-        } ?: goToLogin()
+        showProgressDialog()
+        getSelectConsults()
+                .let { objectId?.run { it.document(this) }?:it.document() }
+                .set(consultInfo, SetOptions.merge())
+                .addOnSuccessListener {
+                    Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                .addOnCompleteListener { hideProgressDialog() }
     }
 }

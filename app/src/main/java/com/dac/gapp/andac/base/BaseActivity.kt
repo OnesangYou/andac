@@ -677,5 +677,9 @@ abstract class BaseActivity : AppCompatActivity() {
     fun toastVersion() = toast( "Version : ${BuildConfig.VERSION_NAME}.${BuildConfig.VERSION_CODE}")
 
     fun getOpenConsults() = getDb().collection("openConsults");
-    fun getOpenConsult(uid : String? = getUid()) = getDb().collection("openConsults").document(uid!!)
+    fun getOpenConsult(uid : String? = getUid()) = getOpenConsults().document(uid!!)
+
+    fun getSelectConsults() = getDb().collection("selectConsults")
+    fun getSelectConsult(hospitalId : String, userId : String) = getSelectConsults().whereEqualTo("hospitalId", hospitalId).whereEqualTo("userId", userId)
+
 }

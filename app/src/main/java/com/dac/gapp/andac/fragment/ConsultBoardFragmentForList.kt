@@ -8,19 +8,18 @@ import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.ConsultBoardRecytclerViewAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.databinding.FragmentConsultBoardListBinding
 import com.dac.gapp.andac.model.OpenConsultInfo
 import com.dac.gapp.andac.model.firebase.ConsultInfo
-import com.dac.gapp.andac.model.firebase.UserInfo
 import com.google.android.gms.tasks.Tasks
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_consult_board_list.*
-import timber.log.Timber
+import com.google.firebase.firestore.Query
 import java.util.*
 
 
 class ConsultBoardFragmentForList : BaseFragment() {
     var title: String = ""
     var datalist: ArrayList<OpenConsultInfo> = ArrayList()
+    private lateinit var binding: FragmentConsultBoardListBinding
 
     // static method
     companion object {
@@ -34,30 +33,26 @@ class ConsultBoardFragmentForList : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_consult_board_list, container, false)
+        return inflate(inflater, R.layout.fragment_consult_board_list, container)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        binding = getBinding()
         val layoutManager = LinearLayoutManager(context)
-        recycler_view.layoutManager = layoutManager
+        binding.recyclerView.layoutManager = layoutManager
 
         val adapter = ConsultBoardRecytclerViewAdapter(context, datalist)
-        recycler_view.adapter = adapter
-        val test = context!!.getString(R.string.consult_open_board)
-        val test2 = ConsultBoardFragmentForList().title
+        binding.recyclerView.adapter = adapter
         when (title) {
             context!!.getString(R.string.consult_open_board) -> openData()
-            context!!.getString(R.string.consult_seleted_board) -> selectData()
-            context!!.getString(R.string.consulting_board) -> selectData()
-            context!!.getString(R.string.consulted_board) -> openData()
+            context!!.getString(R.string.consult_seleted_board) -> selectData("상담신청")
+            context!!.getString(R.string.consulting_board) -> selectData("상담중")
+            context!!.getString(R.string.consulted_board) -> selectData("상담완료")
         }
 
     }
 
     fun openData() {
-        val uid = getUid() ?: return
-
         context?.apply {
             showProgressDialog()
             getOpenConsults().get().continueWithTask {
@@ -70,7 +65,7 @@ class ConsultBoardFragmentForList : BaseFragment() {
                                     uUid = consultInfo.userId,
                                     isOpen = true
                             ))
-                            recycler_view?.adapter?.notifyDataSetChanged()
+                            binding.recyclerView.adapter?.notifyDataSetChanged()
                         }
                     }
                 )
@@ -80,27 +75,31 @@ class ConsultBoardFragmentForList : BaseFragment() {
 
     }
 
-    fun selectData() {
-        val uid = getUid() ?: return
+    fun selectData(status : String = "상담신청") {
+        val hospitalId = getUid() ?: return
 
-        val db = FirebaseFirestore.getInstance()
-        db.collection("selectConsult")
-                .document(uid)
-                .collection("users")
-                .get()
-                .addOnSuccessListener { querySnapshot ->
-                    for (data in querySnapshot.documents) {
-                        db.collection("users")
-                                .document(data.id)
-                                .get()
-                                .addOnSuccessListener { querySnapshot ->
-                                    val user = querySnapshot.toObject(UserInfo::class.java)
-                                    datalist.add(OpenConsultInfo(user, data["createdDate"] as Date, querySnapshot.id, uid,false))
-                                    recycler_view?.adapter?.notifyDataSetChanged()
-                                    Timber.d(user.toString())
-                                }
-                    }
-                }
+        context?.apply {
+            showProgressDialog()
+            getSelectConsults()
+                    .whereEqualTo("hospitalId", hospitalId)
+                    .whereEqualTo("status", status)
+                    .orderBy("writeDate", Query.Direction.DESCENDING).get().continueWithTask {
+                Tasks.whenAll(
+                        it.result.toObjects(ConsultInfo::class.java).mapNotNull{consultInfo ->
+                            getUserInfo(consultInfo.userId)?.continueWith {
+                                datalist.add(OpenConsultInfo(
+                                        user = it.result,
+                                        createdTime = consultInfo.writeDate,
+                                        uUid = consultInfo.userId,
+                                        isOpen = true
+                                ))
+                                binding.recyclerView.adapter.notifyDataSetChanged()
+                            }
+                        }
+                )
+            }
+                    .addOnCompleteListener { hideProgressDialog() }
+        }
     }
 
 }

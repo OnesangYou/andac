@@ -11,7 +11,7 @@ class ConsultBoardFragmentPagerAdapter(val context: Context, fm: FragmentManager
     private var fragments: ArrayList<Fragment> = ArrayList()
 
     init {
-        fragments.add(ConsultBoardFragmentForList.create(context!!.getString(R.string.consult_open_board)))
+        fragments.add(ConsultBoardFragmentForList.create(context.getString(R.string.consult_open_board)))
         fragments.add(ConsultBoardFragmentForList.create(context.getString(R.string.consult_seleted_board)))
         fragments.add(ConsultBoardFragmentForList.create(context.getString(R.string.consulting_board)))
         fragments.add(ConsultBoardFragmentForList.create(context.getString(R.string.consulted_board)))
@@ -30,6 +30,6 @@ class ConsultBoardFragmentPagerAdapter(val context: Context, fm: FragmentManager
         if (fragment is ConsultBoardFragmentForList) {
             return fragment.title
         }
-        return context!!.getString(R.string.no_title)
+        return context.getString(R.string.no_title)
     }
 }

@@ -37,7 +37,7 @@ class MainFragment : BaseFragment() {
 
         // get
         context?.getHospitalInfo()?.addOnSuccessListener { hospitalInfo ->
-            val hospitalInfo = hospitalInfo ?: return@addOnSuccessListener
+            hospitalInfo ?: return@addOnSuccessListener
             binding.txtviewHospitalName.text = hospitalInfo.name
             if (!hospitalInfo.approval) {
                 listOf(layoutDashboard, btnConsultingBoard, layoutManagement).forEach { it.visibility = View.INVISIBLE }
@@ -46,8 +46,6 @@ class MainFragment : BaseFragment() {
 
             }
         }
-
-
 
         btnConsultingBoard.setOnClickListener { startActivity(Intent(context, ConsultBoardActivity::class.java)) }
         btnHospitalEventManagement.setOnClickListener { context?.startActivity<HospitalEventListActivity>() }
