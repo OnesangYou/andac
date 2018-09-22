@@ -178,7 +178,11 @@ class MainFragment : BaseFragment() {
                                 boardInfoList.add(boardInfo)
                             }
                             binding.recyclerviewBoard.apply {
-                                layoutManager = LinearLayoutManager(context)
+                                layoutManager = object : LinearLayoutManager(context) {
+                                    override fun canScrollVertically(): Boolean {
+                                        return false
+                                    }
+                                }
                                 adapter = BoardListRecyclerViewAdapter(boardInfoList)
                                 addOnItemClickListener(object : OnItemClickListener {
                                     override fun onItemClicked(position: Int, view: View) {
@@ -198,7 +202,11 @@ class MainFragment : BaseFragment() {
                         list.addAll(it.first)
                         map.putAll(it.second)
                         binding.recyclerviewEvent.apply {
-                            layoutManager = LinearLayoutManager(context)
+                            layoutManager = object : LinearLayoutManager(context) {
+                                override fun canScrollVertically(): Boolean {
+                                    return false
+                                }
+                            }
                             swapAdapter(EventRecyclerAdapter(context, list, map), false)
 
                             addOnItemClickListener(object : OnItemClickListener {
