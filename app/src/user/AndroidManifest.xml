@@ -26,7 +26,8 @@
         <activity android:name=".MyPageActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".JoinActivity" />
-        <activity android:name=".UserEventApplyListActivity"></activity>
+        <activity android:name=".UserEventApplyListActivity" />
+        <activity android:name=".EyeTestActivity"></activity>
     </application>
 
 </manifest>
