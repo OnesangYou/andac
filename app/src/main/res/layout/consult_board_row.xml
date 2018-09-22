@@ -65,7 +65,7 @@
             android:background="@color/colorMain"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:onClick="@{() -> holder.onClickStartChat(usermodel.uUid,usermodel.hUid)}"
+            android:onClick="@{() -> holder.onClickStartChat(usermodel.uUid,usermodel.hUid, usermodel.isOpen)}"
             android:text="상담하기"
             android:textSize="@dimen/_13sp"
         />

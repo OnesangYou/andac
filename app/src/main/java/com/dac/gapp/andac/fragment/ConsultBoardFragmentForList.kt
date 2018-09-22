@@ -9,6 +9,7 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.ConsultBoardRecytclerViewAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentConsultBoardListBinding
+import com.dac.gapp.andac.enums.ConsultStatus
 import com.dac.gapp.andac.model.OpenConsultInfo
 import com.dac.gapp.andac.model.firebase.ConsultInfo
 import com.google.android.gms.tasks.Tasks
@@ -45,9 +46,9 @@ class ConsultBoardFragmentForList : BaseFragment() {
         binding.recyclerView.adapter = adapter
         when (title) {
             context!!.getString(R.string.consult_open_board) -> openData()
-            context!!.getString(R.string.consult_seleted_board) -> selectData("상담신청")
-            context!!.getString(R.string.consulting_board) -> selectData("상담중")
-            context!!.getString(R.string.consulted_board) -> selectData("상담완료")
+            context!!.getString(R.string.consult_seleted_board) -> selectData(ConsultStatus.APPLY.value)
+            context!!.getString(R.string.consulting_board) -> selectData(ConsultStatus.CONSULTING.value)
+            context!!.getString(R.string.consulted_board) -> selectData(ConsultStatus.COMPLETE.value)
         }
 
     }
@@ -75,7 +76,7 @@ class ConsultBoardFragmentForList : BaseFragment() {
 
     }
 
-    fun selectData(status : String = "상담신청") {
+    fun selectData(status : String = ConsultStatus.APPLY.value) {
         val hospitalId = getUid() ?: return
 
         context?.apply {

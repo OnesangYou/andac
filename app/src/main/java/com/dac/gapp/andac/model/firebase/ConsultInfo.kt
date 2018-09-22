@@ -1,5 +1,6 @@
 package com.dac.gapp.andac.model.firebase
 
+import com.dac.gapp.andac.enums.ConsultStatus
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
@@ -16,6 +17,6 @@ data class ConsultInfo(var tag:String = "",
                        var range:String = "",   // 지역
                        var text:String = "",
                        var age: Int? = null,
-                       var status: String = "상담신청",
+                       var status: String = ConsultStatus.APPLY.value,
                        @ServerTimestamp var writeDate: Date? = null
                        )

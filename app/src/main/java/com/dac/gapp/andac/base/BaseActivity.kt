@@ -44,7 +44,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.gun0912.tedonactivityresult.TedOnActivityResult
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.alert
 import timber.log.Timber
 
@@ -681,5 +680,14 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getSelectConsults() = getDb().collection("selectConsults")
     fun getSelectConsult(hospitalId : String, userId : String) = getSelectConsults().whereEqualTo("hospitalId", hospitalId).whereEqualTo("userId", userId)
+    fun getSelectConsultInfo(hospitalId : String, userId : String) =
+        getSelectConsult(hospitalId, userId).get().continueWith {task ->
+            task.result.toObjects(ConsultInfo::class.java).let {
+                if(it.isEmpty()) return@let null
+                else return@let it[0]
+            }
+        }
+
+
 
 }
