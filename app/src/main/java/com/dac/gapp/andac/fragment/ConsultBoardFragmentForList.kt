@@ -91,7 +91,7 @@ class ConsultBoardFragmentForList : BaseFragment() {
                                         user = it.result,
                                         createdTime = consultInfo.writeDate,
                                         uUid = consultInfo.userId,
-                                        hUid = uid,
+                                        hUid = if(isHospital()) uid else consultInfo.hospitalId,
                                         isOpen = false
                                 ))
                                 binding.recyclerView.adapter.notifyDataSetChanged()

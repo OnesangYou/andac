@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.Task
 class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerView.ViewHolder(view) {
 
     var binding: ConsultBoardRowBinding = DataBindingUtil.bind(view)!!
+    var isHospital = (context as BaseActivity).isHospital()
 
     fun onClickShowConsult(uUid: String?, hUid: String?,isOpen: Boolean?) {
         isOpen?: return
