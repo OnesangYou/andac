@@ -234,6 +234,10 @@ class MainFragment : BaseFragment() {
             context?.afterCheckLoginDo { context?.startActivity<UserEventApplyListActivity>() }
         }
 
+        binding.btnEyeHealthChecklist.setOnClickListener {
+            context?.startActivity<EyeTestActivity>()
+        }
+
         binding.txtviewMoreColumns.setOnClickListener {
             startActivity(Intent(context, ColumnActivity::class.java))
         }
