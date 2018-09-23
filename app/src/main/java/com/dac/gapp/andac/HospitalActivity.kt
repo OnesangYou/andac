@@ -115,10 +115,14 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     fun onClickConsult(view: View) {
+        // 병원 계정은 사용 불가
+        if(isHospital()) {
+            return toast("병원 계정은 상담신청 불가능합니다.")
+        }
+
         // 승인 받은 병원인지 확인
         if(!hospitalInfo.approval) {
-            toast("아직 승인받지 않은 병원입니다.")
-            return
+            return toast("아직 승인받지 않은 병원입니다.")
         }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(hospitalInfo.getLatLng()))

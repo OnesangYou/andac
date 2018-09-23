@@ -2,6 +2,7 @@ package com.dac.gapp.andac.model.firebase
 
 import com.dac.gapp.andac.enums.ConsultStatus
 import com.google.firebase.firestore.ServerTimestamp
+import com.google.firebase.storage.StorageReference
 import java.util.*
 
 /**
@@ -18,5 +19,7 @@ data class ConsultInfo(var tag:String = "",
                        var text:String = "",
                        var age: Int? = null,
                        var status: String = ConsultStatus.APPLY.value,
-                       @ServerTimestamp var writeDate: Date? = null
+                       @ServerTimestamp var writeDate: Date? = null,
+                       var pictureUrl : String? = null,
+                       var pictureRef : String? = null
                        )

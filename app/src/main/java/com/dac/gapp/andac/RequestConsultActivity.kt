@@ -1,18 +1,24 @@
 package com.dac.gapp.andac
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.databinding.ActivityRequestConsultBinding
+import com.dac.gapp.andac.extension.loadImage
+import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.model.firebase.ConsultInfo
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_request_consult.*
 import timber.log.Timber
 
 class RequestSurgeryActivity : BaseActivity() {
     private lateinit var binding: ActivityRequestConsultBinding
+    var pictureUri : Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_consult)
@@ -41,6 +47,7 @@ class RequestSurgeryActivity : BaseActivity() {
                             phoneEdit.setText(phone)
                             insert_text_Edit.setText(text)
                             oldEdit.setText(age.toString())
+                            insert_picture_img.loadImage(pictureUrl)
                             resources.getStringArray(R.array.region_list).forEachIndexed { index, s ->
                                 if(s == range) {
                                     regionSpinner.setSelection(index)
@@ -68,6 +75,7 @@ class RequestSurgeryActivity : BaseActivity() {
                             phoneEdit.setText(phone)
                             insert_text_Edit.setText(text)
                             oldEdit.setText(age.toString())
+                            insert_picture_img.loadImage(pictureUrl)
 
                         }
                         intent.putExtra("objectId", it.documentChanges[0].document.id)  // 수정모드
@@ -77,6 +85,14 @@ class RequestSurgeryActivity : BaseActivity() {
 
         intent.getStringExtra("hospitalName")?.let {
             binding.regionText1.text = it
+        }
+
+        // 사진
+        insert_picture_img.setOnClickListener {
+            getAlbumImage()?.subscribe {uri ->
+                pictureUri = uri
+                insert_picture_img.loadImageAny(uri)
+            }
         }
     }
 
@@ -105,8 +121,20 @@ class RequestSurgeryActivity : BaseActivity() {
             if(it.text.isBlank()) return toast(it.hint)
         }
 
+        // 신청서 Ref
+        val ref = getOpenConsult()
+
+        // 신청서 Info
+        val consultInfo = createConsult()?:return
+
+        // 데이터 업로드(사진있으면 사진도 업로드)
         showProgressDialog()
-        getOpenConsult().set(createConsult()?:return, SetOptions.merge())
+        pictureUri?.let {
+            FirebaseStorage.getInstance().getReference(ref.path).child("picture.jpg").putFile(it).continueWith {
+                consultInfo.pictureUrl = it.result.downloadUrl.toString()
+                consultInfo.pictureRef = it.result.storage.path
+            }
+        }.let { Tasks.whenAllSuccess<Any>(arrayOf(it).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
                 .addOnSuccessListener {
                     Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
                     finish()
@@ -121,16 +149,26 @@ class RequestSurgeryActivity : BaseActivity() {
             if(it.text.isBlank()) return toast(it.hint)
         }
 
+        // 병원 ID
         val hospitalId = intent.getStringExtra("hospitalId")?:return
-        val consultInfo = createConsult().also { it?.hospitalId = hospitalId }?:return
 
         // 수정모드 인지 검사
         val objectId = intent.getStringExtra("objectId")?:null
 
+        // 신청서 Ref
+        val ref = getSelectConsults().let { objectId?.run { it.document(this) }?:it.document() }
+
+        // 신청서 Info
+        val consultInfo = createConsult().also { it?.hospitalId = hospitalId }?:return
+
+        // 데이터 업로드(사진있으면 사진도 업로드)
         showProgressDialog()
-        getSelectConsults()
-                .let { objectId?.run { it.document(this) }?:it.document() }
-                .set(consultInfo, SetOptions.merge())
+        pictureUri?.let {
+            FirebaseStorage.getInstance().getReference(ref.path).child("picture.jpg").putFile(it).continueWith {
+                consultInfo.pictureUrl = it.result.downloadUrl.toString()
+                consultInfo.pictureRef = it.result.storage.path
+            }
+        }.let { Tasks.whenAllSuccess<Any>(arrayOf(it).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
                 .addOnSuccessListener {
                     Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
                     finish()
