@@ -36,7 +36,9 @@
         <activity android:name=".BoardTextSearchActivity" />
         <activity android:name=".ColumnDetailActivity" />
         <activity android:name=".ColumnWriteActivity" />
-        <activity android:name=".HospitalColumnListActivity"/>
+        <activity android:name=".HospitalColumnListActivity" />
+        <activity android:name=".JoinPhoneActivity" />
+        <activity android:name=".NoticeActivity" />
         <activity android:name=".ConsultBoardActivity" />
 
         <service android:name=".util.FcmSendService">

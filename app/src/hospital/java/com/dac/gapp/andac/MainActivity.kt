@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
 
-class MainActivity : BaseActivity() {
+class   MainActivity : BaseActivity() {
     private var fragments: HashMap<Int, Fragment> = HashMap()
     private var current : Int = 0
 

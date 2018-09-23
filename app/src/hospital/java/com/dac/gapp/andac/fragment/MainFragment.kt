@@ -4,6 +4,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.hospital.fragment_main.*
-import kotlinx.android.synthetic.hospital.fragment_main.view.*
 import org.jetbrains.anko.startActivity
 
 class MainFragment : BaseFragment() {
@@ -46,7 +46,7 @@ class MainFragment : BaseFragment() {
 
             }
         }
-
+        txtviewMoreNotice.setOnClickListener{ startActivity(Intent(context, NoticeActivity::class.java))}
         btnConsultingBoard.setOnClickListener { startActivity(Intent(context, ConsultBoardActivity::class.java)) }
         btnHospitalEventManagement.setOnClickListener { context?.startActivity<HospitalEventListActivity>() }
         btnHospitalAdManagement.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdManagement(requireContext())) }
@@ -65,7 +65,7 @@ class MainFragment : BaseFragment() {
 
     private fun setNotice() {
         val db = FirebaseFirestore.getInstance()
-        val list: MutableList<NoticeInfo> = mutableListOf()
+        val list: ArrayList<NoticeInfo> = ArrayList()
         db.collection("notice").limit(4).get().addOnSuccessListener { snapshot ->
             for (document in snapshot) {
                 document.toObject(NoticeInfo::class.java).let {
