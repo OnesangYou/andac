@@ -219,7 +219,7 @@ class MainFragment : BaseFragment() {
                         }
                     }
 
-
+            binding.btnMyConsultationHistory.setOnClickListener { context.startActivity<ConsultBoardActivity>() }
         }
 
     }

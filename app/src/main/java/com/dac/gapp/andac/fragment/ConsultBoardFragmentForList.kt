@@ -50,7 +50,6 @@ class ConsultBoardFragmentForList : BaseFragment() {
             context!!.getString(R.string.consulting_board) -> selectData(ConsultStatus.CONSULTING.value)
             context!!.getString(R.string.consulted_board) -> selectData(ConsultStatus.COMPLETE.value)
         }
-
     }
 
     fun openData() {
@@ -77,12 +76,12 @@ class ConsultBoardFragmentForList : BaseFragment() {
     }
 
     fun selectData(status : String = ConsultStatus.APPLY.value) {
-        val hospitalId = getUid() ?: return
+        val uid = getUid() ?: return
 
         context?.apply {
             showProgressDialog()
             getSelectConsults()
-                    .whereEqualTo("hospitalId", hospitalId)
+                    .whereEqualTo(if(isUser()) "userId" else "hospitalId", uid)
                     .whereEqualTo("status", status)
                     .orderBy("writeDate", Query.Direction.DESCENDING).get().continueWithTask {
                 Tasks.whenAll(
@@ -92,7 +91,7 @@ class ConsultBoardFragmentForList : BaseFragment() {
                                         user = it.result,
                                         createdTime = consultInfo.writeDate,
                                         uUid = consultInfo.userId,
-                                        hUid = hospitalId,
+                                        hUid = uid,
                                         isOpen = false
                                 ))
                                 binding.recyclerView.adapter.notifyDataSetChanged()
