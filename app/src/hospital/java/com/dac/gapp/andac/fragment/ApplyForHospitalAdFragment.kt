@@ -64,6 +64,7 @@ class ApplyForHospitalAdFragment : BaseFragment() {
             btnApplyForMainBannerAd.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstanceForPay(Ad.MAIN_BANNER)) }
             btnApplyForMainTodaysHospitalAd.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstanceForPay(Ad.MAIN_TODAY_HOSPITAL)) }
             btnApplyForLoginBannerAd.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstanceForPay(Ad.LOGIN_BANNER)) }
+            btnApplyForSearchHospitalBannerAd.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstanceForPay(Ad.SEARCH_HOSPITAL_BANNER_AD)) }
         }
 
     }

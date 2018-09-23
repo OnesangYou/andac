@@ -100,6 +100,7 @@
     <string name="main_popup_ad_days">메인 팝업 광고 %1$d일</string>
     <string name="main_banner_ad_days">메인 배너 광고 %1$d일</string>
     <string name="main_todays_hosptial_ad_days">오늘의 병원 광고 %1$d일</string>
+    <string name="search_hosptial_banner_ad_days">병원 찾기 배너 광고 %1$d일</string>
     <string name="ad_validity_period_days">광고 유효기간 : %1$d일</string>
     <string name="ad_clicks">광고 클릭수 : %1$d회</string>
     <string name="logout">로그아웃</string>
@@ -128,5 +129,6 @@
     <string name="column_management">컬럼 관리</string>
     <string name="andac_notice">안닥 공지사항</string>
     <string name="more_notice">공지 더보기</string>
+    <string name="search_hospital_banner_ad">5. 병원 찾기 배너 광고</string>
 </resources>
 

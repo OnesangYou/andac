@@ -153,6 +153,35 @@
                 android:text="@string/apply_for_main_todays_hospital_ad"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
+
+            <!-- 4. 병원 찾기 배너 광고 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/search_hospital_banner_ad"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/login_banner_ad_description"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/btnApplyForSearchHospitalBannerAd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorMain"
+                android:lineSpacingExtra="5dp"
+                android:text="[병원 찾기 배너 광고] 신청하기"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </ScrollView>

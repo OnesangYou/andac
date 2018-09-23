@@ -29,7 +29,8 @@ class HospitalAdManagementFragment : BaseFragment() {
                 Triple(Ad.LOGIN_BANNER, Triple(layoutLoginBannerAd, imgviewLoginBannerAd, Triple(txtviewLoginBannerAd, txtviewLoginBannerAdValidityPeriodDays, txtviewLoginBannerAdClicks)), R.string.login_banner_ad_days),
                 Triple(Ad.MAIN_POPUP, Triple(layoutMainPopupAd, imgviewMainPopupAd, Triple(txtviewMainPopupAd, txtviewMainPopupAdValidityPeriodDays, txtviewMainPopupAdClicks)), R.string.main_popup_ad_days),
                 Triple(Ad.MAIN_BANNER, Triple(layoutMainBannerAd, imgviewMainBannerAd, Triple(txtviewMainBannerAd, txtviewMainBannerAdValidityPeriodDays, txtviewMainBannerAdClicks)), R.string.main_banner_ad_days),
-                Triple(Ad.MAIN_TODAY_HOSPITAL, Triple(layoutMainTodaysHospitalAd, imgviewMainTodaysHospitalAd, Triple(txtviewMainTodaysHospitalAd, txtviewMainTodaysHospitalAdValidityPeriodDays, txtviewMainTodaysHospitalAdClicks)), R.string.main_todays_hosptial_ad_days)
+                Triple(Ad.MAIN_TODAY_HOSPITAL, Triple(layoutMainTodaysHospitalAd, imgviewMainTodaysHospitalAd, Triple(txtviewMainTodaysHospitalAd, txtviewMainTodaysHospitalAdValidityPeriodDays, txtviewMainTodaysHospitalAdClicks)), R.string.main_todays_hosptial_ad_days),
+                Triple(Ad.SEARCH_HOSPITAL_BANNER_AD, Triple(layoutSearchHospitalBannerAd, imgviewSearchHospitalBannerAd, Triple(txtviewSearchHospitalBannerAd, txtviewSearchHospitalBannerAdValidityPeriodDays, txtviewSearchHospitalBannerAdClicks)), R.string.search_hosptial_banner_ad_days)
         )
         prepareUi()
         setupEventsOnViewCreated()
