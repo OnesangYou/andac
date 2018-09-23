@@ -88,7 +88,7 @@ class HospitalColumnListActivity : BaseActivity() {
                 ?.limit(PageSize.column.value)  // 페이지 단위
                 ?.let { it -> getTripleDataTask(it)}
                 ?.addOnSuccessListener {
-                    list.addAll(it.first)
+                    list.addAll(it.first.sortedBy { it.approval })
                     map.putAll(it.second)
                     recyclerView.adapter.notifyDataSetChanged()
                 }

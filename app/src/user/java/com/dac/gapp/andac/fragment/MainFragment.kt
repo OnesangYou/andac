@@ -254,7 +254,9 @@ class MainFragment : BaseFragment() {
     private fun setAdapter() {
         (context as MainActivity).let { activity ->
             activity.showProgressDialog()
-            activity.getColumns().orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
+            activity.getColumns()
+                    .whereEqualTo("approval", true) // 승인된 컬럼만 보임
+                    .orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
                 querySnapshot
                         ?.let { it -> it.map { activity.getColumn(it.id)?.get() } }
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }

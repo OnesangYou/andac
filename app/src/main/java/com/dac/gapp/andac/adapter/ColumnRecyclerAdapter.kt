@@ -3,12 +3,15 @@ package com.dac.gapp.andac.adapter
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
+import com.dac.gapp.andac.HospitalColumnListActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.enums.Approval
+import com.dac.gapp.andac.extension.loadImage
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.column_item.view.*
@@ -31,10 +34,16 @@ class ColumnRecyclerAdapter
             titleText.text = item.title
             hospitalName.text = hospital?.name
             viewCount.text = item.viewCount.toString()
-            Glide.with(context).load(item.pictureUrl).into(picture)
+            picture.loadImage(item.pictureUrl)
+            // 승인, 보류
+            if(context is HospitalColumnListActivity) {
+                approvalText.visibility = View.VISIBLE
+                approvalText.text = (if(!item.approval) Approval.HOLD.value else Approval.APPROVAL.value ) + " \n " + item.requestStr
+            } else {
+                approvalText.visibility = View.GONE
+            }
         }
     }
-
 
     class ColumnHolder(parent: ViewGroup) : AndroidExtensionsViewHolder(
             LayoutInflater.from(parent.context)
@@ -44,6 +53,7 @@ class ColumnRecyclerAdapter
         val hospitalName: TextView = itemView.hospitalName
         val viewCount: TextView = itemView.viewCount
         val layout: ConstraintLayout = itemView.layout
+        val approvalText : TextView = itemView.approvalText
     }
 
 }
