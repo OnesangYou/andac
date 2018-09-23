@@ -114,20 +114,22 @@ class SearchHospitalFragmentForList : BaseFragment() {
                                 .mapNotNull { context.getHospital(it.id).get() }
                                 .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                     }.addOnSuccessListener { hospitalAdList ->
-                        mHospitalList.add(0, HeaderInfo(R.drawable.star_full, "울트라 광고") to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_HEADER)
-                        hospitalAdList.forEachIndexed { index, documentSnapshot ->
-                            documentSnapshot.toObject(HospitalInfo::class.java)?.let {
-                                it.objectID = documentSnapshot.id
-                                mHospitalList.add(index + 1, it to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_CONTENT)
+                        if (hospitalAdList.size > 0) {
+                            mHospitalList.add(0, HeaderInfo(R.drawable.star_full, "울트라 광고") to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_HEADER)
+                            hospitalAdList.forEachIndexed { index, documentSnapshot ->
+                                documentSnapshot.toObject(HospitalInfo::class.java)?.let {
+                                    it.objectID = documentSnapshot.id
+                                    mHospitalList.add(index + 1, it to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_CONTENT)
+                                }
                             }
-                        }
-                        mHospitalList.add(hospitalAdList.size + 1, HeaderInfo(R.drawable.star_empty, "일반 병원") to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_HEADER)
+                            mHospitalList.add(hospitalAdList.size + 1, HeaderInfo(R.drawable.star_empty, "일반 병원") to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_HEADER)
 
-                        recyclerView?.apply {
-                            if (isEtc()) {
-                                if (isEtcEnd) adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
-                            } else {
-                                adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
+                            recyclerView?.apply {
+                                if (isEtc()) {
+                                    if (isEtcEnd) adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
+                                } else {
+                                    adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
+                                }
                             }
                         }
                     }
