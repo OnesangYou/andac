@@ -216,7 +216,7 @@ class BoardFragment : BaseFragment() {
 
                     }
                     .continueWithTask { task ->
-                        if(FirebaseAuth.getInstance().currentUser != null){
+                        if(isUser() && FirebaseAuth.getInstance().currentUser != null){
                             getUserLikeBoards()?.get()?.continueWith { task1 ->
                                 task1.result.mapNotNull { it.id }.toSet()
                             }
