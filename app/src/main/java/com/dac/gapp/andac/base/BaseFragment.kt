@@ -26,8 +26,8 @@ open class BaseFragment : Fragment() {
 
     private var viewDataBinding: ViewDataBinding? = null
 
-    fun inflate(inflater: LayoutInflater, layoutResID: Int, container: ViewGroup?): View? {
-        viewDataBinding = DataBindingUtil.inflate(inflater, layoutResID, container, false)
+    fun inflate(inflater: LayoutInflater, layoutResID: Int, container: ViewGroup?, attachToParent: Boolean): View? {
+        viewDataBinding = DataBindingUtil.inflate(inflater, layoutResID, container, attachToParent)
         return viewDataBinding?.root
     }
 

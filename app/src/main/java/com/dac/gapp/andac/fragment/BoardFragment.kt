@@ -45,7 +45,7 @@ class BoardFragment : BaseFragment() {
     private lateinit var binding: FragmentBoardBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflate(inflater, R.layout.fragment_board, container)
+        return inflate(inflater, R.layout.fragment_board, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -34,7 +34,7 @@ class ConsultBoardFragmentForList : BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflate(inflater, R.layout.fragment_consult_board_list, container)
+        return inflate(inflater, R.layout.fragment_consult_board_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

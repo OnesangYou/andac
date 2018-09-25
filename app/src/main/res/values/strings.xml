@@ -54,7 +54,7 @@
     <string name="hospital_ad_management">광고 관리</string>
     <string name="hospital_ad_application">광고 신청</string>
     <string name="apply_for_hospital_ad">병원 광고 신청하기</string>
-    <string name="paying_for_a_hospital_ad">병원 광고 결제하기</string>
+    <string name="apply_for_a_hospital_ad">병원 광고 신청하기</string>
     <string name="edit_for_hospital_ad">병원 광고 수정하기</string>
     <string name="apply_for_creative_production">광고 제작 신청하기</string>
     <string name="apply_for_creative_production_description">배너광고 및 오늘의 병원 광고 포스터 이외 모든 광고물을 안닥에 직접 디자인을 요청합니다. 신청 내역 확인 후 병원관리자 전화로 상담 전화를 드립니다.</string>
@@ -81,7 +81,7 @@
     <string name="amount_of_payment">결제금액</string>
     <string name="days">일</string>
     <string name="won">원</string>
-    <string name="make_a_payment">신청하기</string>
+    <string name="apply">신청하기</string>
     <string name="edit">수정하기</string>
     <string name="cancel">취소</string>
     <string name="confirm">확인</string>

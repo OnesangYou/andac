@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.enums.Ad
+import com.dac.gapp.andac.extension.visibleOrGone
 import com.dac.gapp.andac.model.firebase.AdInfo
 import com.dac.gapp.andac.util.UiUtil
 import kotlinx.android.synthetic.main.fragment_hospital_ad_management.*
@@ -38,7 +39,11 @@ class HospitalAdManagementFragment : BaseFragment() {
 
     private fun prepareUi() {
         for (triple in tripleArray) {
-            UiUtil.visibleOrGone(false, triple.second.first)
+            if (triple.first == Ad.SEARCH_HOSPITAL_BANNER_AD) {
+                triple.second.second.visibleOrGone(false)
+            } else {
+                UiUtil.visibleOrGone(false, triple.second.first)
+            }
         }
         context?.let { context ->
             context.setActionBarLeftImage(R.drawable.back)
@@ -53,22 +58,24 @@ class HospitalAdManagementFragment : BaseFragment() {
             })
             context.getUid()?.let { uid ->
                 for (triple in tripleArray) {
-                    context.getDb().collection(triple.first.collectionName).document(uid)
-                            .get()
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    val adInfo = task.result.toObject(AdInfo::class.java)
-                                    adInfo?.let { adInfo ->
-                                        Timber.d("photoUrl: ${adInfo.photoUrl}")
-                                        Glide.with(this).load(adInfo.photoUrl).into(triple.second.second)
-                                        triple.second.second.setOnClickListener { context.changeFragment(AdPaymentFragment.newInstanceForEdit(triple.first, adInfo.photoUrl)) }
-                                        triple.second.third.first.text = String.format(getString(triple.third), 30)
-                                        triple.second.third.second.text = String.format(getString(R.string.ad_validity_period_days), 15)
-                                        triple.second.third.third.text = String.format(getString(R.string.ad_clicks), 180)
-                                        UiUtil.visibleOrGone(true, triple.second.first)
+                    if (triple.first != Ad.SEARCH_HOSPITAL_BANNER_AD) {
+                        context.getDb().collection(triple.first.collectionName).document(uid)
+                                .get()
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        val adInfo = task.result.toObject(AdInfo::class.java)
+                                        adInfo?.let { adInfo ->
+                                            Timber.d("photoUrl: ${adInfo.photoUrl}")
+                                            Glide.with(this).load(adInfo.photoUrl).into(triple.second.second)
+                                            triple.second.second.setOnClickListener { context.changeFragment(HospitalAdApplicationFragment.newInstanceForEdit(triple.first, adInfo.photoUrl)) }
+                                            triple.second.third.first.text = String.format(getString(triple.third), 30)
+                                            triple.second.third.second.text = String.format(getString(R.string.ad_validity_period_days), 15)
+                                            triple.second.third.third.text = String.format(getString(R.string.ad_clicks), 180)
+                                            UiUtil.visibleOrGone(true, triple.second.first)
+                                        }
                                     }
                                 }
-                            }
+                    }
                 }
             }
         }
