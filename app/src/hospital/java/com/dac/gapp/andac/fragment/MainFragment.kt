@@ -4,6 +4,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,6 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.hospital.fragment_main.*
-import kotlinx.android.synthetic.hospital.fragment_main.view.*
 import org.jetbrains.anko.startActivity
 
 class MainFragment : BaseFragment() {
@@ -37,18 +37,16 @@ class MainFragment : BaseFragment() {
 
         // get
         context?.getHospitalInfo()?.addOnSuccessListener { hospitalInfo ->
-            val hospitalInfo = hospitalInfo ?: return@addOnSuccessListener
-            binding.dashboard.hospital_name.text = hospitalInfo.name
+            hospitalInfo ?: return@addOnSuccessListener
+            binding.txtviewHospitalName.text = hospitalInfo.name
             if (!hospitalInfo.approval) {
-                listOf(dashboard, btnConsultingBoard, buttonGroup).forEach { it.visibility = View.INVISIBLE }
+                listOf(layoutDashboard, btnConsultingBoard, layoutManagement).forEach { it.visibility = View.INVISIBLE }
                 requestText.visibility = View.VISIBLE
                 requestText.text = hospitalInfo.requestStr
 
             }
         }
-
-
-
+        txtviewMoreNotice.setOnClickListener{ startActivity(Intent(context, NoticeActivity::class.java))}
         btnConsultingBoard.setOnClickListener { startActivity(Intent(context, ConsultBoardActivity::class.java)) }
         btnHospitalEventManagement.setOnClickListener { context?.startActivity<HospitalEventListActivity>() }
         btnHospitalAdManagement.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdManagement(requireContext())) }
@@ -67,7 +65,7 @@ class MainFragment : BaseFragment() {
 
     private fun setNotice() {
         val db = FirebaseFirestore.getInstance()
-        val list: MutableList<NoticeInfo> = mutableListOf()
+        val list: ArrayList<NoticeInfo> = ArrayList()
         db.collection("notice").limit(4).get().addOnSuccessListener { snapshot ->
             for (document in snapshot) {
                 document.toObject(NoticeInfo::class.java).let {
@@ -83,7 +81,9 @@ class MainFragment : BaseFragment() {
         (context as MainActivity).apply {
 
             showProgressDialog()
-            getColumns().orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
+            getColumns()
+                    .whereEqualTo("approval", true) // 승인된 컬럼만 보임
+                    .orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
                 querySnapshot
                         ?.let { it -> it.map { getColumn(it.id)?.get() } }
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }

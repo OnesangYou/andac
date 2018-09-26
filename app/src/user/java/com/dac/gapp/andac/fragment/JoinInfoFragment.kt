@@ -1,15 +1,19 @@
 package com.dac.gapp.andac.fragment
 
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.util.getDateFormat
 import com.dac.gapp.andac.util.toast
 import kotlinx.android.synthetic.user.fragment_join_info.*
+import java.util.*
 
 
 class JoinInfoFragment : BaseFragment() {
@@ -21,19 +25,6 @@ class JoinInfoFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        joinBtn.setOnClickListener {
-            if(emailEdit.tag != true) {
-                toast("Email 중복검사 하세요")
-                return@setOnClickListener
-            }
-
-            if(nickNameEdit.tag != true) {
-                toast("NickName 중복검사 하세요")
-                return@setOnClickListener
-            }
-
-            (activity as JoinActivity).join(emailEdit.text.toString(), nickNameEdit.text.toString())
-        }
 
         context?.apply { resetTagEditTextChanged(emailEdit) }
         checkEmailBtn.setOnClickListener {
@@ -83,6 +74,53 @@ class JoinInfoFragment : BaseFragment() {
                     }
                 }
             }
+        }
+
+        // 생년월일
+        birthEdit.setOnClickListener {
+            val calendar = Calendar.getInstance().apply { set(1990, 1,1) }
+            DatePickerDialog(
+                    context,
+                    DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                        Calendar.getInstance().apply {set(year,month,dayOfMonth)}.let{Date(it.timeInMillis)}.let {
+                            birthEdit.setText(it.getDateFormat("YYMMdd"))
+                            (activity as JoinActivity).mUserInfo.birthDate = it
+                        }
+                    },
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+            ).apply {
+                datePicker.maxDate = Date().time
+                show()
+            }
+        }
+
+        // 회원가입
+        joinBtn.setOnClickListener {
+            if(emailEdit.tag != true) {
+                toast("Email 중복검사 하세요")
+                return@setOnClickListener
+            }
+
+            if(nickNameEdit.tag != true) {
+                toast("NickName 중복검사 하세요")
+                return@setOnClickListener
+            }
+
+            if(birthEdit.text.isEmpty()) {
+                toast(birthEdit.hint.toString())
+                return@setOnClickListener
+            }
+
+            (activity as JoinActivity).apply {
+                // 성별
+                mUserInfo.sex = view.findViewById<RadioButton>(radiogroup_sex.checkedRadioButtonId).text.toString()
+
+                // 회원가입
+                join(emailEdit.text.toString(), nickNameEdit.text.toString())
+            }
+
         }
     }
 

@@ -36,7 +36,7 @@ class ColumnTextSearchActivity : BaseActivity() {
         setOnActionBarLeftClickListener(View.OnClickListener {
             finish()
         })
-        hidActionBarRight()
+        hideActionBarRight()
     }
 
     override fun onDestroy() {

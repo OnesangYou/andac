@@ -13,7 +13,8 @@ data class EventInfo(
         var writerUid : String = "",
         var pictureUrl : String = "",
         var detailPictureUrl : String = "",
-        @ServerTimestamp var writeDate: Date? = null
+        @ServerTimestamp var writeDate: Date? = null,
+        var likeCount : Int = 0
 ) {
     val endDate : Date?
     get() {

@@ -40,7 +40,7 @@ class EventListFragment : BaseFragment() {
     private var lastVisible: DocumentSnapshot? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflate(inflater, R.layout.fragment_event_list, container)
+        return inflate(inflater, R.layout.fragment_event_list, container, false)
     }
 
     private lateinit var binding: FragmentEventListBinding

@@ -83,6 +83,7 @@ class ColumnActivity : BaseActivity() {
         showProgressDialog()
         getTripleDataTask(
                 getColumns()
+                        .whereEqualTo("approval", true) // 승인된 컬럼만 보임
                         .orderBy("writeDate", Query.Direction.DESCENDING)
                         .let { query -> lastVisible?.let { query.startAfter(it) } ?: query }    // 쿼리 커서 시작 위치 지정
                         .limit(PageSize.column.value)   // 페이지 단위

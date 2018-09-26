@@ -1,23 +1,24 @@
 package com.dac.gapp.andac
 
-import android.databinding.DataBindingUtil
+import android.net.Uri
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import com.dac.gapp.andac.base.BaseActivity
-import com.dac.gapp.andac.databinding.ActivityHospitalBinding
 import com.dac.gapp.andac.databinding.ActivityRequestConsultBinding
+import com.dac.gapp.andac.extension.loadImage
+import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.model.firebase.ConsultInfo
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_request_consult.*
 import timber.log.Timber
 
 class RequestSurgeryActivity : BaseActivity() {
     private lateinit var binding: ActivityRequestConsultBinding
+    var pictureUri : Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_consult)
@@ -28,63 +29,150 @@ class RequestSurgeryActivity : BaseActivity() {
         binding = getBinding()
         binding.activity = this
 
-        intent.getBooleanExtra("isOpen", true).let {
-            binding.isOpen = it
+        intent.getBooleanExtra("isOpen", true).let { binding.isOpen = it }
+
+        // 이미 신청했으면 수정 모드
+        if(binding.isOpen?:return){
+            // Open 상담
+            showProgressDialog()
+            getOpenConsult().get()
+                    .addOnSuccessListener {
+                        it.toObject(ConsultInfo::class.java)?.apply {
+                            arrayOf(tag_1, tag_2, tag_3, tag_4).forEach {
+                                it.isChecked = it.tag == tag
+                            }
+                            visualacuityEdit.setText(visualacuity)
+                            diseaseEdit.setText(disease)
+                            nameEdit.setText(name)
+                            phoneEdit.setText(phone)
+                            insert_text_Edit.setText(text)
+                            oldEdit.setText(age.toString())
+                            insert_picture_img.loadImage(pictureUrl)
+                            resources.getStringArray(R.array.region_list).forEachIndexed { index, s ->
+                                if(s == range) {
+                                    regionSpinner.setSelection(index)
+                                    return@forEachIndexed
+                                }
+                            }
+                        }
+                    }
+                    .addOnCompleteListener { hideProgressDialog() }
+        } else {
+            // 지정 상담
+            val hospitalId = intent.getStringExtra("hospitalId")?:return
+            showProgressDialog()
+            val userId = getUid()?:return
+            getSelectConsult(hospitalId, userId).get()
+                    .addOnSuccessListener {
+                        if(it.isEmpty) return@addOnSuccessListener
+                        it.toObjects(ConsultInfo::class.java).also { if(it.isEmpty()) return@addOnSuccessListener }.let { it[0] }.apply {
+                            arrayOf(tag_1, tag_2, tag_3, tag_4).forEach {
+                                it.isChecked = it.tag == tag
+                            }
+                            visualacuityEdit.setText(visualacuity)
+                            diseaseEdit.setText(disease)
+                            nameEdit.setText(name)
+                            phoneEdit.setText(phone)
+                            insert_text_Edit.setText(text)
+                            oldEdit.setText(age.toString())
+                            insert_picture_img.loadImage(pictureUrl)
+
+                        }
+                        intent.putExtra("objectId", it.documentChanges[0].document.id)  // 수정모드
+                    }
+                    .addOnCompleteListener { hideProgressDialog() }
         }
+
         intent.getStringExtra("hospitalName")?.let {
             binding.regionText1.text = it
         }
+
+        // 사진
+        insert_picture_img.setOnClickListener {
+            getAlbumImage()?.subscribe {uri ->
+                pictureUri = uri
+                insert_picture_img.loadImageAny(uri)
+            }
+        }
     }
 
-    fun createConsult(): ConsultInfo? {
+    private fun createConsult(): ConsultInfo?
+    {
         val id: Int = radiogroup_tag.checkedRadioButtonId
         val radio: RadioButton = findViewById(id)
-        val tag = radio.text.toString()
-        val visualacuity = visualacuityEdit.text.toString()
-        val disease = diseaseEdit.text.toString()
-        val name = nameEdit.text.toString()
-        val phone = phoneEdit.text.toString()
-        val text = insert_text_Edit.text.toString()
-        val range = regionSpinner.selectedItem.toString()
-        val surgery = ConsultInfo(tag, visualacuity, disease, name, phone, range, text)
-        return surgery
+        return ConsultInfo(
+                tag = radio.tag.toString(),
+                visualacuity = visualacuityEdit.text.toString(),
+                disease = diseaseEdit.text.toString(),
+                userId = getUid(),
+                name = nameEdit.text.toString(),
+                phone = phoneEdit.text.toString(),
+                text = insert_text_Edit.text.toString(),
+                range = regionSpinner.selectedItem.toString(),
+                age = oldEdit.text?.toString()?.toIntOrNull()
+        )
     }
 
     fun onClickOpen(view: View) {
         Timber.d("Open")
-        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-        getUid()?.let { uid ->
-            val batch = db.batch()
-            val dr = db.collection("openConsult").document(uid)
 
-            FieldValue.serverTimestamp().let { batch.set(dr, mapOf("createdDate" to it)) }
-            createConsult()?.let { batch.set(dr.collection("content").document(uid), it) }
+        // 유효성 검사
+        arrayOf(visualacuityEdit, diseaseEdit, nameEdit, phoneEdit, insert_text_Edit, oldEdit).forEach {
+            if(it.text.isBlank()) return toast(it.hint)
+        }
 
-            batch.commit().addOnSuccessListener {
-                Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
-                finish()
-            }.addOnCanceledListener {
-                Toast.makeText(this, "신청 실패 다시시도", Toast.LENGTH_SHORT).show()
+        // 신청서 Ref
+        val ref = getOpenConsult()
+
+        // 신청서 Info
+        val consultInfo = createConsult()?:return
+
+        // 데이터 업로드(사진있으면 사진도 업로드)
+        showProgressDialog()
+        pictureUri?.let {
+            FirebaseStorage.getInstance().getReference(ref.path).child("picture.jpg").putFile(it).continueWith {
+                consultInfo.pictureUrl = it.result.downloadUrl.toString()
+                consultInfo.pictureRef = it.result.storage.path
             }
-        } ?: goToLogin()
+        }.let { Tasks.whenAllSuccess<Any>(arrayOf(it).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
+                .addOnSuccessListener {
+                    Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                .addOnCompleteListener { hideProgressDialog() }
     }
 
     fun onClickSelecet(view: View) {
-        Timber.d("Select")
-        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-        getUid()?.let { uid ->
-            val batch = db.batch()
-            val dr = db.collection("selectConsult").document(intent.getStringExtra("documentId")).collection("users").document(uid)
 
-            FieldValue.serverTimestamp().let { batch.set(dr, mapOf("createdDate" to it)) }
-            createConsult()?.let { batch.set(dr.collection("content").document(uid), it) }
+        // 유효성 검사
+        arrayOf(visualacuityEdit, diseaseEdit, nameEdit, phoneEdit, insert_text_Edit, oldEdit).forEach {
+            if(it.text.isBlank()) return toast(it.hint)
+        }
 
-            batch.commit().addOnSuccessListener {
-                Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
-                finish()
-            }.addOnCanceledListener {
-                Toast.makeText(this, "신청 실패 다시시도", Toast.LENGTH_SHORT).show()
+        // 병원 ID
+        val hospitalId = intent.getStringExtra("hospitalId")?:return
+
+        // 수정모드 인지 검사
+        val objectId = intent.getStringExtra("objectId")?:null
+
+        // 신청서 Ref
+        val ref = getSelectConsults().let { objectId?.run { it.document(this) }?:it.document() }
+
+        // 신청서 Info
+        val consultInfo = createConsult().also { it?.hospitalId = hospitalId }?:return
+
+        // 데이터 업로드(사진있으면 사진도 업로드)
+        showProgressDialog()
+        pictureUri?.let {
+            FirebaseStorage.getInstance().getReference(ref.path).child("picture.jpg").putFile(it).continueWith {
+                consultInfo.pictureUrl = it.result.downloadUrl.toString()
+                consultInfo.pictureRef = it.result.storage.path
             }
-        } ?: goToLogin()
+        }.let { Tasks.whenAllSuccess<Any>(arrayOf(it).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
+                .addOnSuccessListener {
+                    Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                .addOnCompleteListener { hideProgressDialog() }
     }
 }

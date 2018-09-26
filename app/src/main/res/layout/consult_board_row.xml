@@ -59,16 +59,16 @@
             android:id="@+id/start_consult"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.4"
-            android:gravity="center"
             android:layout_margin="5dp"
+            android:layout_weight="1.4"
             android:background="@color/colorMain"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:onClick="@{() -> holder.onClickStartChat(usermodel.uUid,usermodel.hUid)}"
+            android:gravity="center"
+            android:visibility="@{holder.isHospital}"
+            android:onClick="@{() -> holder.onClickStartChat(usermodel.uUid,usermodel.hUid, usermodel.isOpen)}"
             android:text="상담하기"
+            android:textColor="@color/white"
             android:textSize="@dimen/_13sp"
-        />
+            android:textStyle="bold" />
 
     </LinearLayout>
 </layout>

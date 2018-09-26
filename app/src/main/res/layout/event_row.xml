@@ -28,19 +28,22 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="아이리움 스마일라식"
-        android:textSize="15sp"
+        android:textSize="15dp"
         android:textStyle="bold"
+        android:ems="10"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintStart_toEndOf="@+id/event_image"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/button_like"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical|end"
         android:src="@drawable/heart_fill"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,16 +97,17 @@
         app:layout_constraintTop_toTopOf="@+id/deal_kind" />
 
     <TextView
-        android:id="@+id/buy_count"
+        android:id="@+id/likeCountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="2dp"
         android:gravity="end"
         android:textSize="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="0"
+        app:layout_constraintEnd_toEndOf="@+id/button_like"
+        app:layout_constraintStart_toStartOf="@+id/button_like"
         app:layout_constraintTop_toBottomOf="@+id/button_like" />
 
 

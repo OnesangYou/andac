@@ -59,6 +59,7 @@
                         android:background="@drawable/request_lasiclasex_btn"
                         android:button="@null"
                         android:checked="true"
+                        android:tag="라식 라섹"
                         android:gravity="center" />
 
                     <RadioButton
@@ -68,6 +69,7 @@
                         android:layout_marginLeft="4dp"
                         android:background="@drawable/request_insertlense_btn"
                         android:button="@null"
+                        android:tag="렌즈 삽입"
                         android:gravity="center" />
 
                     <RadioButton
@@ -77,6 +79,7 @@
                         android:layout_marginLeft="4dp"
                         android:background="@drawable/request_whiteeye_btn"
                         android:button="@null"
+                        android:tag="백내장 녹내장"
                         android:gravity="center" />
 
                     <RadioButton
@@ -86,6 +89,7 @@
                         android:layout_marginLeft="4dp"
                         android:background="@drawable/request_oldeye_btn"
                         android:button="@null"
+                        android:tag="노안"
                         android:gravity="center" />
 
                     <RadioButton
@@ -95,6 +99,7 @@
                         android:layout_marginLeft="4dp"
                         android:background="@drawable/request_eyesick_btn"
                         android:button="@null"
+                        android:tag="안구 질환"
                         android:gravity="center" />
                 </RadioGroup>
 
@@ -172,6 +177,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
+                android:inputType="number"
                 android:backgroundTint="@color/non"
                 android:hint="나이를 입력해주세요."
                 android:textSize="@dimen/_15sp"
@@ -206,6 +212,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="7dp"
+                android:inputType="phone"
 
                 android:backgroundTint="@color/non"
                 android:hint="연락받으실 핸드폰번호를 입력해주세요"

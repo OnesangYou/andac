@@ -28,7 +28,7 @@ class EventWriteActivity : BaseActivity() {
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText("이벤트 등록/수정")
         setActionBarRightText("삭제")
-        hidActionBarRight()
+        hideActionBarRight()
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
         // 수정 시 데이터 받아서 초기화

@@ -13,5 +13,5 @@ class EventInfoViewHolder(var context: Context?, view: View) : RecyclerView.View
     var body: TextView = view.findViewById(R.id.body)
     var deal_kind: TextView = view.findViewById(R.id.deal_kind)
     var price: TextView = view.findViewById(R.id.price)
-    var buy_count: TextView = view.findViewById(R.id.buy_count)
+    var likeCountText: TextView = view.findViewById(R.id.likeCountText)
 }

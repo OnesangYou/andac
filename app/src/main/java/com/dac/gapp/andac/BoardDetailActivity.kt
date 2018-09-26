@@ -127,8 +127,10 @@ class BoardDetailActivity : BaseActivity() {
                 }
 
                 // like 버튼
+                button_like.isEnabled = false
                 getUserLikeBoard(boardKey)?.get()?.addOnSuccessListener { snapshot ->
                     button_like.isChecked = snapshot.exists()
+                    button_like.isEnabled = true
                     button_like.setOnClickListener { view ->
                         view.isEnabled = false
                         clickBoardLikeBtn(boardKey,button_like.isChecked)?.addOnCompleteListener { view.isEnabled = true }
@@ -164,7 +166,7 @@ class BoardDetailActivity : BaseActivity() {
 
     private fun prepareUi() {
         setActionBarLeftImage(R.drawable.back)
-        hidActionBarRight()
+        hideActionBarRight()
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
     }
 }

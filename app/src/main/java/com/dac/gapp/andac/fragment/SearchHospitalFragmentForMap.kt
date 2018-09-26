@@ -80,7 +80,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
     private lateinit var binding: FragmentSearchHospitalForMapBinding
     @SuppressLint("MissingPermission")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflate(inflater, R.layout.fragment_search_hospital_for_map, container)
+        val view = inflate(inflater, R.layout.fragment_search_hospital_for_map, container, false)
         binding = getBinding()
         mapView = view?.findViewById<View>(R.id.map) as MapView
         mapView?.getMapAsync { map ->
@@ -294,7 +294,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                     try {
                         Timber.d("animateCamera onCancel()")
                         animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f), 1, this)
-                    } catch (e : Exception) {
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 }

@@ -31,37 +31,48 @@ class EventDetailActivity : BaseActivity() {
 
         // 병원 상세 정보 가져오기
         intent.getStringExtra(OBJECT_KEY)?.also{ objectId ->
+            getEvent(objectId)?.addSnapshotListener { snapshot, _ ->
+                val eventInfo = snapshot?.toObject(EventInfo::class.java)?:return@addSnapshotListener
+                event_title.text = eventInfo.title
+                hospitalNameText.text = eventInfo.sub_title
+                body.text = eventInfo.body
+                deal_kind.text = eventInfo.deal_kind
+                price.text = if(eventInfo.price == 0) "병원문의" else eventInfo.price.toString()
+                likeCountText.text = eventInfo.likeCount.toString()
 
-            showProgressDialog()
-            getEvent(objectId)?.get()?.continueWith { it.result.toObject(EventInfo::class.java) }
-                    ?.addOnSuccessListener { it -> it?.also { eventInfo ->
-                        event_title.text = eventInfo.title
-                        hospitalNameText.text = eventInfo.sub_title
-                        body.text = eventInfo.body
-                        deal_kind.text = eventInfo.deal_kind
-                        price.text = if(eventInfo.price == 0) "병원문의" else eventInfo.price.toString()
-                        buy_count.text = eventInfo.buy_count.toString()
+                Glide.with(this@EventDetailActivity).load(eventInfo.pictureUrl).into(mainImage)
+                Glide.with(this@EventDetailActivity).load(eventInfo.detailPictureUrl).into(detailImage)
 
-                        Glide.with(this@EventDetailActivity).load(eventInfo.pictureUrl).into(mainImage)
-                        Glide.with(this@EventDetailActivity).load(eventInfo.detailPictureUrl).into(detailImage)
+                // 병원명
+                getHospitalInfo(eventInfo.writerUid)?.addOnSuccessListener { it ->
+                    it?.also { hospitalInfo ->
+                        setActionBarCenterText("${hospitalInfo.name} 병원 이벤트")
+                        hospitalNameText.text = hospitalInfo.name
 
-                        // 병원명
-                        getHospitalInfo(eventInfo.writerUid)?.addOnSuccessListener { it ->
-                            it?.also { hospitalInfo ->
-                                setActionBarCenterText("${hospitalInfo.name} 병원 이벤트")
-                                hospitalNameText.text = hospitalInfo.name
+                        // Set hospital Btn
+                        hospital.setOnClickListener { startActivity(HospitalActivity.createIntent(this@EventDetailActivity, hospitalInfo.apply { objectID = eventInfo.writerUid })) }
 
-                                // Set hospital Btn
-                                hospital.setOnClickListener { startActivity(HospitalActivity.createIntent(this@EventDetailActivity, hospitalInfo.apply { objectID = eventInfo.writerUid })) }
+                        setOnActionBarRightClickListener(View.OnClickListener {
+                            startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))
+                        })
+                    }
+                }
 
-                                setOnActionBarRightClickListener(View.OnClickListener {
-                                    startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + hospitalInfo.phone)))
-                                })
-                            }
+                // likeBtn
+                likeBtn.isEnabled = false
+                if(isUser()){
+                    getLikeEvent(objectId)?.get()?.addOnSuccessListener { documentSnapshot ->
+                        likeBtn.isChecked = documentSnapshot.exists()
+                        likeBtn.isEnabled = true
+                        likeBtn.setOnClickListener {
+                            likeBtn.isEnabled = false
+                            clickEventLikeBtn(objectId, likeBtn.isChecked)
+                                    ?.addOnSuccessListener { likeBtn.isEnabled = true }
                         }
+                    }
+                }
 
-                    } }
-                    ?.addOnCompleteListener { hideProgressDialog() }
+            }?.let { addListenerRegistrations(it) }
 
 
             // 내가 신청한 이벤트 인지 알아보기

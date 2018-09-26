@@ -50,7 +50,7 @@ class JoinInfoFragment : JoinBaseFragment() {
             getJoinActivity().run{
                 // 유효성 검사
                 val hospitalStr = hospitalName.text.toString()
-                val addressStr = addressEdit.text.toString()
+                val addressStr = addressEdit.text.trim().toString()
                 val businessHoursStr = hospitalBusinessHours.text.toString()
                 val phoneStr = phoneEdit.text.toString()
 

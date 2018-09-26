@@ -59,9 +59,10 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/constraintLayout8"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
+                android:padding="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -72,12 +73,12 @@
                     android:id="@+id/event_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="15dp"
-                    android:text="아이리움 스마일라식"
-                    android:ems="11"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="5dp"
+                    android:ems="14"
                     android:maxLines="2"
-                    android:textSize="@dimen/_20sp"
+                    android:text="아이리움 스마일라식"
+                    android:textSize="18dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -98,6 +99,8 @@
                     android:id="@+id/deal_kind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="13dp"
                     android:text="할인가"
                     android:textColor="@color/orange"
                     android:textSize="20dp"
@@ -123,13 +126,14 @@
                     android:id="@+id/body"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="2dp"
                     android:text="2018.06.30 ~ 2018.08.25"
                     android:textColor="@color/gray"
                     android:textSize="13dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/deal_kind" />
 
 
             </android.support.constraint.ConstraintLayout>
@@ -140,39 +144,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="225dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="222dp"
                 android:src="@drawable/circle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints" />
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/heart_fill"
+            <ToggleButton
+                android:id="@+id/likeBtn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/heart_btn"
+                android:textOff=""
+                android:textOn=""
+                tools:ignore="MissingConstraints"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                 app:layout_constraintEnd_toEndOf="@+id/imageView3"
                 app:layout_constraintStart_toStartOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="@+id/imageView3"
-                tools:ignore="MissingConstraints" />
+                />
 
             <TextView
-                android:id="@+id/buy_count"
+                android:id="@+id/likeCountText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
                 android:gravity="end"
                 android:text="0"
-                app:layout_constraintEnd_toEndOf="@+id/imageView3"
-                app:layout_constraintStart_toStartOf="@+id/imageView3"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+                app:layout_constraintEnd_toEndOf="@+id/likeBtn"
+                app:layout_constraintStart_toStartOf="@+id/likeBtn"
+                app:layout_constraintTop_toBottomOf="@+id/likeBtn" />
 
 
         </android.support.constraint.ConstraintLayout>

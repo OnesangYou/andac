@@ -1,10 +1,9 @@
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
-        android:id="@+id/main_scrollview"
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -12,76 +11,72 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!-- 상담신청 -->
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraintLayout3"
+                android:id="@+id/layoutConsultationForm"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:background="@color/colorMain"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/main_pic_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    />
-
+                    android:src="@drawable/main_pic_1" />
 
                 <ImageView
-                    android:id="@+id/imageView9"
+                    android:id="@+id/imgviewConsultationForm"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
                     android:layout_marginStart="30dp"
+                    android:layout_marginTop="30dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/main_pic_2"
-                    app:layout_constraintBottom_toTopOf="@+id/requestSurgery"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-
                 <Button
-                    android:id="@+id/requestSurgery"
+                    android:id="@+id/btnConsultationForm"
                     android:layout_width="320dp"
                     android:layout_height="45dp"
                     android:layout_marginBottom="20dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/buttonstyle5"
-                    android:text="1:1 상담신청서 작성"
-                    android:enabled="false"
+                    android:text="@string/write_consultation_form"
                     android:textColor="@color/white"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:ignore="MissingConstraints" />
 
-
             </android.support.constraint.ConstraintLayout>
 
+            <!-- 나의 히스토리 -->
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraintLayout5_user"
+                android:id="@+id/layoutMyHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginEnd="2dp"
                 android:layout_marginStart="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
+                app:layout_constraintTop_toBottomOf="@+id/layoutConsultationForm">
 
 
                 <Button
-                    android:id="@+id/main_my_event"
+                    android:id="@+id/btnMyEventHistory"
                     android:layout_width="wrap_content"
                     android:layout_height="37dp"
                     android:layout_marginStart="5dp"
                     android:background="@color/non"
-                    android:text="신청한 이벤트"
+                    android:text="@string/event_applied"
                     android:textColor="@color/black"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     app:layout_constraintBottom_toTopOf="@+id/view4"
-                    app:layout_constraintEnd_toStartOf="@+id/main_my_consulting"
+                    app:layout_constraintEnd_toStartOf="@+id/btnMyConsultationHistory"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,46 +94,52 @@
 
 
                 <Button
-                    android:id="@+id/main_my_consulting"
+                    android:id="@+id/btnMyConsultationHistory"
                     android:layout_width="wrap_content"
                     android:layout_height="37dp"
                     android:background="@color/non"
-                    android:text="내 상담내역"
+                    android:text="@string/my_consultation_history"
                     android:textColor="@color/black"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     app:layout_constraintBottom_toTopOf="@+id/view4"
-                    app:layout_constraintEnd_toStartOf="@+id/main_my_checklist"
-                    app:layout_constraintStart_toEndOf="@+id/main_my_event"
+                    app:layout_constraintEnd_toStartOf="@+id/btnEyeHealthChecklist"
+                    app:layout_constraintStart_toEndOf="@+id/btnMyEventHistory"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
                 <Button
-                    android:id="@+id/main_my_checklist"
+                    android:id="@+id/btnEyeHealthChecklist"
                     android:layout_width="wrap_content"
                     android:layout_height="37dp"
                     android:layout_marginEnd="5dp"
                     android:background="@color/non"
-                    android:text="눈건강 체크리스트 \u0026 시력검사"
+                    android:text="@string/eye_health_checklist"
                     android:textColor="@color/black"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     app:layout_constraintBottom_toTopOf="@+id/view4"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/main_my_consulting"
+                    app:layout_constraintStart_toEndOf="@+id/btnMyConsultationHistory"
                     app:layout_constraintTop_toTopOf="parent" />
 
 
             </android.support.constraint.ConstraintLayout>
 
+
+            <!-- 메인 배너 광고 -->
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewPagerMainBannerAd"
                 android:layout_width="match_parent"
                 android:layout_height="92dp"
                 android:layout_marginTop="25dp"
                 android:background="@drawable/main_banner_white"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout5_user" />
+                app:layout_constraintTop_toBottomOf="@+id/layoutMyHistory"
 
+                />
+
+
+            <!-- 인기 칼럼 -->
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/constraintLayout4"
+                android:id="@+id/layoutColumn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -147,11 +148,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/viewPagerMainBannerAd">
 
                 <TextView
-                    android:id="@+id/best_calum_text"
+                    android:id="@+id/txtviewPopularColumn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:text="인기 칼럼"
+                    android:text="@string/popular_column"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -159,171 +160,19 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/more_calum"
+                    android:id="@+id/txtviewMoreColumns"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="칼럼 더보기"
+                    android:text="@string/more_columns"
                     android:textColor="@color/gray"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/best_calum_text"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtviewPopularColumn"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/todays_hospital_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/columnList">
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="오늘의 병원"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/imgviewTodaysHospitalAd"
-                        android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:layout_marginTop="8dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/main_todays_hospital_ad"
-                        app:layout_constraintDimensionRatio="w,3:2"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-                </android.support.constraint.ConstraintLayout>
-
-
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/best_board_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/todays_hospital_layout">
-
-                    <TextView
-                        android:id="@+id/best_board_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="인기 게시판"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/txtviewBoard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:text="게시판 더보기"
-                        android:textColor="@color/gray"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/best_board_text"
-                        app:layout_constraintEnd_toEndOf="parent" />
-
-                    <android.support.constraint.ConstraintLayout
-                        android:id="@+id/board_list_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        app:layout_constraintTop_toBottomOf="@+id/best_board_text">
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recyclerViewBoard"
-                            android:layout_width="0dp"
-                            android:layout_height="200dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="8dp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
-
-                    </android.support.constraint.ConstraintLayout>
-
-
-                </android.support.constraint.ConstraintLayout>
-
-
-                <android.support.constraint.ConstraintLayout
-                    android:id="@+id/super_event"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/best_board_layout">
-
-                    <TextView
-                        android:id="@+id/super_event_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="이벤트 기획전"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <android.support.constraint.ConstraintLayout
-                        android:id="@+id/super_event_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:background="@color/white"
-                        app:layout_constraintTop_toBottomOf="@+id/super_event_text">
-
-                        <ImageView
-                            android:id="@+id/event_image"
-                            android:layout_width="150dp"
-                            android:layout_height="100dp"
-                            android:layout_marginBottom="5dp"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/hospital_profile_default_not_approval"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/event_title"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-
-                        <TextView
-                            android:id="@+id/event_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="이용에 불편을 드려 죄송합니다.\n지금은 병원 입점기간 입니다."
-                            android:textAlignment="center"
-                            android:textSize="@dimen/_15sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/event_image"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-
-                    </android.support.constraint.ConstraintLayout>
-
-
-                </android.support.constraint.ConstraintLayout>
-
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/columnList"
+                    android:id="@+id/recyclerviewColumn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -331,7 +180,141 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/best_calum_text" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtviewPopularColumn" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <!-- 오늘의 병원 -->
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layoutTodaysHospital"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutColumn">
+
+                <TextView
+                    android:id="@+id/txtviewTodaysHospital"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/todays_hospital"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imgviewTodaysHospitalAd"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="8dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/main_todays_hospital_ad"
+                    app:layout_constraintDimensionRatio="w,3:2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtviewTodaysHospital" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <!-- 인기 게시판 -->
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layoutBoard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutTodaysHospital">
+
+                <TextView
+                    android:id="@+id/txtviewPopularBoard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/popular_board"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtviewMoreBoards"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/more_boards"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtviewPopularBoard"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerviewBoard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtviewMoreBoards" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <!-- 인기 이벤트 -->
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layoutEvent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutBoard">
+
+                <TextView
+                    android:id="@+id/txtviewPopularEvent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/popular_event"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtviewMoreEvents"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/more_events"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtviewPopularEvent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerviewEvent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtviewMoreEvents" />
 
 
             </android.support.constraint.ConstraintLayout>

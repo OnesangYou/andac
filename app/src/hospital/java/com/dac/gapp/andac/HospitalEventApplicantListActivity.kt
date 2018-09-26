@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.hospital.activity_hospital_event_applicant_list.*
 import kotlinx.android.synthetic.main.event_row.*
+import kotlinx.android.synthetic.main.hospital_row.*
 import org.jetbrains.anko.startActivityForResult
 
 @Suppress("DEPRECATION")
@@ -48,7 +49,7 @@ class HospitalEventApplicantListActivity : BaseActivity() {
                 body.text = eventInfo.body
                 deal_kind.text = eventInfo.deal_kind
                 price.text = if(eventInfo.price == 0) "병원문의" else eventInfo.price.toString()
-                buy_count.text = eventInfo.buy_count.toString()
+                heart_count.text = eventInfo.likeCount.toString()
 
                 // sub_title(병원명)
                 getHospitalInfo(eventInfo.writerUid)?.addOnSuccessListener { info -> info?.let { sub_title.text = it.name } }

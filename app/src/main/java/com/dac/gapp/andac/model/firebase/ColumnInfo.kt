@@ -13,5 +13,7 @@ data class ColumnInfo(
         @ServerTimestamp var writeDate: Date? = null,
         var modifyDate: Date? = null,
         var objectId : String = "",
-        var viewCount : Int = 0
+        var viewCount : Int = 0,
+        var approval : Boolean = false,
+        var requestStr: String? = "관리자 승인 요청 중입니다"
 )

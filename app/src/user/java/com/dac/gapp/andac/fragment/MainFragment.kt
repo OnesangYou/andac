@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import com.dac.gapp.andac.*
 import com.dac.gapp.andac.adapter.AdPagerAdapter
 import com.dac.gapp.andac.adapter.BoardListRecyclerViewAdapter
 import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
+import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentMainBinding
 import com.dac.gapp.andac.dialog.MainPopupDialog
@@ -21,12 +21,10 @@ import com.dac.gapp.andac.enums.Extra
 import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.extension.random
-import com.dac.gapp.andac.model.firebase.AdInfo
-import com.dac.gapp.andac.model.firebase.BoardInfo
-import com.dac.gapp.andac.model.firebase.ColumnInfo
-import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.model.firebase.*
 import com.dac.gapp.andac.util.OnItemClickListener
 import com.dac.gapp.andac.util.addOnItemClickListener
+import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -45,44 +43,27 @@ class MainFragment : BaseFragment() {
         const val DELAY_MS: Long = 500
         const val PERIOD_MS: Long = 3000
 
-        private val mTextViewEventBehaviorSubject: BehaviorSubject<View> = BehaviorSubject.create()
-        fun observeTxtviewBoardEvent(): Observable<View> {
-            return mTextViewEventBehaviorSubject.hide()
+        private val mTextViewMoreEventsClickBehaviorSubject: BehaviorSubject<Int> = BehaviorSubject.create()
+        fun observeTextViewClickEvent(): Observable<Int> {
+            return mTextViewMoreEventsClickBehaviorSubject.hide()
         }
     }
 
+    private lateinit var binding: FragmentMainBinding
+
     private var mIsMainPopupAdFirst: Boolean = true
 
-    private lateinit var binding: FragmentMainBinding
+    val list = mutableListOf<EventInfo>()
+    val map = mutableMapOf<String, HospitalInfo>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflate(inflater, R.layout.fragment_main, container)
+        return inflate(inflater, R.layout.fragment_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareUi()
-
-        binding.requestSurgery.setOnClickListener {
-            startActivity(Intent(context, RequestSurgeryActivity::class.java).putExtra("isOpen", true))
-        }
-
-        binding.moreCalum.setOnClickListener {
-            startActivity(Intent(context, ColumnActivity::class.java))
-        }
-
-        binding.columnList.layoutManager = GridLayoutManager(context, 2)
-        setAdapter()
-
-        binding.mainMyEvent.setOnClickListener {
-//            context?.startActivity<UserEventApplyListActivity>()
-            context?.afterCheckLoginDo { context?.startActivity<UserEventApplyListActivity>() }
-        }
-
-        binding.txtviewBoard.setOnClickListener {
-            mTextViewEventBehaviorSubject.onNext(it)
-        }
-
+        setupEvents()
     }
 
     private fun prepareUi() {
@@ -180,6 +161,10 @@ class MainFragment : BaseFragment() {
                         }
                     }
 
+            binding.recyclerviewColumn.layoutManager = GridLayoutManager(context, 2)
+            // 인기 칼럼
+            setAdapter()
+
             context.getBoards()
                     .orderBy("likeCount", Query.Direction.DESCENDING)
                     .limit(PageSize.board.value)   // 페이지 단위
@@ -192,8 +177,12 @@ class MainFragment : BaseFragment() {
                                 Timber.d("title: ${boardInfo.title}")
                                 boardInfoList.add(boardInfo)
                             }
-                            binding.recyclerViewBoard.apply {
-                                layoutManager = LinearLayoutManager(context)
+                            binding.recyclerviewBoard.apply {
+                                layoutManager = object : LinearLayoutManager(context) {
+                                    override fun canScrollVertically(): Boolean {
+                                        return false
+                                    }
+                                }
                                 adapter = BoardListRecyclerViewAdapter(boardInfoList)
                                 addOnItemClickListener(object : OnItemClickListener {
                                     override fun onItemClicked(position: Int, view: View) {
@@ -203,14 +192,71 @@ class MainFragment : BaseFragment() {
                             }
                         }
                     }
+
+            getTripleDataTask(
+                    context.getEvents()
+                            .orderBy(getString(R.string.buy_count), Query.Direction.DESCENDING)
+                            .limit(10)   // 페이지 단위 페이지 갯수
+            )
+                    ?.addOnSuccessListener {
+                        list.addAll(it.first)
+                        map.putAll(it.second)
+                        binding.recyclerviewEvent.apply {
+                            layoutManager = object : LinearLayoutManager(context) {
+                                override fun canScrollVertically(): Boolean {
+                                    return false
+                                }
+                            }
+                            swapAdapter(EventRecyclerAdapter(context, list, map), false)
+
+                            addOnItemClickListener(object : OnItemClickListener {
+                                override fun onItemClicked(position: Int, view: View) {
+                                    // 디테일 뷰
+                                    startActivity(Intent(context, EventDetailActivity::class.java).putExtra(context.OBJECT_KEY, list[position].objectId))
+                                }
+                            })
+                            adapter.notifyDataSetChanged()
+                        }
+                    }
+
+            binding.btnMyConsultationHistory.setOnClickListener { context.startActivity<ConsultBoardActivity>() }
         }
 
+    }
+
+    private fun setupEvents() {
+        binding.btnConsultationForm.setOnClickListener {
+            startActivity(Intent(context, RequestSurgeryActivity::class.java).putExtra("isOpen", true))
+        }
+
+        binding.btnMyEventHistory.setOnClickListener {
+            //            context?.startActivity<UserEventApplyListActivity>()
+            context?.afterCheckLoginDo { context?.startActivity<UserEventApplyListActivity>() }
+        }
+
+        binding.btnEyeHealthChecklist.setOnClickListener {
+            context?.startActivity<EyeTestActivity>()
+        }
+
+        binding.txtviewMoreColumns.setOnClickListener {
+            startActivity(Intent(context, ColumnActivity::class.java))
+        }
+
+        binding.txtviewMoreBoards.setOnClickListener {
+            mTextViewMoreEventsClickBehaviorSubject.onNext(R.id.navigation_board)
+        }
+
+        binding.txtviewMoreEvents.setOnClickListener {
+            mTextViewMoreEventsClickBehaviorSubject.onNext(R.id.navigation_event)
+        }
     }
 
     private fun setAdapter() {
         (context as MainActivity).let { activity ->
             activity.showProgressDialog()
-            activity.getColumns().orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
+            activity.getColumns()
+                    .whereEqualTo("approval", true) // 승인된 컬럼만 보임
+                    .orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
                 querySnapshot
                         ?.let { it -> it.map { activity.getColumn(it.id)?.get() } }
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
@@ -224,10 +270,10 @@ class MainFragment : BaseFragment() {
                                                 .filterNotNull()
                                                 .map { it.id to it.toObject(HospitalInfo::class.java) }
                                                 .toMap().also { hospitalInfoMap ->
-                                                    binding.columnList.apply {
-                                                        binding.columnList.swapAdapter(ColumnRecyclerAdapter(activity, columnInfos!!, hospitalInfoMap), false)
-                                                        binding.columnList.adapter.notifyDataSetChanged()
-                                                        binding.columnList.addOnItemClickListener(object : OnItemClickListener {
+                                                    binding.recyclerviewColumn.apply {
+                                                        swapAdapter(ColumnRecyclerAdapter(activity, columnInfos!!, hospitalInfoMap), false)
+                                                        adapter.notifyDataSetChanged()
+                                                        addOnItemClickListener(object : OnItemClickListener {
                                                             override fun onItemClicked(position: Int, view: View) {
                                                                 // 디테일
                                                                 activity.startActivity<ColumnDetailActivity>(Extra.OBJECT_KEY.name to columnInfos[position].objectId)
@@ -239,6 +285,26 @@ class MainFragment : BaseFragment() {
                         }
                         .addOnCompleteListener { activity.hideProgressDialog() }
             }
+        }
+    }
+
+    private fun getTripleDataTask(query: Query): Task<Pair<List<EventInfo>, Map<String, HospitalInfo>>>? {
+        return context?.run {
+            var infos: List<EventInfo> = listOf()
+            query.get()
+                    .continueWith { it ->
+                        it.result.toObjects(EventInfo::class.java)
+                    }.continueWithTask { it ->
+                        infos = it.result
+                        infos.groupBy { it.writerUid }
+                                .filter { !it.key.isEmpty() }
+                                .mapNotNull { getHospital(it.key).get() }
+                                .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
+                    }.continueWith { it ->
+                        Pair(infos, it.result.filterNotNull()
+                                .map { it.id to it.toObject(HospitalInfo::class.java)!! }
+                                .toMap())
+                    }
         }
     }
 
