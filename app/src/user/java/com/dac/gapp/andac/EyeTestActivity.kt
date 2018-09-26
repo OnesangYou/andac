@@ -63,8 +63,7 @@ class EyeTestActivity : BaseActivity() {
                     showRandom()
                 } else {
                     AlertDialog.Builder(this).apply {
-                        title = "title 입니다."
-                        setMessage(if (mMissCount == 0) "다맞으셧네요!!" else "틀린 갯수 $mMissCount!!")
+                        setMessage(if (mMissCount == 0) getString(R.string.eye_test_success) else getString(R.string.eye_test_failure, mMissCount))
                         setPositiveButton("확인") { dialogInterface, which ->
                             dialogInterface.dismiss()
                             finish()
