@@ -16,7 +16,7 @@ class ConsultBoardActivity : BaseActivity() {
 
     private fun prepareUi() {
         setActionBarLeftImage(R.drawable.back)
-        hidActionBarRight()
+        hideActionBarRight()
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
         viewPager.adapter = ConsultBoardFragmentPagerAdapter(this, supportFragmentManager)
         viewPager.offscreenPageLimit = 4

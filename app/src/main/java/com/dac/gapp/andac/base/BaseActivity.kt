@@ -310,7 +310,7 @@ abstract class BaseActivity : AppCompatActivity() {
         UiUtil.visibleOrGone(true, layoutLeft, imgviewLeft, txtviewLeft)
     }
 
-    fun hidActionBarLeft() {
+    fun hideActionBarLeft() {
         UiUtil.visibleOrGone(false, layoutLeft, imgviewLeft, txtviewLeft)
     }
 
@@ -318,7 +318,7 @@ abstract class BaseActivity : AppCompatActivity() {
         UiUtil.visibleOrGone(true, imgviewCenter, txtviewCenter)
     }
 
-    fun hidActionBarCenter() {
+    fun hideActionBarCenter() {
         UiUtil.visibleOrGone(false, imgviewCenter, txtviewCenter)
     }
 
@@ -326,7 +326,7 @@ abstract class BaseActivity : AppCompatActivity() {
         UiUtil.visibleOrGone(true, layoutRight, imgviewRight, txtviewRight)
     }
 
-    fun hidActionBarRight() {
+    fun hideActionBarRight() {
         UiUtil.visibleOrGone(false, layoutRight, imgviewRight, txtviewRight)
     }
 

@@ -48,7 +48,7 @@ class HospitalAdManagementFragment : BaseFragment() {
         context?.let { context ->
             context.setActionBarLeftImage(R.drawable.back)
             context.setActionBarCenterText(R.string.hospital_ad_management)
-            context.hidActionBarRight()
+            context.hideActionBarRight()
             context.setOnActionBarLeftClickListener(View.OnClickListener {
                 if (context.supportFragmentManager.backStackEntryCount != 0) {
                     context.supportFragmentManager.popBackStack()

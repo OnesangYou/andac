@@ -166,7 +166,7 @@ class BoardDetailActivity : BaseActivity() {
 
     private fun prepareUi() {
         setActionBarLeftImage(R.drawable.back)
-        hidActionBarRight()
+        hideActionBarRight()
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
     }
 }

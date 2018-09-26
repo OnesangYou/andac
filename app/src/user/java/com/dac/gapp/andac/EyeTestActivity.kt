@@ -1,7 +1,6 @@
 package com.dac.gapp.andac
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -9,8 +8,6 @@ import android.widget.TextView
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.databinding.ActivityEyeTestBinding
 import com.dac.gapp.andac.extension.loadImageAny
-import kotlinx.android.synthetic.main.abc_tooltip.*
-import kotlinx.android.synthetic.main.dialog_consult.view.*
 
 class EyeTestActivity : BaseActivity() {
     private val mImageAndNumList = arrayListOf(
@@ -33,6 +30,8 @@ class EyeTestActivity : BaseActivity() {
     }
 
     private fun prepareUi() {
+        setActionBarLeftImage(R.drawable.back)
+        hideActionBarRight()
         mBinding = getBinding()
         mBtnList = arrayListOf(mBinding.btnEyeTestBtn1, mBinding.btnEyeTestBtn2, mBinding.btnEyeTestBtn3)
 
@@ -52,6 +51,9 @@ class EyeTestActivity : BaseActivity() {
     }
 
     private fun setupEvents() {
+        setOnActionBarLeftClickListener(View.OnClickListener {
+            finish()
+        })
         val onClickListener = View.OnClickListener {
             if (it is TextView) {
                 if (it.text.toString().toInt() != mImageAndNumList[mCorrectNum].second) {
