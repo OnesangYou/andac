@@ -63,6 +63,9 @@ android {
         jumboMode true
         javaMaxHeapSize "4g"
     }
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 dependencies {
