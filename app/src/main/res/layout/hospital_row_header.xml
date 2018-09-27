@@ -6,12 +6,13 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/gray">
+        android:background="@color/verylightgray">
 
         <ImageView
             android:id="@+id/imgviewTitle"
             android:layout_width="15dp"
             android:layout_height="15dp"
+            android:layout_marginLeft="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/call_green"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -22,6 +23,7 @@
             android:id="@+id/txtviewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
             android:text="슈퍼 울트라 광고"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
