@@ -9,17 +9,22 @@
             type="com.dac.gapp.andac.model.firebase.ConsultInfo" />
     </data>
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:padding="10dp"
         >
 
         <TextView
             android:id="@+id/text_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:text="유저 상담신청서"
             android:textColor="@color/colorMain"
@@ -33,7 +38,7 @@
             android:id="@+id/txtviwDashboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:text="신청태그 : "
             android:textSize="18dp"
@@ -51,11 +56,12 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toEndOf="@+id/txtviwDashboard"
             app:layout_constraintTop_toTopOf="@+id/txtviwDashboard" />
+
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="교정전 시력 : "
             android:textSize="18dp"
@@ -73,11 +79,12 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toTopOf="@+id/textView4" />
+
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="앓았던 안과질환 : "
             android:textSize="18dp"
@@ -89,23 +96,23 @@
             android:id="@+id/disease"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
             android:text="@{consultInfo.disease}"
-            app:layout_constraintBottom_toBottomOf="@+id/textView5"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView5"
-            app:layout_constraintTop_toTopOf="@+id/textView5" />
+            app:layout_constraintStart_toStartOf="@+id/textView5"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
             android:text="신청인 이름 : "
             android:textSize="18dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/disease" />
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
@@ -123,7 +130,7 @@
             android:id="@+id/textView_old"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="나이 : "
             android:textSize="18dp"
@@ -145,7 +152,7 @@
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="핸드폰 번호 : "
             android:textSize="18dp"
@@ -168,7 +175,7 @@
             android:id="@+id/textView_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="선호 지역 : "
             android:textSize="18dp"
@@ -189,7 +196,7 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="본문내용 : "
             android:textSize="18dp"
@@ -213,12 +220,10 @@
             android:id="@+id/insert_picture_img"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="15dp"
 
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:minHeight="@dimen/album_dp_200"
             app:imageUrl="@{consultInfo.pictureUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -229,4 +234,7 @@
 
 
     </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
 </layout>
