@@ -58,7 +58,7 @@ class SearchHospitalRecyclerViewAdapter(private var context: Context?, private v
                         holder.thumbnail.loadImageAny(item.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (approval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
                         holder.title.text = item.name
                         holder.address.text = item.address1
-                        holder.description.text = item.description
+                        holder.phone.text = item.phone
                         holder.likeCntText.text = item.likeCount.toString()
                         holder.itemView.setOnClickListener {
                             context!!.startActivity(HospitalActivity.createIntent(context!!, item))
@@ -78,7 +78,7 @@ class SearchHospitalRecyclerViewAdapter(private var context: Context?, private v
         var thumbnail: ImageView = view.findViewById(R.id.imgview_thumbnail)
         var title: TextView = view.findViewById(R.id.txtview_title)
         var address: TextView = view.findViewById(R.id.txtview_address)
-        var description: TextView = view.findViewById(R.id.txtview_phone)
+        var phone: TextView = view.findViewById(R.id.txtview_phone)
         var likeCntText: TextView = view.findViewById(R.id.likeCntText)
     }
 
