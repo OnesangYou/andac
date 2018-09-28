@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.extension.setPrice
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FieldValue
@@ -38,7 +39,7 @@ class EventWriteActivity : BaseActivity() {
                 eventInfo = this
                 titleText.setText(title)
                 bodyText.setText(body)
-                priceText.setText(if(price == 0) "병원문의" else price.toString())
+                priceText.setPrice(price)
                 Glide.with(this@EventWriteActivity).load(pictureUrl).into(topImage)
                 Glide.with(this@EventWriteActivity).load(detailPictureUrl).into(bottomImage)
 

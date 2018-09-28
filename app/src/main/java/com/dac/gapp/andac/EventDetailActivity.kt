@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog
 import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.extension.setPrice
 import com.dac.gapp.andac.model.firebase.EventApplyInfo
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.google.firebase.firestore.FieldValue
@@ -37,7 +38,7 @@ class EventDetailActivity : BaseActivity() {
                 hospitalNameText.text = eventInfo.sub_title
                 body.text = eventInfo.body
                 deal_kind.text = eventInfo.deal_kind
-                price.text = if(eventInfo.price == 0) "병원문의" else eventInfo.price.toString()
+                price.setPrice(eventInfo.price)
                 likeCountText.text = eventInfo.likeCount.toString()
 
                 Glide.with(this@EventDetailActivity).load(eventInfo.pictureUrl).into(mainImage)
@@ -64,7 +65,7 @@ class EventDetailActivity : BaseActivity() {
                     getLikeEvent(objectId)?.get()?.addOnSuccessListener { documentSnapshot ->
                         likeBtn.isChecked = documentSnapshot.exists()
                         likeBtn.isEnabled = true
-                        likeBtn.setOnClickListener {
+                        likeBtn.setOnClickListener { _ ->
                             likeBtn.isEnabled = false
                             clickEventLikeBtn(objectId, likeBtn.isChecked)
                                     ?.addOnSuccessListener { likeBtn.isEnabled = true }
