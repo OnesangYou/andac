@@ -1,6 +1,7 @@
 package com.dac.gapp.andac.model.firebase
 
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.firestore.ServerTimestamp
 import com.google.gson.Gson
 import org.json.JSONObject
 import java.io.Serializable
@@ -29,6 +30,7 @@ class HospitalInfo : Serializable {
     var cellPhone: String = ""
     var isAgreeAlarm: Boolean = false
     var approval: Boolean = false
+    @ServerTimestamp
     var createdDate: Date? = null
     var thumbnail: Int = 0
 

@@ -75,7 +75,7 @@ class ColumnWriteActivity : BaseActivity() {
             showProgressDialog()
             arrayListOf(pictureUri?.let { uri -> getColumnStorageRef()
                 .child(columnInfoRef.id)
-                .child("picture0.jpg")
+                .child("picture.jpg")
                 .putFile(uri)
                 .continueWith { columnInfo.pictureUrl = it.result.downloadUrl.toString() }}
             )

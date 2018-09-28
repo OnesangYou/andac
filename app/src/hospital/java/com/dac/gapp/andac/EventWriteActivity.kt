@@ -94,12 +94,12 @@ class EventWriteActivity : BaseActivity() {
             showProgressDialog()
             arrayListOf(
                 pictureUri?.let{uri ->
-                    getEventStorageRef().child(eventInfoRef.id).child("picture0.jpg").putFile(uri)
+                    getEventStorageRef().child(eventInfoRef.id).child("picture.jpg").putFile(uri)
                             .continueWith { eventInfo.pictureUrl = it.result.downloadUrl.toString() }
                 }
                 ,
                 detailPictureUri?.let{uri ->
-                    getEventStorageRef().child(eventInfoRef.id).child("detailPictureUrl0.jpg").putFile(uri)
+                    getEventStorageRef().child(eventInfoRef.id).child("detailPicture.jpg").putFile(uri)
                             .continueWith { eventInfo.detailPictureUrl = it.result.downloadUrl.toString() }
                 }
             ).filterNotNull().let { list ->
