@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_request_consult.*
+import org.jetbrains.anko.alert
 import timber.log.Timber
 
 class RequestSurgeryActivity : BaseActivity() {
@@ -26,6 +27,18 @@ class RequestSurgeryActivity : BaseActivity() {
         setActionBarCenterText("1:1 상담신청서")
         setActionBarRightImage(R.drawable.delete)
         setOnActionBarLeftClickListener(View.OnClickListener { onBackPressed() })
+        setOnActionBarRightClickListener(View.OnClickListener {
+
+            alert(title = "상담내역 리셋", message = "상담내역을 리셋 하시겠습니까?") {
+                positiveButton("YES") { _ ->
+                    // 에디트 텍스트 비우기
+                    arrayOf(visualacuityEdit, diseaseEdit, nameEdit, phoneEdit, insert_text_Edit, oldEdit).forEach { it.text.clear() }
+                }
+                negativeButton("NO") {}
+            }.show()
+
+
+        })
         binding = getBinding()
         binding.activity = this
 
