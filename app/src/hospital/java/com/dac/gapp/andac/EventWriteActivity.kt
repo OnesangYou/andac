@@ -45,9 +45,6 @@ class EventWriteActivity : BaseActivity() {
 
             }}?.addOnCompleteListener { hideProgressDialog() }
             setOnActionBarRightClickListener(View.OnClickListener {
-                // TODO 삭제 기능 일단 막고, 나중에 신청자 정보 삭제와 연동
-                toast("삭제 기능은 곧 구현예정입니다")
-                return@OnClickListener
                 showDeleteEventDialog(key)
             })
             showActionBarRight()
