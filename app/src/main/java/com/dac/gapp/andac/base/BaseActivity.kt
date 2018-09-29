@@ -231,6 +231,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getColumns(): CollectionReference = getDb().collection("columns")
     fun getColumn(key: String): DocumentReference? = if (key.isEmpty()) null else getColumns().document(key)
     fun getHospitalColumns() = getHospitalContents()?.collection("columns")
+    fun getColumnViewedUsers(columnKey : String) = getColumn(columnKey)?.collection("viewedUsers")
 
     // Event
     fun getEventStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("events")
