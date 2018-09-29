@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseLoginActivity
 import com.dac.gapp.andac.databinding.ActivityLoginBinding
 import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.extension.random
 import com.dac.gapp.andac.model.firebase.AdInfo
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.user.activity_login.*
@@ -36,7 +36,7 @@ open class LoginActivity : BaseLoginActivity() {
             startActivity(Intent(this@LoginActivity, JoinActivity::class.java))
         }
 
-        binding.loginBtn.setOnClickListener {
+        binding.loginBtn.setOnClickListener { _ ->
             val mAuth = getAuth()
 
             if (binding.emailEdit.text.isEmpty()) {
@@ -51,26 +51,21 @@ open class LoginActivity : BaseLoginActivity() {
 
             // 유저인지 확인 (병원계정 접근 금지)
             showProgressDialog()
-            onCheckNormalUser(binding.emailEdit.text.toString()) { isUser ->
-                if (isUser) {
-                    mAuth?.signInWithEmailAndPassword(binding.emailEdit.text.toString(), binding.passwordLoginEdit.text.toString())?.addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Timber.tag(KBJ).d("signInWithEmail:success")
-                            val user = mAuth.currentUser
-                            updateUI(user)
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            toast("Authentication failed." + task.exception)
-                            updateUI(null)
-                        }
-                    }
-                } else {
-                    // 회원가입 안되있음
-                    toast("유저 회원가입이 안된 Email 입니다")
-                    updateUI(null)
-                }
-            }
+
+            onCheckNormalUser(binding.emailEdit.text.toString()).continueWithTask {
+                if(!it.result) throw IllegalStateException("유저 회원가입이 안된 Email 입니다")
+                mAuth?.signInWithEmailAndPassword(binding.emailEdit.text.toString(), binding.passwordLoginEdit.text.toString())
+            }.addOnSuccessListener {
+                // Sign in success, update UI with the signed-in user's information
+                Timber.tag(KBJ).d("signInWithEmail:success")
+                val user = it.user
+                updateUI(user)
+            }.addOnFailureListener {
+                // 회원가입 안되있음
+                toast("회원가입 실패, ${it.localizedMessage}")
+                updateUI(null)
+            }.addOnCompleteListener { hideProgressDialog() }
+
         }
 
         binding.findPasswordBtn.setOnClickListener {
@@ -105,7 +100,6 @@ open class LoginActivity : BaseLoginActivity() {
     }
 
     private fun updateUI(currentUser: FirebaseUser?) {
-        hideProgressDialog()
         currentUser?.let { _ ->
             if (!isExistPhoneNumber()) {
                 startActivity<JoinPhoneActivity>()
@@ -119,15 +113,7 @@ open class LoginActivity : BaseLoginActivity() {
         }
     }
 
-    private fun onCheckNormalUser(email: String, onSuccess: (Boolean) -> Unit) {
-        getUsers().whereEqualTo("email", email).get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                onSuccess(!task.result.isEmpty)
-            } else {
-                task.exception?.printStackTrace()
-            }
-        }
-    }
-
+    private fun onCheckNormalUser(email: String) =
+            getUsers().whereEqualTo("email", email).get().continueWith { !it.result.isEmpty }
 
 }

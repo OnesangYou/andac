@@ -71,33 +71,21 @@ class JoinActivity : BaseJoinActivity(), AnkoLogger {
         debug("emailEdit : " + emailEdit.text)
         val mAuth = getAuth()
         showProgressDialog()
-        mAuth?.createUserWithEmailAndPassword(mUserInfo.email, passwordEdit.text.toString())?.addOnCompleteListener{ task ->
-            if (task.isSuccessful) {
-                // Sign in success, update UI with the signed-in user's information
-                debug("createUserWithEmail:success")
-                val user = mAuth.currentUser
-
-                // DB insert
-                getUsers().document(user?.uid!!).set(mUserInfo).addOnCompleteListener{ task2 ->
-                    if(task2.isSuccessful){
-                        updateUI(user)
-                    } else {
-                        toast("회원가입 실패")
-                        updateUI(null)
-                    }
+        mAuth?.createUserWithEmailAndPassword(mUserInfo.email, passwordEdit.text.toString())
+                ?.onSuccessTask { _ ->
+                    val user = mAuth.currentUser?:throw IllegalStateException()
+                    getUsers().document(user.uid).set(mUserInfo).continueWith { user }
                 }
-            } else {
-                // If sign in fails, display a message to the user.
-                toast("Authentication failed." + task.exception)
-                updateUI(null)
-            }
-
-        }
-
+                ?.addOnSuccessListener { updateUI(it) }
+                ?.addOnFailureListener{
+                    // If sign in fails, display a message to the user.
+                    toast("회원가입에 실패 하였습니다. ${it.localizedMessage}")
+                    updateUI(null)
+                }
+                ?.addOnCompleteListener { hideProgressDialog() }
     }
 
     private fun updateUI(user: FirebaseUser?) {
-        hideProgressDialog()
         user?.let{
             toast("Authentication Success.")
             finish()
