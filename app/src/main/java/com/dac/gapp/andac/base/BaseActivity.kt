@@ -50,6 +50,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.alert
 import timber.log.Timber
+import java.lang.Exception
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -685,8 +686,8 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun toastVersion() = toast( "Version : ${BuildConfig.VERSION_NAME}.${BuildConfig.VERSION_CODE}")
 
-    fun getOpenConsults() = getDb().collection("openConsults");
-    fun getOpenConsult(uid : String? = getUid()) = getOpenConsults().document(uid!!)
+    fun getOpenConsults() = getDb().collection("openConsults")
+    fun getOpenConsult(uid : String? = getUid()): DocumentReference? = uid?.let { getOpenConsults().document(it) }
 
     fun getSelectConsults() = getDb().collection("selectConsults")
     fun getSelectConsult(hospitalId : String, userId : String) = getSelectConsults().whereEqualTo("hospitalId", hospitalId).whereEqualTo("userId", userId)

@@ -48,8 +48,8 @@ class RequestSurgeryActivity : BaseActivity() {
         if(binding.isOpen?:return){
             // Open 상담
             showProgressDialog()
-            getOpenConsult().get()
-                    .addOnSuccessListener { snapshot ->
+            getOpenConsult()?.get()
+                    ?.addOnSuccessListener { snapshot ->
                         snapshot.toObject(ConsultInfo::class.java)?.apply {
                             arrayOf(tag_1, tag_2, tag_3, tag_4).forEach {
                                 it.isChecked = it.tag == tag
@@ -69,7 +69,7 @@ class RequestSurgeryActivity : BaseActivity() {
                             }
                         }
                     }
-                    .addOnCompleteListener { hideProgressDialog() }
+                    ?.addOnCompleteListener { hideProgressDialog() }
         } else {
             // 지정 상담
             val hospitalId = intent.getStringExtra("hospitalId")?:return
@@ -135,7 +135,7 @@ class RequestSurgeryActivity : BaseActivity() {
         }
 
         // 신청서 Ref
-        val ref = getOpenConsult()
+        val ref = getOpenConsult()?:return
 
         // 신청서 Info
         val consultInfo = createConsult()?:return
