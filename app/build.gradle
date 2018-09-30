@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     dataBinding.enabled true
-    compileSdkVersion 27
+    compileSdkVersion 26
     defaultConfig {
         applicationId "com.dac.gapp.andac"
         minSdkVersion 19

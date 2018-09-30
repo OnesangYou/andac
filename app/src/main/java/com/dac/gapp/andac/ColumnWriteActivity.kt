@@ -49,7 +49,7 @@ class ColumnWriteActivity : BaseActivity() {
             getAlbumImage()?.subscribe {
                 pictureUri = it
                 Glide.with(this@ColumnWriteActivity).load(it).into(pictureImage)
-            }
+            }?.apply { disposables.add(this) }
         }
 
         // Upload

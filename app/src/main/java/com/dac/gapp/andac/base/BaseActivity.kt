@@ -45,6 +45,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.gun0912.tedonactivityresult.TedOnActivityResult
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.alert
 import timber.log.Timber
@@ -183,6 +185,12 @@ abstract class BaseActivity : AppCompatActivity() {
         startActivityForResult(intent, RC_TAKE_PICTURE)
 
         return RxBus.listen(Uri::class.java).take(1)
+    }
+
+    fun getAlbumImage(function: (uri : Uri) -> Unit): Disposable? {
+        return getAlbumImage()?.subscribe{
+            function.invoke(it)
+        }?.apply { disposables.add(this) }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -509,8 +517,9 @@ abstract class BaseActivity : AppCompatActivity() {
     fun addListenerRegistrations(listener: ListenerRegistration) = listListenerRegistration.add(listener)
 
     override fun onDestroy() {
-        super.onDestroy()
+        disposables.clear()
         listListenerRegistration.forEach { it.remove() }
+        super.onDestroy()
     }
 
      fun startReplyMenu(view : View, replyInfo : ReplyInfo) {
@@ -690,5 +699,10 @@ abstract class BaseActivity : AppCompatActivity() {
         }
 
     fun getAnalytics() = FirebaseAnalytics.getInstance(this)
+
+
+    val disposables by lazy {
+        CompositeDisposable()
+    }
 
 }

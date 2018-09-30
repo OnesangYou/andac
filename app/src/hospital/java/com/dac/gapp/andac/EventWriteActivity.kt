@@ -55,7 +55,7 @@ class EventWriteActivity : BaseActivity() {
             getAlbumImage()?.subscribe {
                 pictureUri = it
                 Glide.with(this@EventWriteActivity).load(it).into(topImage)
-            }
+            }?.apply { disposables.add(this) }
         }
 
         // Bottom Picture
@@ -63,7 +63,7 @@ class EventWriteActivity : BaseActivity() {
             getAlbumImage()?.subscribe {
                 detailPictureUri = it
                 Glide.with(this@EventWriteActivity).load(it).into(bottomImage)
-            }
+            }?.apply { disposables.add(this) }
         }
 
         // Upload

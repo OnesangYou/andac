@@ -102,7 +102,7 @@ class MyBoardsFragment : BaseFragment() {
                 task.result.map{ getBoard(it.id)?.get() }
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
             }.continueWithTask { task ->
-                boardInfos = task.result.filterNotNull().map { it.toObject(BoardInfo::class.java)!! }
+                boardInfos = task.result.asSequence().filterNotNull().map { it.toObject(BoardInfo::class.java)!! }.toList()
                 val uid = getUid()?:return@continueWithTask throw IllegalStateException()
                 userInfoMap = mapOf(uid to userInfo!!)
 
@@ -113,8 +113,6 @@ class MyBoardsFragment : BaseFragment() {
                     Tasks.whenAllSuccess<Pair<String, HospitalInfo>>(it)
                 }.addOnSuccessListener { hospitalInfoMap = it.toMap() }
 
-
-//                Triple(boardInfos, userInfoMap, lastVisible)
             }.continueWith {
                 Triple(boardInfos, userInfoMap, hospitalInfoMap)
             }

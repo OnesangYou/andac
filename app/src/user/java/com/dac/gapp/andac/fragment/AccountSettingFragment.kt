@@ -29,9 +29,9 @@ class AccountSettingFragment : BaseFragment() {
         profile_change_btn.setOnClickListener { _ ->
             // 프로필 사진 변경
             context?.apply {
-                getAlbumImage()?.subscribe {uri ->
+                getAlbumImage{uri ->
                     showProgressDialog()
-                    val path = getUser()?.path?: return@subscribe
+                    val path = getUser()?.path?: return@getAlbumImage
                     FirebaseStorage.getInstance().getReference(path).child("profilePic.jpg").putFile(uri).continueWithTask { it ->
                         getUser()?.set(mapOf("profilePicUrl" to it.result.downloadUrl.toString()), SetOptions.merge())
                     }.addOnCompleteListener { hideProgressDialog() }

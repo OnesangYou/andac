@@ -122,4 +122,5 @@ class BoardRecyclerAdapter(
         val menu: Button = itemView.menu
         val likeText = itemView.likeText
     }
+
 }
