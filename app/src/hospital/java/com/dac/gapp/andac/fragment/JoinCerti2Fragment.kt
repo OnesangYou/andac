@@ -90,7 +90,7 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                         ?.addOnFailureListener {
                             // If sign in fails, display a message to the user.
                             Timber.d("Authentication failed.%s", it.message)
-                            toast("Authentication failed." + it.message)
+                            toast("회원가입 실패." + it.message)
                             updateUI(null)
                         }
                         ?.addOnCompleteListener { hideProgressDialog() }

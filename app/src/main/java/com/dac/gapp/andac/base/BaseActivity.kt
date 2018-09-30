@@ -37,6 +37,7 @@ import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.UiUtil
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
@@ -688,6 +689,6 @@ abstract class BaseActivity : AppCompatActivity() {
             }
         }
 
-
+    fun getAnalytics() = FirebaseAnalytics.getInstance(this)
 
 }
