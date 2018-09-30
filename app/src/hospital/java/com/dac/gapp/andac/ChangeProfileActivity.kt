@@ -67,7 +67,7 @@ class ChangeProfileActivity : BaseActivity() {
                             }
                             .addOnCompleteListener { hideProgressDialog() }
                 }
-            }
+            }?.apply { disposables.add(this) }
         }
     }
 }

@@ -52,7 +52,7 @@ class BoardDetailActivity : BaseActivity() {
                             setOnMenuItemClickListener { menuItem ->
                                 when (menuItem.itemId) {
                                     R.id.modifyBtn -> startActivityForResult(Intent(this@BoardDetailActivity, BoardWriteActivity::class.java).putExtra(OBJECT_KEY, boardInfo.objectId), RequestCode.OBJECT_ADD.value)
-                                    R.id.deleteBtn -> showDeleteBoardDialog(boardInfo.objectId)
+                                    R.id.deleteBtn -> showDeleteBoardDialog(boardInfo.objectId){finish()}
                                 }
                                 false
                             }

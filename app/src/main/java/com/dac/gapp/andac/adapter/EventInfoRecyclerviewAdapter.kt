@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.extension.setPrice
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.viewholder.EventInfoViewHolder
 
@@ -24,7 +25,7 @@ class EventInfoRecyclerviewAdapter(var context: Context?, var list: List<EventIn
         holder.sub_title.text = item.sub_title
         holder.body.text = item.body
         holder.deal_kind.text = item.deal_kind
-        holder.price.text = if(item.price == 0) "병원문의" else item.price.toString()
+        holder.price.setPrice(item.price)
         holder.likeCountText.text = item.likeCount.toString()
     }
 }

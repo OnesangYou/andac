@@ -9,17 +9,15 @@ import com.dac.gapp.andac.adapter.EventApplyRecyclerviewAdapter
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.enums.RequestCode
+import com.dac.gapp.andac.extension.setPrice
 import com.dac.gapp.andac.model.firebase.EventApplyInfo
 import com.dac.gapp.andac.model.firebase.EventInfo
-import com.dac.gapp.andac.util.OnItemClickListener
-import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.hospital.activity_hospital_event_applicant_list.*
 import kotlinx.android.synthetic.main.event_row.*
 import org.jetbrains.anko.startActivityForResult
-import java.lang.Exception
 
 @Suppress("DEPRECATION")
 class HospitalEventApplicantListActivity : BaseActivity() {
@@ -34,7 +32,7 @@ class HospitalEventApplicantListActivity : BaseActivity() {
         setContentView(R.layout.activity_hospital_event_applicant_list)
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText("내 이벤트 보기")
-        setActionBarRightText("이벤트 수정하기")
+        setActionBarRightText("이벤트 수정  ")
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
 
@@ -48,7 +46,7 @@ class HospitalEventApplicantListActivity : BaseActivity() {
                 event_title.text = eventInfo.title
                 body.text = eventInfo.body
                 deal_kind.text = eventInfo.deal_kind
-                price.text = if(eventInfo.price == 0) "병원문의" else eventInfo.price.toString()
+                price.setPrice(eventInfo.price)
                 likeCountText.text = eventInfo.likeCount.toString()
                 // sub_title(병원명)
                 getHospitalInfo(eventInfo.writerUid)?.addOnSuccessListener { info -> info?.let { sub_title.text = it.name } }
@@ -60,12 +58,12 @@ class HospitalEventApplicantListActivity : BaseActivity() {
             // recyclerView
             recyclerView.layoutManager = LinearLayoutManager(this@HospitalEventApplicantListActivity)
             recyclerView.adapter = EventApplyRecyclerviewAdapter(list)
-            recyclerView.addOnItemClickListener(object: OnItemClickListener {
-                override fun onItemClicked(position: Int, view: View) {
-                    // 이벤트 신청자 리스트
-                    if(list[position].writerUid == getUid()) startActivityForResult<HospitalEventApplicantListActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to list[position].objectId)
-                }
-            })
+//            recyclerView.addOnItemClickListener(object: OnItemClickListener {
+//                override fun onItemClicked(position: Int, view: View) {
+//                    // 이벤트 신청자 리스트
+//                    if(list[position].writerUid == getUid()) startActivityForResult<HospitalEventApplicantListActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to list[position].objectId)
+//                }
+//            })
 
             setAdapter()
 

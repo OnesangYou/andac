@@ -26,7 +26,7 @@ class LoginActivity : BaseHospitalActivity() {
             startActivity(Intent(this, JoinActivity::class.java))
         }
 
-        loginBtn.setOnClickListener {
+        loginBtn.setOnClickListener { _ ->
             val mAuth = getAuth()
 
             if(emailEdit.text.isEmpty()) {
@@ -41,26 +41,18 @@ class LoginActivity : BaseHospitalActivity() {
 
             // 병원 유저인지 체크
             showProgressDialog()
-            onCheckHospitalUser(emailEdit.text.toString()) { isHospitalUser ->
-                if(isHospitalUser){
-                    // toast("회원가입 되있음")
-                    mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())?.addOnCompleteListener{ task ->
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Timber.tag(KBJ).d("signInWithEmail:success")
-                            val user = mAuth.currentUser
-                            updateUI(user)
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            toast("Authentication failed." + task.exception)
-                            updateUI(null)
-                        }
-                    }
-                } else {
-                    // 회원가입 안되있음
-                    toast("병원 유저 회원가입이 안된 Email 입니다")
-                    updateUI(null)
-                }
+            onCheckHospitalUser(emailEdit.text.toString()).continueWithTask {
+                if(!it.result) throw IllegalStateException("병원 회원가입이 안된 Email 입니다")
+                mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())
+            }.addOnSuccessListener {
+                Timber.tag(KBJ).d("signInWithEmail:success")
+                val user = it.user
+                updateUI(user)
+            }.addOnFailureListener {
+                toast("로그인 실패, ${it.localizedMessage}")
+                updateUI(null)
+            }.addOnCompleteListener {
+                hideProgressDialog()
             }
         }
 
@@ -103,13 +95,6 @@ class LoginActivity : BaseHospitalActivity() {
         }
     }
 
-    private fun onCheckHospitalUser(email : String, onSuccess: (Boolean) -> Unit){
-        getHospitals().whereEqualTo("email", email).get().addOnCompleteListener{ task ->
-            if(task.isSuccessful){
-                onSuccess(!task.result.isEmpty)
-            } else {
-                Timber.d(task.exception.toString())
-            }
-        }
-    }
+    private fun onCheckHospitalUser(email : String) =
+            getHospitals().whereEqualTo("email", email).get().continueWith { !it.result.isEmpty }
 }

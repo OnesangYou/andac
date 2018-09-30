@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_request_consult.*
+import org.jetbrains.anko.alert
 import timber.log.Timber
 
 class RequestSurgeryActivity : BaseActivity() {
@@ -26,6 +27,18 @@ class RequestSurgeryActivity : BaseActivity() {
         setActionBarCenterText("1:1 상담신청서")
         setActionBarRightImage(R.drawable.delete)
         setOnActionBarLeftClickListener(View.OnClickListener { onBackPressed() })
+        setOnActionBarRightClickListener(View.OnClickListener { _ ->
+
+            alert(title = "상담내역 리셋", message = "상담내역을 리셋 하시겠습니까?") {
+                positiveButton("YES") { _ ->
+                    // 에디트 텍스트 비우기
+                    arrayOf(visualacuityEdit, diseaseEdit, nameEdit, phoneEdit, insert_text_Edit, oldEdit).forEach { it.text.clear() }
+                }
+                negativeButton("NO") {}
+            }.show()
+
+
+        })
         binding = getBinding()
         binding.activity = this
 
@@ -36,8 +49,8 @@ class RequestSurgeryActivity : BaseActivity() {
             // Open 상담
             showProgressDialog()
             getOpenConsult().get()
-                    .addOnSuccessListener {
-                        it.toObject(ConsultInfo::class.java)?.apply {
+                    .addOnSuccessListener { snapshot ->
+                        snapshot.toObject(ConsultInfo::class.java)?.apply {
                             arrayOf(tag_1, tag_2, tag_3, tag_4).forEach {
                                 it.isChecked = it.tag == tag
                             }
@@ -63,9 +76,9 @@ class RequestSurgeryActivity : BaseActivity() {
             showProgressDialog()
             val userId = getUid()?:return
             getSelectConsult(hospitalId, userId).get()
-                    .addOnSuccessListener {
-                        if(it.isEmpty) return@addOnSuccessListener
-                        it.toObjects(ConsultInfo::class.java).also { if(it.isEmpty()) return@addOnSuccessListener }.let { it[0] }.apply {
+                    .addOnSuccessListener { snapshot ->
+                        if(snapshot.isEmpty) return@addOnSuccessListener
+                        snapshot.toObjects(ConsultInfo::class.java).also { if(it.isEmpty()) return@addOnSuccessListener }.let { it[0] }.apply {
                             arrayOf(tag_1, tag_2, tag_3, tag_4).forEach {
                                 it.isChecked = it.tag == tag
                             }
@@ -78,7 +91,7 @@ class RequestSurgeryActivity : BaseActivity() {
                             insert_picture_img.loadImage(pictureUrl)
 
                         }
-                        intent.putExtra("objectId", it.documentChanges[0].document.id)  // 수정모드
+                        intent.putExtra("objectId", snapshot.documentChanges[0].document.id)  // 수정모드
                     }
                     .addOnCompleteListener { hideProgressDialog() }
         }
@@ -92,7 +105,7 @@ class RequestSurgeryActivity : BaseActivity() {
             getAlbumImage()?.subscribe {uri ->
                 pictureUri = uri
                 insert_picture_img.loadImageAny(uri)
-            }
+            }?.apply { disposables.add(this) }
         }
     }
 
@@ -129,12 +142,12 @@ class RequestSurgeryActivity : BaseActivity() {
 
         // 데이터 업로드(사진있으면 사진도 업로드)
         showProgressDialog()
-        pictureUri?.let {
-            FirebaseStorage.getInstance().getReference(ref.path).child("picture.jpg").putFile(it).continueWith {
+        pictureUri?.let { uri ->
+            FirebaseStorage.getInstance().getReference(ref.path).child("picture.jpg").putFile(uri).continueWith {
                 consultInfo.pictureUrl = it.result.downloadUrl.toString()
                 consultInfo.pictureRef = it.result.storage.path
             }
-        }.let { Tasks.whenAllSuccess<Any>(arrayOf(it).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
+        }.let { task -> Tasks.whenAllSuccess<Any>(arrayOf(task).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
                 .addOnSuccessListener {
                     Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
                     finish()
@@ -163,12 +176,12 @@ class RequestSurgeryActivity : BaseActivity() {
 
         // 데이터 업로드(사진있으면 사진도 업로드)
         showProgressDialog()
-        pictureUri?.let {
-            FirebaseStorage.getInstance().getReference(ref.path).child("picture.jpg").putFile(it).continueWith {
+        pictureUri?.let { uri ->
+            FirebaseStorage.getInstance().getReference(ref.path).child("picture.jpg").putFile(uri).continueWith {
                 consultInfo.pictureUrl = it.result.downloadUrl.toString()
                 consultInfo.pictureRef = it.result.storage.path
             }
-        }.let { Tasks.whenAllSuccess<Any>(arrayOf(it).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
+        }.let { task -> Tasks.whenAllSuccess<Any>(arrayOf(task).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
                 .addOnSuccessListener {
                     Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
                     finish()

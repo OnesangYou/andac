@@ -114,15 +114,15 @@ class HospitalAdApplicationFragment : BaseFragment() {
             context?.startActivityForResult<HospitalEventListActivity>(REQUEST_EVENT_SELECT, Extra.IS_EVENT_SELECT.name to true)
         }
 
-        mBinding.layoutUploadPhoto.setOnClickListener {
+        mBinding.layoutUploadPhoto.setOnClickListener { _ ->
             TedPermission.with(context)
                     .setPermissionListener(object : PermissionListener {
                         override fun onPermissionGranted() {
-                            context?.getAlbumImage()?.subscribe {
+                            context?.getAlbumImage{
                                 photoUri = it
                                 mBinding.imgviewPhoto.loadImageAny(it)
                                 mBinding.txtviewUploadPhoto.setBackgroundResource(R.color.AF000000)
-                            }
+                            }?.apply { context?.disposables?.add(this) }
                         }
 
                         override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
@@ -134,7 +134,7 @@ class HospitalAdApplicationFragment : BaseFragment() {
                     .check()
         }
 
-        mBinding.btnNext.setOnClickListener { view ->
+        mBinding.btnNext.setOnClickListener { _ ->
             if (mAd == Ad.SEARCH_HOSPITAL_BANNER_AD) {
                 context?.showProgressDialog()
                 saveAd("")
@@ -170,7 +170,7 @@ class HospitalAdApplicationFragment : BaseFragment() {
                     eventObjectId = data?.getStringExtra(Extra.OBJECT_KEY.name)
                 }
             }
-        }
+        }.apply { context?.disposables?.add(this) }
     }
 
     private fun savePhoto(uri: Uri): Task<String>? {

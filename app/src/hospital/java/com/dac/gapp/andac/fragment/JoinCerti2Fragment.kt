@@ -27,10 +27,6 @@ class JoinCerti2Fragment : JoinBaseFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        // 받아온 경우 Set
-//        getJoinActivity().hospitalInfo.apply {
-//            if (cellPhone.isNotEmpty()) phoneEdit.setText(address2)
-//        }
 
         nextBtn.setOnClickListener { _ ->
             getJoinActivity().run {
@@ -38,7 +34,6 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                 val emailStr = emailEdit.text.toString()
                 val passwordStr = passwordEdit.text.toString()
                 val passwordConfirmStr = passwordConfirmEdit.text.toString()
-//                val phoneStr = phoneEdit.text.toString()
 
                 /* 유효성 검사 */
 
@@ -65,15 +60,8 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                     return@setOnClickListener
                 }
 
-                //핸드폰번호 유효성
-//                if (!Pattern.matches("^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$", phoneStr)) {
-//                    toast("올바른 핸드폰 번호가 아닙니다. $phoneStr")
-//                    return@setOnClickListener
-//                }
-
                 hospitalInfo.apply {
                     email = emailStr
-//                    cellPhone = phoneStr
                 }
 
                 // 파베 회원가입
@@ -102,9 +90,11 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                         ?.addOnFailureListener {
                             // If sign in fails, display a message to the user.
                             Timber.d("Authentication failed.%s", it.message)
-                            toast("Authentication failed." + it.message)
+                            toast("회원가입 실패." + it.message)
                             updateUI(null)
                         }
+                        ?.addOnCompleteListener { hideProgressDialog() }
+
             }
         }
 
@@ -143,7 +133,6 @@ class JoinCerti2Fragment : JoinBaseFragment(){
     private fun JoinActivity.uploadPicFileTask(fileName : String , picUri : Uri): Task<String>? {
         return getUid()?.let { uid ->
             getHospitalsStorageRef().child(uid).child(fileName).putFile(picUri).continueWith {
-                toast("uploadPicFile Complete")
                 it.result.downloadUrl.toString()
             }
         }
@@ -160,9 +149,8 @@ class JoinCerti2Fragment : JoinBaseFragment(){
 
     private fun updateUI(user: FirebaseUser?) {
         (activity as JoinActivity).run {
-            hideProgressDialog()
             user?.let{
-                this.toast("Authentication Success.")
+                toast("회원가입 성공")
                 finish()
             }
         }

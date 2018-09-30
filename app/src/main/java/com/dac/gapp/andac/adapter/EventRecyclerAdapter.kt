@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.extension.setPrice
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.event_row.view.*
@@ -32,7 +33,7 @@ class EventRecyclerAdapter
             Glide.with(context).load(item.pictureUrl).into(picture)
             bodyText.text = item.body
             dealKindText.text = item.deal_kind
-            priceText.text = if(item.price == 0) "병원문의" else item.price.toString()
+            priceText.setPrice(item.price)
             hospitalName.text = hospital?.name
             likeCountText.text = item.likeCount.toString()
 

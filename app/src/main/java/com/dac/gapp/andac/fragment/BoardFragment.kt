@@ -18,6 +18,7 @@ import com.dac.gapp.andac.databinding.FragmentBoardBinding
 import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.ActivityResultEvent
+import com.dac.gapp.andac.model.BoardAdapterData
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
@@ -35,8 +36,8 @@ class BoardFragment : BaseFragment() {
 
     val list = mutableListOf<BoardInfo>()
     val map = mutableMapOf<String, UserInfo>()
-    val hospitalInfoMap = mutableMapOf<String, HospitalInfo>()
-    var likeSet = mutableSetOf<String>()
+    private val hospitalInfoMap = mutableMapOf<String, HospitalInfo>()
+    private var likeSet = mutableSetOf<String>()
 
 
     var type: String? = null
@@ -67,7 +68,7 @@ class BoardFragment : BaseFragment() {
 
         // set recyclerView
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.swapAdapter((BoardRecyclerAdapter(context, list, map, hospitalInfoMap, likeSet) { boardInfo, userInfo ->
+        binding.recyclerView.swapAdapter((BoardRecyclerAdapter(context, list, map, hospitalInfoMap, likeSet) { boardInfo, _ ->
             // 로그인 상태 체크
 //            getCurrentUser() ?: return@BoardRecyclerAdapter goToLogin(true)
             context?.startActivity(Intent(context, BoardDetailActivity::class.java).putExtra(context?.OBJECT_KEY, boardInfo.objectId))
@@ -81,7 +82,7 @@ class BoardFragment : BaseFragment() {
                     type?.let { setAdapter(it) }
                 }
             }
-        }
+        }.apply { context?.disposables?.add(this) }
 
         // set tabLayout click listener
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -146,7 +147,7 @@ class BoardFragment : BaseFragment() {
         })
     }
 
-    fun resetData() {
+    private fun resetData() {
         list.clear()
         map.clear()
         hospitalInfoMap.clear()
@@ -196,48 +197,41 @@ class BoardFragment : BaseFragment() {
                         data.boardInfos = task.result
                         Tasks.whenAllSuccess<Void>(
                                 // set userInfoMap
-                                data.boardInfos.groupBy { it.writerUid }.filter { !it.key.isEmpty() }.mapNotNull {
+                                data.boardInfos.asSequence().groupBy { it.writerUid }.filter { !it.key.isEmpty() }.mapNotNull {
                                     getUserInfo(it.key)?.continueWith { task -> it.key to task.result }
-                                }.let {
+                                }.toList().let {
                                     Tasks.whenAllSuccess<Pair<String, UserInfo>>(it)
                                 }.continueWith {
                                     data.userInfoMap = it.result.toMap()
                                 }
                                 ,
                                 // set hospitalInfoMap
-                                data.boardInfos.groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
+                                data.boardInfos.asSequence().groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
                                     getHospitalInfo(it.key)?.continueWith { task -> it.key to task.result }
-                                }.let {
+                                }.toList().let {
                                     Tasks.whenAllSuccess<Pair<String, HospitalInfo>>(it)
                                 }.continueWith {
                                     data.hospitalInfoMap = it.result.toMap()
                                 }
+                                ,
+                                // set likeSet
+                                if(isUser() && FirebaseAuth.getInstance().currentUser != null){
+                                    getUserLikeBoards()?.get()?.continueWith { task1 ->
+                                        data.likeSet = task1.result.mapNotNull { it.id }.toSet()
+                                    }
+                                } else task.continueWith { data.likeSet = setOf() }
                         )
 
-                    }
-                    .continueWithTask { task ->
-                        if(isUser() && FirebaseAuth.getInstance().currentUser != null){
-                            getUserLikeBoards()?.get()?.continueWith { task1 ->
-                                task1.result.mapNotNull { it.id }.toSet()
-                            }
-                        } else task.continueWith { setOf<String>() }
                     }
                     .continueWith {
                         BoardAdapterData(data.boardInfos,
                                 data.userInfoMap,
                                 data.hospitalInfoMap,
-                                it.result
+                                data.likeSet
                         )
                     }
         }
     }
-
-    data class BoardAdapterData(
-            var boardInfos : List<BoardInfo> = listOf(),
-            var userInfoMap : Map<String, UserInfo> = mapOf(),
-            var hospitalInfoMap : Map<String, HospitalInfo> = mapOf(),
-            var likeSet : Set<String> = setOf()
-    )
 
 }
 

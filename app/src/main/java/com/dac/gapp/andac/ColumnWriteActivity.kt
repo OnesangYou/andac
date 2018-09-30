@@ -49,7 +49,7 @@ class ColumnWriteActivity : BaseActivity() {
             getAlbumImage()?.subscribe {
                 pictureUri = it
                 Glide.with(this@ColumnWriteActivity).load(it).into(pictureImage)
-            }
+            }?.apply { disposables.add(this) }
         }
 
         // Upload
@@ -75,7 +75,7 @@ class ColumnWriteActivity : BaseActivity() {
             showProgressDialog()
             arrayListOf(pictureUri?.let { uri -> getColumnStorageRef()
                 .child(columnInfoRef.id)
-                .child("picture0.jpg")
+                .child("picture.jpg")
                 .putFile(uri)
                 .continueWith { columnInfo.pictureUrl = it.result.downloadUrl.toString() }}
             )

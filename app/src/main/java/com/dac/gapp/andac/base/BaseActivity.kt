@@ -37,6 +37,7 @@ import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.UiUtil
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
@@ -44,9 +45,11 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.gun0912.tedonactivityresult.TedOnActivityResult
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.alert
 import timber.log.Timber
-import kotlinx.android.synthetic.main.activity_base.*
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -184,6 +187,12 @@ abstract class BaseActivity : AppCompatActivity() {
         return RxBus.listen(Uri::class.java).take(1)
     }
 
+    fun getAlbumImage(function: (uri : Uri) -> Unit): Disposable? {
+        return getAlbumImage()?.subscribe{
+            function.invoke(it)
+        }?.apply { disposables.add(this) }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_TAKE_PICTURE) {
@@ -231,6 +240,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getColumns(): CollectionReference = getDb().collection("columns")
     fun getColumn(key: String): DocumentReference? = if (key.isEmpty()) null else getColumns().document(key)
     fun getHospitalColumns() = getHospitalContents()?.collection("columns")
+    fun getColumnViewedUsers(columnKey : String) = getColumn(columnKey)?.collection("viewedUsers")
 
     // Event
     fun getEventStorageRef(): StorageReference = FirebaseStorage.getInstance().reference.child("events")
@@ -507,8 +517,9 @@ abstract class BaseActivity : AppCompatActivity() {
     fun addListenerRegistrations(listener: ListenerRegistration) = listListenerRegistration.add(listener)
 
     override fun onDestroy() {
-        super.onDestroy()
+        disposables.clear()
         listListenerRegistration.forEach { it.remove() }
+        super.onDestroy()
     }
 
      fun startReplyMenu(view : View, replyInfo : ReplyInfo) {
@@ -565,9 +576,7 @@ abstract class BaseActivity : AppCompatActivity() {
             if(boardInfo.replyCount < 0) throw IllegalStateException("Reply Count is Zero")
         }
 
-    fun showDeleteBoardDialog(boardId : String){
-        // TODO : 삭제 시, 좋아요 연관 데이터도 모두 지워야함
-        return toast("삭제 기능은 곧 업데이트 될 예정입니다")
+    fun showDeleteBoardDialog(boardId: String, function: (() -> Unit)? = null){
         showProgressDialog()
         alert(title = "게시물 삭제", message = "게시물을 삭제하시겠습니까?") {
             positiveButton("YES"){ _ ->
@@ -579,7 +588,7 @@ abstract class BaseActivity : AppCompatActivity() {
                             requestCode = RequestCode.OBJECT_ADD.value,
                             resultCode = Activity.RESULT_OK
                     ))
-                }
+                }?.addOnSuccessListener { function?.invoke() }
             }
 
             negativeButton("NO"){hideProgressDialog()}
@@ -689,6 +698,11 @@ abstract class BaseActivity : AppCompatActivity() {
             }
         }
 
+    fun getAnalytics() = FirebaseAnalytics.getInstance(this)
 
+
+    val disposables by lazy {
+        CompositeDisposable()
+    }
 
 }
