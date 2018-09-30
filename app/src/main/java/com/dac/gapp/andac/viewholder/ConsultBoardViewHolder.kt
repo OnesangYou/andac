@@ -23,7 +23,7 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
         if(isOpen){
             // 오픈 상담 신청서
             val baseActivity = context as BaseActivity
-            baseActivity.getOpenConsult(uUid).get().addOnSuccessListener { querySnapshot ->
+            baseActivity.getOpenConsult(uUid)?.get()?.addOnSuccessListener { querySnapshot ->
                 val consultInfo = querySnapshot.toObject(ConsultInfo::class.java)
                 val dialog = context?.let { ConsultContentDialog(it, consultInfo) }
                 dialog?.show()
@@ -60,7 +60,7 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
                             task as Task<Void>
                         }
                         ?:let {// 신청한적 없는 병원일 경우
-                            getOpenConsult(uUid).get().continueWithTask { querySnapshot ->
+                            getOpenConsult(uUid)?.get()?.continueWithTask { querySnapshot ->
                                 // 오픈 내용을 지정으로 옮기기
                                 val consultInfo = querySnapshot.result.toObject(ConsultInfo::class.java)
                                         ?.apply {
