@@ -32,7 +32,7 @@ class HospitalEventApplicantListActivity : BaseActivity() {
         setContentView(R.layout.activity_hospital_event_applicant_list)
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText("내 이벤트 보기")
-        setActionBarRightText("이벤트 수정하기")
+        setActionBarRightText("이벤트 수정  ")
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
 
