@@ -67,7 +67,7 @@ class HospitalEventListActivity : BaseActivity() {
             hideActionBarRight()
         } else {
             setActionBarCenterText("내 이벤트 리스트 보기")
-            setActionBarRightText("이벤트 작성하기")
+            setActionBarRightText("이벤트 작성")
         }
     }
 
