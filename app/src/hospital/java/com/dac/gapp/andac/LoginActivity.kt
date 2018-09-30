@@ -49,8 +49,7 @@ class LoginActivity : BaseHospitalActivity() {
                 val user = it.user
                 updateUI(user)
             }.addOnFailureListener {
-                // 회원가입 안되있음
-                toast("회원가입 실패, ${it.localizedMessage}")
+                toast("로그인 실패, ${it.localizedMessage}")
                 updateUI(null)
             }.addOnCompleteListener {
                 hideProgressDialog()
