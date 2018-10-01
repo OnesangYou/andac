@@ -41,6 +41,8 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
+import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.functions.HttpsCallableResult
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.gun0912.tedonactivityresult.TedOnActivityResult
@@ -50,7 +52,6 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.alert
 import timber.log.Timber
-import java.lang.Exception
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -705,5 +706,10 @@ abstract class BaseActivity : AppCompatActivity() {
     val disposables by lazy {
         CompositeDisposable()
     }
+
+    fun addCountHospitalVisitants(hospitalId: String): Task<HttpsCallableResult>? = FirebaseFunctions.getInstance()
+            .getHttpsCallable("addCountHospitalVisitants")
+            .call(mapOf("hospitalId" to hospitalId))
+
 
 }
