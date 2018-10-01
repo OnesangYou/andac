@@ -6,12 +6,14 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dac.gapp.andac.NoticeActivity
 
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.user.fragment_account_setting.*
+import org.jetbrains.anko.startActivity
 
 
 /**
@@ -43,6 +45,9 @@ class AccountSettingFragment : BaseFragment() {
 
         // 버전 정보
         versionText.setOnClickListener { context?.toastVersion() }
+
+        // 공지사항
+        noticeBtn.setOnClickListener { context?.startActivity<NoticeActivity>() }
     }
 
 }// Required empty public constructor

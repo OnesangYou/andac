@@ -1,9 +1,8 @@
 package com.dac.gapp.andac
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
+import android.view.View
 import com.dac.gapp.andac.adapter.NoticeRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.databinding.ActivityNoticeBinding
@@ -19,7 +18,13 @@ class NoticeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notice)
-        Timber.d("dasdsdsa")
+        setActionBarLeftImage(R.drawable.back)
+        setActionBarRightImage(R.drawable.defult_img)
+        setActionBarCenterText("공지사항")
+        setOnActionBarLeftClickListener(View.OnClickListener {
+            finish()
+        })
+
         binding = getBinding()
         val noticeList : MutableList <ExpandableGroup<*>> = mutableListOf()
 
