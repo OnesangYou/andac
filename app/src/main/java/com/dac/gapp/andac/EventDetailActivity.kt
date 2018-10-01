@@ -72,7 +72,8 @@ class EventDetailActivity : BaseActivity() {
             }
             // 비로그인
             else {
-                arrayOf(likeBtn,event_submit).forEach { it.setOnClickListener {
+                arrayOf(likeBtn,event_submit).forEach { view ->
+                    view.setOnClickListener {
                     goToLogin {
                         checkApplyEvent(objectId)
                         checkLikeEvent(objectId)
