@@ -10,6 +10,7 @@ data class ColumnInfo(
         var title: String = "",
         var contents: String = "",
         var pictureUrl: String = "",
+        var pictureUrlThumbnail: String? = null,
         @ServerTimestamp var writeDate: Date? = null,
         var modifyDate: Date? = null,
         var objectId : String = "",

@@ -1,5 +1,6 @@
 package com.dac.gapp.andac.adapter
 
+import android.annotation.SuppressLint
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -26,6 +27,7 @@ class ColumnRecyclerAdapter
         return ColumnHolder(parent)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ColumnHolder, position: Int) {
         val item = mDataList[position]
         val hospital = hospitalInfoMap[item.writerUid]
@@ -34,7 +36,7 @@ class ColumnRecyclerAdapter
             titleText.text = item.title
             hospitalName.text = hospital?.name
             viewCount.text = item.viewCount.toString()
-            picture.loadImage(item.pictureUrl)
+            picture.loadImage(item.pictureUrlThumbnail?:item.pictureUrl)
             // 승인, 보류
             if(context is HospitalColumnListActivity) {
                 approvalText.visibility = View.VISIBLE
