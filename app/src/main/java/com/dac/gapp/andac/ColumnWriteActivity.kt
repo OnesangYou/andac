@@ -25,7 +25,7 @@ class ColumnWriteActivity : BaseActivity() {
         setActionBarCenterText(R.string.column_upload)
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
-        // 수정 시 컬럼 데이터 받아서 초기화
+        // 수정 시 칼럼 데이터 받아서 초기화
         intent.getStringExtra(OBJECT_KEY)?.let{ key ->
             showProgressDialog()
             getColumn(key)?.get()?.continueWith { it.result.toObject(ColumnInfo::class.java) }

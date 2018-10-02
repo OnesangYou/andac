@@ -24,7 +24,7 @@
             android:iconifiedByDefault="false"
             android:queryHint="Search"
             algolia:autofocus="false"
-            algolia:defaultQueryHint="컬럼 검색어를 입력해주세요"
+            algolia:defaultQueryHint="칼럼 검색어를 입력해주세요"
             algolia:submitButtonEnabled="false"/>
     </LinearLayout>
 
