@@ -150,6 +150,10 @@ class RequestSurgeryActivity : BaseActivity() {
         }.let { task -> Tasks.whenAllSuccess<Any>(arrayOf(task).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
                 .addOnSuccessListener {
                     Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
+
+                    // addCount
+                    addCountCounselors(consultInfo.hospitalId?:return@addOnSuccessListener)
+
                     finish()
                 }
                 .addOnCompleteListener { hideProgressDialog() }

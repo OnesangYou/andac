@@ -37,7 +37,6 @@ class EventDetailActivity : BaseActivity() {
             getEvent(objectId)?.addSnapshotListener { snapshot, _ ->
                 val eventInfo = snapshot?.toObject(EventInfo::class.java)?:return@addSnapshotListener
                 event_title.text = eventInfo.title
-                hospitalNameText.text = eventInfo.sub_title
                 body.text = eventInfo.body
                 deal_kind.text = eventInfo.deal_kind
                 price.setPrice(eventInfo.price)
@@ -45,6 +44,9 @@ class EventDetailActivity : BaseActivity() {
 
                 Glide.with(this@EventDetailActivity).load(eventInfo.pictureUrl).into(mainImage)
                 Glide.with(this@EventDetailActivity).load(eventInfo.detailPictureUrl).into(detailImage)
+
+                // intent 등록
+                intent.putExtra("hospitalId", eventInfo.writerUid)
 
                 // 병원명
                 getHospitalInfo(eventInfo.writerUid)?.addOnSuccessListener { it ->
@@ -154,7 +156,12 @@ class EventDetailActivity : BaseActivity() {
                             getUserEvent(eventId)?.let { set(it, mapOf("createdDate" to FieldValue.serverTimestamp()), SetOptions.merge()) }
                             commit()
                         }
-                                .addOnSuccessListener { toast("이벤트신청이 완료되었습니다.\n내이벤트목록을 확인하세요"); function.invoke() }
+                                .addOnSuccessListener { _ ->
+                                    toast("이벤트신청이 완료되었습니다.\n내이벤트목록을 확인하세요"); function.invoke()
+
+                                    val hospitalId = intent.getStringExtra("hospitalId").also { if(it.isEmpty()) return@addOnSuccessListener }
+                                    addCountEventApplicant(hospitalId)
+                                }
                                 .addOnCompleteListener { hideProgressDialog() }
 
 

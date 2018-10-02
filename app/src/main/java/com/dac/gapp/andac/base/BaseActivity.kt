@@ -711,5 +711,17 @@ abstract class BaseActivity : AppCompatActivity() {
             .getHttpsCallable("addCountHospitalVisitants")
             .call(mapOf("hospitalId" to hospitalId))
 
+    fun addCountCounselors(hospitalId: String): Task<HttpsCallableResult>? = FirebaseFunctions.getInstance()
+            .getHttpsCallable("addCountCounselors")
+            .call(mapOf("hospitalId" to hospitalId))
+
+    fun addCountEventApplicant(hospitalId: String): Task<HttpsCallableResult>? = FirebaseFunctions.getInstance()
+            .getHttpsCallable("addCountEventApplicant")
+            .call(mapOf("hospitalId" to hospitalId))
+
+    fun addCountAdClick(hospitalId: String): Task<HttpsCallableResult>? = FirebaseFunctions.getInstance()
+            .getHttpsCallable("addCountAdClick")
+            .call(mapOf("hospitalId" to hospitalId))
+
 
 }
