@@ -33,8 +33,8 @@ class HospitalColumnListActivity : BaseActivity() {
         setContentView(R.layout.activity_my_column_list)
 
         setActionBarLeftImage(R.drawable.back)
-        setActionBarCenterText("내 컬럼 게시판 보기")
-        setActionBarRightText("컬럼 작성하기")
+        setActionBarCenterText("내 칼럼 게시판 보기")
+        setActionBarRightText("칼럼 작성")
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
         setOnActionBarRightClickListener(View.OnClickListener { startActivityForResult<ColumnWriteActivity>(RequestCode.OBJECT_ADD.value) })
 
