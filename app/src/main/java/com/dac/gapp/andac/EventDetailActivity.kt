@@ -11,6 +11,8 @@ import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.extension.setPrice
 import com.dac.gapp.andac.model.firebase.EventApplyInfo
 import com.dac.gapp.andac.model.firebase.EventInfo
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -35,7 +37,6 @@ class EventDetailActivity : BaseActivity() {
             getEvent(objectId)?.addSnapshotListener { snapshot, _ ->
                 val eventInfo = snapshot?.toObject(EventInfo::class.java)?:return@addSnapshotListener
                 event_title.text = eventInfo.title
-                hospitalNameText.text = eventInfo.sub_title
                 body.text = eventInfo.body
                 deal_kind.text = eventInfo.deal_kind
                 price.setPrice(eventInfo.price)
@@ -43,6 +44,9 @@ class EventDetailActivity : BaseActivity() {
 
                 Glide.with(this@EventDetailActivity).load(eventInfo.pictureUrl).into(mainImage)
                 Glide.with(this@EventDetailActivity).load(eventInfo.detailPictureUrl).into(detailImage)
+
+                // intent 등록
+                intent.putExtra("hospitalId", eventInfo.writerUid)
 
                 // 병원명
                 getHospitalInfo(eventInfo.writerUid)?.addOnSuccessListener { it ->
@@ -59,42 +63,63 @@ class EventDetailActivity : BaseActivity() {
                     }
                 }
 
-                // likeBtn
-                likeBtn.isEnabled = false
-                if(isUser()){
-                    getLikeEvent(objectId)?.get()?.addOnSuccessListener { documentSnapshot ->
-                        likeBtn.isChecked = documentSnapshot.exists()
-                        likeBtn.isEnabled = true
-                        likeBtn.setOnClickListener { _ ->
-                            likeBtn.isEnabled = false
-                            clickEventLikeBtn(objectId, likeBtn.isChecked)
-                                    ?.addOnSuccessListener { likeBtn.isEnabled = true }
-                        }
-                    }
-                }
 
             }?.let { addListenerRegistrations(it) }
 
+            // 로그인
+            if(isLogin()) {
+                checkApplyEvent(objectId)
+                checkLikeEvent(objectId)
 
-            // 내가 신청한 이벤트 인지 알아보기
-            getUserEvent(objectId)?.get()?.addOnSuccessListener { documentSnapshot ->
-
-                // event btn click event
-                event_submit.setOnClickListener {
-                    if(!isUser()) {
-                        toast("유저가 아니면 이벤트 신청이 불가능 합니다")
-                        return@setOnClickListener
+            }
+            // 비로그인
+            else {
+                arrayOf(likeBtn,event_submit).forEach { view ->
+                    view.setOnClickListener {
+                    goToLogin {
+                        checkApplyEvent(objectId)
+                        checkLikeEvent(objectId)
                     }
-                    showEventSubmitDialog(objectId) {visibleEventCancelBtn()}
-                }
-                event_cancel.setOnClickListener { eventCancelDialog(objectId) {visibleEventSubmitBtn()} }
-
-                documentSnapshot.data?.let {
-                    visibleEventCancelBtn()
-                }?: visibleEventSubmitBtn()
+                } }
             }
         }
 
+    }
+
+    // likeBtn
+    private fun checkLikeEvent(objectId: String) {
+        likeBtn.isEnabled = false
+        if (isUser()) {
+            getLikeEvent(objectId)?.get()?.addOnSuccessListener { documentSnapshot ->
+                likeBtn.isChecked = documentSnapshot.exists()
+                likeBtn.isEnabled = true
+                likeBtn.setOnClickListener { _ ->
+                    likeBtn.isEnabled = false
+                    clickEventLikeBtn(objectId, likeBtn.isChecked)
+                            ?.addOnSuccessListener { likeBtn.isEnabled = true }
+                }
+            }
+        }
+    }
+
+    // 내가 신청한 이벤트 인지 알아보기
+    private fun checkApplyEvent(objectId: String): Task<DocumentSnapshot>? {
+        return getUserEvent(objectId)?.get()?.addOnSuccessListener { documentSnapshot ->
+
+            // event btn click event
+            event_submit.setOnClickListener {
+                if (!isUser()) {
+                    toast("유저가 아니면 이벤트 신청이 불가능 합니다")
+                    return@setOnClickListener
+                }
+                showEventSubmitDialog(objectId) { visibleEventCancelBtn() }
+            }
+            event_cancel.setOnClickListener { eventCancelDialog(objectId) { visibleEventSubmitBtn() } }
+
+            documentSnapshot.data?.let {
+                visibleEventCancelBtn()
+            } ?: visibleEventSubmitBtn()
+        }
     }
 
     @SuppressLint("InflateParams")
@@ -131,7 +156,12 @@ class EventDetailActivity : BaseActivity() {
                             getUserEvent(eventId)?.let { set(it, mapOf("createdDate" to FieldValue.serverTimestamp()), SetOptions.merge()) }
                             commit()
                         }
-                                .addOnSuccessListener { toast("이벤트신청이 완료되었습니다.\n내이벤트목록을 확인하세요"); function.invoke() }
+                                .addOnSuccessListener { _ ->
+                                    toast("이벤트신청이 완료되었습니다.\n내이벤트목록을 확인하세요"); function.invoke()
+
+                                    val hospitalId = intent.getStringExtra("hospitalId").also { if(it.isEmpty()) return@addOnSuccessListener }
+                                    addCountEventApplicant(hospitalId)
+                                }
                                 .addOnCompleteListener { hideProgressDialog() }
 
 

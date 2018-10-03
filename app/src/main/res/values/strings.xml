@@ -46,7 +46,7 @@
 
 
     <string name="consult_open_board">오픈형 게시판</string>
-    <string name="consult_seleted_board">내 병원 게시판</string>
+    <string name="consult_seleted_board">지정상담 게시판</string>
     <string name="consulting_board">상담중</string>
     <string name="consulted_board">상담완료</string>
     <string name="string_consulting_board">상담신청 게시판</string>
@@ -106,7 +106,7 @@
     <string name="logout">로그아웃</string>
     <string name="upload">업로드</string>
     <string name="board_upload">게시글 올리기</string>
-    <string name="column_upload">컬럼 올리기</string>
+    <string name="column_upload">칼럼 올리기</string>
     <string name="delete">삭제</string>
     <string name="etc">그외</string>
     <string name="jeju">제주</string>
@@ -126,7 +126,7 @@
     <string name="popular_event">이벤트 기획전</string>
     <string name="more_events">이벤트 더보기</string>
     <string name="string_hospital_dashboard">파트너가\n되어주셔서\n감사드립니다.</string>
-    <string name="column_management">컬럼 관리</string>
+    <string name="column_management">칼럼 관리</string>
     <string name="andac_notice">안닥 공지사항</string>
     <string name="more_notice">공지 더보기</string>
     <string name="search_hospital_banner_ad">5. 병원 찾기 배너 광고</string>

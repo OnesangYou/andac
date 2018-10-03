@@ -30,7 +30,7 @@ class ColumnActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_column)
         setActionBarLeftImage(R.drawable.back)
-        setActionBarCenterText("컬럼 게시판 보기")
+        setActionBarCenterText("칼럼 게시판")
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
         setActionBarRightImage(R.drawable.finder)
         setOnActionBarRightClickListener(View.OnClickListener {

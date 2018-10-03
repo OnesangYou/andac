@@ -50,21 +50,9 @@
                     algolia:attribute='@{"contents"}'
                     algolia:highlighted='@{true}'
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/date"
-                    tools:ignore="MissingConstraints" />
-
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:textSize="13dp"
-                    algolia:attribute='@{"writeDate"}'
-                    algolia:highlighted='@{true}'
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/title_text"
                     tools:ignore="MissingConstraints" />
+
 
             </android.support.constraint.ConstraintLayout>
 

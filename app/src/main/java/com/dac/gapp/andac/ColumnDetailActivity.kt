@@ -17,7 +17,7 @@ class ColumnDetailActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_column_detail)
         setActionBarLeftImage(R.drawable.back)
-        setActionBarCenterText("컬럼 상세보기")
+        setActionBarCenterText("칼럼 상세보기")
         hideActionBarRight()
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
 
@@ -40,7 +40,7 @@ class ColumnDetailActivity : BaseActivity() {
 
             } }?.addOnCompleteListener { hideProgressDialog() }
 
-            // 내가 본 컬럼 추가
+            // 내가 본 칼럼 추가
             addViewedColumn(objectId)
         }
 
@@ -52,7 +52,7 @@ class ColumnDetailActivity : BaseActivity() {
 
         return Tasks.whenAllComplete(
             getViewedColumns()?.document(columnId)?.set(getCreateDate()),
-            getColumnViewedUsers(columnId)?.document(uid)?.set(getCreateDate()) // 컬럼컬렉션에 본 사람 추가
+            getColumnViewedUsers(columnId)?.document(uid)?.set(getCreateDate()) // 칼럼컬렉션에 본 사람 추가
         )
     }
 

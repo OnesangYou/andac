@@ -17,6 +17,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import timber.log.Timber
+import java.util.*
 
 const val EXTRA_HOSPITAL_INFO = "EXTRA_HOSPITAL_INFO"
 
@@ -42,6 +43,10 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         binding.activity = this
 
         hospitalInfo = intent.getSerializableExtra(EXTRA_HOSPITAL_INFO) as HospitalInfo
+
+        // 병원 카운트 증가
+        addCountHospitalVisitants(hospitalInfo.objectID)
+
         prepareUi()
         setupEvents()
     }

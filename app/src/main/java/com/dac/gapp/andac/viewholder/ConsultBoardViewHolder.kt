@@ -71,6 +71,7 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
                                         .addOnSuccessListener {
                                             // TODO : 채팅방 생성
                                             toast("상담 신청 완료하였습니다")
+                                            addCountCounselors(hUid)
                                         }
                             }
                         }
@@ -96,6 +97,7 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
                         .addOnSuccessListener {
                             // TODO : 채팅방 생성
                             toast("상담 신청 완료하였습니다")
+                            addCountCounselors(hUid)
                         }
                         .addOnCompleteListener { hideProgressDialog() }
             }
