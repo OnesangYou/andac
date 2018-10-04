@@ -57,7 +57,7 @@ class SearchHospitalRecyclerViewAdapter(private var context: Context?, private v
                     if (item is HospitalInfo) {
                         holder.thumbnail.loadImageAny(item.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (approval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
                         holder.title.text = item.name
-                        holder.address.text = item.address1
+                        holder.address.text = if(item.address2.isNotEmpty()) item.address2 else item.address1
                         holder.phone.text = item.phone
                         holder.likeCntText.text = item.likeCount.toString()
                         holder.itemView.setOnClickListener {
