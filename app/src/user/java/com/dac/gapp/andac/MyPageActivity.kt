@@ -64,4 +64,9 @@ open class MyPageActivity : BaseMyPageActivity() {
         }?.let { addListenerRegistrations(it) }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+
 }

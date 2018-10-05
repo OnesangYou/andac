@@ -83,7 +83,7 @@ class MyBoardsFragment : BaseFragment() {
                         list.addAll(it.first)
                         map.putAll(it.second)
                         hospitalInfoMap.putAll(it.third)
-                        recyclerView.adapter.notifyDataSetChanged()
+                        recyclerView?.adapter?.notifyDataSetChanged()
                     }
         }
     }
