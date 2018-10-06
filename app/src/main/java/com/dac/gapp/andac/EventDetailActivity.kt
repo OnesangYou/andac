@@ -130,7 +130,6 @@ class EventDetailActivity : BaseActivity() {
             val dialogView = layoutInflater.inflate(R.layout.event_request_dialog, null)
                     // 유저 정보 가져와서 기본값 셋팅
                     .apply {
-                        event_name.setText(userInfo.nickName)
                         event_phone.setText(userInfo.cellPhone)
                     }
 
