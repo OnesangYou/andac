@@ -108,10 +108,11 @@ class JoinInfoFragment : BaseFragment() {
                 return@setOnClickListener
             }
 
-            if(birthEdit.text.isEmpty()) {
-                toast(birthEdit.hint.toString())
-                return@setOnClickListener
-            }
+            // 생년월일 검사 : 에뮬에서 가입이 안된다고 해제
+//            if(birthEdit.text.isEmpty()) {
+//                toast(birthEdit.hint.toString())
+//                return@setOnClickListener
+//            }
 
             (activity as JoinActivity).apply {
                 // 성별
