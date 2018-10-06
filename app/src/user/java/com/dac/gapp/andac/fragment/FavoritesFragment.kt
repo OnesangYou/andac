@@ -12,6 +12,7 @@ import com.dac.gapp.andac.EventDetailActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.BoardRecyclerAdapter
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
+import com.dac.gapp.andac.adapter.SearchHospitalRecyclerViewAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.model.BoardAdapterData
 import com.dac.gapp.andac.model.firebase.BoardInfo
@@ -49,8 +50,28 @@ class FavoritesFragment : BaseFragment() {
             }
         })
 
-        // set recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        // Default Menu
+        setHospitalRecyclerAdapter()
+
+    }
+
+    private fun setHospitalRecyclerAdapter() {
+        context?.apply {
+            val ref = getLikeHospitals() ?: return
+            addListenerRegistrations(ref.orderBy("createdDate").addSnapshotListener { snapshot, _ ->
+                snapshot?:return@addSnapshotListener
+                snapshot.mapNotNull { documentSnapshot -> getHospitalInfo(documentSnapshot.id)?.continueWith { it.result?.apply { objectID = documentSnapshot.id } }}
+                        .let { Tasks.whenAllSuccess<HospitalInfo>(it) }
+                        .addOnSuccessListener { hospitalInfos ->
+                            val mHospitalList = hospitalInfos.map {
+                                it to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_CONTENT
+                            }
+                            recyclerView.removeAllViews()
+                            recyclerView.layoutManager = LinearLayoutManager(this)
+                            recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
+                        }
+            }, true)
+        }
 
     }
 
