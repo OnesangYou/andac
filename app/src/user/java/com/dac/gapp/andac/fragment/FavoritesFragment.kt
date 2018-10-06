@@ -37,7 +37,7 @@ class FavoritesFragment : BaseFragment() {
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when(tab.text){
-                    getString(R.string.hospital) -> {} // 병원
+                    getString(R.string.hospital) -> setHospitalRecyclerAdapter() // 병원
                     getString(R.string.event) -> setEventRecyclerAdapter() // 이벤트
                     getString(R.string.board) -> setBoardRecyclerAdapter()  // 게시물
                 }
