@@ -42,7 +42,8 @@ ext {
                                         "com.google.firebase:firebase-core:$playServicesVersion",
                                         "com.google.firebase:firebase-firestore:$playServicesVersion",
                                         "com.google.firebase:firebase-storage:$playServicesVersion",
-                                        "com.google.firebase:firebase-functions:$playServicesVersion"
+                                        "com.google.firebase:firebase-functions:$playServicesVersion",
+                                        "com.google.firebase:firebase-perf:$playServicesVersion"
             ],
 
             algolia                 : "com.algolia:instantsearch-android:1.7.25",
