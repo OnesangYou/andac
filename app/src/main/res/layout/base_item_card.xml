@@ -106,14 +106,17 @@
 
             <TextView
                 android:id="@+id/contents_text"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="12dp"
                 android:layout_marginBottom="5dp"
+                android:inputType="textMultiLine"
                 android:text="@{boardInfo.contents}"
                 android:textSize="18dp"
                 app:layout_constraintBottom_toTopOf="@id/picture_1"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/hospital_hashtag" />
 
