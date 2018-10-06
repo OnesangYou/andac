@@ -104,34 +104,6 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
 
         }
 
-
-
-//        doAsync {
-//            val db = FirebaseFirestore.getInstance()
-//            val task: Task<DocumentSnapshot> = db
-//                    .collection("chatList")
-//                    .document(hUid)
-//                    .collection("attendants")
-//                    .document(uUid)
-//                    .get()
-//
-//            var documentSnapshot = Tasks.await(task)
-//            var roomId: String?
-//            var chatlistinfo = documentSnapshot.toObject(ChatListInfo::class.java)
-//            roomId = chatlistinfo?.roomId ?: db.collection("chat").document().id.let {
-//                val batch = db.batch()
-//                val firstchatlistinfo = ChatListInfo(it)
-//                batch.set(db.collection("chatList").document(uUid).collection("attendants").document(hUid), firstchatlistinfo)
-//                batch.set(db.collection("chatList").document(hUid).collection("attendants").document(uUid), firstchatlistinfo)
-//                batch.commit().addOnSuccessListener { void ->
-//                    Toast.makeText(context, "채팅방 생성 성공", Toast.LENGTH_SHORT).show()
-//                }
-//                it
-//            }
-//
-//            context?.startActivity(Intent(context, ChatActivity::class.java).putExtra("roomId", roomId).putExtra("uUid", uUid).putExtra("hUid", hUid))
-//
-//        }
     }
 
 }

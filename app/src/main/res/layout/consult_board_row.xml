@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/_13sp"
-            android:text="@{usermodel.user.nickName}"/>
+            android:text="@{holder.isHospital()? usermodel.user.nickName : usermodel.hospital.name }"/>
 
         <TextView
             android:id="@+id/phone"
@@ -40,7 +40,7 @@
             android:layout_weight="2"
             android:gravity="center"
             android:textSize="@dimen/_13sp"
-            android:text="@{usermodel.user.phoneNumber}" />
+            android:text="@{holder.isHospital()? usermodel.user.phoneNumber : usermodel.hospital.phone}" />
 
         <TextView
             android:id="@+id/view_consult"
