@@ -24,6 +24,7 @@ class ColumnWriteActivity : BaseActivity() {
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText(R.string.column_upload)
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
+        hideActionBarRight()
 
         // 수정 시 칼럼 데이터 받아서 초기화
         intent.getStringExtra(OBJECT_KEY)?.let{ key ->
@@ -41,6 +42,7 @@ class ColumnWriteActivity : BaseActivity() {
             setOnActionBarRightClickListener(View.OnClickListener {
                 showDeleteColumnDialog(key)
             })
+            showActionBarRight()
 
         }
 
