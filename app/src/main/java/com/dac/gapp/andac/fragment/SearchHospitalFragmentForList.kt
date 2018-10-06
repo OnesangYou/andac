@@ -115,7 +115,7 @@ class SearchHospitalFragmentForList : BaseFragment() {
                                 .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                     }.addOnSuccessListener { hospitalAdList ->
                         if (hospitalAdList.size > 0) {
-                            mHospitalList.add(0, HeaderInfo(R.drawable.star_full, "울트라 광고") to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_HEADER)
+                            mHospitalList.add(0, HeaderInfo(R.drawable.star_full, "안닥 추천 병원") to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_HEADER)
                             hospitalAdList.forEachIndexed { index, documentSnapshot ->
                                 documentSnapshot.toObject(HospitalInfo::class.java)?.let {
                                     it.objectID = documentSnapshot.id
