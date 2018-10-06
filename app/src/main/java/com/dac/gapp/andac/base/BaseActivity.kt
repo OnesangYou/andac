@@ -516,7 +516,12 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private val listListenerRegistration = mutableListOf<ListenerRegistration>()
-    fun addListenerRegistrations(listener: ListenerRegistration) = listListenerRegistration.add(listener)
+    // isNeedAllClear 가 True면, 이벤트 등록 전 이전에 등록된걸 모두 Clear한다
+    fun addListenerRegistrations(listener: ListenerRegistration, isNeedAllClear : Boolean = false) {
+        if(isNeedAllClear)  clearAllListenerRegistration()
+        listListenerRegistration.add(listener)
+    }
+    fun clearAllListenerRegistration() = listListenerRegistration.forEach { it.remove() }
 
     override fun onDestroy() {
         disposables.clear()
