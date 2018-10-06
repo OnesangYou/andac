@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +36,8 @@ import com.dac.gapp.andac.model.firebase.*
 import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.UiUtil
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -43,6 +46,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.functions.HttpsCallableResult
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.gun0912.tedonactivityresult.TedOnActivityResult
@@ -516,7 +520,12 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private val listListenerRegistration = mutableListOf<ListenerRegistration>()
-    fun addListenerRegistrations(listener: ListenerRegistration) = listListenerRegistration.add(listener)
+    // isNeedAllClear 가 True면, 이벤트 등록 전 이전에 등록된걸 모두 Clear한다
+    fun addListenerRegistrations(listener: ListenerRegistration, isNeedAllClear : Boolean = false) {
+        if(isNeedAllClear)  clearAllListenerRegistration()
+        listListenerRegistration.add(listener)
+    }
+    fun clearAllListenerRegistration() = listListenerRegistration.forEach { it.remove() }
 
     override fun onDestroy() {
         disposables.clear()
@@ -723,5 +732,47 @@ abstract class BaseActivity : AppCompatActivity() {
             .getHttpsCallable("addCountAdClick")
             .call(mapOf("hospitalId" to hospitalId))
 
+    fun checkMarketVersion(function : () -> Unit) {
+        val remoteConfig = FirebaseRemoteConfig.getInstance()
+        val storeVersion = remoteConfig.getLong(if(isHospital()) "latest_hospital_app_version" else "latest_user_app_version")
+        val deviceVersion = BuildConfig.VERSION_CODE
+        Log.d(KBJ, "storeVersion : $storeVersion, deviceVersion : $deviceVersion")
+
+        if (storeVersion > deviceVersion) {
+            // 업데이트 필요
+            alert(title = "업데이트 필요", message = "버전 업데이트를 하시겠습니까?") {
+                positiveButton("업데이트") { _ ->
+                    val appPackageName = packageName
+                    try {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+                        finish()
+
+                    } catch (anfe: android.content.ActivityNotFoundException) {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+                        finish()
+                    }
+
+                }
+                negativeButton("앱 종료") {finish()}
+            }.show()
+
+        } else {
+            // 업데이트 불필요
+            function.invoke()
+        }
+    }
+
+    fun checkGooglePlayServices() {
+        val googleApiAvailability = GoogleApiAvailability.getInstance()
+        val status = googleApiAvailability.isGooglePlayServicesAvailable(this)
+
+        if (status != ConnectionResult.SUCCESS) {
+            val dialog = googleApiAvailability.getErrorDialog(this, status, -1)
+            dialog.setOnDismissListener { _ -> finish() }
+            dialog.show()
+
+            googleApiAvailability.showErrorNotification(this, status)
+        }
+    }
 
 }

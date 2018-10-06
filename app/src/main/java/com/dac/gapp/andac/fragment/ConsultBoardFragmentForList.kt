@@ -84,20 +84,38 @@ class ConsultBoardFragmentForList : BaseFragment() {
                     .whereEqualTo(if(isUser()) "userId" else "hospitalId", uid)
                     .whereEqualTo("status", status)
                     .orderBy("writeDate", Query.Direction.DESCENDING).get().continueWithTask {
-                Tasks.whenAll(
-                        it.result.toObjects(ConsultInfo::class.java).mapNotNull{consultInfo ->
-                            getUserInfo(consultInfo.userId)?.continueWith {
-                                datalist.add(OpenConsultInfo(
-                                        user = it.result,
-                                        createdTime = consultInfo.writeDate,
-                                        uUid = consultInfo.userId,
-                                        hUid = if(isHospital()) uid else consultInfo.hospitalId,
-                                        isOpen = false
-                                ))
-                                binding.recyclerView.adapter.notifyDataSetChanged()
+
+                        val consultInfos =  it.result.toObjects(ConsultInfo::class.java)
+
+                        consultInfos.mapNotNull {consultInfo ->
+                            val openConsultInfo = OpenConsultInfo(
+                                    createdTime = consultInfo.writeDate,
+                                    uUid = consultInfo.userId,
+                                    hUid = if(isHospital()) uid else consultInfo.hospitalId,
+                                    isOpen = false)
+                            Tasks.whenAll(
+                                    getHospitalInfo(consultInfo.hospitalId)?.continueWith { openConsultInfo.hospital = it.result },
+                                    getUserInfo(consultInfo.userId)?.continueWith { openConsultInfo.user = it.result }
+                            )?.continueWith {
+                                datalist.add(openConsultInfo)
+                                binding.recyclerView.adapter?.notifyDataSetChanged()
                             }
-                        }
-                )
+                        }.let { Tasks.whenAll(it) }
+
+//                Tasks.whenAll(
+//                        it.result.toObjects(ConsultInfo::class.java).mapNotNull{consultInfo ->
+//                            getUserInfo(consultInfo.userId)?.continueWith {
+//                                datalist.add(OpenConsultInfo(
+//                                        user = it.result,
+//                                        createdTime = consultInfo.writeDate,
+//                                        uUid = consultInfo.userId,
+//                                        hUid = if(isHospital()) uid else consultInfo.hospitalId,
+//                                        isOpen = false
+//                                ))
+//                                binding.recyclerView.adapter.notifyDataSetChanged()
+//                            }
+//                        }
+//                )
             }
                     .addOnCompleteListener { hideProgressDialog() }
         }

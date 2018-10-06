@@ -21,3 +21,15 @@ fun RecyclerView.addOnItemClickListener(onClickListener: OnItemClickListener) {
         }
     })
 }
+
+fun RecyclerView.removeOnItemClickListener() {
+    this.addOnChildAttachStateChangeListener(object: RecyclerView.OnChildAttachStateChangeListener {
+        override fun onChildViewDetachedFromWindow(view: View?) {
+            view?.setOnClickListener(null)
+        }
+
+        override fun onChildViewAttachedToWindow(view: View?) {
+            view?.setOnClickListener (null)
+        }
+    })
+}

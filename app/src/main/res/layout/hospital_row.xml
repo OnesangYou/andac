@@ -115,8 +115,10 @@
             android:id="@+id/likeCntText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10dp"
+            android:textSize="8dp"
+            android:text="0"
             algolia:attribute='@{"likeCount"}'
+            android:textColor="@color/heart_red"
             app:layout_constraintEnd_toEndOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="@+id/heart_count" />
