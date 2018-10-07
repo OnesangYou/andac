@@ -731,7 +731,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun addCountAdClick(hospitalId: String, type: AdCountType): Task<HttpsCallableResult>? = FirebaseFunctions.getInstance()
             .getHttpsCallable("addCountAdClick")
-            .call(mapOf("hospitalId" to hospitalId, "type" to type))
+            .call(mapOf("hospitalId" to hospitalId, "type" to type.value))
 
     fun checkMarketVersion(function : () -> Unit) {
         val remoteConfig = FirebaseRemoteConfig.getInstance()
