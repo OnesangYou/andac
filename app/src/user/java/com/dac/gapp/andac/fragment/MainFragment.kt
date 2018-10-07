@@ -75,12 +75,7 @@ class MainFragment : BaseFragment() {
             context.setActionBarCenterImage(R.drawable.andac_font)
             context.setActionBarRightImage(R.drawable.bell)
             context.setOnActionBarLeftClickListener(View.OnClickListener {
-                // 로그인 상태 체크
-                if (getCurrentUser() == null) {
-                    goToLogin(true)
-                } else {
-                    startActivity(Intent(context, MyPageActivity::class.java))
-                }
+                context.afterCheckLoginDo { startActivity(Intent(context, MyPageActivity::class.java)) }
             })
             context.setOnActionBarRightClickListener(View.OnClickListener {
                 //                MyToast.showShort(context, "TODO: 알림 설정")
@@ -228,7 +223,7 @@ class MainFragment : BaseFragment() {
                         }
                     }
 
-            binding.btnMyConsultationHistory.setOnClickListener { context.startActivity<ConsultBoardActivity>() }
+            binding.btnMyConsultationHistory.setOnClickListener { context.afterCheckLoginDo{context.startActivity<ConsultBoardActivity>()} }
         }
 
     }
@@ -239,7 +234,6 @@ class MainFragment : BaseFragment() {
         }
 
         binding.btnMyEventHistory.setOnClickListener {
-            //            context?.startActivity<UserEventApplyListActivity>()
             context?.afterCheckLoginDo { context?.startActivity<UserEventApplyListActivity>() }
         }
 

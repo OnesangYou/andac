@@ -112,7 +112,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getCurrentUser(): FirebaseUser? = getAuth()?.currentUser
             .also {
-                it?:goToLogin() // 로그아웃 상태
+//                it?:goToLogin() // 로그아웃 상태
                 if (!isExistPhoneNumber()) goToLogin()
             } // 폰등록 안되 있는 경우는 login 이동
 

@@ -131,6 +131,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(hospitalInfo.getLatLng()))
-        startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen", false).putExtra("hospitalId", hospitalInfo.objectID).putExtra("hospitalName", hospitalInfo.name))
+
+        afterCheckLoginDo { startActivity(Intent(applicationContext, RequestSurgeryActivity::class.java).putExtra("isOpen", false).putExtra("hospitalId", hospitalInfo.objectID).putExtra("hospitalName", hospitalInfo.name)) }
     }
 }
