@@ -54,6 +54,8 @@ class HospitalInfo : Serializable {
     var requestStr: String? = "관리자 승인 요청 중입니다"
     var likeCount : Int = 0
 
+    var isUltraAd : Boolean = false
+
     fun getLatLng(): LatLng {
         return LatLng(_geoloc.lat!!, _geoloc.lng!!)
     }

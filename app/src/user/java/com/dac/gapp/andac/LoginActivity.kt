@@ -7,6 +7,7 @@ import android.os.Bundle
 import com.dac.gapp.andac.base.BaseLoginActivity
 import com.dac.gapp.andac.databinding.ActivityLoginBinding
 import com.dac.gapp.andac.enums.Ad
+import com.dac.gapp.andac.enums.AdCountType
 import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.extension.random
 import com.dac.gapp.andac.model.firebase.AdInfo
@@ -53,7 +54,7 @@ open class LoginActivity : BaseLoginActivity() {
             showProgressDialog()
 
             onCheckNormalUser(binding.emailEdit.text.toString()).continueWithTask {
-                if(!it.result) throw IllegalStateException("유저 회원가입이 안된 Email 입니다")
+                if (!it.result) throw IllegalStateException("유저 회원가입이 안된 Email 입니다")
                 mAuth?.signInWithEmailAndPassword(binding.emailEdit.text.toString(), binding.passwordLoginEdit.text.toString())
             }.addOnSuccessListener {
                 // Sign in success, update UI with the signed-in user's information
@@ -85,8 +86,10 @@ open class LoginActivity : BaseLoginActivity() {
                             adInfoList.add(adInfo)
                         }
                         val index = (0..adInfoList.lastIndex).random()
-                        if (!isFinishing)
+                        if (!isFinishing) {
                             binding.imgviewLoginBannerAd.loadImageAny(adInfoList[index].photoUrl)
+                            binding.imgviewLoginBannerAd.setOnClickListener { addCountAdClick(adInfoList[index].hospitalId, AdCountType.LOGIN) }
+                        }
                     }
                 }
     }

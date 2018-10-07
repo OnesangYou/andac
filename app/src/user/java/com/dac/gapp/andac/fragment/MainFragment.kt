@@ -17,6 +17,7 @@ import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentMainBinding
 import com.dac.gapp.andac.dialog.MainPopupDialog
 import com.dac.gapp.andac.enums.Ad
+import com.dac.gapp.andac.enums.AdCountType
 import com.dac.gapp.andac.enums.Extra
 import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.extension.loadImageAny
@@ -30,6 +31,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import kotlinx.android.synthetic.main.activity_hospital.*
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import java.util.*
@@ -120,7 +122,8 @@ class MainFragment : BaseFragment() {
                                 val dialog = MainPopupDialog(requireContext())
                                 val clickListener = View.OnClickListener {
                                     if (adInfoList[index].eventId.isNotEmpty()) {
-                                        activity?.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfoList[index].eventId)
+                                        context.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfoList[index].eventId)
+                                        context.addCountAdClick(adInfoList[index].hospitalId, AdCountType.POPUP)
                                     }
                                     dialog.dismiss()
                                 }
@@ -158,6 +161,12 @@ class MainFragment : BaseFragment() {
                             }
                             val index = (0..adInfoList.lastIndex).random()
                             binding.imgviewTodaysHospitalAd.loadImageAny(adInfoList[index].photoUrl)
+                            binding.imgviewTodaysHospitalAd.setOnClickListener {
+                                context.getHospitalInfo(adInfoList[index].hospitalId)?.addOnSuccessListener { hospitalInfo ->
+                                    context.startActivity<HospitalActivity>(EXTRA_HOSPITAL_INFO to hospitalInfo)
+                                    context.addCountAdClick(adInfoList[index].hospitalId, AdCountType.TODAY_HOSPITAL)
+                                }
+                            }
                         }
                     }
 
@@ -257,34 +266,34 @@ class MainFragment : BaseFragment() {
             activity.getColumns()
                     .whereEqualTo("approval", true) // 승인된 칼럼만 보임
                     .orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
-                querySnapshot
-                        ?.let { it -> it.map { activity.getColumn(it.id)?.get() } }
-                        .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-                        .onSuccessTask { it ->
-                            val columnInfos = it?.filterNotNull()?.map { it.toObject(ColumnInfo::class.java)!! }
-                            columnInfos?.groupBy { it.writerUid }
-                                    ?.map { activity.getHospital(it.key).get() }
-                                    .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-                                    .addOnSuccessListener { mutableList ->
-                                        mutableList
-                                                .filterNotNull()
-                                                .map { it.id to it.toObject(HospitalInfo::class.java) }
-                                                .toMap().also { hospitalInfoMap ->
-                                                    binding.recyclerviewColumn.apply {
-                                                        swapAdapter(ColumnRecyclerAdapter(activity, columnInfos!!, hospitalInfoMap), false)
-                                                        adapter.notifyDataSetChanged()
-                                                        addOnItemClickListener(object : OnItemClickListener {
-                                                            override fun onItemClicked(position: Int, view: View) {
-                                                                // 디테일
-                                                                activity.startActivity<ColumnDetailActivity>(Extra.OBJECT_KEY.name to columnInfos[position].objectId)
+                        querySnapshot
+                                ?.let { it -> it.map { activity.getColumn(it.id)?.get() } }
+                                .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
+                                .onSuccessTask { it ->
+                                    val columnInfos = it?.filterNotNull()?.map { it.toObject(ColumnInfo::class.java)!! }
+                                    columnInfos?.groupBy { it.writerUid }
+                                            ?.map { activity.getHospital(it.key).get() }
+                                            .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
+                                            .addOnSuccessListener { mutableList ->
+                                                mutableList
+                                                        .filterNotNull()
+                                                        .map { it.id to it.toObject(HospitalInfo::class.java) }
+                                                        .toMap().also { hospitalInfoMap ->
+                                                            binding.recyclerviewColumn.apply {
+                                                                swapAdapter(ColumnRecyclerAdapter(activity, columnInfos!!, hospitalInfoMap), false)
+                                                                adapter.notifyDataSetChanged()
+                                                                addOnItemClickListener(object : OnItemClickListener {
+                                                                    override fun onItemClicked(position: Int, view: View) {
+                                                                        // 디테일
+                                                                        activity.startActivity<ColumnDetailActivity>(Extra.OBJECT_KEY.name to columnInfos[position].objectId)
+                                                                    }
+                                                                })
                                                             }
-                                                        })
-                                                    }
-                                                }
-                                    }
-                        }
-                        .addOnCompleteListener { activity.hideProgressDialog() }
-            }
+                                                        }
+                                            }
+                                }
+                                .addOnCompleteListener { activity.hideProgressDialog() }
+                    }
         }
     }
 

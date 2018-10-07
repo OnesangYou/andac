@@ -9,6 +9,7 @@ import com.algolia.search.saas.Client
 import com.algolia.search.saas.Query
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.SearchHospitalRecyclerViewAdapter
+import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.enums.Ad
 import com.dac.gapp.andac.enums.Algolia
@@ -53,7 +54,7 @@ class SearchHospitalFragmentForList : BaseFragment() {
         if (isEtc()) {
             if (isEtcEnd) {
                 recyclerView?.apply {
-                    adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
+                    adapter = SearchHospitalRecyclerViewAdapter(context as BaseActivity, mHospitalList)
                 }
             } else {
                 for (etc in etcList) {
@@ -65,7 +66,7 @@ class SearchHospitalFragmentForList : BaseFragment() {
         } else {
             if (mHospitalList.size > 0) {
                 recyclerView?.apply {
-                    adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
+                    adapter = SearchHospitalRecyclerViewAdapter(context as BaseActivity, mHospitalList)
                 }
             } else {
                 loadHospitals(title)
@@ -119,6 +120,7 @@ class SearchHospitalFragmentForList : BaseFragment() {
                             hospitalAdList.forEachIndexed { index, documentSnapshot ->
                                 documentSnapshot.toObject(HospitalInfo::class.java)?.let {
                                     it.objectID = documentSnapshot.id
+                                    it.isUltraAd = true
                                     mHospitalList.add(index + 1, it to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_CONTENT)
                                 }
                             }

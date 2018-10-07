@@ -189,7 +189,7 @@ class HospitalAdApplicationFragment : BaseFragment() {
             getUid()?.let { uid ->
                 getDb().collection(mAd.collectionName).document(uid)
                         .set(
-                                AdInfo(photoUrl, false, Date(), Date(), eventObjectId ?: ""),
+                                AdInfo(uid, photoUrl, false, Date(), Date(), eventObjectId ?: ""),
                                 SetOptions.merge()
                         )
             }
