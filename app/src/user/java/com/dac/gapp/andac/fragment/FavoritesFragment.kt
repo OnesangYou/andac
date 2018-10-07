@@ -14,6 +14,7 @@ import com.dac.gapp.andac.adapter.BoardRecyclerAdapter
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.adapter.SearchHospitalRecyclerViewAdapter
 import com.dac.gapp.andac.base.BaseFragment
+import com.dac.gapp.andac.databinding.FragmentFavoritesBinding
 import com.dac.gapp.andac.model.BoardAdapterData
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.EventInfo
@@ -25,19 +26,20 @@ import kotlinx.android.synthetic.user.fragment_favorites.*
 
 
 class FavoritesFragment : BaseFragment() {
+    private lateinit var binding : FragmentFavoritesBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false)
+        return inflate(inflater, R.layout.fragment_favorites, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        binding = getBinding()
 
         // set tabLayout click listener
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when(tab.text){
-                    getString(R.string.hospital) -> {} // 병원
+                    getString(R.string.hospital) -> setHospitalRecyclerAdapter() // 병원
                     getString(R.string.event) -> setEventRecyclerAdapter() // 이벤트
                     getString(R.string.board) -> setBoardRecyclerAdapter()  // 게시물
                 }
@@ -66,9 +68,9 @@ class FavoritesFragment : BaseFragment() {
                             val mHospitalList = hospitalInfos.map {
                                 it to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_CONTENT
                             }
-                            recyclerView.removeAllViews()
-                            recyclerView.layoutManager = LinearLayoutManager(this)
-                            recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
+                            binding.recyclerView.removeAllViews()
+                            binding.recyclerView.layoutManager = LinearLayoutManager(this)
+                            binding.recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
                         }
             }, true)
         }
@@ -145,9 +147,9 @@ class FavoritesFragment : BaseFragment() {
                             )
                         }
                         .addOnSuccessListener {
-                            recyclerView.removeAllViews()
-                            recyclerView.layoutManager = LinearLayoutManager(this@apply)
-                            recyclerView.adapter = BoardRecyclerAdapter(this@apply, it.boardInfos, it.userInfoMap, it.hospitalInfoMap, it.likeSet){boardInfo, userInfo ->
+                            binding.recyclerView.removeAllViews()
+                            binding.recyclerView.layoutManager = LinearLayoutManager(this@apply)
+                            binding.recyclerView.adapter = BoardRecyclerAdapter(this@apply, it.boardInfos, it.userInfoMap, it.hospitalInfoMap, it.likeSet){boardInfo, userInfo ->
                                 startActivity(Intent(this@apply, BoardDetailActivity::class.java).putExtra(this@apply.OBJECT_KEY, boardInfo.objectId))
                             }
                         }
