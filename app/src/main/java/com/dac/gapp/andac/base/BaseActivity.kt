@@ -30,6 +30,7 @@ import com.dac.gapp.andac.BuildConfig
 import com.dac.gapp.andac.LoginActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SplashActivity
+import com.dac.gapp.andac.enums.AdCountType
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.ActivityResultEvent
 import com.dac.gapp.andac.model.firebase.*
@@ -728,9 +729,9 @@ abstract class BaseActivity : AppCompatActivity() {
             .getHttpsCallable("addCountEventApplicant")
             .call(mapOf("hospitalId" to hospitalId))
 
-    fun addCountAdClick(hospitalId: String): Task<HttpsCallableResult>? = FirebaseFunctions.getInstance()
+    fun addCountAdClick(hospitalId: String, type: AdCountType): Task<HttpsCallableResult>? = FirebaseFunctions.getInstance()
             .getHttpsCallable("addCountAdClick")
-            .call(mapOf("hospitalId" to hospitalId))
+            .call(mapOf("hospitalId" to hospitalId, "type" to type))
 
     fun checkMarketVersion(function : () -> Unit) {
         val remoteConfig = FirebaseRemoteConfig.getInstance()
