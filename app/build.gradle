@@ -20,7 +20,7 @@ android {
     dataBinding.enabled true
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.dac.gapp.andac"
+        applicationId "com.dac.gapp"
         minSdkVersion 19
         //noinspection OldTargetApi
         targetSdkVersion 26
@@ -54,7 +54,7 @@ android {
     productFlavors {
         user {
             dimension "target"
-            applicationIdSuffix ".user"
+            applicationIdSuffix ".andac.user"
             manifestPlaceholders = [appLabel: "안닥"]
             buildConfigField 'boolean', 'IS_USER', "true"
             versionCode new Date().format('yyMMddHHmm').toInteger()
@@ -62,7 +62,7 @@ android {
 
         hospital {
             dimension "target"
-            applicationIdSuffix ".hospital"
+            applicationIdSuffix ".andac.hospital"
             manifestPlaceholders = [appLabel: "안닥파트너스"]
             buildConfigField 'boolean', 'IS_USER', "false"
             versionCode new Date().format('yyMMddHHmm').toInteger()
