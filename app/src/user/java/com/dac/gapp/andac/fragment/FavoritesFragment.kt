@@ -13,6 +13,7 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.BoardRecyclerAdapter
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.adapter.SearchHospitalRecyclerViewAdapter
+import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentFavoritesBinding
 import com.dac.gapp.andac.model.BoardAdapterData
@@ -70,7 +71,7 @@ class FavoritesFragment : BaseFragment() {
                             }
                             binding.recyclerView.removeAllViews()
                             binding.recyclerView.layoutManager = LinearLayoutManager(this)
-                            binding.recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
+                            binding.recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context as BaseActivity, mHospitalList)
                         }
             }, true)
         }
