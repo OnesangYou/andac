@@ -2,7 +2,9 @@ package com.dac.gapp.andac.base
 
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
+import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,5 +36,10 @@ open class BaseFragment : Fragment() {
     @Suppress("UNCHECKED_CAST")
     fun <T : ViewDataBinding> getBinding(): T {
         return viewDataBinding as T
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.let { context?.getAnalytics()?.setCurrentScreen(it, javaClass.simpleName, javaClass.simpleName) }
     }
 }
