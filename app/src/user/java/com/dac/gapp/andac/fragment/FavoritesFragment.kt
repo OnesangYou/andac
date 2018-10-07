@@ -68,9 +68,9 @@ class FavoritesFragment : BaseFragment() {
                             val mHospitalList = hospitalInfos.map {
                                 it to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_CONTENT
                             }
-                            recyclerView.removeAllViews()
-                            recyclerView.layoutManager = LinearLayoutManager(this)
-                            recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
+                            binding.recyclerView.removeAllViews()
+                            binding.recyclerView.layoutManager = LinearLayoutManager(this)
+                            binding.recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
                         }
             }, true)
         }
@@ -147,9 +147,9 @@ class FavoritesFragment : BaseFragment() {
                             )
                         }
                         .addOnSuccessListener {
-                            recyclerView.removeAllViews()
-                            recyclerView.layoutManager = LinearLayoutManager(this@apply)
-                            recyclerView.adapter = BoardRecyclerAdapter(this@apply, it.boardInfos, it.userInfoMap, it.hospitalInfoMap, it.likeSet){boardInfo, userInfo ->
+                            binding.recyclerView.removeAllViews()
+                            binding.recyclerView.layoutManager = LinearLayoutManager(this@apply)
+                            binding.recyclerView.adapter = BoardRecyclerAdapter(this@apply, it.boardInfos, it.userInfoMap, it.hospitalInfoMap, it.likeSet){boardInfo, userInfo ->
                                 startActivity(Intent(this@apply, BoardDetailActivity::class.java).putExtra(this@apply.OBJECT_KEY, boardInfo.objectId))
                             }
                         }
