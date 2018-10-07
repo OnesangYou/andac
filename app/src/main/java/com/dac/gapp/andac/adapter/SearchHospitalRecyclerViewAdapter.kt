@@ -9,11 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.dac.gapp.andac.HospitalActivity
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.enums.AdCountType
 import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.model.HeaderInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 
-class SearchHospitalRecyclerViewAdapter(private var context: Context?, private var itemList: List<Pair<Any, Int>>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SearchHospitalRecyclerViewAdapter(private var context: BaseActivity, private var itemList: List<Pair<Any, Int>>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val VIEW_TYPE_HEADER = 0
@@ -61,7 +63,10 @@ class SearchHospitalRecyclerViewAdapter(private var context: Context?, private v
                         holder.phone.text = item.phone
                         holder.likeCntText.text = item.likeCount.toString()
                         holder.itemView.setOnClickListener {
-                            context!!.startActivity(HospitalActivity.createIntent(context!!, item))
+                            if (item.isUltraAd) {
+                                context.addCountAdClick(item.objectID, AdCountType.ULTRA_HOSPITAL)
+                            }
+                            context.startActivity(HospitalActivity.createIntent(context!!, item))
                         }
                     }
                 }

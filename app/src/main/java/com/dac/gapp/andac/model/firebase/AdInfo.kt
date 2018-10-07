@@ -8,6 +8,7 @@ import java.util.*
  * Created by Administrator on 2018-04-13.
  */
 data class AdInfo(
+        var hospitalId: String = "",
         var photoUrl: String = "",
         var showingUp: Boolean = false,
         @ServerTimestamp var startDate: Date? = null,
