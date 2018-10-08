@@ -67,19 +67,23 @@ class BoardRecyclerAdapter(
 
             // 좋아요 클릭
             button_like.isEnabled = context.isUser()  // 유저만 사용 가능
-            if (context.isLogin()) {
-                button_like.isChecked = likeSet.contains(boardInfo.objectId)
-                button_like.setOnClickListener {view->
+            if (context.isLogin()) button_like.isChecked = likeSet.contains(boardInfo.objectId) // 좋아요 여부 출력
+            button_like.setOnClickListener { view ->
+                if (context.isLogin()) {
                     view.isEnabled = false
                     context.clickBoardLikeBtn(boardInfo.objectId, button_like.isChecked)?.addOnCompleteListener { view.isEnabled = true }
 
                     boardInfo.likeCount += if (button_like.isChecked) 1 else -1
                     likeText.likeCnt(boardInfo.likeCount)
-                }
-            } else {
-                button_like.setOnClickListener {
-                    context.goToLogin()
+                } else {
                     button_like.isChecked = false
+                    context.goToLogin{
+                        // Refresh Like Set
+                        context.getUserLikeBoards()?.get()?.addOnSuccessListener { snapshot ->
+                            likeSet = snapshot.mapNotNull { it.id }.toHashSet()
+                            notifyDataSetChanged()
+                        }
+                    }
                 }
             }
 
