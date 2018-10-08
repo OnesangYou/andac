@@ -49,7 +49,7 @@ android {
             buildConfigField 'String', 'ALGOLIA_APP_ID', "\"H9Q32H274M\""
             buildConfigField 'String', 'ALGOLIA_SEARCH_API_KEY', "\"96c3b64fabaf0a7bdeca95fd7788ace3\""
 //            signingConfig signingConfigs.config
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false // Proguard on/off
