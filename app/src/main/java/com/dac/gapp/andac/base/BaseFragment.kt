@@ -38,8 +38,9 @@ open class BaseFragment : Fragment() {
         return viewDataBinding as T
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         activity?.let { context?.getAnalytics()?.setCurrentScreen(it, javaClass.simpleName, javaClass.simpleName) }
+
     }
 }

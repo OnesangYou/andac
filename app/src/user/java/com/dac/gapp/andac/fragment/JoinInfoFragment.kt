@@ -83,7 +83,7 @@ class JoinInfoFragment : BaseFragment() {
                     context,
                     DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                         Calendar.getInstance().apply {set(year,month,dayOfMonth)}.let{Date(it.timeInMillis)}.let {
-                            birthEdit.setText(it.getDateFormat("YYMMdd"))
+                            birthEdit.setText(it.getDateFormat("yyMMdd"))
                             (activity as JoinActivity).mUserInfo.birthDate = it
                         }
                     },

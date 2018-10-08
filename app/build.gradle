@@ -33,6 +33,14 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
+    signingConfigs {
+        release {
+            storeFile file("..\\keystore\\release_key2.jks")
+            storePassword '1q2w3e'
+            keyAlias 'release_key2'
+            keyPassword '1q2w3e'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false // Proguard on/off
@@ -41,6 +49,7 @@ android {
             buildConfigField 'String', 'ALGOLIA_APP_ID', "\"H9Q32H274M\""
             buildConfigField 'String', 'ALGOLIA_SEARCH_API_KEY', "\"96c3b64fabaf0a7bdeca95fd7788ace3\""
 //            signingConfig signingConfigs.config
+            signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false // Proguard on/off
@@ -110,7 +119,6 @@ dependencies {
     implementation 'gun0912.ted:tedonactivityresult-rx2:1.0.6'
     implementation 'com.google.code.gson:gson:2.8.5'
     kapt "com.android.databinding:compiler:3.1.4"
-
     // Add dependency
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
 }

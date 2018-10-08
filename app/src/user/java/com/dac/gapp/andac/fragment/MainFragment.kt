@@ -75,12 +75,7 @@ class MainFragment : BaseFragment() {
             context.setActionBarCenterImage(R.drawable.andac_font)
             context.setActionBarRightImage(R.drawable.bell)
             context.setOnActionBarLeftClickListener(View.OnClickListener {
-                // 로그인 상태 체크
-                if (getCurrentUser() == null) {
-                    goToLogin(true)
-                } else {
-                    startActivity(Intent(context, MyPageActivity::class.java))
-                }
+                context.afterCheckLoginDo { startActivity(Intent(context, MyPageActivity::class.java)) }
             })
             context.setOnActionBarRightClickListener(View.OnClickListener {
                 //                MyToast.showShort(context, "TODO: 알림 설정")
@@ -162,9 +157,11 @@ class MainFragment : BaseFragment() {
                             val index = (0..adInfoList.lastIndex).random()
                             binding.imgviewTodaysHospitalAd.loadImageAny(adInfoList[index].photoUrl)
                             binding.imgviewTodaysHospitalAd.setOnClickListener {
-                                context.getHospitalInfo(adInfoList[index].hospitalId)?.addOnSuccessListener { hospitalInfo ->
-                                    context.startActivity<HospitalActivity>(EXTRA_HOSPITAL_INFO to hospitalInfo)
-                                    context.addCountAdClick(adInfoList[index].hospitalId, AdCountType.TODAY_HOSPITAL)
+                                adInfoList[index].hospitalId.let { hospitalId ->
+                                    context.getHospitalInfo(hospitalId)?.addOnSuccessListener { hospitalInfo ->
+                                        context.startActivity<HospitalActivity>(EXTRA_HOSPITAL_INFO to hospitalInfo?.apply { objectID = hospitalId })
+                                        context.addCountAdClick(adInfoList[index].hospitalId, AdCountType.TODAY_HOSPITAL)
+                                    }
                                 }
                             }
                         }
@@ -228,7 +225,7 @@ class MainFragment : BaseFragment() {
                         }
                     }
 
-            binding.btnMyConsultationHistory.setOnClickListener { context.startActivity<ConsultBoardActivity>() }
+            binding.btnMyConsultationHistory.setOnClickListener { context.afterCheckLoginDo { context.startActivity<ConsultBoardActivity>() } }
         }
 
     }
@@ -239,7 +236,6 @@ class MainFragment : BaseFragment() {
         }
 
         binding.btnMyEventHistory.setOnClickListener {
-            //            context?.startActivity<UserEventApplyListActivity>()
             context?.afterCheckLoginDo { context?.startActivity<UserEventApplyListActivity>() }
         }
 
