@@ -157,9 +157,11 @@ class MainFragment : BaseFragment() {
                             val index = (0..adInfoList.lastIndex).random()
                             binding.imgviewTodaysHospitalAd.loadImageAny(adInfoList[index].photoUrl)
                             binding.imgviewTodaysHospitalAd.setOnClickListener {
-                                context.getHospitalInfo(adInfoList[index].hospitalId)?.addOnSuccessListener { hospitalInfo ->
-                                    context.startActivity<HospitalActivity>(EXTRA_HOSPITAL_INFO to hospitalInfo)
-                                    context.addCountAdClick(adInfoList[index].hospitalId, AdCountType.TODAY_HOSPITAL)
+                                adInfoList[index].hospitalId.let { hospitalId ->
+                                    context.getHospitalInfo(hospitalId)?.addOnSuccessListener { hospitalInfo ->
+                                        context.startActivity<HospitalActivity>(EXTRA_HOSPITAL_INFO to hospitalInfo?.apply { objectID = hospitalId })
+                                        context.addCountAdClick(adInfoList[index].hospitalId, AdCountType.TODAY_HOSPITAL)
+                                    }
                                 }
                             }
                         }
@@ -223,7 +225,7 @@ class MainFragment : BaseFragment() {
                         }
                     }
 
-            binding.btnMyConsultationHistory.setOnClickListener { context.afterCheckLoginDo{context.startActivity<ConsultBoardActivity>()} }
+            binding.btnMyConsultationHistory.setOnClickListener { context.afterCheckLoginDo { context.startActivity<ConsultBoardActivity>() } }
         }
 
     }
