@@ -80,84 +80,103 @@ class BoardDetailActivity : BaseActivity() {
             }?.let { addListenerRegistrations(it) }
             // 비로그인
             if(!isLogin()){
-                arrayListOf(replyEditView, replySubmit, userProfileImage).forEach { it.visibility = View.GONE }
+                arrayOf(replyEditView, replySubmit, userProfileImage).forEach { it.visibility = View.GONE }
+
+                arrayOf(button_like, button_writting).forEach { button ->
+                    button.setOnClickListener { _ ->
+                        button_like.isChecked = false
+                        goToLogin {
+                            arrayOf(replyEditView, replySubmit, userProfileImage).forEach { it.visibility = View.VISIBLE }
+                            setLoginUserView(boardKey)
+                            button_writting.setOnClickListener(null)    // 댓글달기 클릭 이벤트 제거
+                        }
+                    }
+                }
             }
             // 로그인
             else {
-                // 댓글 프사
-                if(isUser()) getUserInfo()?.continueWith { it.result.profilePicUrl }
-                else getHospitalInfo()?.continueWith { it.result?.profilePicUrl }
-                        ?.continueWith {
-                            val url = it.result?:return@continueWith
-                            userProfileImage.loadImage(url)
-                        }
-
-                // 댓글 글자 변경 리스너
-                replyEditView.addTextChangedListener(object : TextWatcher {
-                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                        // 입력되는 텍스트에 변화가 있을 때
-                        replySubmit.isEnabled = count>0
-                    }
-                    override fun afterTextChanged(arg0: Editable) {}
-                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-                })
-
-                // 댓글 달기
-                replySubmit.setOnClickListener { _ ->
-                    val reference = getReplies(boardKey)?.document()?:return@setOnClickListener
-                    showProgressDialog()
-                    reference.set(ReplyInfo(
-                            writerUid = getUid()?:return@setOnClickListener,
-                            contents = replyEditView.text.toString(),
-                            objectId = reference.id,
-                            boardId = boardKey,
-                            writerType = if (isUser()) "user" else "hospital"
-                    ))
-                            .onSuccessTask { _ ->
-                                // 댓글 카운트 추가
-                                addReplyCount(boardKey)
-                            }
-                            .addOnSuccessListener {
-                                toast("댓글 추가 완료")
-                                hideSoftKeyboard()
-                                replyEditView.text.clear()
-                            }
-                            .addOnCompleteListener { hideProgressDialog() }
-
-                }
-
-                // like 버튼
-                button_like.isEnabled = false
-                getUserLikeBoard(boardKey)?.get()?.addOnSuccessListener { snapshot ->
-                    button_like.isChecked = snapshot.exists()
-                    button_like.isEnabled = true
-                    button_like.setOnClickListener { view ->
-                        view.isEnabled = false
-                        clickBoardLikeBtn(boardKey,button_like.isChecked)?.addOnCompleteListener { view.isEnabled = true }
-                    }
-                }
-
+                setLoginUserView(boardKey)
             }
 
             // 댓글 리스트 출력
-            getReplies(boardKey)?.orderBy("writeDate", Query.Direction.DESCENDING)?.addSnapshotListener { querySnapshot, _ ->
-                querySnapshot?.toObjects(ReplyInfo::class.java).also{ mutableList ->
-                    Tasks.whenAllSuccess<Pair<String, SomebodyInfo>>(
-                            mutableList?.filter{ it.writerType == "user" }?.mapNotNull { replyInfo ->
-                                getUserInfo(replyInfo.writerUid)?.continueWith { replyInfo.writerUid to SomebodyInfo(it.result.profilePicUrl, it.result.nickName, amIWriter(replyInfo)) }
-                            }?.plus(mutableList.filter{ it.writerType == "hospital" }.mapNotNull { replyInfo ->
-                                getHospitalInfo(replyInfo.writerUid)?.continueWith { replyInfo.writerUid to SomebodyInfo(it.result?.profilePicUrl!!, it.result?.name!!, amIWriter(replyInfo)) }
-                            })
-                    ).addOnSuccessListener { list ->
-                        val map = list.toMap()
-                        recyclerView.layoutManager = LinearLayoutManager(this@BoardDetailActivity)
-                        recyclerView.adapter = mutableList?.let { it1 -> ReplyRecyclerAdapter(this@BoardDetailActivity, it1, map)}
-                    }
-                }
-            }?.let { addListenerRegistrations(it) }
+            setReplyList(boardKey)
 
         }
 
+    }
+
+    private fun setReplyList(boardKey: String) =
+        getReplies(boardKey)?.orderBy("writeDate", Query.Direction.DESCENDING)?.addSnapshotListener { querySnapshot, _ ->
+            querySnapshot?.toObjects(ReplyInfo::class.java).also { mutableList ->
+                Tasks.whenAllSuccess<Pair<String, SomebodyInfo>>(
+                        mutableList?.asSequence()?.filter { it.writerType == "user" }?.mapNotNull { replyInfo ->
+                            getUserInfo(replyInfo.writerUid)?.continueWith { replyInfo.writerUid to SomebodyInfo(it.result.profilePicUrl, it.result.nickName, amIWriter(replyInfo)) }
+                        }?.plus(mutableList.asSequence().filter { it.writerType == "hospital" }.mapNotNull { replyInfo ->
+                            getHospitalInfo(replyInfo.writerUid)?.continueWith { replyInfo.writerUid to SomebodyInfo(it.result?.profilePicUrl!!, it.result?.name!!, amIWriter(replyInfo)) }
+                        }.toList())?.toList()
+                ).addOnSuccessListener { list ->
+                    val map = list.toMap()
+                    recyclerView.layoutManager = LinearLayoutManager(this@BoardDetailActivity)
+                    recyclerView.adapter = mutableList?.let { it1 -> ReplyRecyclerAdapter(this@BoardDetailActivity, it1, map) }
+                }
+            }
+        }?.also { addListenerRegistrations(it) }
+
+
+    private fun setLoginUserView(boardKey: String) {
+        // 댓글 프사
+        if (isUser()) getUserInfo()?.continueWith { it.result.profilePicUrl }
+        else getHospitalInfo()?.continueWith { it.result?.profilePicUrl }
+                ?.continueWith {
+                    val url = it.result ?: return@continueWith
+                    userProfileImage.loadImage(url)
+                }
+
+        // 댓글 글자 변경 리스너
+        replyEditView.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                // 입력되는 텍스트에 변화가 있을 때
+                replySubmit.isEnabled = count > 0
+            }
+
+            override fun afterTextChanged(arg0: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        })
+
+        // 댓글 달기
+        replySubmit.setOnClickListener { _ ->
+            val reference = getReplies(boardKey)?.document() ?: return@setOnClickListener
+            showProgressDialog()
+            reference.set(ReplyInfo(
+                    writerUid = getUid() ?: return@setOnClickListener,
+                    contents = replyEditView.text.toString(),
+                    objectId = reference.id,
+                    boardId = boardKey,
+                    writerType = if (isUser()) "user" else "hospital"
+            ))
+                    .onSuccessTask { _ ->
+                        // 댓글 카운트 추가
+                        addReplyCount(boardKey)
+                    }
+                    .addOnSuccessListener {
+                        toast("댓글 추가 완료")
+                        hideSoftKeyboard()
+                        replyEditView.text.clear()
+                    }
+                    .addOnCompleteListener { hideProgressDialog() }
+
+        }
+
+        // like 버튼
+        button_like.isEnabled = false
+        getUserLikeBoard(boardKey)?.get()?.addOnSuccessListener { snapshot ->
+            button_like.isChecked = snapshot.exists()
+            button_like.isEnabled = true
+            button_like.setOnClickListener { view ->
+                view.isEnabled = false
+                clickBoardLikeBtn(boardKey, button_like.isChecked)?.addOnCompleteListener { view.isEnabled = true }
+            }
+        }
     }
 
     private fun amIWriter(replyInfo: ReplyInfo) =
