@@ -55,9 +55,7 @@ class BoardFragment : BaseFragment() {
             if (isUser()) binding.fabWriteBoard.setOnClickListener { _ ->
                 getCurrentUser()?.let {
                     activity?.startActivityForResult(Intent(context, BoardWriteActivity::class.java), RequestCode.OBJECT_ADD.value)
-//                    startActivity(Intent(context, BoardWriteActivity::class.java))
-                }
-                        ?: goToLogin()
+                }?: goToLogin()
             }
             else {
                 binding.fabWriteBoard.visibility = View.INVISIBLE
@@ -70,7 +68,6 @@ class BoardFragment : BaseFragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.swapAdapter((BoardRecyclerAdapter(context, list, map, hospitalInfoMap, likeSet) { boardInfo, _ ->
             // 로그인 상태 체크
-//            getCurrentUser() ?: return@BoardRecyclerAdapter goToLogin(true)
             context?.startActivity(Intent(context, BoardDetailActivity::class.java).putExtra(context?.OBJECT_KEY, boardInfo.objectId))
         }), false)
 

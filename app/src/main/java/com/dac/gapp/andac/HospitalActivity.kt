@@ -5,17 +5,30 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import com.dac.gapp.andac.adapter.BoardListRecyclerViewAdapter
+import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.adapter.HospitalActivityPagerAdapter
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.databinding.ActivityHospitalBinding
+import com.dac.gapp.andac.enums.Extra
+import com.dac.gapp.andac.model.firebase.BoardInfo
+import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.util.OnItemClickListener
+import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
+import org.jetbrains.anko.startActivity
 import timber.log.Timber
 import java.util.*
 
@@ -48,7 +61,99 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
         addCountHospitalVisitants(hospitalInfo.objectID)
 
         prepareUi()
-        setupEvents()
+        setupToolbarItemClickEvents()
+
+        setBoards()
+        setEvents()
+
+        binding.txtviewHospitalCommentMore.setOnClickListener { startActivity<ReviewBoardListActivity>(Extra.OBJECT_KEY.name to hospitalInfo.objectID) }
+    }
+
+    private fun setEvents() {
+        fun getTripleDataTask(query: Query): Task<Pair<List<EventInfo>, Map<String, HospitalInfo>>>? {
+            return this.run {
+                var infos: List<EventInfo> = listOf()
+                query.get()
+                        .continueWith { it ->
+                            it.result.toObjects(EventInfo::class.java)
+                        }.continueWithTask { it ->
+                            infos = it.result
+                            infos.groupBy { it.writerUid }
+                                    .filter { !it.key.isEmpty() }
+                                    .mapNotNull { getHospital(it.key).get() }
+                                    .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
+                        }.continueWith { it ->
+                            Pair(infos, it.result.filterNotNull()
+                                    .map { it.id to it.toObject(HospitalInfo::class.java)!! }
+                                    .toMap())
+                        }
+            }
+        }
+
+        getTripleDataTask(
+                getEvents()
+                        .whereEqualTo("writerUid", hospitalInfo.objectID)
+                        .orderBy("likeCount", Query.Direction.DESCENDING)
+                        .limit(5)   // 페이지 단위 페이지 갯수
+        )
+                ?.addOnSuccessListener {
+                    val list = it.first
+                    val map = it.second
+                    binding.recyclerViewHospitalEvent.apply {
+                        layoutManager = object : LinearLayoutManager(context) {
+                            override fun canScrollVertically(): Boolean {
+                                return false
+                            }
+                        }
+                        swapAdapter(EventRecyclerAdapter(this@HospitalActivity, list, map), false)
+
+                        addOnItemClickListener(object : OnItemClickListener {
+                            override fun onItemClicked(position: Int, view: View) {
+                                // 디테일 뷰
+                                startActivity(Intent(context, EventDetailActivity::class.java).putExtra(OBJECT_KEY, list[position].objectId))
+                            }
+                        })
+                        adapter.notifyDataSetChanged()
+                    }
+                }?.addOnFailureListener{
+                    it.printStackTrace()
+                }
+
+    }
+
+    private fun setBoards() {
+        getBoards()
+                .whereEqualTo("type", getString(R.string.review_board))
+                .whereEqualTo("hospitalUid", hospitalInfo.objectID)
+                .orderBy("likeCount", Query.Direction.DESCENDING)
+                .limit(5)   // 페이지 단위
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful && task.result.size() > 0) {
+                        val boardInfoList = ArrayList<BoardInfo>()
+                        for (document in task.result) {
+                            val boardInfo = document.toObject(BoardInfo::class.java)
+                            Timber.d("title: ${boardInfo.title}")
+                            boardInfoList.add(boardInfo)
+                        }
+                        binding.recyclerViewHospitalComment.apply {
+                            layoutManager = object : LinearLayoutManager(context) {
+                                override fun canScrollVertically(): Boolean {
+                                    return false
+                                }
+                            }
+                            adapter = BoardListRecyclerViewAdapter(boardInfoList)
+                            addOnItemClickListener(object : OnItemClickListener {
+                                override fun onItemClicked(position: Int, view: View) {
+                                    startActivity<BoardDetailActivity>(Extra.OBJECT_KEY.name to boardInfoList[position].objectId)
+                                }
+                            })
+                        }
+                    } else {
+                        task.exception?.printStackTrace()
+                    }
+
+                }
     }
 
     private fun prepareUi() {
@@ -107,7 +212,7 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     @SuppressLint("MissingPermission")
-    private fun setupEvents() {
+    private fun setupToolbarItemClickEvents() {
         setOnActionBarLeftClickListener(View.OnClickListener {
             finish()
         })

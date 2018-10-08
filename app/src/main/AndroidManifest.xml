@@ -54,7 +54,8 @@
 
         <activity android:name=".BoardDetailActivity" />
         <activity android:name=".EventTextSearchActivity" />
-        <activity android:name=".ColumnTextSearchActivity"></activity>
+        <activity android:name=".ColumnTextSearchActivity" />
+        <activity android:name=".ReviewBoardListActivity"></activity>
     </application>
 
 </manifest>
