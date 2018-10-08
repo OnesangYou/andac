@@ -74,18 +74,33 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
             binding.favoriteCntText.text = hospitalInfo.likeCount.toString()
 
             // isLike
-            binding.imgviewFavorite.isEnabled = false
-            if(hospitalInfo.approval){    // 승인된 병원만 좋아요 버튼 허가
-                getLikeHospital(hospitalInfo.objectID)?.get()?.addOnSuccessListener { documentSnapshot ->
-                    binding.imgviewFavorite.isChecked = documentSnapshot.exists()
-                    binding.imgviewFavorite.isEnabled = true
+            binding.imgviewFavorite.isEnabled = hospitalInfo.approval
+            if(hospitalInfo.approval){  // 승인된 병원만 좋아요 버튼 허가
 
-                    // 병원 좋아요 클릭 리스너 이벤트 달기
-                    binding.imgviewFavorite.setOnClickListener { _ ->
+                // 좋아요한 병원 셋팅
+                fun setLikeBtn() {
+                    binding.imgviewFavorite.isEnabled = false
+                    getLikeHospital(hospitalInfo.objectID)?.get()?.addOnSuccessListener { documentSnapshot ->
+                        binding.imgviewFavorite.isChecked = documentSnapshot.exists()
+                        binding.imgviewFavorite.isEnabled = true
+                    }
+                }
+
+                setLikeBtn()
+
+                // 병원 좋아요 클릭 리스너 이벤트 달기
+                binding.imgviewFavorite.setOnClickListener { _ ->
+
+                    if (isLogin()) {
+                        // 로그인 되어있으면 좋아요 로직
                         binding.imgviewFavorite.isEnabled = false
                         clickHospitalLikeBtn(hospitalInfo.objectID, binding.imgviewFavorite.isChecked)?.addOnSuccessListener {
                             binding.imgviewFavorite.isEnabled = true
                         }
+                    } else {
+                        // 로그인이 안되있으면, 로그인 이후 좋아요 출력
+                        binding.imgviewFavorite.isChecked = false
+                        goToLogin { setLikeBtn() }
                     }
                 }
             }
