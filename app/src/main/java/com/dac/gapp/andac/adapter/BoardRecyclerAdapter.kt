@@ -60,8 +60,7 @@ class BoardRecyclerAdapter(
             // 클릭시 디테일 게시물 이동
             arrayListOf(button_writting, itemView).forEach { view ->
                 view.setOnClickListener {
-                    if (context.isLogin()) onItemClickListener?.invoke(boardInfo, userInfo)
-                    else context.goToLogin()
+                    context.afterCheckLoginDo { onItemClickListener?.invoke(boardInfo, userInfo) }
                 }
             }
 
