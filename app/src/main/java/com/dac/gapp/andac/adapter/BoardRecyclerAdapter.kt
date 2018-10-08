@@ -61,7 +61,6 @@ class BoardRecyclerAdapter(
             arrayListOf(button_writting, itemView).forEach { view ->
                 view.setOnClickListener {
                     onItemClickListener?.invoke(boardInfo, userInfo)
-//                    context.afterCheckLoginDo { onItemClickListener?.invoke(boardInfo, userInfo) }
                 }
             }
 
