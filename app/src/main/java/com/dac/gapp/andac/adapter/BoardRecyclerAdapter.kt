@@ -11,6 +11,8 @@ import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.ToggleButton
 import com.dac.gapp.andac.BoardWriteActivity
+import com.dac.gapp.andac.EXTRA_HOSPITAL_INFO
+import com.dac.gapp.andac.HospitalActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.databinding.ItemCardBinding
@@ -21,6 +23,7 @@ import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import kotlinx.android.synthetic.main.base_item_card.view.*
+import org.jetbrains.anko.startActivity
 
 class BoardRecyclerAdapter(
         private val context : BaseActivity?,
@@ -49,6 +52,7 @@ class BoardRecyclerAdapter(
                 it.boardInfo = boardInfo
                 it.hospitalInfo = hospitalInfoMap[mDataList[position].hospitalUid]
                 it.userInfo = userInfo
+                it.holder = holder
             }
 
             // 게시판 사진
@@ -60,26 +64,29 @@ class BoardRecyclerAdapter(
             // 클릭시 디테일 게시물 이동
             arrayListOf(button_writting, itemView).forEach { view ->
                 view.setOnClickListener {
-                    if (context.isLogin()) onItemClickListener?.invoke(boardInfo, userInfo)
-                    else context.goToLogin()
+                    onItemClickListener?.invoke(boardInfo, userInfo)
                 }
             }
 
             // 좋아요 클릭
             button_like.isEnabled = context.isUser()  // 유저만 사용 가능
-            if (context.isLogin()) {
-                button_like.isChecked = likeSet.contains(boardInfo.objectId)
-                button_like.setOnClickListener {view->
+            if (context.isLogin()) button_like.isChecked = likeSet.contains(boardInfo.objectId) // 좋아요 여부 출력
+            button_like.setOnClickListener { view ->
+                if (context.isLogin()) {
                     view.isEnabled = false
                     context.clickBoardLikeBtn(boardInfo.objectId, button_like.isChecked)?.addOnCompleteListener { view.isEnabled = true }
 
                     boardInfo.likeCount += if (button_like.isChecked) 1 else -1
                     likeText.likeCnt(boardInfo.likeCount)
-                }
-            } else {
-                button_like.setOnClickListener {
-                    context.goToLogin()
+                } else {
                     button_like.isChecked = false
+                    context.goToLogin{
+                        // Refresh Like Set
+                        context.getUserLikeBoards()?.get()?.addOnSuccessListener { snapshot ->
+                            likeSet = snapshot.mapNotNull { it.id }.toHashSet()
+                            notifyDataSetChanged()
+                        }
+                    }
                 }
             }
 
@@ -121,6 +128,9 @@ class BoardRecyclerAdapter(
         val pictures = arrayListOf(itemView.picture_1, itemView.picture_2, itemView.picture_3)
         val menu: Button = itemView.menu
         val likeText = itemView.likeText
+
+        fun goToHospital(view : View, hospitalInfo : HospitalInfo) = view.context.startActivity<HospitalActivity>(EXTRA_HOSPITAL_INFO to hospitalInfo)
+
     }
 
 }

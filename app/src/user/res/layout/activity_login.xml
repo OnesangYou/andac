@@ -13,9 +13,9 @@
             android:id="@+id/imgviewLoginBannerAd"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="@color/orange"
-            android:scaleType="centerInside"
-            android:src="@drawable/main_popup_ad"
+            android:background="@color/non"
+            android:scaleType="centerCrop"
+            android:src="@drawable/longin_ad_defult"
             app:layout_constraintDimensionRatio="w,3:2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
             <EditText
                 android:id="@+id/emailEdit"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:ems="10"
 
                 android:hint="이메일을 입력해주세요"

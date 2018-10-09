@@ -13,6 +13,7 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.BoardRecyclerAdapter
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.adapter.SearchHospitalRecyclerViewAdapter
+import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentFavoritesBinding
 import com.dac.gapp.andac.model.BoardAdapterData
@@ -68,9 +69,9 @@ class FavoritesFragment : BaseFragment() {
                             val mHospitalList = hospitalInfos.map {
                                 it to SearchHospitalRecyclerViewAdapter.VIEW_TYPE_CONTENT
                             }
-                            recyclerView.removeAllViews()
-                            recyclerView.layoutManager = LinearLayoutManager(this)
-                            recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context, mHospitalList)
+                            binding.recyclerView.removeAllViews()
+                            binding.recyclerView.layoutManager = LinearLayoutManager(this)
+                            binding.recyclerView.adapter = SearchHospitalRecyclerViewAdapter(context as BaseActivity, mHospitalList)
                         }
             }, true)
         }
@@ -127,7 +128,7 @@ class FavoritesFragment : BaseFragment() {
                                     ,
                                     // set hospitalInfoMap
                                     data.boardInfos.asSequence().groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
-                                        getHospitalInfo(it.key)?.continueWith { task -> it.key to task.result }
+                                        getHospitalInfo(it.key)?.continueWith { task -> it.key to task.result.apply{this?.objectID = it.key} }
                                     }.toList().let {
                                         Tasks.whenAllSuccess<Pair<String, HospitalInfo>>(it)
                                     }.continueWith {
@@ -147,9 +148,9 @@ class FavoritesFragment : BaseFragment() {
                             )
                         }
                         .addOnSuccessListener {
-                            recyclerView.removeAllViews()
-                            recyclerView.layoutManager = LinearLayoutManager(this@apply)
-                            recyclerView.adapter = BoardRecyclerAdapter(this@apply, it.boardInfos, it.userInfoMap, it.hospitalInfoMap, it.likeSet){boardInfo, userInfo ->
+                            binding.recyclerView.removeAllViews()
+                            binding.recyclerView.layoutManager = LinearLayoutManager(this@apply)
+                            binding.recyclerView.adapter = BoardRecyclerAdapter(this@apply, it.boardInfos, it.userInfoMap, it.hospitalInfoMap, it.likeSet){boardInfo, userInfo ->
                                 startActivity(Intent(this@apply, BoardDetailActivity::class.java).putExtra(this@apply.OBJECT_KEY, boardInfo.objectId))
                             }
                         }

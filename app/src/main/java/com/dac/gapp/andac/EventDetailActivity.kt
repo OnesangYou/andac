@@ -66,21 +66,10 @@ class EventDetailActivity : BaseActivity() {
 
             }?.let { addListenerRegistrations(it) }
 
-            // 로그인
-            if(isLogin()) {
-                checkApplyEvent(objectId)
-                checkLikeEvent(objectId)
+            checkLikeEvent(objectId)
 
-            }
-            // 비로그인
-            else {
-                arrayOf(likeBtn,event_submit).forEach { view ->
-                    view.setOnClickListener {
-                    goToLogin {
-                        checkApplyEvent(objectId)
-                        checkLikeEvent(objectId)
-                    }
-                } }
+            event_submit.setOnClickListener {
+                afterCheckLoginDo { checkApplyEvent(objectId) }
             }
         }
 
@@ -88,16 +77,31 @@ class EventDetailActivity : BaseActivity() {
 
     // likeBtn
     private fun checkLikeEvent(objectId: String) {
-        likeBtn.isEnabled = false
-        if (isUser()) {
-            getLikeEvent(objectId)?.get()?.addOnSuccessListener { documentSnapshot ->
+
+        if (isHospital()) {
+            likeBtn.isEnabled = false
+            return
+        }
+
+        val setLike = {
+            likeBtn.isEnabled = false
+            val ref = getLikeEvent(objectId)?.get()
+            ref?.addOnSuccessListener { documentSnapshot ->
                 likeBtn.isChecked = documentSnapshot.exists()
                 likeBtn.isEnabled = true
-                likeBtn.setOnClickListener { _ ->
-                    likeBtn.isEnabled = false
-                    clickEventLikeBtn(objectId, likeBtn.isChecked)
-                            ?.addOnSuccessListener { likeBtn.isEnabled = true }
-                }
+            }
+        }
+
+        if(isLogin()) setLike()
+
+        likeBtn.setOnClickListener { _ ->
+            if(isLogin()){
+                likeBtn.isEnabled = false
+                clickEventLikeBtn(objectId, likeBtn.isChecked)
+                        ?.addOnSuccessListener { likeBtn.isEnabled = true }
+            } else {
+                likeBtn.isChecked = false
+                goToLogin { setLike() }
             }
         }
     }
