@@ -179,9 +179,9 @@ abstract class BaseActivity : AppCompatActivity() {
         return uid?.let { it -> getUser(it)?.get()?.continueWith { it.result.toObject(UserInfo::class.java) } }
     }
 
-    fun isHospital(): Boolean = BuildConfig.FLAVOR == "hospital"
+    fun isHospital(): Boolean = BuildConfig.FLAVOR.startsWith("hospital")
 
-    fun isUser(): Boolean = BuildConfig.FLAVOR == "user"
+    fun isUser(): Boolean = BuildConfig.FLAVOR.startsWith("user")
 
     private val RC_TAKE_PICTURE = 101
     fun getAlbumImage(): Observable<Uri>? {
