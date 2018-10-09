@@ -98,7 +98,6 @@ class ReviewBoardListActivity : BaseActivity() {
     }
 
     fun addDataToRecycler(type: String, hospitalId : String) {
-        showProgressDialog()
         getTripleDataTask(
                 getBoards()
                         .whereEqualTo("type", type)
@@ -117,7 +116,6 @@ class ReviewBoardListActivity : BaseActivity() {
                     recyclerView.adapter.notifyDataSetChanged()
 
                 }
-                ?.addOnCompleteListener { hideProgressDialog() }
                 ?.addOnFailureListener { it.printStackTrace() }
     }
 
