@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import com.dac.gapp.andac.base.BaseMyPageActivity
+import com.dac.gapp.andac.databinding.ActivityMyPageBinding
 import com.dac.gapp.andac.extension.loadImage
 import com.dac.gapp.andac.fragment.*
 import com.dac.gapp.andac.model.firebase.UserInfo
-import kotlinx.android.synthetic.user.activity_my_page.*
 import org.jetbrains.anko.alert
 
 open class MyPageActivity : BaseMyPageActivity() {
@@ -18,6 +18,9 @@ open class MyPageActivity : BaseMyPageActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
+
+        val binding = getBinding<ActivityMyPageBinding>()
+
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText(R.string.mypage)
         setActionBarRightText(R.string.logout)
@@ -35,7 +38,7 @@ open class MyPageActivity : BaseMyPageActivity() {
         })
 
         // 버튼 그룹 리스너
-        myPageRadioGroup.setOnCheckedChangeListener { _, id ->
+        binding.myPageRadioGroup.setOnCheckedChangeListener { _, id ->
             when(id){
                 R.id.accountSettingBtn -> changeFragment(AccountSettingFragment())
                 R.id.favoritBtn -> changeFragment(FavoritesFragment())
@@ -46,16 +49,16 @@ open class MyPageActivity : BaseMyPageActivity() {
         }
 
         // 디폴트 화면
-        accountSettingBtn.performClick()
+        binding.accountSettingBtn.performClick()
 
         // Set Profile
         getUser()?.addSnapshotListener { snapshot, _ ->
             snapshot?:return@addSnapshotListener
             val userInfo = snapshot.toObject(UserInfo::class.java)?:return@addSnapshotListener
             this@MyPageActivity.userInfo = userInfo
-            if(userInfo.profilePicUrl.isNotEmpty()) profilePic.loadImage(userInfo.profilePicUrl)
-            nameText.text = userInfo.nickName
-            emailText.text = "( ${userInfo.email} )"
+            if(userInfo.profilePicUrl.isNotEmpty()) binding.profilePic.loadImage(userInfo.profilePicUrl)
+            binding.nameText.text = userInfo.nickName
+            binding.emailText.text = "( ${userInfo.email} )"
         }?.let { addListenerRegistrations(it) }
     }
 

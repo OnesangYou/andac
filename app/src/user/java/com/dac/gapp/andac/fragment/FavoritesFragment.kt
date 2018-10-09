@@ -23,7 +23,6 @@ import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
-import kotlinx.android.synthetic.user.fragment_favorites.*
 
 
 class FavoritesFragment : BaseFragment() {
@@ -37,7 +36,7 @@ class FavoritesFragment : BaseFragment() {
         binding = getBinding()
 
         // set tabLayout click listener
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when(tab.text){
                     getString(R.string.hospital) -> setHospitalRecyclerAdapter() // 병원
@@ -94,9 +93,9 @@ class FavoritesFragment : BaseFragment() {
                                     .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                                     .addOnSuccessListener { mutableList ->
                                         val hospitalMap = mutableList.filterNotNull().map{ it.id to it.toObject(HospitalInfo::class.java)!! }.toMap()
-                                        recyclerView.removeAllViews()
-                                        recyclerView.layoutManager = LinearLayoutManager(this)
-                                        recyclerView.adapter = EventRecyclerAdapter(this, eventInfos, hospitalMap) {eventInfo, hospitalInfo ->
+                                        binding.recyclerView.removeAllViews()
+                                        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+                                        binding.recyclerView.adapter = EventRecyclerAdapter(this, eventInfos, hospitalMap) {eventInfo, hospitalInfo ->
                                             startActivity(Intent(this@apply, EventDetailActivity::class.java).putExtra(this@apply.OBJECT_KEY, eventInfo.objectId))
                                         }
                                     }

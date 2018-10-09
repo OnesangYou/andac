@@ -11,10 +11,8 @@ import com.dac.gapp.andac.enums.AdCountType
 import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.extension.random
 import com.dac.gapp.andac.model.firebase.AdInfo
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.user.activity_login.*
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 
@@ -33,7 +31,7 @@ open class LoginActivity : BaseLoginActivity() {
 
         prepareUi()
 
-        goToJoin.setOnClickListener { _ ->
+        binding.goToJoin.setOnClickListener { _ ->
             startActivity(Intent(this@LoginActivity, JoinActivity::class.java))
         }
 

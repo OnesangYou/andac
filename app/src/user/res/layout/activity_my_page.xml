@@ -1,149 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.dac.gapp.andac.MyPageActivity"
-    tools:ignore="ExtraText">
-
+<layout>
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/my_profile"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp">
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.dac.gapp.andac.MyPageActivity"
+        tools:ignore="ExtraText">
 
-        <ImageView
-            android:id="@+id/profilePic"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/defalt_profile"
-            android:scaleType="centerCrop"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/my_profile"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp">
+
+            <ImageView
+                android:id="@+id/profilePic"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/defalt_profile"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/nameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="nick name"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/myPageRadioGroup"
+                app:layout_constraintStart_toEndOf="@+id/profilePic"
+                app:layout_constraintTop_toTopOf="@+id/profilePic" />
+
+            <TextView
+                android:id="@+id/emailText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="( email@adress.com )"
+                android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="@+id/nameText"
+                app:layout_constraintStart_toEndOf="@+id/nameText" />
+
+            <RadioGroup
+                android:id="@+id/myPageRadioGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@+id/profilePic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/profilePic"
+                app:layout_constraintTop_toBottomOf="@+id/nameText">
+
+                <RadioButton
+                    android:id="@+id/accountSettingBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawablePadding="8dp"
+                    android:drawableTop="@drawable/radio_button_selector"
+                    android:gravity="center_horizontal|top"
+                    android:text="계정설정"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_12sp" />
+
+                <RadioButton
+                    android:id="@+id/favoritBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawablePadding="8dp"
+                    android:drawableTop="@drawable/radio_button_selector"
+                    android:gravity="center_horizontal|top"
+                    android:text="즐겨찾기"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_12sp" />
+
+                <RadioButton
+                    android:id="@+id/myCouponBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawablePadding="8dp"
+                    android:drawableTop="@drawable/radio_button_selector"
+                    android:gravity="center_horizontal|top"
+                    android:text="내쿠폰함"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_12sp" />
+
+                <RadioButton
+                    android:id="@+id/paymentHistoryBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawablePadding="8dp"
+                    android:drawableTop="@drawable/radio_button_selector"
+                    android:gravity="center_horizontal|top"
+                    android:text="결재내역"
+                    android:textAlignment="center"
+
+                    android:textSize="@dimen/_12sp" />
+
+                <RadioButton
+                    android:id="@+id/myBoardsBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawablePadding="8dp"
+                    android:drawableTop="@drawable/radio_button_selector"
+                    android:gravity="center_horizontal|top"
+                    android:text="내가쓴글"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/_12sp" />
+
+
+            </RadioGroup>
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <FrameLayout
+            android:id="@+id/layoutFragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/my_profile" />
 
-
-        <TextView
-            android:id="@+id/nameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="nick name"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/myPageRadioGroup"
-            app:layout_constraintStart_toEndOf="@+id/profilePic"
-            app:layout_constraintTop_toTopOf="@+id/profilePic" />
-
-        <TextView
-            android:id="@+id/emailText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="( email@adress.com )"
-            android:textSize="13dp"
-            app:layout_constraintBottom_toBottomOf="@+id/nameText"
-            app:layout_constraintStart_toEndOf="@+id/nameText" />
-
-        <RadioGroup
-            android:id="@+id/myPageRadioGroup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@+id/profilePic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/profilePic"
-            app:layout_constraintTop_toBottomOf="@+id/nameText">
-
-            <RadioButton
-                android:id="@+id/accountSettingBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:button="@null"
-                android:drawablePadding="8dp"
-                android:drawableTop="@drawable/radio_button_selector"
-                android:gravity="center_horizontal|top"
-                android:text="계정설정"
-                android:textAlignment="center"
-                android:textSize="@dimen/_12sp" />
-
-            <RadioButton
-                android:id="@+id/favoritBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:button="@null"
-                android:drawablePadding="8dp"
-                android:drawableTop="@drawable/radio_button_selector"
-                android:gravity="center_horizontal|top"
-                android:text="즐겨찾기"
-                android:textAlignment="center"
-                android:textSize="@dimen/_12sp" />
-
-            <RadioButton
-                android:id="@+id/myCouponBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:button="@null"
-                android:drawablePadding="8dp"
-                android:drawableTop="@drawable/radio_button_selector"
-                android:gravity="center_horizontal|top"
-                android:text="내쿠폰함"
-                android:textAlignment="center"
-                android:textSize="@dimen/_12sp" />
-
-            <RadioButton
-                android:id="@+id/paymentHistoryBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:button="@null"
-                android:drawablePadding="8dp"
-                android:drawableTop="@drawable/radio_button_selector"
-                android:gravity="center_horizontal|top"
-                android:text="결재내역"
-                android:textAlignment="center"
-
-                android:textSize="@dimen/_12sp" />
-
-            <RadioButton
-                android:id="@+id/myBoardsBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:button="@null"
-                android:drawablePadding="8dp"
-                android:drawableTop="@drawable/radio_button_selector"
-                android:gravity="center_horizontal|top"
-                android:text="내가쓴글"
-                android:textAlignment="center"
-                android:textSize="@dimen/_12sp" />
-
-
-        </RadioGroup>
 
     </android.support.constraint.ConstraintLayout>
+</layout>
 
-
-    <FrameLayout
-        android:id="@+id/layoutFragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_profile" />
-
-
-</android.support.constraint.ConstraintLayout>

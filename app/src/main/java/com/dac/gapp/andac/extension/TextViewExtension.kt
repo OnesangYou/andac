@@ -7,13 +7,13 @@ import java.text.DecimalFormat
 
 
 @SuppressLint("SetTextI18n")
-@BindingAdapter("bind:likeCnt")
+@BindingAdapter("likeCnt")
 fun TextView.likeCnt(cnt : Int) {
     this.text = "좋아요 $cnt 개"
 }
 
 @SuppressLint("SetTextI18n")
-@BindingAdapter("bind:replyCnt")
+@BindingAdapter("replyCnt")
 fun TextView.replyCnt(cnt : Int) {
     this.text = "댓글 $cnt 개"
 }
