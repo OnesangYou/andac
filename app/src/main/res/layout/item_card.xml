@@ -3,6 +3,9 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
+            name="holder"
+            type="com.dac.gapp.andac.adapter.BoardRecyclerAdapter.BoardHolder"/>
+        <variable
             name="boardInfo"
             type="com.dac.gapp.andac.model.firebase.BoardInfo"/>
         <variable
@@ -30,6 +33,7 @@
         bind:boardInfo="@{boardInfo}"
         bind:userInfo="@{userInfo}"
         bind:hospitalInfo="@{hospitalInfo}"
+        bind:holder="@{holder}"
         bind:isLike="@{isLike}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

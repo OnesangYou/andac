@@ -204,7 +204,7 @@ class BoardFragment : BaseFragment() {
                                 ,
                                 // set hospitalInfoMap
                                 data.boardInfos.asSequence().groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
-                                    getHospitalInfo(it.key)?.continueWith { task -> it.key to task.result }
+                                    getHospitalInfo(it.key)?.continueWith { task -> it.key to task.result.apply { this?.objectID = it.key } }
                                 }.toList().let {
                                     Tasks.whenAllSuccess<Pair<String, HospitalInfo>>(it)
                                 }.continueWith {
