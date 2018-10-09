@@ -10,8 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SearchAddressActivity
+import com.dac.gapp.andac.databinding.FragmentJoinInfoBinding
 import com.google.android.gms.maps.model.LatLng
-import kotlinx.android.synthetic.hospital.fragment_join_info.*
 
 
 /**
@@ -21,24 +21,28 @@ class JoinInfoFragment : JoinBaseFragment() {
 
     private val PICK_ADDRESS_REQUEST: Int = 0
 
+    lateinit var binding: FragmentJoinInfoBinding
+
     override fun onChangeFragment() {
         // 받아온 경우 Set
         getJoinActivity().hospitalInfo.apply {
-            if(name.isNotEmpty()) hospitalName.setText(name)
-            if(address2.isNotEmpty()) addressEdit.setText(address2)
-            if(phone.isNotEmpty()) phoneEdit.setText(phone)
+            if(name.isNotEmpty()) binding.hospitalName.setText(name)
+            if(address2.isNotEmpty()) binding.addressEdit.setText(address2)
+            if(phone.isNotEmpty()) binding.phoneEdit.setText(phone)
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_join_info, container, false)
+        return inflate(inflater, R.layout.fragment_join_info, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        uploadProfilePicBtn.setOnClickListener{
+        binding = getBinding()
+
+        binding.uploadProfilePicBtn.setOnClickListener{
             // Image File 가져옴
             context?.getAlbumImage{albumFile ->
                 getJoinActivity().profilePicUri = albumFile
@@ -46,13 +50,13 @@ class JoinInfoFragment : JoinBaseFragment() {
         }
 
 
-        nextBtn.setOnClickListener {
+        binding.nextBtn.setOnClickListener {
             getJoinActivity().run{
                 // 유효성 검사
-                val hospitalStr = hospitalName.text.toString()
-                val addressStr = addressEdit.text.trim().toString()
-                val businessHoursStr = hospitalBusinessHours.text.toString()
-                val phoneStr = phoneEdit.text.toString()
+                val hospitalStr = binding.hospitalName.text.toString()
+                val addressStr = binding.addressEdit.text.trim().toString()
+                val businessHoursStr = binding.hospitalBusinessHours.text.toString()
+                val phoneStr = binding.phoneEdit.text.toString()
 
                 // 병원명 공백체크
                 if(hospitalStr == ""){
@@ -77,8 +81,8 @@ class JoinInfoFragment : JoinBaseFragment() {
         }
 
         // 주소 검색
-        addressEdit.setOnClickListener{
-            startActivityForResult(Intent(context, SearchAddressActivity::class.java).putExtra("hospitalName", hospitalName.text.toString()), PICK_ADDRESS_REQUEST)
+        binding.addressEdit.setOnClickListener{
+            startActivityForResult(Intent(context, SearchAddressActivity::class.java).putExtra("hospitalName", binding.hospitalName.text.toString()), PICK_ADDRESS_REQUEST)
         }
 
     }
@@ -99,8 +103,8 @@ class JoinInfoFragment : JoinBaseFragment() {
 
                 getJoinActivity().apply{
 //                    hospitalName.setText(name)
-                    addressEdit.setText(address)
-                    phoneEdit.setText(phoneNumber)
+                    binding.addressEdit.setText(address)
+                    binding.phoneEdit.setText(phoneNumber)
                     hospitalInfo._geoloc.apply {
                         lat = latLng.latitude
                         lng = latLng.longitude

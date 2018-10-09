@@ -3,12 +3,10 @@ package com.dac.gapp.andac
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseHospitalActivity
 import com.dac.gapp.andac.databinding.ActivityMyPageBinding
 import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.model.firebase.HospitalInfo
-import kotlinx.android.synthetic.hospital.activity_my_page.*
 
 
 class MyPageActivity : BaseHospitalActivity() {
@@ -50,11 +48,11 @@ class MyPageActivity : BaseHospitalActivity() {
             }
         }
 
-        profile_change.setOnClickListener { startActivity(Intent(this, ChangeProfileActivity::class.java)) }
+        binding.profileChange.setOnClickListener { startActivity(Intent(this, ChangeProfileActivity::class.java)) }
 
-        password_change.setOnClickListener { findPassword() }
+        binding.passwordChange.setOnClickListener { findPassword() }
 
         // 버전 정보
-        versionText.setOnClickListener { toastVersion() }
+        binding.versionText.setOnClickListener { toastVersion() }
     }
 }

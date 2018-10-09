@@ -7,6 +7,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.adapter.EventApplyRecyclerviewAdapter
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.databinding.ActivityHospitalEventApplicantListBinding
 import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.extension.setPrice
@@ -15,7 +16,6 @@ import com.dac.gapp.andac.model.firebase.EventInfo
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.hospital.activity_hospital_event_applicant_list.*
 import kotlinx.android.synthetic.main.event_row.*
 import org.jetbrains.anko.startActivityForResult
 
@@ -27,9 +27,12 @@ class HospitalEventApplicantListActivity : BaseActivity() {
 
     lateinit var eventKey : String
 
+    lateinit var binding : ActivityHospitalEventApplicantListBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hospital_event_applicant_list)
+        binding = getBinding()
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText("내 이벤트 보기")
         setActionBarRightText("이벤트 수정  ")
@@ -56,8 +59,8 @@ class HospitalEventApplicantListActivity : BaseActivity() {
             setOnActionBarRightClickListener(View.OnClickListener { startActivityForResult<EventWriteActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to key)  })
 
             // recyclerView
-            recyclerView.layoutManager = LinearLayoutManager(this@HospitalEventApplicantListActivity)
-            recyclerView.adapter = EventApplyRecyclerviewAdapter(list)
+            binding.recyclerView.layoutManager = LinearLayoutManager(this@HospitalEventApplicantListActivity)
+            binding.recyclerView.adapter = EventApplyRecyclerviewAdapter(list)
 //            recyclerView.addOnItemClickListener(object: OnItemClickListener {
 //                override fun onItemClicked(position: Int, view: View) {
 //                    // 이벤트 신청자 리스트
@@ -74,15 +77,15 @@ class HospitalEventApplicantListActivity : BaseActivity() {
         // reset data
         resetData()
 
-        recyclerView.adapter.notifyDataSetChanged()
+        binding.recyclerView.adapter.notifyDataSetChanged()
 
         // add Data
         addDataToRecycler()
 
         // add event to recycler's last
-        recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(rv: RecyclerView?, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_SETTLING && !recyclerView.canScrollVertically(1)) {
+                if (newState == RecyclerView.SCROLL_STATE_SETTLING && !binding.recyclerView.canScrollVertically(1)) {
                     addDataToRecycler()
                 }
             }
@@ -106,7 +109,7 @@ class HospitalEventApplicantListActivity : BaseActivity() {
                 ?.let { it -> getTripleDataTask(it)}
                 ?.addOnSuccessListener {
                     list.addAll(it)
-                    recyclerView.adapter.notifyDataSetChanged()
+                    binding.recyclerView.adapter.notifyDataSetChanged()
                 }
                 ?.addOnCompleteListener { hideProgressDialog() }
 

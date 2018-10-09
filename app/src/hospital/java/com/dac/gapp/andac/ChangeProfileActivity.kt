@@ -3,27 +3,30 @@ package com.dac.gapp.andac
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.databinding.ActivityChangeProfileBinding
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.google.firebase.firestore.SetOptions
-import kotlinx.android.synthetic.hospital.activity_change_profile.*
 
 class ChangeProfileActivity : BaseActivity() {
 
+    lateinit var binding : ActivityChangeProfileBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_profile)
+
+        binding = getBinding()
 
         var hospitalInfo: HospitalInfo? = null
 
         // Hospital Info 출력
         showProgressDialog()
         getHospitalInfo()?.addOnSuccessListener {it?.apply {
-            Glide.with(this@ChangeProfileActivity).load(profilePicUrl).into(pictureImage)
-            hospitalText.setText(name)
-            phoneText.setText(phone)
-            addressText.setText(address2)
-            openHourText.setText(openDate)
-            descriptionText.setText(description)
+            Glide.with(this@ChangeProfileActivity).load(profilePicUrl).into(binding.pictureImage)
+            binding.hospitalText.setText(name)
+            binding.phoneText.setText(phone)
+            binding.addressText.setText(address2)
+            binding.openHourText.setText(openDate)
+            binding.descriptionText.setText(description)
         }
                 .apply { hospitalInfo = this@apply }}
                 ?.addOnCompleteListener {
@@ -31,13 +34,13 @@ class ChangeProfileActivity : BaseActivity() {
                     setOnClickListener(hospitalInfo)
                 }
 
-        completeBtn.setOnClickListener { _ ->
+        binding.completeBtn.setOnClickListener { _ ->
             hospitalInfo?.apply {
-                name = hospitalText.text.toString()
-                phone = phoneText.text.toString()
-                address2 = addressText.text.toString()
-                openDate = openHourText.text.toString()
-                description = descriptionText.text.toString()
+                name = binding.hospitalText.text.toString()
+                phone = binding.phoneText.text.toString()
+                address2 = binding.addressText.text.toString()
+                openDate = binding.openHourText.text.toString()
+                description = binding.descriptionText.text.toString()
             }
                     ?.let {
                         showProgressDialog()
@@ -51,7 +54,7 @@ class ChangeProfileActivity : BaseActivity() {
 
     private fun setOnClickListener(hospitalInfo: HospitalInfo?) {
         // 사진버튼
-        pictureImage.setOnClickListener { _ ->
+        binding.pictureImage.setOnClickListener { _ ->
             getAlbumImage()?.subscribe {picUri ->
                 getUid()?.let { s ->
                     showProgressDialog()
@@ -59,7 +62,7 @@ class ChangeProfileActivity : BaseActivity() {
                         toast("uploadPicFile Complete")
                         it.result.downloadUrl.toString()
                     }
-                            .addOnSuccessListener { Glide.with(this@ChangeProfileActivity).load(it).into(pictureImage) }
+                            .addOnSuccessListener { Glide.with(this@ChangeProfileActivity).load(it).into(binding.pictureImage) }
                             .continueWithTask {
                                 hospitalInfo
                                         ?.apply { profilePicUrl = it.result.toString() }

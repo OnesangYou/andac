@@ -4,7 +4,6 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,6 @@ import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.hospital.fragment_main.*
 import org.jetbrains.anko.startActivity
 
 class MainFragment : BaseFragment() {
@@ -40,25 +38,25 @@ class MainFragment : BaseFragment() {
             hospitalInfo ?: return@addOnSuccessListener
             binding.txtviewHospitalName.text = hospitalInfo.name
             if (!hospitalInfo.approval) {
-                listOf(layoutDashboard, btnConsultingBoard, layoutManagement).forEach { it.visibility = View.INVISIBLE }
-                requestText.visibility = View.VISIBLE
-                requestText.text = hospitalInfo.requestStr
+                listOf(binding.layoutDashboard, binding.btnConsultingBoard, binding.layoutManagement).forEach { it.visibility = View.INVISIBLE }
+                binding.requestText.visibility = View.VISIBLE
+                binding.requestText.text = hospitalInfo.requestStr
 
             }
         }
-        txtviewMoreNotice.setOnClickListener{ startActivity(Intent(context, NoticeActivity::class.java))}
-        btnConsultingBoard.setOnClickListener { startActivity(Intent(context, ConsultBoardActivity::class.java)) }
-        btnHospitalEventManagement.setOnClickListener { context?.startActivity<HospitalEventListActivity>() }
-        btnHospitalAdManagement.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdManagement(requireContext())) }
-        btnHospitalAdApplication.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdApplication(requireContext())) }
+        binding.txtviewMoreNotice.setOnClickListener{ startActivity(Intent(context, NoticeActivity::class.java))}
+        binding.btnConsultingBoard.setOnClickListener { startActivity(Intent(context, ConsultBoardActivity::class.java)) }
+        binding.btnHospitalEventManagement.setOnClickListener { context?.startActivity<HospitalEventListActivity>() }
+        binding.btnHospitalAdManagement.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdManagement(requireContext())) }
+        binding.btnHospitalAdApplication.setOnClickListener { startActivity(HospitalAdApplicationActivity.createIntentForAdApplication(requireContext())) }
 
-        myColumnsBtn.setOnClickListener { context?.startActivity<HospitalColumnListActivity>() }
+        binding.myColumnsBtn.setOnClickListener { context?.startActivity<HospitalColumnListActivity>() }
 
-        columnList.layoutManager = GridLayoutManager(context, 2)
+        binding.columnList.layoutManager = GridLayoutManager(context, 2)
         setNotice()
         setAdapter()
 
-        more_calum.setOnClickListener {
+        binding.moreCalum.setOnClickListener {
             context?.startActivity<ColumnActivity>()
         }
     }
@@ -97,8 +95,8 @@ class MainFragment : BaseFragment() {
                                                 .filterNotNull()
                                                 .map { it.id to it.toObject(HospitalInfo::class.java) }
                                                 .toMap().also { hospitalInfoMap ->
-                                                    columnList.swapAdapter(ColumnRecyclerAdapter(this, columnInfos!!, hospitalInfoMap), false)
-                                                    columnList.addOnItemClickListener(object : OnItemClickListener {
+                                                    binding.columnList.swapAdapter(ColumnRecyclerAdapter(this, columnInfos!!, hospitalInfoMap), false)
+                                                    binding.columnList.addOnItemClickListener(object : OnItemClickListener {
                                                         override fun onItemClicked(position: Int, view: View) {
                                                             // 디테일
                                                             startActivity(Intent(this@apply, ColumnDetailActivity::class.java).putExtra(OBJECT_KEY, columnInfos[position].objectId))

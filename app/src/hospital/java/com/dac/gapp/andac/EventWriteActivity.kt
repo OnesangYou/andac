@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.databinding.ActivityEventWriteBinding
 import com.dac.gapp.andac.extension.setPrice
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import kotlinx.android.synthetic.hospital.activity_event_write.*
 
 
 class EventWriteActivity : BaseActivity() {
@@ -23,9 +23,12 @@ class EventWriteActivity : BaseActivity() {
     private var detailPictureUri: Uri? = null
     private var eventInfo = EventInfo()
 
+    lateinit var binding : ActivityEventWriteBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_write)
+        binding = getBinding()
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText("이벤트 등록/수정")
         setActionBarRightText("삭제")
@@ -37,11 +40,11 @@ class EventWriteActivity : BaseActivity() {
             showProgressDialog()
             getEvent(key)?.get()?.continueWith { it.result.toObject(EventInfo::class.java) }?.addOnSuccessListener { it?.apply {
                 eventInfo = this
-                titleText.setText(title)
-                bodyText.setText(body)
-                priceText.setPrice(price)
-                Glide.with(this@EventWriteActivity).load(pictureUrl).into(topImage)
-                Glide.with(this@EventWriteActivity).load(detailPictureUrl).into(bottomImage)
+                binding.titleText.setText(title)
+                binding.bodyText.setText(body)
+                binding.priceText.setPrice(price)
+                Glide.with(this@EventWriteActivity).load(pictureUrl).into(binding.topImage)
+                Glide.with(this@EventWriteActivity).load(detailPictureUrl).into(binding.bottomImage)
 
             }}?.addOnCompleteListener { hideProgressDialog() }
             setOnActionBarRightClickListener(View.OnClickListener {
@@ -51,31 +54,31 @@ class EventWriteActivity : BaseActivity() {
         }
 
         // Top Picture
-        topImage.setOnClickListener { _ ->
+        binding.topImage.setOnClickListener { _ ->
             getAlbumImage()?.subscribe {
                 pictureUri = it
-                Glide.with(this@EventWriteActivity).load(it).into(topImage)
+                Glide.with(this@EventWriteActivity).load(it).into(binding.topImage)
             }?.apply { disposables.add(this) }
         }
 
         // Bottom Picture
-        bottomImage.setOnClickListener { _ ->
+        binding.bottomImage.setOnClickListener { _ ->
             getAlbumImage()?.subscribe {
                 detailPictureUri = it
-                Glide.with(this@EventWriteActivity).load(it).into(bottomImage)
+                Glide.with(this@EventWriteActivity).load(it).into(binding.bottomImage)
             }?.apply { disposables.add(this) }
         }
 
         // Upload
-        uploadBtn.setOnClickListener { _ ->
+        binding.uploadBtn.setOnClickListener { _ ->
             // 유효성검사
             if(!validate()) return@setOnClickListener
 
             eventInfo.apply {
                 writerUid = getUid()?:return@setOnClickListener
-                title = titleText.text.toString()
-                body = bodyText.text.toString()
-                price = priceText.text.toString().toIntOrNull()?:0
+                title = binding.titleText.text.toString()
+                body = binding.bodyText.text.toString()
+                price = binding.priceText.text.toString().toIntOrNull()?:0
             }
 
             val eventInfoRef = intent.getStringExtra(OBJECT_KEY)?.let{
@@ -121,17 +124,17 @@ class EventWriteActivity : BaseActivity() {
 
     private fun validate() : Boolean {
         
-        if(titleText.text.isBlank()) {
+        if(binding.titleText.text.isBlank()) {
             toast("제목을 입력하세요")
             return false
         }
 
-        if(bodyText.text.isBlank()) {
+        if(binding.bodyText.text.isBlank()) {
             toast("내용을 입력하세요")
             return false
         }
 
-        if(priceText.text.isBlank()) {
+        if(binding.priceText.text.isBlank()) {
             toast("가격을 입력하세요")
             return false
         }

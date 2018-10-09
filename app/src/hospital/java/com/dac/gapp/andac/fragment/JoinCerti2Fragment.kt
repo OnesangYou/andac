@@ -8,32 +8,35 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.databinding.FragmentJoinCerti2Binding
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.SetOptions
-import kotlinx.android.synthetic.hospital.fragment_join_certi2.*
 import timber.log.Timber
 
 class JoinCerti2Fragment : JoinBaseFragment(){
+
+    lateinit var binding: FragmentJoinCerti2Binding
+
     override fun onChangeFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_join_certi2, container, false)
+        return inflate(inflater, R.layout.fragment_join_certi2, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        nextBtn.setOnClickListener { _ ->
+        binding = getBinding()
+        binding.nextBtn.setOnClickListener { _ ->
             getJoinActivity().run {
 
-                val emailStr = emailEdit.text.toString()
-                val passwordStr = passwordEdit.text.toString()
-                val passwordConfirmStr = passwordConfirmEdit.text.toString()
+                val emailStr = binding.emailEdit.text.toString()
+                val passwordStr = binding.passwordEdit.text.toString()
+                val passwordConfirmStr = binding.passwordConfirmEdit.text.toString()
 
                 /* 유효성 검사 */
 
@@ -43,7 +46,7 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                     return@setOnClickListener
                 }
 
-                if(emailEdit.tag != true){
+                if(binding.emailEdit.tag != true){
                     toast("이메일 중복체크 하세요")
                     return@setOnClickListener
                 }
@@ -99,9 +102,9 @@ class JoinCerti2Fragment : JoinBaseFragment(){
         }
 
         // 메일 중복 확인
-        checkEmailBtn.setOnClickListener {
+        binding.checkEmailBtn.setOnClickListener {
             context?.apply {
-                val emailStr = emailEdit.text.toString()
+                val emailStr = binding.emailEdit.text.toString()
                 if (emailStr.isEmpty()) {
                     toast("이메일을 입력하세요")
                     return@setOnClickListener
@@ -109,24 +112,24 @@ class JoinCerti2Fragment : JoinBaseFragment(){
 
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailStr).matches()) {
                     toast("이메일 형식이 아닙니다")
-                    emailEdit.text.clear()
+                    binding.emailEdit.text.clear()
                     return@setOnClickListener
                 }
 
                 checkDuplicatedEmail(emailStr)?.addOnSuccessListener { isPossible ->
                     if (isPossible) {
                         toast("사용가능한 이메일입니다")
-                        emailEdit.tag = true
+                        binding.emailEdit.tag = true
                     } else {
                         // 중복
                         toast("중복된 이메일이 존재합니다")
-                        emailEdit.text.clear()
+                        binding.emailEdit.text.clear()
                     }
                 }
             }
         }
 
-        context?.apply {resetTagEditTextChanged(emailEdit)}
+        context?.apply {resetTagEditTextChanged(binding.emailEdit)}
 
     }
 
