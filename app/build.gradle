@@ -83,7 +83,7 @@ android {
         user {
             dimension "target"
             applicationIdSuffix ".andac.user"
-            manifestPlaceholders = [appLabel: "안닥"]
+            manifestPlaceholders = [appLabel: ""]
             buildConfigField 'boolean', 'IS_USER', "true"
             versionCode new Date().format('yyMMddHHmm').toInteger()
         }
@@ -91,7 +91,7 @@ android {
         hospital {
             dimension "target"
             applicationIdSuffix ".andac.hospital"
-            manifestPlaceholders = [appLabel: "안닥파트너스"]
+            manifestPlaceholders = [appLabel: "파트너스"]
             buildConfigField 'boolean', 'IS_USER', "false"
             versionCode new Date().format('yyMMddHHmm').toInteger()
         }
@@ -99,9 +99,11 @@ android {
         chidac {
             dimension "type"
             applicationIdSuffix ".chidac"
+            manifestPlaceholders = [appType: "치닥"]
         }
         andac {
             dimension "type"
+            manifestPlaceholders = [appType: "안닥"]
         }
     }
     defaultConfig {

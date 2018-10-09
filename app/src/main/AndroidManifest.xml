@@ -14,7 +14,7 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="false"
-        android:label="${appLabel}"
+        android:label="${appType}${appLabel}"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">

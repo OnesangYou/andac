@@ -8,7 +8,7 @@
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher_hospital"
-        android:label="${appLabel}"
+        android:label="${appType}${appLabel}"
         android:roundIcon="@mipmap/ic_launcher_hospital_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar"
@@ -19,7 +19,7 @@
 
         <activity
             android:name=".SplashActivity"
-            android:label="${appLabel}"
+            android:label="${appType}${appLabel}"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

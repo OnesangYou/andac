@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "528201396768",
-    "firebase_url": "https://andac-200802.firebaseio.com",
-    "project_id": "andac-200802",
-    "storage_bucket": "andac-200802.appspot.com"
+    "project_number": "822698505523",
+    "firebase_url": "https://chidacdevelop-5acee.firebaseio.com",
+    "project_id": "chidacdevelop-5acee",
+    "storage_bucket": "chidacdevelop-5acee.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:528201396768:android:6c044d29453165c5",
+        "mobilesdk_app_id": "1:822698505523:android:06b0784538ea1618",
         "android_client_info": {
-          "package_name": "com.dac.gapp.andac.hospital"
+          "package_name": "com.dac.gapp.andac.hospital.chidac"
         }
       },
       "oauth_client": [
         {
-          "client_id": "528201396768-q2md8thdp46vcciok7s4h25hpk276mve.apps.googleusercontent.com",
+          "client_id": "822698505523-812dhbkffu2121piku89b726k9d4vet5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCNY1NOYvzvMcWT5M5AzFmB2WXNJUZNxo0"
+          "current_key": "AIzaSyDTTG4hb3WxaEZsEfHqIsQHicoW_3BRKT0"
         }
       ],
       "services": {
