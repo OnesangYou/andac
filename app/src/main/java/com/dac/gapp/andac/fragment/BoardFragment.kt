@@ -62,7 +62,7 @@ class BoardFragment : BaseFragment() {
             }
         }
 
-        resetData()
+        lastVisible = null
 
         // set recyclerView
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -129,7 +129,7 @@ class BoardFragment : BaseFragment() {
         this.type = type
 
         // reset data
-        resetData()
+        lastVisible = null
 
         // add Data
         addDataToRecycler(type)
@@ -145,7 +145,10 @@ class BoardFragment : BaseFragment() {
     }
 
     private fun resetData() {
-        lastVisible = null
+        list.clear()
+        map.clear()
+        hospitalInfoMap.clear()
+        likeSet.clear()
     }
 
     fun addDataToRecycler(type: String) {
@@ -168,12 +171,7 @@ class BoardFragment : BaseFragment() {
                             .limit(PageSize.board.value)   // 페이지 단위
             )
                     ?.addOnSuccessListener {
-                        if(needClear) {
-                            list.clear()
-                            map.clear()
-                            hospitalInfoMap.clear()
-                            likeSet.clear()
-                        }
+                        if(needClear) resetData()
 
                         list.addAll(it.boardInfos)
                         map.putAll(it.userInfoMap)
