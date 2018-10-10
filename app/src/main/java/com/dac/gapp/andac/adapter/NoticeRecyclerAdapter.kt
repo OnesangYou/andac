@@ -1,9 +1,7 @@
 package com.dac.gapp.andac.adapter
 
 import android.content.Context
-import android.databinding.DataBindingUtil
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.model.Notice
@@ -28,12 +26,15 @@ class NoticeRecyclerAdapter(var context : Context, groups : MutableList <Expanda
     }
 
     override fun onBindGroupViewHolder(holder: NoticeTitleViewHolder?, flatPosition: Int, group: ExpandableGroup<*>?) {
-        holder?.let{ it.binding.title.text = group?.title}
+        holder?.let{
+//            it.binding.title.text = group?.title
+            it.binding.notice = (group as Notice).items[0]
+        }
     }
 
     override fun onBindChildViewHolder(holder: NoticeViewHolder?, flatPosition: Int, group: ExpandableGroup<*>?, childIndex: Int) {
         val artist = (group as Notice).items[childIndex]
-        holder?.let { it.binding.text.text = artist.text }
+        holder?.let { it.binding.notice = artist }
     }
 
 

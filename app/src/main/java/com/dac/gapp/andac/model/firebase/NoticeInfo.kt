@@ -10,6 +10,7 @@ data class NoticeInfo(
         var title: String? = null,
         var text: String? = null,
         var pictureUrl: String? = null,
+        var pictureUrlThumbnail: String? = null,
         @ServerTimestamp var writeDate: Date? = null) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -17,8 +18,8 @@ data class NoticeInfo(
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readSerializable() as Date?) {
-    }
+            parcel.readString(),
+            parcel.readSerializable() as Date?)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)

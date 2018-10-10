@@ -278,7 +278,7 @@
                             android:id="@+id/notice_date_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{noticeList[0].writeDate}"
+                            app:onlyDate="@{noticeList[0].writeDate}"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
 
@@ -305,7 +305,7 @@
                             android:id="@+id/notice_date_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{noticeList[1].writeDate}"
+                            app:onlyDate="@{noticeList[1].writeDate}"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
 
@@ -334,7 +334,7 @@
                             android:id="@+id/notice_date_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{noticeList[2].writeDate}"
+                            app:onlyDate="@{noticeList[2].writeDate}"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
 
@@ -362,7 +362,7 @@
                             android:id="@+id/notice_date_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{noticeList[3].writeDate}"
+                            app:onlyDate="@{noticeList[3].writeDate}"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
 

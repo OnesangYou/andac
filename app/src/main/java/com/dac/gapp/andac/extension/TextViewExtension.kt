@@ -3,7 +3,9 @@ package com.dac.gapp.andac.extension
 import android.annotation.SuppressLint
 import android.databinding.BindingAdapter
 import android.widget.TextView
+import com.dac.gapp.andac.util.getDateFormat
 import java.text.DecimalFormat
+import java.util.*
 
 
 @SuppressLint("SetTextI18n")
@@ -25,4 +27,9 @@ fun TextView.setPrice(price : Int, default : String = "병원문의"){
     } else {
         this.text = DecimalFormat("#,###").format(price) + "원"
     }
+}
+
+@BindingAdapter("onlyDate")
+fun TextView.onlyDate(date : Date?){
+    this.text = date?.getDateFormat("YYYY/MM/dd")
 }

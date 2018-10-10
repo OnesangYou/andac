@@ -9,6 +9,7 @@ import com.dac.gapp.andac.databinding.ActivityNoticeBinding
 import com.dac.gapp.andac.model.Notice
 import com.dac.gapp.andac.model.firebase.NoticeInfo
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import timber.log.Timber
 
@@ -30,6 +31,7 @@ class NoticeActivity : BaseActivity() {
 
         FirebaseFirestore.getInstance()
                 .collection("notice")
+                .orderBy("writeDate", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener { snapshot ->
                     snapshot.result.forEach {
