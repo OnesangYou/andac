@@ -32,6 +32,7 @@ open class MyPageActivity : BaseMyPageActivity() {
                 positiveButton("YES") { _ ->
                     getAuth()!!.signOut()
                     finish()
+                    goToLogin()
                 }
                 negativeButton("NO") {}
             }.show()
