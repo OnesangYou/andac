@@ -5,8 +5,9 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 
 
-@BindingAdapter("imageUrl", "defaultSrc", requireAll = false)
-fun ImageView.loadImage(url: String?, default: Any? = null) {
+@BindingAdapter("imageUrl", "thumbUrl", "defaultSrc", requireAll = false)
+fun ImageView.loadImage(imageUrl: String?, thumbUrl: String? = null, default: Any? = null) {
+    val url = thumbUrl?:imageUrl
     val model = if (url.isNullOrEmpty()) default else url
     model?:return
     loadImageAny(model)

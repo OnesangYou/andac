@@ -53,16 +53,14 @@ class BoardFragment : BaseFragment() {
         prepareUi()
         context?.apply {
             if (isUser()) binding.fabWriteBoard.setOnClickListener { _ ->
-                getCurrentUser()?.let {
-                    activity?.startActivityForResult(Intent(context, BoardWriteActivity::class.java), RequestCode.OBJECT_ADD.value)
-                }?: goToLogin()
+                afterCheckLoginDo { activity?.startActivityForResult(Intent(context, BoardWriteActivity::class.java), RequestCode.OBJECT_ADD.value) }
             }
             else {
                 binding.fabWriteBoard.visibility = View.INVISIBLE
             }
         }
 
-        resetData()
+        lastVisible = null
 
         // set recyclerView
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -89,6 +87,7 @@ class BoardFragment : BaseFragment() {
                     getString(R.string.review_board) -> setAdapter(getString(R.string.review_board))
                     getString(R.string.question_board) -> setAdapter(getString(R.string.question_board))
                     getString(R.string.hot_board) -> setAdapter(getString(R.string.hot_board))
+                    getString(R.string.certification_board) -> setAdapter(getString(R.string.certification_board))
                 }
             }
 
@@ -129,7 +128,7 @@ class BoardFragment : BaseFragment() {
         this.type = type
 
         // reset data
-        resetData()
+        lastVisible = null
 
         // add Data
         addDataToRecycler(type)
@@ -149,10 +148,10 @@ class BoardFragment : BaseFragment() {
         map.clear()
         hospitalInfoMap.clear()
         likeSet.clear()
-        lastVisible = null
     }
 
     fun addDataToRecycler(type: String) {
+        var needClear = false
         context?.apply {
             showProgressDialog()
             getTripleDataTask(
@@ -166,11 +165,13 @@ class BoardFragment : BaseFragment() {
                                 }
                             }
                             .let { query ->
-                                lastVisible?.let { query.startAfter(it) } ?: query
+                                lastVisible?.let { query.startAfter(it) } ?: let{needClear = true; query}
                             }    // 쿼리 커서 시작 위치 지정
                             .limit(PageSize.board.value)   // 페이지 단위
             )
                     ?.addOnSuccessListener {
+                        if(needClear) resetData()
+
                         list.addAll(it.boardInfos)
                         map.putAll(it.userInfoMap)
                         hospitalInfoMap.putAll(it.hospitalInfoMap)

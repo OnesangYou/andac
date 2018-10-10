@@ -64,7 +64,8 @@ class MainFragment : BaseFragment() {
     private fun setNotice() {
         val db = FirebaseFirestore.getInstance()
         val list: ArrayList<NoticeInfo> = ArrayList()
-        db.collection("notice").limit(4).get().addOnSuccessListener { snapshot ->
+        db.collection("notice").orderBy("writeDate", Query.Direction.DESCENDING)
+                .limit(4).get().addOnSuccessListener { snapshot ->
             for (document in snapshot) {
                 document.toObject(NoticeInfo::class.java).let {
                     list.add(it)
