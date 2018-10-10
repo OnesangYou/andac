@@ -1,126 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.dac.gapp.andac.JoinPhoneActivity"
-    >
-
+<layout>
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        tools:context="com.dac.gapp.andac.JoinPhoneActivity"
         >
 
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="50dp"
-            android:text="병원 관리자 본인 인증"
-            android:textColor="@color/colorMain"
-            android:textSize="@dimen/_20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/view"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout2"
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="7dp"
-            android:background="@color/lightgray"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-
-        <EditText
-            android:id="@+id/phoneEdit"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="7dp"
-            android:backgroundTint="@color/non"
-            android:digits="0123456789"
-            android:ems="10"
-            android:hint="관리자 핸드폰번호를 입력하세요"
-            android:inputType="phone"
-            android:textSize="@dimen/_15sp"
-            app:layout_constraintBottom_toTopOf="@+id/view2"
-            app:layout_constraintEnd_toStartOf="@+id/sendCertiCodeBtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
+            >
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="50dp"
+                android:text="병원 관리자 본인 인증"
+                android:textColor="@color/colorMain"
+                android:textSize="@dimen/_20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="7dp"
+                android:background="@color/lightgray"
+                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+
+            <EditText
+                android:id="@+id/phoneEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:backgroundTint="@color/non"
+                android:digits="0123456789"
+                android:ems="10"
+                android:hint="관리자 핸드폰번호를 입력하세요"
+                android:inputType="phone"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintBottom_toTopOf="@+id/view2"
+                app:layout_constraintEnd_toStartOf="@+id/sendCertiCodeBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
 
 
 
-        <View
-            android:id="@+id/view2"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="7dp"
-            android:background="@color/lightgray"
-            app:layout_constraintTop_toBottomOf="@+id/phoneEdit" />
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="7dp"
+                android:background="@color/lightgray"
+                app:layout_constraintTop_toBottomOf="@+id/phoneEdit" />
 
-        <EditText
-            android:id="@+id/certificationEdit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="7dp"
-            android:backgroundTint="@color/non"
-            android:ems="10"
-            android:hint="인증번호를 입력해주세요"
-            android:inputType="phone"
-            android:textSize="@dimen/_15sp"
-            app:layout_constraintEnd_toStartOf="@+id/ConfirmCertiCodeBtn"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2" />
+            <EditText
+                android:id="@+id/certificationEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:backgroundTint="@color/non"
+                android:ems="10"
+                android:hint="인증번호를 입력해주세요"
+                android:inputType="phone"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintEnd_toStartOf="@+id/ConfirmCertiCodeBtn"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
 
 
-        <View
-            android:id="@+id/view3"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="7dp"
-            android:background="@color/lightgray"
-            app:layout_constraintTop_toBottomOf="@+id/certificationEdit" />
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="7dp"
+                android:background="@color/lightgray"
+                app:layout_constraintTop_toBottomOf="@+id/certificationEdit" />
 
-        <Button
-            android:id="@+id/sendCertiCodeBtn"
-            android:layout_width="110dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="7dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginTop="7dp"
-            android:background="@color/colorMain"
-            android:text="인증번호 전송"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_15sp"
-            app:layout_constraintBottom_toTopOf="@+id/view2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
+            <Button
+                android:id="@+id/sendCertiCodeBtn"
+                android:layout_width="110dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="7dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginTop="7dp"
+                android:background="@color/colorMain"
+                android:text="인증번호 전송"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintBottom_toTopOf="@+id/view2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
 
-        <Button
-            android:id="@+id/ConfirmCertiCodeBtn"
-            android:layout_width="110dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="7dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginTop="7dp"
-            android:background="@color/colorMain"
-            android:text="인증번호 확인"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2" />
+            <Button
+                android:id="@+id/ConfirmCertiCodeBtn"
+                android:layout_width="110dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="7dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginTop="7dp"
+                android:background="@color/colorMain"
+                android:text="인증번호 확인"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+
+        </android.support.constraint.ConstraintLayout>
 
 
     </android.support.constraint.ConstraintLayout>
-
-
-</android.support.constraint.ConstraintLayout>
+</layout>

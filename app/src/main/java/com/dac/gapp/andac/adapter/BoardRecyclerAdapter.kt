@@ -11,6 +11,8 @@ import android.widget.Button
 import android.widget.PopupMenu
 import android.widget.ToggleButton
 import com.dac.gapp.andac.BoardWriteActivity
+import com.dac.gapp.andac.EXTRA_HOSPITAL_INFO
+import com.dac.gapp.andac.HospitalActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.databinding.ItemCardBinding
@@ -21,6 +23,7 @@ import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import kotlinx.android.synthetic.main.base_item_card.view.*
+import org.jetbrains.anko.startActivity
 
 class BoardRecyclerAdapter(
         private val context : BaseActivity?,
@@ -49,6 +52,7 @@ class BoardRecyclerAdapter(
                 it.boardInfo = boardInfo
                 it.hospitalInfo = hospitalInfoMap[mDataList[position].hospitalUid]
                 it.userInfo = userInfo
+                it.holder = holder
             }
 
             // 게시판 사진
@@ -124,6 +128,9 @@ class BoardRecyclerAdapter(
         val pictures = arrayListOf(itemView.picture_1, itemView.picture_2, itemView.picture_3)
         val menu: Button = itemView.menu
         val likeText = itemView.likeText
+
+        fun goToHospital(view : View, hospitalInfo : HospitalInfo) = view.context.startActivity<HospitalActivity>(EXTRA_HOSPITAL_INFO to hospitalInfo)
+
     }
 
 }

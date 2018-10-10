@@ -17,6 +17,7 @@ android {
 //            storePassword '1q2w3e'
 //        }
 //    }
+    buildToolsVersion '28.0.2'
     dataBinding.enabled true
     compileSdkVersion 26
     defaultConfig {
@@ -58,13 +59,14 @@ android {
             buildConfigField 'String', 'ALGOLIA_APP_ID', "\"VUNTR162M6\""
             buildConfigField 'String', 'ALGOLIA_SEARCH_API_KEY', "\"f8eab63beb88f72136b260ea219aa6a4\""
         }
+
     }
-    flavorDimensions "target"
+    flavorDimensions "target", "type"
     productFlavors {
         user {
             dimension "target"
             applicationIdSuffix ".andac.user"
-            manifestPlaceholders = [appLabel: "안닥"]
+            manifestPlaceholders = [appLabel: ""]
             buildConfigField 'boolean', 'IS_USER', "true"
             versionCode new Date().format('yyMMddHHmm').toInteger()
         }
@@ -72,9 +74,19 @@ android {
         hospital {
             dimension "target"
             applicationIdSuffix ".andac.hospital"
-            manifestPlaceholders = [appLabel: "안닥파트너스"]
+            manifestPlaceholders = [appLabel: "파트너스"]
             buildConfigField 'boolean', 'IS_USER', "false"
             versionCode new Date().format('yyMMddHHmm').toInteger()
+        }
+
+        chidac {
+            dimension "type"
+            applicationIdSuffix ".chidac"
+            manifestPlaceholders = [appType: "치닥"]
+        }
+        andac {
+            dimension "type"
+            manifestPlaceholders = [appType: "안닥"]
         }
     }
     defaultConfig {
@@ -118,7 +130,6 @@ dependencies {
     implementation 'com.thoughtbot:expandablerecyclerview:1.3'
     implementation 'gun0912.ted:tedonactivityresult-rx2:1.0.6'
     implementation 'com.google.code.gson:gson:2.8.5'
-    kapt "com.android.databinding:compiler:3.1.4"
     // Add dependency
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
 }

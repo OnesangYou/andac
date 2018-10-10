@@ -98,7 +98,6 @@ class ReviewBoardListActivity : BaseActivity() {
     }
 
     fun addDataToRecycler(type: String, hospitalId : String) {
-        showProgressDialog()
         getTripleDataTask(
                 getBoards()
                         .whereEqualTo("type", type)
@@ -117,7 +116,6 @@ class ReviewBoardListActivity : BaseActivity() {
                     recyclerView.adapter.notifyDataSetChanged()
 
                 }
-                ?.addOnCompleteListener { hideProgressDialog() }
                 ?.addOnFailureListener { it.printStackTrace() }
     }
 
@@ -141,7 +139,7 @@ class ReviewBoardListActivity : BaseActivity() {
                             ,
                             // set hospitalInfoMap
                             data.boardInfos.asSequence().groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
-                                getHospitalInfo(it.key)?.continueWith { task -> it.key to task.result }
+                                getHospitalInfo(it.key)?.continueWith { task -> it.key to task.result.apply{this?.objectID = it.key} }
                             }.toList().let {
                                 Tasks.whenAllSuccess<Pair<String, HospitalInfo>>(it)
                             }.continueWith {

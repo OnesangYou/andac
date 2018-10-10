@@ -4,46 +4,49 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import com.dac.gapp.andac.base.BaseHospitalActivity
+import com.dac.gapp.andac.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.hospital.activity_login.*
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 
 class LoginActivity : BaseHospitalActivity() {
     private var mAuth: FirebaseAuth? = null
 
+    lateinit var binding: ActivityLoginBinding
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        binding = getBinding()
         hideActionBar()
 
         // Initialize Firebase Auth
         mAuth = getAuth()
 
-        goToJoin.setOnClickListener {
+        binding.goToJoin.setOnClickListener {
             startActivity(Intent(this, JoinActivity::class.java))
         }
 
-        loginBtn.setOnClickListener { _ ->
+        binding.loginBtn.setOnClickListener { _ ->
             val mAuth = getAuth()
 
-            if(emailEdit.text.isEmpty()) {
+            if(binding.emailEdit.text.isEmpty()) {
                 this@LoginActivity.toast("이메일을 입력하세요")
                 return@setOnClickListener
             }
 
-            if(passwordLoginEdit.text.isEmpty()) {
+            if(binding.passwordLoginEdit.text.isEmpty()) {
                 this@LoginActivity.toast("패스워드를 입력하세요")
                 return@setOnClickListener
             }
 
             // 병원 유저인지 체크
             showProgressDialog()
-            onCheckHospitalUser(emailEdit.text.toString()).continueWithTask {
+            onCheckHospitalUser(binding.emailEdit.text.toString()).continueWithTask {
                 if(!it.result) throw IllegalStateException("병원 회원가입이 안된 Email 입니다")
-                mAuth?.signInWithEmailAndPassword(emailEdit.text.toString(), passwordLoginEdit.text.toString())
+                mAuth?.signInWithEmailAndPassword(binding.emailEdit.text.toString(), binding.passwordLoginEdit.text.toString())
             }.addOnSuccessListener {
                 Timber.tag(KBJ).d("signInWithEmail:success")
                 val user = it.user
@@ -56,7 +59,7 @@ class LoginActivity : BaseHospitalActivity() {
             }
         }
 
-        findPasswordBtn.setOnClickListener {
+        binding.findPasswordBtn.setOnClickListener {
             findPassword()
         }
     }

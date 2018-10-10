@@ -7,25 +7,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
-import kotlinx.android.synthetic.hospital.fragment_join_certi.*
+import com.dac.gapp.andac.databinding.FragmentJoinCertiBinding
 
 
 /**
  * A simple [Fragment] subclass.
  */
 class JoinCertiFragment : JoinBaseFragment() {
+
+    lateinit var binding: FragmentJoinCertiBinding
+
     override fun onChangeFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_join_certi, container, false)
+        return inflate(inflater, R.layout.fragment_join_certi, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding = getBinding()
+
         // 계좌 사진 업로드
-        bankAccountUploadBtn.setOnClickListener{
+        binding.bankAccountUploadBtn.setOnClickListener{
             // Image File 가져옴
             context?.getAlbumImage{ albumFile ->
                 getJoinActivity().bankAccountPicUri = albumFile }
@@ -33,17 +38,17 @@ class JoinCertiFragment : JoinBaseFragment() {
         }
 
         // 사업자등록증 업로드
-        busiRegiUploadBtn.setOnClickListener {
+        binding.busiRegiUploadBtn.setOnClickListener {
             context?.getAlbumImage{albumFile ->
                 getJoinActivity().busiRegiPicUri = albumFile
             }
         }
 
         // Next 버튼
-        nextBtn.setOnClickListener { _ ->
+        binding.nextBtn.setOnClickListener { _ ->
             getJoinActivity().apply {
 
-                arrayListOf(busniss_id, bank_name, bankAccountNumberText, bankAccountMasterText).forEach {
+                arrayListOf(binding.busnissId, binding.bankName, binding.bankAccountNumberText, binding.bankAccountMasterText).forEach {
                     if(it.text.isNullOrEmpty()){
                         toast(it.hint)
                         return@setOnClickListener
@@ -60,10 +65,10 @@ class JoinCertiFragment : JoinBaseFragment() {
                     return@setOnClickListener
                 }
 
-                hospitalInfo.busniss_id = busniss_id.text.toString()
-                hospitalInfo.bankName = bank_name.text.toString()
-                hospitalInfo.bankAccountNumber = bankAccountNumberText.text.toString()
-                hospitalInfo.bankAccountMaster = bankAccountMasterText.text.toString()
+                hospitalInfo.busniss_id = binding.busnissId.text.toString()
+                hospitalInfo.bankName = binding.bankName.text.toString()
+                hospitalInfo.bankAccountNumber = binding.bankAccountNumberText.text.toString()
+                hospitalInfo.bankAccountMaster = binding.bankAccountMasterText.text.toString()
 
                 goToNextView()
             }

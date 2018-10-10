@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.databinding.ActivityHospitalEventListBinding
 import com.dac.gapp.andac.enums.Extra
 import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.enums.RequestCode
@@ -19,7 +20,6 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import kotlinx.android.synthetic.hospital.activity_hospital_event_list.*
 import org.jetbrains.anko.startActivityForResult
 
 
@@ -30,9 +30,12 @@ class HospitalEventListActivity : BaseActivity() {
     val map = mutableMapOf<String, HospitalInfo>()
     private var lastVisible: DocumentSnapshot? = null
 
+    lateinit var binding : ActivityHospitalEventListBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hospital_event_list)
+        binding = getBinding()
         prepareUi()
 
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
@@ -41,9 +44,9 @@ class HospitalEventListActivity : BaseActivity() {
         resetData()
 
         // recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this@HospitalEventListActivity)
-        recyclerView.adapter = EventRecyclerAdapter(this@HospitalEventListActivity, list, map)
-        recyclerView.addOnItemClickListener(object : OnItemClickListener {
+        binding.recyclerView.layoutManager = LinearLayoutManager(this@HospitalEventListActivity)
+        binding.recyclerView.adapter = EventRecyclerAdapter(this@HospitalEventListActivity, list, map)
+        binding.recyclerView.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 // 이벤트 신청자 리스트
                 val isEventSelect = intent.hasExtra(Extra.IS_EVENT_SELECT.name) && intent.getBooleanExtra(Extra.IS_EVENT_SELECT.name, false)
@@ -76,15 +79,15 @@ class HospitalEventListActivity : BaseActivity() {
         // reset data
         resetData()
 
-        recyclerView.adapter.notifyDataSetChanged()
+        binding.recyclerView.adapter.notifyDataSetChanged()
 
         // add Data
         addDataToRecycler()
 
         // add event to recycler's last
-        recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(rv: RecyclerView?, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_SETTLING && !recyclerView.canScrollVertically(1)) {
+                if (newState == RecyclerView.SCROLL_STATE_SETTLING && !binding.recyclerView.canScrollVertically(1)) {
                     addDataToRecycler()
                 }
             }
@@ -109,7 +112,7 @@ class HospitalEventListActivity : BaseActivity() {
                 ?.addOnSuccessListener {
                     list.addAll(it.first)
                     map.putAll(it.second)
-                    recyclerView.adapter.notifyDataSetChanged()
+                    binding.recyclerView.adapter.notifyDataSetChanged()
                 }
                 ?.addOnCompleteListener { hideProgressDialog() }
 

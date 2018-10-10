@@ -23,7 +23,7 @@ import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentSnapshot
-import kotlinx.android.synthetic.user.fragment_favorites.*
+import java.lang.Exception
 
 
 class FavoritesFragment : BaseFragment() {
@@ -37,7 +37,7 @@ class FavoritesFragment : BaseFragment() {
         binding = getBinding()
 
         // set tabLayout click listener
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when(tab.text){
                     getString(R.string.hospital) -> setHospitalRecyclerAdapter() // 병원
@@ -80,27 +80,30 @@ class FavoritesFragment : BaseFragment() {
 
     private fun setEventRecyclerAdapter() {
         context?.apply {
+            var eventInfos = listOf<EventInfo>()
             val ref = getLikeEvents() ?: return
             addListenerRegistrations(ref.orderBy("createdDate").addSnapshotListener { snapshot, _ ->
                 snapshot?:return@addSnapshotListener
                 snapshot.mapNotNull { documentSnapshot -> getEvent(documentSnapshot.id)?.get()}
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-                        .addOnSuccessListener { list ->
-                            val eventInfos = list.asSequence().mapNotNull { it.toObject(EventInfo::class.java)!! }.toList()
-
-                            eventInfos.groupBy { it.writerUid }
+                        .continueWithTask { list ->
+                            eventInfos?:throw Exception()
+                            eventInfos = list.result.asSequence().mapNotNull { it.toObject(EventInfo::class.java)!! }.toList()
+                            eventInfos.asSequence().groupBy { it.writerUid }
                                     .filter { !it.key.isEmpty() }
                                     .mapNotNull { getHospital(it.key).get() }.toList()
                                     .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
-                                    .addOnSuccessListener { mutableList ->
-                                        val hospitalMap = mutableList.filterNotNull().map{ it.id to it.toObject(HospitalInfo::class.java)!! }.toMap()
-                                        recyclerView.removeAllViews()
-                                        recyclerView.layoutManager = LinearLayoutManager(this)
-                                        recyclerView.adapter = EventRecyclerAdapter(this, eventInfos, hospitalMap) {eventInfo, hospitalInfo ->
-                                            startActivity(Intent(this@apply, EventDetailActivity::class.java).putExtra(this@apply.OBJECT_KEY, eventInfo.objectId))
-                                        }
-                                    }
+
                         }
+                        .addOnSuccessListener { mutableList ->
+                            val hospitalMap = mutableList.filterNotNull().map{ it.id to it.toObject(HospitalInfo::class.java)!! }.toMap()
+                            binding.recyclerView.removeAllViews()
+                            binding.recyclerView.layoutManager = LinearLayoutManager(this)
+                            binding.recyclerView.adapter = EventRecyclerAdapter(this, eventInfos, hospitalMap) {eventInfo, hospitalInfo ->
+                                startActivity(Intent(this@apply, EventDetailActivity::class.java).putExtra(this@apply.OBJECT_KEY, eventInfo.objectId))
+                            }
+                        }
+
             }, true)
         }
 
@@ -128,7 +131,7 @@ class FavoritesFragment : BaseFragment() {
                                     ,
                                     // set hospitalInfoMap
                                     data.boardInfos.asSequence().groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
-                                        getHospitalInfo(it.key)?.continueWith { task -> it.key to task.result }
+                                        getHospitalInfo(it.key)?.continueWith { task -> it.key to task.result.apply{this?.objectID = it.key} }
                                     }.toList().let {
                                         Tasks.whenAllSuccess<Pair<String, HospitalInfo>>(it)
                                     }.continueWith {

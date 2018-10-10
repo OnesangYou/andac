@@ -2,11 +2,11 @@ package com.dac.gapp.andac
 
 import android.os.Bundle
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.databinding.ActivityJoinPhoneBinding
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.SetOptions
-import kotlinx.android.synthetic.hospital.activity_join_phone.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.debug
 import org.jetbrains.anko.warn
@@ -14,13 +14,15 @@ import java.util.concurrent.TimeUnit
 
 
 class JoinPhoneActivity : BaseActivity(), AnkoLogger {
+    lateinit var binding: ActivityJoinPhoneBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_phone)
+        binding = getBinding()
         hideActionBar()
         // 인증번호 발송
-        sendCertiCodeBtn.setOnClickListener {
-                var phoneStr = phoneEdit.text.toString()
+        binding.sendCertiCodeBtn.setOnClickListener {
+                var phoneStr = binding.phoneEdit.text.toString()
                 if(phoneStr.isEmpty()){
                     toast("전화번호를 입력하세요")
                     return@setOnClickListener
@@ -52,8 +54,8 @@ class JoinPhoneActivity : BaseActivity(), AnkoLogger {
                         debug("onCodeSent:" + verificationId!!)
                         toast("인증코드 전송 하였습니다")
 
-                        ConfirmCertiCodeBtn.setOnClickListener {
-                            val code = certificationEdit.text.toString()
+                        binding.ConfirmCertiCodeBtn.setOnClickListener {
+                            val code = binding.certificationEdit.text.toString()
                             val credential = PhoneAuthProvider.getCredential(verificationId, code)
 //                            toast("credential : $credential")
 

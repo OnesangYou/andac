@@ -1,260 +1,262 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.dac.gapp.andac.fragment.JoinCertiFragment">
-
-
-
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <LinearLayout
+<layout>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context="com.dac.gapp.andac.fragment.JoinCertiFragment">
 
-        <android.support.constraint.ConstraintLayout
+
+
+
+        <!-- TODO: Update blank fragment layout -->
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
-                android:text="사업자등록증 제출"
-                android:textColor="@color/colorMain"
-                android:textSize="@dimen/_20sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/view"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="7dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/upload_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="13dp"
-                android:text="사업자등록증을 업로드하세요"
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:text="사업자등록증 제출"
+                    android:textColor="@color/colorMain"
+                    android:textSize="@dimen/_20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
-            <View
-                android:id="@+id/view_1_1"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="13dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/upload_1" />
+                <TextView
+                    android:id="@+id/upload_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="13dp"
+                    android:text="사업자등록증을 업로드하세요"
+
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
+
+                <View
+                    android:id="@+id/view_1_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="13dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/upload_1" />
 
 
-            <EditText
+                <EditText
 
-                android:id="@+id/busniss_id"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="7dp"
-                android:backgroundTint="@color/non"
-                android:ems="10"
-                android:hint="사업자등록번호를 입력해주세요"
-                android:inputType="textPersonName"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view_1_1" />
+                    android:id="@+id/busniss_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="7dp"
+                    android:backgroundTint="@color/non"
+                    android:ems="10"
+                    android:hint="사업자등록번호를 입력해주세요"
+                    android:inputType="textPersonName"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_1_1" />
 
+
+                <Button
+                    android:id="@+id/busiRegiUploadBtn"
+                    android:layout_width="110dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorMain"
+                    android:text="업로드"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/view_1_1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/busniss_id" />
+
+                <TextView
+                    android:id="@+id/upload_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="13dp"
+                    android:text="통장사본을 업로드하세요"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view2_1" />
+
+
+                <View
+                    android:id="@+id/view2_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:text="거래계좌 제출"
+                    android:textColor="@color/colorMain"
+                    android:textSize="@dimen/_20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+                <Button
+                    android:id="@+id/bankAccountUploadBtn"
+                    android:layout_width="110dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorMain"
+                    android:text="업로드"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/view2_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view2_1" />
+
+                <View
+                    android:id="@+id/view2_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="13dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/upload_2" />
+
+
+                <EditText
+
+                    android:id="@+id/bank_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="7dp"
+                    android:backgroundTint="@color/non"
+                    android:ems="10"
+                    android:hint="은행명을 입력해주세요"
+                    android:inputType="textPersonName"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view2_2" />
+
+
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/bank_name" />
+
+
+                <EditText
+
+                    android:id="@+id/bankAccountNumberText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="7dp"
+                    android:backgroundTint="@color/non"
+                    android:ems="10"
+                    android:hint="은행계좌번호를 입력해주세요"
+                    android:inputType="textPersonName"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+                <View
+                    android:id="@+id/view4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/bankAccountNumberText" />
+
+
+                <EditText
+
+                    android:id="@+id/bankAccountMasterText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="7dp"
+                    android:backgroundTint="@color/non"
+                    android:ems="10"
+                    android:hint="예금주명을 입력해주세요"
+                    android:inputType="textPersonName"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+                <View
+                    android:id="@+id/view5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/bankAccountMasterText" />
+
+
+
+
+
+            </android.support.constraint.ConstraintLayout>
 
             <Button
-                android:id="@+id/busiRegiUploadBtn"
-                android:layout_width="110dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:id="@+id/nextBtn"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:textSize="17dp"
+
                 android:background="@color/colorMain"
-                android:text="업로드"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintBottom_toTopOf="@+id/view_1_1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                android:text="다음단계"
+                android:textColor="@color/white" />
 
-            <View
-                android:id="@+id/view2"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="7dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/busniss_id" />
-
-            <TextView
-                android:id="@+id/upload_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="13dp"
-                android:text="통장사본을 업로드하세요"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view2_1" />
+        </LinearLayout>
 
 
-            <View
-                android:id="@+id/view2_1"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="7dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/textView19" />
-
-
-            <TextView
-                android:id="@+id/textView19"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
-                android:text="거래계좌 제출"
-                android:textColor="@color/colorMain"
-                android:textSize="@dimen/_20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view2" />
-
-            <Button
-                android:id="@+id/bankAccountUploadBtn"
-                android:layout_width="110dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/colorMain"
-                android:text="업로드"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintBottom_toTopOf="@+id/view2_2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view2_1" />
-
-            <View
-                android:id="@+id/view2_2"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="13dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/upload_2" />
-
-
-            <EditText
-
-                android:id="@+id/bank_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="7dp"
-                android:backgroundTint="@color/non"
-                android:ems="10"
-                android:hint="은행명을 입력해주세요"
-                android:inputType="textPersonName"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view2_2" />
-
-
-            <View
-                android:id="@+id/view3"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="7dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/bank_name" />
-
-
-            <EditText
-
-                android:id="@+id/bankAccountNumberText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="7dp"
-                android:backgroundTint="@color/non"
-                android:ems="10"
-                android:hint="은행계좌번호를 입력해주세요"
-                android:inputType="textPersonName"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view3" />
-
-            <View
-                android:id="@+id/view4"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="7dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/bankAccountNumberText" />
-
-
-            <EditText
-
-                android:id="@+id/bankAccountMasterText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="7dp"
-                android:backgroundTint="@color/non"
-                android:ems="10"
-                android:hint="예금주명을 입력해주세요"
-                android:inputType="textPersonName"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view4" />
-
-            <View
-                android:id="@+id/view5"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="7dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/bankAccountMasterText" />
-
-
-
-
-
-        </android.support.constraint.ConstraintLayout>
-
-        <Button
-            android:id="@+id/nextBtn"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:textSize="17dp"
-
-            android:background="@color/colorMain"
-            android:text="다음단계"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
-
-
-</FrameLayout>
+    </FrameLayout>
+</layout>

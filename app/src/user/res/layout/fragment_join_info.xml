@@ -1,271 +1,274 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.dac.gapp.andac.fragment.JoinInfoFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+<layout>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context="com.dac.gapp.andac.fragment.JoinInfoFragment">
 
-        <android.support.constraint.ConstraintLayout
+        <!-- TODO: Update blank fragment layout -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="40dp"
-                android:text="ANDAC 회원가입"
-                android:textColor="@color/colorMain"
-                android:textSize="@dimen/_20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/view"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="20dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
-            <EditText
-                android:id="@+id/nickNameEdit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="@color/non"
-                android:ems="10"
-                android:hint="닉네임 입력"
-                android:inputType="textPersonName"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintEnd_toStartOf="@+id/checkNickNameBtn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="40dp"
+                    android:text="ANDAC 회원가입"
+                    android:textColor="@color/colorMain"
+                    android:textSize="@dimen/_20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:id="@+id/view2"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="5dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/nickNameEdit" />
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
+                <EditText
+                    android:id="@+id/nickNameEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/non"
+                    android:ems="10"
+                    android:hint="닉네임 입력"
+                    android:inputType="textPersonName"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintEnd_toStartOf="@+id/checkNickNameBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
 
-            <EditText
-                android:id="@+id/emailEdit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="@color/non"
-                android:ems="10"
-                android:hint="이메일 입력"
-                android:inputType="textEmailAddress"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintEnd_toStartOf="@+id/checkEmailBtn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view2" />
-
-
-            <View
-                android:id="@+id/view3"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="5dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
-
-            <EditText
-                android:id="@+id/passwordEdit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="@color/non"
-                android:ems="10"
-                android:hint="비밀번호 입력"
-                android:inputType="textPassword"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view3" />
-
-            <View
-                android:id="@+id/view4"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="5dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/passwordEdit" />
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/nickNameEdit" />
 
 
-            <EditText
-                android:id="@+id/passwordConfirmEdit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="@color/non"
-                android:ems="10"
-                android:hint="비밀번호 확인"
-                android:inputType="textPassword"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view4" />
+                <EditText
+                    android:id="@+id/emailEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/non"
+                    android:ems="10"
+                    android:hint="이메일 입력"
+                    android:inputType="textEmailAddress"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintEnd_toStartOf="@+id/checkEmailBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view2" />
 
-            <View
-                android:id="@+id/view5"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="5dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/passwordConfirmEdit" />
 
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
+
+                <EditText
+                    android:id="@+id/passwordEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/non"
+                    android:ems="10"
+                    android:hint="비밀번호 입력"
+                    android:inputType="textPassword"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+                <View
+                    android:id="@+id/view4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/passwordEdit" />
+
+
+                <EditText
+                    android:id="@+id/passwordConfirmEdit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/non"
+                    android:ems="10"
+                    android:hint="비밀번호 확인"
+                    android:inputType="textPassword"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+                <View
+                    android:id="@+id/view5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/passwordConfirmEdit" />
+
+
+                <Button
+                    android:id="@+id/checkNickNameBtn"
+                    android:layout_width="120dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorMain"
+                    android:text="중복확인"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/checkEmailBtn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view" />
+
+                <Button
+                    android:id="@+id/checkEmailBtn"
+                    android:layout_width="120dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/gray"
+                    android:text="중복확인"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintBottom_toTopOf="@+id/view3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/checkNickNameBtn" />
+
+
+                <EditText
+                    android:id="@+id/birthEdit"
+                    android:layout_width="368dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:backgroundTint="@color/non"
+                    android:ems="10"
+                    android:hint="생년월일 입력 (ex. 950117)"
+                    android:enabled="true"
+                    android:focusable="false"
+                    android:inputType="date"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+                <View
+                    android:id="@+id/view6"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/birthEdit" />
+
+
+                <TextView
+                    android:id="@+id/sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="16dp"
+                    android:text="성별"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_15sp"
+                    app:layout_constraintStart_toStartOf="@+id/birthEdit"
+                    app:layout_constraintTop_toBottomOf="@+id/view6" />
+
+
+                <RadioGroup
+                    android:id="@+id/radiogroup_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="7dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view6">
+
+                    <RadioButton
+                        android:id="@+id/radio_men"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/colorMain"
+                        android:checked="true"
+                        android:text="남자"
+                        android:textSize="@dimen/_15sp" />
+
+                    <RadioButton
+                        android:id="@+id/radio_women"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:buttonTint="@color/colorMain"
+                        android:text="여자"
+                        android:textSize="@dimen/_15sp" />
+
+                </RadioGroup>
+
+
+                <View
+                    android:id="@+id/view7"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/radiogroup_sex" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="안닥은 개인정보 보호법을 준수합니다."
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sp"
+                    app:layout_constraintStart_toStartOf="@+id/sex"
+                    app:layout_constraintTop_toBottomOf="@+id/view7" />
+
+
+            </android.support.constraint.ConstraintLayout>
 
             <Button
-                android:id="@+id/checkNickNameBtn"
-                android:layout_width="120dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="5dp"
+                android:id="@+id/joinBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/colorMain"
-                android:text="중복확인"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintBottom_toTopOf="@+id/checkEmailBtn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                android:text="회원가입"
+                android:textColor="@color/white" />
 
-            <Button
-                android:id="@+id/checkEmailBtn"
-                android:layout_width="120dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/gray"
-                android:text="중복확인"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintBottom_toTopOf="@+id/view3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkNickNameBtn" />
+        </LinearLayout>
 
+    </FrameLayout>
 
-            <EditText
-                android:id="@+id/birthEdit"
-                android:layout_width="368dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="5dp"
-                android:backgroundTint="@color/non"
-                android:ems="10"
-                android:hint="생년월일 입력 (ex. 950117)"
-                android:enabled="true"
-                android:focusable="false"
-                android:inputType="date"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view5" />
-
-            <View
-                android:id="@+id/view6"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="5dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/birthEdit" />
-
-
-            <TextView
-                android:id="@+id/sex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="16dp"
-                android:text="성별"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/_15sp"
-                app:layout_constraintStart_toStartOf="@+id/birthEdit"
-                app:layout_constraintTop_toBottomOf="@+id/view6" />
-
-
-            <RadioGroup
-                android:id="@+id/radiogroup_sex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="7dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view6">
-
-                <RadioButton
-                    android:id="@+id/radio_men"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/colorMain"
-                    android:checked="true"
-                    android:text="남자"
-                    android:textSize="@dimen/_15sp" />
-
-                <RadioButton
-                    android:id="@+id/radio_women"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:buttonTint="@color/colorMain"
-                    android:text="여자"
-                    android:textSize="@dimen/_15sp" />
-
-            </RadioGroup>
-
-
-            <View
-                android:id="@+id/view7"
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="7dp"
-                android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/radiogroup_sex" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="안닥은 개인정보 보호법을 준수합니다."
-                android:textColor="@color/gray"
-                android:textSize="@dimen/_12sp"
-                app:layout_constraintStart_toStartOf="@+id/sex"
-                app:layout_constraintTop_toBottomOf="@+id/view7" />
-
-
-        </android.support.constraint.ConstraintLayout>
-
-        <Button
-            android:id="@+id/joinBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorMain"
-            android:text="회원가입"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</layout>

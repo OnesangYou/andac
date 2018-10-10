@@ -14,8 +14,8 @@ import com.algolia.instantsearch.helpers.Searcher
 import com.algolia.search.saas.Query
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.databinding.FragmentJoinSearchBinding
 import com.dac.gapp.andac.enums.Algolia
-import kotlinx.android.synthetic.hospital.fragment_join_certi2.*
 import kotlinx.android.synthetic.main.activity_hospital_text_search.*
 
 
@@ -28,14 +28,18 @@ class JoinSearchFragment : JoinBaseFragment() {
 
     private lateinit var searcher: Searcher
 
+    lateinit var binding: FragmentJoinSearchBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_join_search, container, false)
+        return inflate(inflater, R.layout.fragment_join_search, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        nextBtn.setOnClickListener {
+
+        binding = getBinding()
+        binding.nextBtn.setOnClickListener {
 
             val hospitalJoinActivity = activity as JoinActivity
 

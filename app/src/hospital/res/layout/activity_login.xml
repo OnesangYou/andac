@@ -1,148 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    >
-
+<layout>
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@color/colorMain"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
 
-
-        <ImageView
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/main_pic_1"
-            android:scaleType="centerCrop"
-            />
+            android:layout_height="250dp"
+            android:background="@color/colorMain"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView28"
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/main_pic_1"
+                android:scaleType="centerCrop"
+                />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="25dp"
+                android:text="병원 관리자님,\nANDAC이 처음이세요?"
+                android:textColor="@color/colorMain"
+                android:textStyle="bold"
+                android:textSize="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:text="회원가입전, 안닥리스트에 병원이\n등재되어 있는지 확인하세요."
+                android:textColor="@color/colorMain"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView28"
+                tools:ignore="MissingConstraints" />
+
+
+            <Button
+                android:id="@+id/goToJoin"
+                android:layout_width="320dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="25dp"
+                android:background="@drawable/buttonstyle5"
+                android:text="안닥리스트 확인 후 회원가입"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/hospital_login_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="25dp"
-            android:text="병원 관리자님,\nANDAC이 처음이세요?"
-            android:textColor="@color/colorMain"
-            android:textStyle="bold"
-            android:textSize="25dp"
+            app:layout_constraintBottom_toTopOf="@+id/loginBtn"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
-        <TextView
-            android:id="@+id/textView27"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:text="회원가입전, 안닥리스트에 병원이\n등재되어 있는지 확인하세요."
-            android:textColor="@color/colorMain"
-            android:textSize="15dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView28"
-            tools:ignore="MissingConstraints" />
+            <EditText
+                android:id="@+id/emailEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="이메일을 입력하세요"
+                android:inputType="textEmailAddress"
+                android:textSize="@dimen/_15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/passwordLoginEdit"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="12dp"
+                android:ems="10"
+                android:hint="비밀번호를 입력하세요"
+                android:inputType="textPassword"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/findIdButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
+
+
+            <Button
+                android:id="@+id/findIdButton"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="180dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/non"
+                android:text="ID 찾기"
+                android:textColor="@color/colorMain"
+                android:textSize="13dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+
+            <Button
+                android:id="@+id/findPasswordBtn"
+                android:layout_width="70dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/non"
+                android:text="PW 찾기"
+                android:textColor="@color/colorMain"
+                android:textSize="13dp"
+                app:layout_constraintStart_toEndOf="@+id/findIdButton"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+
+        </android.support.constraint.ConstraintLayout>
 
 
         <Button
-            android:id="@+id/goToJoin"
-            android:layout_width="320dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="25dp"
-            android:background="@drawable/buttonstyle5"
-            android:text="안닥리스트 확인 후 회원가입"
+            android:id="@+id/loginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@color/colorMain"
+            android:text="로그인"
+            android:textSize="17dp"
             android:textColor="@color/white"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/hospital_login_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/loginBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-
-        <EditText
-            android:id="@+id/emailEdit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="이메일을 입력하세요"
-            android:inputType="textEmailAddress"
-            android:textSize="@dimen/_15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/passwordLoginEdit"
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="12dp"
-            android:ems="10"
-            android:hint="비밀번호를 입력하세요"
-            android:inputType="textPassword"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/findIdButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
-
-
-        <Button
-            android:id="@+id/findIdButton"
-            android:layout_width="70dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="180dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/non"
-            android:text="ID 찾기"
-            android:textColor="@color/colorMain"
-            android:textSize="13dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
-
-        <Button
-            android:id="@+id/findPasswordBtn"
-            android:layout_width="70dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/non"
-            android:text="PW 찾기"
-            android:textColor="@color/colorMain"
-            android:textSize="13dp"
-            app:layout_constraintStart_toEndOf="@+id/findIdButton"
-            app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
-
-    </android.support.constraint.ConstraintLayout>
-
-
-    <Button
-        android:id="@+id/loginBtn"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/colorMain"
-        android:text="로그인"
-        android:textSize="17dp"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-</android.support.constraint.ConstraintLayout>
+</layout>
