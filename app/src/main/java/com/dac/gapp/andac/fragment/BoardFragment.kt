@@ -145,14 +145,11 @@ class BoardFragment : BaseFragment() {
     }
 
     private fun resetData() {
-        list.clear()
-        map.clear()
-        hospitalInfoMap.clear()
-        likeSet.clear()
         lastVisible = null
     }
 
     fun addDataToRecycler(type: String) {
+        var needClear = false
         context?.apply {
             showProgressDialog()
             getTripleDataTask(
@@ -166,11 +163,18 @@ class BoardFragment : BaseFragment() {
                                 }
                             }
                             .let { query ->
-                                lastVisible?.let { query.startAfter(it) } ?: query
+                                lastVisible?.let { query.startAfter(it) } ?: let{needClear = true; query}
                             }    // 쿼리 커서 시작 위치 지정
                             .limit(PageSize.board.value)   // 페이지 단위
             )
                     ?.addOnSuccessListener {
+                        if(needClear) {
+                            list.clear()
+                            map.clear()
+                            hospitalInfoMap.clear()
+                            likeSet.clear()
+                        }
+
                         list.addAll(it.boardInfos)
                         map.putAll(it.userInfoMap)
                         hospitalInfoMap.putAll(it.hospitalInfoMap)
