@@ -88,6 +88,18 @@
             android:textAlignment="center"
             android:textSize="@dimen/_12sp" />
 
+        <RadioButton
+            android:id="@+id/certification_board"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/radio_button_selector"
+            android:padding="8dp"
+            android:text="@string/certification_board"
+            android:textAlignment="center"
+            android:textSize="@dimen/_12sp" />
+
     </RadioGroup>
 
 

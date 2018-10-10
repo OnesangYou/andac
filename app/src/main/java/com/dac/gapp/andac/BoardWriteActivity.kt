@@ -47,6 +47,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                         getString(R.string.review_board) -> R.id.review_board
                         getString(R.string.question_board) -> R.id.question_board
                         getString(R.string.hot_board) -> R.id.hot_board
+                        getString(R.string.certification_board) -> R.id.certification_board
                         else -> R.id.free_board
                     })
                 }
@@ -73,7 +74,8 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         }
 
         // Pick Pictures
-        mapImageViewUri.forEach { imageView, _ ->
+        mapImageViewUri.map {
+            val imageView = it.key
             imageView.setOnClickListener { _ ->
                 getAlbumImage()?.subscribe {uri ->
                     Glide.with(this@BoardWriteActivity).load(uri).into(imageView)
@@ -94,6 +96,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                 }
                 R.id.question_board -> boardInfo.type = getString(R.string.question_board)
                 R.id.hot_board -> boardInfo.type = getString(R.string.hot_board)
+                R.id.certification_board -> boardInfo.type = getString(R.string.certification_board)
             }
         }
 

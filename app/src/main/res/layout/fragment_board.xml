@@ -17,6 +17,7 @@
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabLayout"
+                app:tabMode="scrollable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -43,6 +44,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/question_board" />
+                <android.support.design.widget.TabItem
+                    android:id="@+id/certification_board"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/certification_board" />
 
             </android.support.design.widget.TabLayout>
 

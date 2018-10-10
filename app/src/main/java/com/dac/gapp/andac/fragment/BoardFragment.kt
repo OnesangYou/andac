@@ -53,9 +53,7 @@ class BoardFragment : BaseFragment() {
         prepareUi()
         context?.apply {
             if (isUser()) binding.fabWriteBoard.setOnClickListener { _ ->
-                getCurrentUser()?.let {
-                    activity?.startActivityForResult(Intent(context, BoardWriteActivity::class.java), RequestCode.OBJECT_ADD.value)
-                }?: goToLogin()
+                afterCheckLoginDo { activity?.startActivityForResult(Intent(context, BoardWriteActivity::class.java), RequestCode.OBJECT_ADD.value) }
             }
             else {
                 binding.fabWriteBoard.visibility = View.INVISIBLE
@@ -89,6 +87,7 @@ class BoardFragment : BaseFragment() {
                     getString(R.string.review_board) -> setAdapter(getString(R.string.review_board))
                     getString(R.string.question_board) -> setAdapter(getString(R.string.question_board))
                     getString(R.string.hot_board) -> setAdapter(getString(R.string.hot_board))
+                    getString(R.string.certification_board) -> setAdapter(getString(R.string.certification_board))
                 }
             }
 
