@@ -23,7 +23,7 @@ import timber.log.Timber
 
 class SearchHospitalFragmentForList : BaseFragment() {
 
-    lateinit var title: String
+    var title: String = ""
     private var isEtcEnd: Boolean = false
     private val etcList: MutableList<Int> = mutableListOf(R.string.jeju, R.string.gangwon)
     private val mHospitalList = mutableListOf<Pair<Any, Int>>()
