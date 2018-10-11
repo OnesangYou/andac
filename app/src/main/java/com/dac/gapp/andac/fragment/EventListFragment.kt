@@ -67,7 +67,6 @@ class EventListFragment : BaseFragment() {
                     getString(R.string.popular_order) -> setAdapter(getString(R.string.buy_count))
                     getString(R.string.low_price_order) -> setAdapter(getString(R.string.price), Query.Direction.ASCENDING)
                     getString(R.string.high_price_order) -> setAdapter(getString(R.string.price), Query.Direction.DESCENDING)
-                    getString(R.string.distance_order) -> setAdapter(getString(R.string.distance))  // TODO : 병원의 거리 순으로 변경해야함
                 }
             }
 
