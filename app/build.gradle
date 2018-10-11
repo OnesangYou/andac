@@ -9,14 +9,14 @@ apply plugin: 'io.fabric'
 apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
-//    signingConfigs {
-//        config {
-//            storeFile file('/Users/gimbyeongjin/release_key2.jks')
-//            keyAlias 'release_key2'
-//            keyPassword '1q2w3e'
-//            storePassword '1q2w3e'
-//        }
-//    }
+    signingConfigs {
+        release {
+            storeFile file("..\\keystore\\release_key2.jks")
+            storePassword '1q2w3e'
+            keyAlias 'release_key2'
+            keyPassword '1q2w3e'
+        }
+    }
     buildToolsVersion '28.0.2'
     dataBinding.enabled true
     compileSdkVersion 26
@@ -34,14 +34,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
-    signingConfigs {
-        release {
-            storeFile file("..\\keystore\\release_key2.jks")
-            storePassword '1q2w3e'
-            keyAlias 'release_key2'
-            keyPassword '1q2w3e'
-        }
-    }
     buildTypes {
         release {
             minifyEnabled false // Proguard on/off
@@ -49,7 +41,6 @@ android {
             debuggable false // BuildConfig.DEBUG
             buildConfigField 'String', 'ALGOLIA_APP_ID', "\"H9Q32H274M\""
             buildConfigField 'String', 'ALGOLIA_SEARCH_API_KEY', "\"96c3b64fabaf0a7bdeca95fd7788ace3\""
-//            signingConfig signingConfigs.config
 //            signingConfig signingConfigs.release
         }
         debug {

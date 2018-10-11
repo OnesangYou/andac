@@ -1,5 +1,6 @@
 package com.dac.gapp.andac.extension
 
+import android.app.Activity
 import android.databinding.BindingAdapter
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -14,6 +15,7 @@ fun ImageView.loadImage(imageUrl: String?, thumbUrl: String? = null, default: An
 }
 
 fun ImageView.loadImageAny(model: Any) {
+    if(this is Activity && !this.isFinishing) return
     this.tag = null
     Glide.with(this.context).load(model).into(this)
 }
