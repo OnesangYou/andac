@@ -214,7 +214,7 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/layoutNotice"
                 android:layout_width="0dp"
-                android:layout_height="137dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -253,7 +253,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="3dp"
-                    android:background="@color/black"
+                    android:background="@color/verylightgray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtviewNotice" />
@@ -264,28 +264,30 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view">
 
                     <LinearLayout
                         android:id="@+id/notice_linear_1"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/notice_date_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:onlyDate="@{noticeList[0].writeDate}"
                             android:textColor="@color/black"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            app:onlyDate="@{noticeList[0].writeDate}" />
 
                         <TextView
                             android:id="@+id/notice_text_1"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:layout_marginLeft="20dp"
                             android:text="@{noticeList[0].title}"
                             android:textColor="@color/black"
@@ -297,7 +299,7 @@
                     <LinearLayout
                         android:id="@+id/notice_linear_2"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
                         android:layout_marginTop="3dp"
                         android:orientation="horizontal">
 
@@ -305,9 +307,9 @@
                             android:id="@+id/notice_date_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:onlyDate="@{noticeList[1].writeDate}"
                             android:textColor="@color/black"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            app:onlyDate="@{noticeList[1].writeDate}" />
 
                         <TextView
                             android:id="@+id/notice_text_2"
@@ -324,7 +326,7 @@
                     <LinearLayout
                         android:id="@+id/notice_linear_3"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
                         android:layout_marginTop="3dp"
                         android:orientation="horizontal"
 
@@ -334,9 +336,9 @@
                             android:id="@+id/notice_date_3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:onlyDate="@{noticeList[2].writeDate}"
                             android:textColor="@color/black"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            app:onlyDate="@{noticeList[2].writeDate}" />
 
                         <TextView
                             android:id="@+id/notice_text_3"
@@ -354,17 +356,19 @@
                     <LinearLayout
                         android:id="@+id/notice_linear_4"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
                         android:layout_marginTop="3dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+
+                        >
 
                         <TextView
                             android:id="@+id/notice_date_4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:onlyDate="@{noticeList[3].writeDate}"
                             android:textColor="@color/black"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            app:onlyDate="@{noticeList[3].writeDate}" />
 
                         <TextView
                             android:id="@+id/notice_text_4"
@@ -380,29 +384,30 @@
                 </LinearLayout>
 
 
-                <View
-                    android:id="@+id/view2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/layoutInnerNotice" />
-
             </android.support.constraint.ConstraintLayout>
 
+
             <!-- 인기칼럼 -->
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/verylightgray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutNotice" />
+
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/layoutColumn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="30dp"
                 android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutNotice">
 
@@ -421,8 +426,8 @@
                     android:id="@+id/columnList"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/best_calrum"
                     app:layout_constraintTop_toBottomOf="@+id/best_calrum" />
