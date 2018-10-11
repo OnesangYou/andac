@@ -36,7 +36,7 @@ import org.jetbrains.anko.startActivity
 class EventListFragment : BaseFragment() {
 
     val list = mutableListOf<EventInfo>()
-    val map = mutableMapOf<String, HospitalInfo>()
+    val map = mutableMapOf<String, HospitalInfo?>()
     private var lastVisible: DocumentSnapshot? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,7 +47,7 @@ class EventListFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareUi()
-        resetData()
+        lastVisible = null
 
         // set recyclerView
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -67,7 +67,6 @@ class EventListFragment : BaseFragment() {
                     getString(R.string.popular_order) -> setAdapter(getString(R.string.buy_count))
                     getString(R.string.low_price_order) -> setAdapter(getString(R.string.price), Query.Direction.ASCENDING)
                     getString(R.string.high_price_order) -> setAdapter(getString(R.string.price), Query.Direction.DESCENDING)
-                    getString(R.string.distance_order) -> setAdapter(getString(R.string.distance))  // TODO : 병원의 거리 순으로 변경해야함
                 }
             }
 
@@ -106,7 +105,7 @@ class EventListFragment : BaseFragment() {
     private fun setAdapter(type: String = getString(R.string.buy_count), direction: Query.Direction = Query.Direction.DESCENDING) {
 
         // reset data
-        resetData()
+        lastVisible = null
 
         // add Data
         addDataToRecycler(type, direction)
@@ -121,24 +120,25 @@ class EventListFragment : BaseFragment() {
         })
     }
 
-    fun resetData() {
+    private fun resetData() {
         list.clear()
         map.clear()
-        lastVisible = null
     }
 
     fun addDataToRecycler(type: String, direction: Query.Direction = Query.Direction.DESCENDING) {
+        var needClear = false
         context?.apply {
             showProgressDialog()
             getTripleDataTask(
                     getEvents()
                             .orderBy(type, direction)
                             .let { query ->
-                                lastVisible?.let { query.startAfter(it) } ?: query
+                                lastVisible?.let { query.startAfter(it) } ?: let{needClear = true; query}
                             }    // 쿼리 커서 시작 위치 지정
                             .limit(PageSize.event.value)   // 페이지 단위
             )
                     ?.addOnSuccessListener {
+                        if(needClear) resetData()
                         list.addAll(it.first)
                         map.putAll(it.second)
                         binding.recyclerView.adapter.notifyDataSetChanged()
@@ -147,7 +147,7 @@ class EventListFragment : BaseFragment() {
         }
     }
 
-    private fun getTripleDataTask(query: Query): Task<Triple<List<EventInfo>, Map<String, HospitalInfo>, DocumentSnapshot?>>? {
+    private fun getTripleDataTask(query: Query): Task<Triple<List<EventInfo>, Map<String, HospitalInfo?>, DocumentSnapshot?>>? {
         return context?.run {
             var infos: List<EventInfo> = listOf()
             query.get()
@@ -156,13 +156,13 @@ class EventListFragment : BaseFragment() {
                         it.result.toObjects(EventInfo::class.java)
                     }.continueWithTask { it ->
                         infos = it.result
-                        infos.groupBy { it.writerUid }
+                        infos.asSequence().groupBy { it.writerUid }
                                 .filter { !it.key.isEmpty() }
-                                .mapNotNull { getHospital(it.key).get() }
+                                .mapNotNull { getHospital(it.key).get() }.toList()
                                 .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                     }.continueWith { it ->
-                        Triple(infos, it.result.filterNotNull()
-                                .map { it.id to it.toObject(HospitalInfo::class.java)!! }
+                        Triple(infos, it.result.asSequence().filterNotNull()
+                                .map { it.id to it.toObject(HospitalInfo::class.java) }.toList()
                                 .toMap(), lastVisible)
                     }
         }

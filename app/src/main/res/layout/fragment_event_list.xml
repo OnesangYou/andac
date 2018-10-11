@@ -32,11 +32,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/high_price_order" />
 
-            <android.support.design.widget.TabItem
-                android:id="@+id/distance_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/distance_order" />
         </android.support.design.widget.TabLayout>
 
         <android.support.v7.widget.RecyclerView

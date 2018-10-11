@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.event_row.view.*
 class EventRecyclerAdapter(
         private val context : BaseActivity?,
         private val mDataList: List<EventInfo>,
-        private val writerInfoMap: Map<String, HospitalInfo>,
+        private val writerInfoMap: Map<String, HospitalInfo?>,
         private var onItemClickListener : ((EventInfo, HospitalInfo) -> Unit)? = null
 ) : RecyclerView.Adapter<EventRecyclerAdapter.EventHolder>() {
     override fun getItemCount(): Int {
@@ -30,7 +30,7 @@ class EventRecyclerAdapter(
 
     override fun onBindViewHolder(holder: EventHolder, position: Int) {
         val item = mDataList[position]
-        val hospital = writerInfoMap[item.writerUid]
+        val hospital = writerInfoMap[item.writerUid]?:return
 
         holder.apply{
             titleText.text = item.title
@@ -38,10 +38,10 @@ class EventRecyclerAdapter(
             bodyText.text = item.body
             dealKindText.text = item.deal_kind
             priceText.setPrice(item.price)
-            hospitalName.text = hospital?.name
+            hospitalName.text = hospital.name
             likeCountText.text = item.likeCount.toString()
 
-            layout.setOnClickListener { onItemClickListener?.invoke(item, hospital?:return@setOnClickListener) }
+            layout.setOnClickListener { onItemClickListener?.invoke(item, hospital) }
         }
     }
 
