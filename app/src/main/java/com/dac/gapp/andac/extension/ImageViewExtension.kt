@@ -15,7 +15,7 @@ fun ImageView.loadImage(imageUrl: String?, thumbUrl: String? = null, default: An
 }
 
 fun ImageView.loadImageAny(model: Any) {
-    if(this is Activity && !this.isFinishing) return
+    if(this.context is Activity && (this.context as Activity).isFinishing) return
     this.tag = null
     Glide.with(this.context).load(model).into(this)
 }
