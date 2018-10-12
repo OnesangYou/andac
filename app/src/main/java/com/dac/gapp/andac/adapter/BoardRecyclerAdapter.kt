@@ -27,7 +27,7 @@ import org.jetbrains.anko.startActivity
 
 class BoardRecyclerAdapter(
         private val context : BaseActivity?,
-        private var mDataList: List<BoardInfo>,
+        private var mDataList: List<BoardInfo?>,
         private var userInfoMap: Map<String, UserInfo>,
         private var hospitalInfoMap: Map<String, HospitalInfo>,
         private var likeSet: Set<String> = mutableSetOf(),
@@ -42,7 +42,7 @@ class BoardRecyclerAdapter(
     override fun onBindViewHolder(holder: BoardHolder, position: Int) {
         context?:return
 
-        val boardInfo = mDataList[position]
+        val boardInfo = mDataList[position]?:return
         val userInfo = userInfoMap[boardInfo.writerUid] ?: return
 
         with(holder) {
@@ -50,7 +50,7 @@ class BoardRecyclerAdapter(
             // binding 객체
             binding?.also {
                 it.boardInfo = boardInfo
-                it.hospitalInfo = hospitalInfoMap[mDataList[position].hospitalUid]
+                it.hospitalInfo = hospitalInfoMap[mDataList[position]?.hospitalUid]
                 it.userInfo = userInfo
                 it.holder = holder
             }

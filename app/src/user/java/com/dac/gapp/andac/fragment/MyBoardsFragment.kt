@@ -23,7 +23,7 @@ import com.google.firebase.firestore.Query
 
 @Suppress("DEPRECATION")
 class MyBoardsFragment : BaseFragment() {
-    val list = mutableListOf<BoardInfo>()
+    val list = mutableListOf<BoardInfo?>()
     val map = mutableMapOf<String, UserInfo>()
     val hospitalInfoMap = mutableMapOf<String, HospitalInfo>()
     private var lastVisible : DocumentSnapshot? = null
@@ -92,11 +92,11 @@ class MyBoardsFragment : BaseFragment() {
         }
     }
 
-    private fun getTripleDataTask(query : Query) : Task<Triple<List<BoardInfo>, Map<String, UserInfo>, Map<String, HospitalInfo>>>
+    private fun getTripleDataTask(query : Query) : Task<Triple<List<BoardInfo?>, Map<String, UserInfo>, Map<String, HospitalInfo>>>
     {
          return (context as MyPageActivity).run {
 
-            var boardInfos = listOf<BoardInfo>()
+            var boardInfos = listOf<BoardInfo?>()
             var userInfoMap = mapOf<String, UserInfo>()
             var hospitalInfoMap = mapOf<String, HospitalInfo>()
 
@@ -106,12 +106,13 @@ class MyBoardsFragment : BaseFragment() {
                 task.result.map{ getBoard(it.id)?.get() }
                         .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
             }.continueWithTask { task ->
-                boardInfos = task.result.asSequence().filterNotNull().map { it.toObject(BoardInfo::class.java)!! }.toList()
+                boardInfos = task.result.asSequence().filterNotNull().map { it.toObject(BoardInfo::class.java) }.toList()
                 val uid = getUid()?:return@continueWithTask throw IllegalStateException()
                 userInfoMap = mapOf(uid to userInfo!!)
 
                 // set boardInfos
-                boardInfos.groupBy { it.hospitalUid }.filter { !it.key.isEmpty() }.mapNotNull {
+                boardInfos.groupBy { it?.hospitalUid }.filter { it.key!=null }
+                        .filter { it.key?.let {key ->  !key.isEmpty() }?:false }.mapNotNull {
                     getHospitalInfo(it.key)?.continueWith { task-> it.key to task.result }
                 }.let {
                     Tasks.whenAllSuccess<Pair<String, HospitalInfo>>(it)
