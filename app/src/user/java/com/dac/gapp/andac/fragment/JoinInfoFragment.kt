@@ -44,7 +44,7 @@ class JoinInfoFragment : BaseFragment() {
                     return@setOnClickListener
                 }
 
-                checkDuplicatedEmail(emailStr)?.addOnSuccessListener {isPossible ->
+                checkDuplicatedEmail(emailStr.trim())?.addOnSuccessListener {isPossible ->
                     if (isPossible) {
                         toast("사용가능한 이메일입니다")
                         binding.emailEdit.tag = true
@@ -66,7 +66,7 @@ class JoinInfoFragment : BaseFragment() {
                     return@setOnClickListener
                 }
 
-                checkDuplicatedNickName(nickNameStr)?.addOnSuccessListener { isPossible ->
+                checkDuplicatedNickName(nickNameStr.trim())?.addOnSuccessListener { isPossible ->
                     if (isPossible) {
                         toast("사용가능한 닉네임입니다")
                         binding.nickNameEdit.tag = true
