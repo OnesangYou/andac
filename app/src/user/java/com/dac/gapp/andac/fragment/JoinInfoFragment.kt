@@ -44,7 +44,7 @@ class JoinInfoFragment : BaseFragment() {
                     return@setOnClickListener
                 }
 
-                checkDuplicatedEmail(emailStr)?.addOnSuccessListener {isPossible ->
+                checkDuplicatedEmail(emailStr.trim())?.addOnSuccessListener {isPossible ->
                     if (isPossible) {
                         toast("사용가능한 이메일입니다")
                         binding.emailEdit.tag = true
@@ -66,7 +66,7 @@ class JoinInfoFragment : BaseFragment() {
                     return@setOnClickListener
                 }
 
-                checkDuplicatedNickName(nickNameStr)?.addOnSuccessListener { isPossible ->
+                checkDuplicatedNickName(nickNameStr.trim())?.addOnSuccessListener { isPossible ->
                     if (isPossible) {
                         toast("사용가능한 닉네임입니다")
                         binding.nickNameEdit.tag = true
@@ -142,6 +142,7 @@ class JoinInfoFragment : BaseFragment() {
             return
         }
 
+
         //비밀번호 유효성
         if (binding.passwordEdit.text.toString().length < 6) {
             toast("비밀번호는 6자리 이상입니다")
@@ -149,7 +150,7 @@ class JoinInfoFragment : BaseFragment() {
         }
 
         // 비밀번호 일치
-        if(binding.passwordEdit.text.toString() != binding.passwordEdit.text.toString()) {
+        if(binding.passwordEdit.text.toString() != binding.passwordConfirmEdit.text.toString()) {
             toast("패스워드를 확인하세요")
             return
         }

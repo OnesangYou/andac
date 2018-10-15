@@ -50,6 +50,7 @@ import com.google.firebase.functions.HttpsCallableResult
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.gson.JsonParser
 import com.gun0912.tedonactivityresult.TedOnActivityResult
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -57,6 +58,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_base.*
 import org.jetbrains.anko.alert
 import timber.log.Timber
+import java.util.*
 
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -737,7 +739,7 @@ abstract class BaseActivity : AppCompatActivity() {
         val remoteConfig = FirebaseRemoteConfig.getInstance()
         val storeVersion = remoteConfig.getLong(if(isHospital()) "latest_hospital_app_version" else "latest_user_app_version")
         val deviceVersion = BuildConfig.VERSION_CODE
-        Log.d(KBJ, "storeVersion : $storeVersion, deviceVersion : $deviceVersion")
+        Timber.d("storeVersion : $storeVersion, deviceVersion : $deviceVersion")
 
         if (storeVersion > deviceVersion) {
             // 업데이트 필요
@@ -775,5 +777,18 @@ abstract class BaseActivity : AppCompatActivity() {
             googleApiAvailability.showErrorNotification(this, status)
         }
     }
+
+//    [ getDate Example ]
+//    context?.getDate()?.addOnSuccessListener {
+//        Timber.d("KBJ, Date : $it")
+//    }
+    fun getServerTime(): Task<Date> = FirebaseFunctions.getInstance()
+            .getHttpsCallable("date")
+            .call().continueWith {
+                val rstStr = it.result.data.toString()
+                val milliseconds = JsonParser().parse(rstStr).asJsonObject.get("milliseconds").asLong
+                Date(milliseconds)
+            }
+
 
 }
