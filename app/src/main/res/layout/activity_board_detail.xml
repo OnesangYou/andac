@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
     <android.support.constraint.ConstraintLayout
 
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context="com.dac.gapp.andac.BoardDetailActivity">
@@ -20,21 +21,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/verylightgray"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerView"></View>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_width="0dp"
+            android:layout_width="384dp"
             android:layout_height="wrap_content"
-            android:background="@color/verylightgray"
+            android:background="@color/non"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutHospitalInfo" />
 
         <ImageView
             android:id="@+id/userProfileImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recyclerView"
@@ -45,21 +55,25 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="7dp"
             android:background="@color/white"
             android:hint="댓글을 작성해 주세요"
             android:textSize="@dimen/_15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/userProfileImage"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/replySubmit"
             app:layout_constraintStart_toEndOf="@+id/userProfileImage"
-            app:layout_constraintTop_toTopOf="@+id/userProfileImage" />
+            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
         <Button
             android:id="@+id/replySubmit"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginEnd="5dp"
             android:background="@color/colorMain"
             android:enabled="false"
-            android:text="댓글쓰기"
+            android:text="업로드"
             android:textColor="@color/white"
             android:textSize="@dimen/_15sp"
             app:layout_constraintBottom_toBottomOf="@+id/replyEditView"
