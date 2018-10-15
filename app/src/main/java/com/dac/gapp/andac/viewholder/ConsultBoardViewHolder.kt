@@ -31,7 +31,7 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
         if(isOpen){
             // 오픈 상담 신청서
             val baseActivity = context as BaseActivity
-            baseActivity.getOpenConsult(uUid).get().addOnSuccessListener { querySnapshot ->
+            baseActivity.getOpenConsult(uUid)?.get()?.addOnSuccessListener { querySnapshot ->
                 val consultInfo = querySnapshot.toObject(ConsultInfo::class.java)
                 val dialog = context?.let { ConsultContentDialog(it, consultInfo) }
                 dialog?.show()
@@ -69,7 +69,7 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
                             task as Task<Void>
                         }
                         ?:let {// 신청한적 없는 병원일 경우
-                            getOpenConsult(uUid).get().continueWithTask { querySnapshot ->
+                            getOpenConsult(uUid)?.get()?.continueWithTask { querySnapshot ->
                                 // 오픈 내용을 지정으로 옮기기
                                 val consultInfo = querySnapshot.result.toObject(ConsultInfo::class.java)
                                         ?.apply {
@@ -80,6 +80,7 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
                                         .addOnSuccessListener {
                                             // TODO : 채팅방 생성
                                             toast("상담 신청 완료하였습니다")
+                                            addCountCounselors(hUid)
                                             goChat(hUid,uUid)
                                         }
                             }
@@ -106,43 +107,16 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
                         .addOnSuccessListener {
                             // TODO : 채팅방 생성
                             toast("상담 신청 완료하였습니다")
+                            addCountCounselors(hUid)
+                            goChat(hUid,uUid)
                         }
                         .addOnCompleteListener { hideProgressDialog() }
             }
 
         }
-
-
-
-//        doAsync {
-//            val db = FirebaseFirestore.getInstance()
-//            val task: Task<DocumentSnapshot> = db
-//                    .collection("chatList")
-//                    .document(hUid)
-//                    .collection("attendants")
-//                    .document(uUid)
-//                    .get()
-//
-//            var documentSnapshot = Tasks.await(task)
-//            var roomId: String?
-//            var chatlistinfo = documentSnapshot.toObject(ChatListInfo::class.java)
-//            roomId = chatlistinfo?.roomId ?: db.collection("chat").document().id.let {
-//                val batch = db.batch()
-//                val firstchatlistinfo = ChatListInfo(it)
-//                batch.set(db.collection("chatList").document(uUid).collection("attendants").document(hUid), firstchatlistinfo)
-//                batch.set(db.collection("chatList").document(hUid).collection("attendants").document(uUid), firstchatlistinfo)
-//                batch.commit().addOnSuccessListener { void ->
-//                    Toast.makeText(context, "채팅방 생성 성공", Toast.LENGTH_SHORT).show()
-//                }
-//                it
-//            }
-//
-//            context?.startActivity(Intent(context, ChatActivity::class.java).putExtra("roomId", roomId).putExtra("uUid", uUid).putExtra("hUid", hUid))
-//
-//        }
     }
 
-    fun goChat(hUid: String,uUid: String){
+    private fun goChat(hUid: String, uUid: String){
         doAsync {
             val db = FirebaseFirestore.getInstance()
             val task: Task<DocumentSnapshot> = db
@@ -169,6 +143,7 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
             context?.startActivity(Intent(context, ChatActivity::class.java).putExtra("roomId", roomId).putExtra("uUid", uUid).putExtra("hUid", hUid))
 
         }
+
     }
 
 }

@@ -1,4 +1,4 @@
-package com.dac.gapp.andac.util.ChatUtils
+package com.dac.gapp.andac.util.chatUtils
 
 import java.util.concurrent.atomic.AtomicInteger
 

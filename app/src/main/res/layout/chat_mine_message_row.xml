@@ -86,7 +86,7 @@
                 </LinearLayout>
 
 
-                <com.dac.gapp.andac.util.ChatUtils.ChatMessageView
+                <com.dac.gapp.andac.util.chatUtils.ChatMessageView
                     android:id="@+id/chatMessageView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -100,12 +100,12 @@
 
                     <TextView
                         android:id="@+id/chatText"
-                        android:text="ㄹㅁㅇㄹㅇㅁㄹㅇㅁㅎㅇㅎㅁㅎ"
+                        android:text="@{chatItem.content}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textSize="15.5dp" />
-                </com.dac.gapp.andac.util.ChatUtils.ChatMessageView>
+                </com.dac.gapp.andac.util.chatUtils.ChatMessageView>
 
             </LinearLayout>
         </LinearLayout>

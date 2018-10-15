@@ -1,4 +1,4 @@
-package com.dac.gapp.andac.util.ChatUtils
+package com.dac.gapp.andac.util.chatUtils
 
 
 import android.graphics.drawable.ColorDrawable

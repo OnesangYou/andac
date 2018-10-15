@@ -1,4 +1,4 @@
-package com.dac.gapp.andac.util.ChatUtils
+package com.dac.gapp.andac.util.chatUtils
 
 
 import android.graphics.Canvas
@@ -12,7 +12,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.support.annotation.RequiresApi
 
-public class ChatMessageDrawable(backgroundColor: Int, radius: Float) : Drawable() {
+class ChatMessageDrawable(backgroundColor: Int, radius: Float) : Drawable() {
     private var mPaint: Paint
     private var mBoundsF: RectF
     private var mBoundsI: Rect

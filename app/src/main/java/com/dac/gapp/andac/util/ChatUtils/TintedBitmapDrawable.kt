@@ -1,4 +1,4 @@
-package com.dac.gapp.andac.util.ChatUtils
+package com.dac.gapp.andac.util.chatUtils
 
 
 import android.content.res.Resources
@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.LightingColorFilter
-import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 
 class TintedBitmapDrawable : BitmapDrawable {

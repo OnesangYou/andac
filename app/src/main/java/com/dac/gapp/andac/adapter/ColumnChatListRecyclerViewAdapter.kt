@@ -2,12 +2,14 @@ package com.dac.gapp.andac.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.model.firebase.ChatItem
 import com.dac.gapp.andac.viewholder.*
 import timber.log.Timber
+import java.util.*
 
 /**
  * Created by godueol on 2018. 4. 28..

@@ -11,7 +11,7 @@ object Bindings{
     @BindingConversion
     @JvmStatic
     fun convertDateToText(date: Date?): String? {
-        return date?.getFullFormat()?:""
+        return date?.getFullFormat()?:"send"
     }
 
     @BindingConversion

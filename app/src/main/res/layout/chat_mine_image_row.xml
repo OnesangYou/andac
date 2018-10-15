@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="chatItem"
             type="com.dac.gapp.andac.model.firebase.ChatItem" />
@@ -95,7 +94,7 @@
                     android:paddingTop="8dp" />
 
 
-                <com.dac.gapp.andac.util.ChatUtils.ChatMessageView
+                <com.dac.gapp.andac.util.chatUtils.ChatMessageView
                     android:id="@+id/chatMessageView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -103,6 +102,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:visibility="gone"
+                    android:background="@color/albumColorPrimary"
                     app:cmv_backgroundColorPressed="@color/white"
                     app:cmv_cornerRadius="1dp"
                     app:cmv_showArrow="false">
@@ -111,11 +111,11 @@
                         android:id="@+id/chatText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/deleteImage"
+                        android:text="이미지가 삭제되었습니다."
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textSize="15.5dp"
                         android:textStyle="bold" />
-                </com.dac.gapp.andac.util.ChatUtils.ChatMessageView>
+                </com.dac.gapp.andac.util.chatUtils.ChatMessageView>
 
             </LinearLayout>
         </LinearLayout>
