@@ -1,160 +1,23 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.dac.gapp.andac.fragment.ChatRoomFragment">
-
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="fill_parent"
-        android:layout_height="260dp"
-        android:adjustViewBounds="true"
-        android:background="@drawable/message_2"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.constraint.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.dac.gapp.andac.fragment.ChatRoomFragment">
 
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/message_1"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/chatRoomList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="메신저 점검중입니다"
-            android:textColor="@color/white"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView7" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/chat_room_row" />
     </android.support.constraint.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="안닥을 이용해 주시는 이용자님께 깊은 감사드립니다.\n보다 세심하고 정확한 상담 서비스를 제공해드리기 위하여\n아래와 같이 메신저 점검을 실시합니다."
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13">
-
-        <LinearLayout
-            android:id="@+id/linearLayout4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button_3"
-                android:layout_width="65dp"
-                android:layout_height="25dp"
-                android:background="@drawable/rounded_button"
-                android:text="일시"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_13sp" />
-
-
-            <TextView
-                android:id="@+id/textView14_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="2018. 09. 07 ~ 2018. 10. 15"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
-
-            <Button
-                android:id="@+id/button_4"
-                android:layout_width="65dp"
-                android:layout_height="25dp"
-                android:background="@drawable/rounded_button"
-                android:text="내용"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_13sp" />
-
-
-            <TextView
-                android:id="@+id/textView14_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="메신저 서비스 업데이트"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_12sp" />
-
-        </LinearLayout>
-
-    </android.support.constraint.ConstraintLayout>
-
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="80dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/message_3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <!-- TODO: Update blank fragment layout -->
-    <Button
-        android:id="@+id/chat"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="채팅방 입장하기"
-        />
-
-
-</android.support.constraint.ConstraintLayout>
+</layout>

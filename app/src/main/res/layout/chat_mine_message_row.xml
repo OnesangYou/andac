@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="chatItem"
+            type="com.dac.gapp.andac.model.firebase.ChatItem" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/dateLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/dateText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textStyle="bold|italic" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/chatting_mine_message_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="3dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginRight="-7dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:textSize="13dp" />
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="@{chatItem.time}"
+                        android:textSize="11dp" />
+
+                </LinearLayout>
+
+
+                <com.dac.gapp.andac.util.chatUtils.ChatMessageView
+                    android:id="@+id/chatMessageView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    app:cmv_backgroundColorPressed="@color/white"
+                    app:cmv_cornerRadius="1dp"
+                    app:cmv_showArrow="false">
+
+                    <TextView
+                        android:id="@+id/chatText"
+                        android:text="@{chatItem.content}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textSize="15.5dp" />
+                </com.dac.gapp.andac.util.chatUtils.ChatMessageView>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>
