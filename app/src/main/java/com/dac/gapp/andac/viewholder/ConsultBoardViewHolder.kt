@@ -39,17 +39,7 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
 
         }else{
             // 지정 상담 신청서
-            hUid?: return
-            val baseActivity = context as BaseActivity
-            baseActivity.getSelectConsult(hUid, uUid)
-                    .get()
-                    .addOnSuccessListener { querySnapshot ->
-                        if(querySnapshot.isEmpty) return@addOnSuccessListener
-                        querySnapshot.toObjects(ConsultInfo::class.java).also { if(it.isEmpty()) return@addOnSuccessListener }.let { it[0] }.let {consultInfo ->
-                            val dialog = context?.let { ConsultContentDialog(it, consultInfo) }
-                            dialog?.show()
-                        }
-                    }
+            (context as BaseActivity).selectConsultDialog(hUid, uUid)
         }
     }
 
@@ -68,7 +58,8 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
                             goChat(hUid,uUid)
                             task as Task<Void>
                         }
-                        ?:let {// 신청한적 없는 병원일 경우
+                        ?:let { activity ->
+                            // 신청한적 없는 병원일 경우
                             getOpenConsult(uUid)?.get()?.continueWithTask { querySnapshot ->
                                 // 오픈 내용을 지정으로 옮기기
                                 val consultInfo = querySnapshot.result.toObject(ConsultInfo::class.java)
@@ -126,9 +117,9 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
                     .document(uUid)
                     .get()
 
-            var documentSnapshot = Tasks.await(task)
-            var roomId: String?
-            var chatlistinfo = documentSnapshot.toObject(ChatListInfo::class.java)
+            val documentSnapshot = Tasks.await(task)
+            val roomId: String?
+            val chatlistinfo = documentSnapshot.toObject(ChatListInfo::class.java)
             roomId = chatlistinfo?.roomId ?: db.collection("chat").document().id.let {
                 val batch = db.batch()
                 val firstchatlistinfo = ChatListInfo(it)
