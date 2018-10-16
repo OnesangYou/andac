@@ -67,7 +67,7 @@ class ChatRoomFragment : BaseFragment() {
     private fun setList() {
         val db = FirebaseFirestore.getInstance()
         val uid = getUid() ?: return
-
+        list.clear()
 
         db.collection("chatList").document(uid).collection("attendants")
                 .addSnapshotListener { snapshots, _ ->

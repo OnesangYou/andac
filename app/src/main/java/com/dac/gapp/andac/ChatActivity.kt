@@ -26,6 +26,7 @@ class ChatActivity : BaseActivity() {
         binding = getBinding()
         var db = FirebaseFirestore.getInstance()
 
+
         binding.ChatListView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = ColumnChatListRecyclerViewAdapter(list)
