@@ -10,7 +10,12 @@ class ChatItem(var uid: String? = null,
                @ServerTimestamp var time: Date? = null) {
 
     @Exclude
-    var isMine: Boolean = uid.isNullOrEmpty().not()
+    var mUid :String = ""
+        set(value) {
+            isMine  =  !value.isBlank() && value == uid
+        }
+    @Exclude
+    var isMine: Boolean = true
     @Exclude
     var isImage: Boolean = imageUrl.isNullOrEmpty().not()
 

@@ -34,11 +34,11 @@ class ChatActivity : BaseActivity() {
         val roomId = intent.getStringExtra("roomId")
         val uUid = intent.getStringExtra("uUid")
         val hUid = intent.getStringExtra("hUid")
-
+        val mUid  = getUid()?:return
         binding.btnSend.setOnClickListener {
             val msg = binding.etMessage.text.toString()
             if (!TextUtils.isEmpty(msg)) {
-                db.collection("chat").document(roomId).collection("list").add(ChatItem(getUid(), msg))
+                db.collection("chat").document(roomId).collection("list").add(ChatItem(mUid, msg))
                 db.collection("chatList").document(uUid).collection("attendants").document(hUid).update("lastchat", msg)
                 db.collection("chatList").document(hUid).collection("attendants").document(uUid).update("lastchat", msg)
                 binding.etMessage.text = null
@@ -50,7 +50,9 @@ class ChatActivity : BaseActivity() {
                     for (dc in snapshots?.documentChanges!!) {
                         when (dc.type) {
                             DocumentChange.Type.ADDED -> {
-                                list.add(dc.document.toObject(ChatItem::class.java))
+                                val chatItem  = dc.document.toObject(ChatItem::class.java)
+                                chatItem.mUid = mUid
+                                list.add(chatItem)
                                 binding.ChatListView.scrollToPosition(list.size - 1)
                                 binding.ChatListView.apply { adapter.notifyItemChanged(list.size - 1) }
                             }
