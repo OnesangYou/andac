@@ -173,7 +173,7 @@ class MainFragment : BaseFragment() {
 
             context.getBoards()
                     .orderBy("likeCount", Query.Direction.DESCENDING)
-                    .limit(PageSize.board.value)   // 페이지 단위
+                    .limit(5)   // 페이지 단위
                     .get()
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful && task.result.size() > 0) {
