@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.dac.gapp.andac.adapter.ColumnChatListRecyclerViewAdapter
 import com.dac.gapp.andac.base.BaseActivity
@@ -13,6 +14,7 @@ import com.dac.gapp.andac.model.firebase.ChatItem
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import org.jetbrains.anko.alert
 import timber.log.Timber
 
 
@@ -26,7 +28,10 @@ class ChatActivity : BaseActivity() {
         binding = getBinding()
         var db = FirebaseFirestore.getInstance()
 
-
+        setActionBarLeftImage(R.drawable.back)
+        setOnActionBarLeftClickListener(View.OnClickListener {
+            finish()
+        })
         binding.ChatListView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = ColumnChatListRecyclerViewAdapter(list)

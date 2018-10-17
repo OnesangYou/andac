@@ -19,7 +19,6 @@ import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +29,7 @@ import com.dac.gapp.andac.BuildConfig
 import com.dac.gapp.andac.LoginActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.SplashActivity
+import com.dac.gapp.andac.dialog.ConsultContentDialog
 import com.dac.gapp.andac.enums.AdCountType
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.ActivityResultEvent
@@ -790,5 +790,19 @@ abstract class BaseActivity : AppCompatActivity() {
                 Date(milliseconds)
             }
 
+    fun selectConsultDialog(hUid: String?, uUid: String): Boolean {
+        hUid ?: return true
+        getSelectConsult(hUid, uUid)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    if (querySnapshot.isEmpty) return@addOnSuccessListener
+                    val list = querySnapshot.toObjects(ConsultInfo::class.java)
+                    list.also { if (it.isEmpty()) return@addOnSuccessListener }.let { it[0] }.let { consultInfo ->
+                        val dialog = ConsultContentDialog(this, consultInfo)
+                        dialog.show()
+                    }
+                }
+        return false
+    }
 
 }
