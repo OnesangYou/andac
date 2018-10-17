@@ -9,6 +9,7 @@ class ChatItem(var uid: String? = null,
                var imageUrl: String? = null,
                @ServerTimestamp var time: Date? = null) {
 
+    @Exclude var pic:String? = null
     @Exclude
     var mUid :String = ""
         set(value) {

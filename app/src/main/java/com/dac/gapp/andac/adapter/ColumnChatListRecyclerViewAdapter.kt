@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.model.firebase.ChatItem
 import com.dac.gapp.andac.viewholder.*
+import kotlinx.android.synthetic.main.abc_activity_chooser_view.view.*
 import timber.log.Timber
 import java.util.*
 
@@ -24,7 +25,6 @@ class ColumnChatListRecyclerViewAdapter(var list: List<ChatItem>) : RecyclerView
     override fun onBindViewHolder(mHolder: RecyclerView.ViewHolder, position: Int) {
         val item: ChatItem = list[position]
         Timber.d(list.toString())
-//        holder.titleText.text = item.content
 
         when (item.type) {
             0 -> {

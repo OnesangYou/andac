@@ -76,7 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:text="00:00 AM"
+                        android:text="@{chatItem.time}"
                         android:textSize="11dp" />
 
                 </LinearLayout>
@@ -88,33 +88,10 @@
                     android:layout_gravity="end"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="5dp"
+                    imageUrl="@{chatItem.imageUrl}"
                     android:background="@color/white"
                     android:paddingBottom="-12dp"
                     android:paddingTop="8dp" />
-
-
-                <com.dac.gapp.andac.util.chatUtils.ChatMessageView
-                    android:id="@+id/chatMessageView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:background="@color/albumColorPrimary"
-                    app:cmv_backgroundColorPressed="@color/white"
-                    app:cmv_cornerRadius="1dp"
-                    app:cmv_showArrow="false">
-
-                    <TextView
-                        android:id="@+id/chatText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="이미지가 삭제되었습니다."
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textSize="15.5dp"
-                        android:textStyle="bold" />
-                </com.dac.gapp.andac.util.chatUtils.ChatMessageView>
 
             </LinearLayout>
         </LinearLayout>
