@@ -74,6 +74,7 @@ class ChatRoomFragment : BaseFragment() {
                     for (dc in snapshots?.documentChanges!!) {
                         when (dc.type) {
                             DocumentChange.Type.ADDED -> {
+                                binding.isEmpty = false
                                 val item = dc.document.toObject(ChatListInfo::class.java)
                                 list.add(item)
 

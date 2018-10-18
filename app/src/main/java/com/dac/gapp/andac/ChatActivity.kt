@@ -14,7 +14,6 @@ import com.dac.gapp.andac.model.firebase.ChatItem
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import org.jetbrains.anko.alert
 import timber.log.Timber
 
 
@@ -56,6 +55,7 @@ class ChatActivity : BaseActivity() {
                     for (dc in snapshots?.documentChanges!!) {
                         when (dc.type) {
                             DocumentChange.Type.ADDED -> {
+                                Timber.e("들어옴")
                                 val chatItem  = dc.document.toObject(ChatItem::class.java)
                                 chatItem.mUid = mUid
                                 list.add(chatItem)
