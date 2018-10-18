@@ -2,9 +2,11 @@ package com.dac.gapp.andac.enums
 
 import com.dac.gapp.andac.BuildConfig
 
+
 enum class Algolia(val value: String) {
-    APP_ID(BuildConfig.ALGOLIA_APP_ID),
-    SEARCH_API_KEY(BuildConfig.ALGOLIA_SEARCH_API_KEY),
+
+    APP_ID(if(BuildConfig.FLAVOR_type == "andac") "H9Q32H274M" else "JJP46KUQ53"),
+    SEARCH_API_KEY(if(BuildConfig.FLAVOR_type == "andac") "96c3b64fabaf0a7bdeca95fd7788ace3" else "aba7d528204fde1f9b291725c41d4aa0"),
     INDEX_NAME_HOSPITAL("hospitals"),
     INDEX_NAME_BOARD("boards"),
     INDEX_NAME_COLUMN("columns"),

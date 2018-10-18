@@ -91,6 +91,7 @@ android {
     lintOptions {
         checkReleaseBuilds false
     }
+    sourceSets { andac { java.srcDirs = ['src/andac/java', 'src/andac/java/'] } }
 }
 
 dependencies {
