@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.MyPageActivity
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.RequestSurgeryActivity
 import com.dac.gapp.andac.adapter.ChatRoomListAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentChatRoomBinding
@@ -62,6 +63,10 @@ class ChatRoomFragment : BaseFragment() {
             })
         }
         setList()
+
+        binding.goToOpenConsult.setOnClickListener {
+            context?.afterCheckLoginDo { startActivity(Intent(context, RequestSurgeryActivity::class.java).putExtra("isOpen", true)) }
+        }
     }
 
     private fun setList() {
