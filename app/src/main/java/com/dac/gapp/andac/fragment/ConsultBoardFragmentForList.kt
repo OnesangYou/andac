@@ -41,7 +41,6 @@ class ConsultBoardFragmentForList : BaseFragment() {
         binding = getBinding()
         val layoutManager = LinearLayoutManager(context)
         binding.recyclerView.layoutManager = layoutManager
-
         val adapter = ConsultBoardRecytclerViewAdapter(context, datalist)
         binding.recyclerView.adapter = adapter
         when (title) {

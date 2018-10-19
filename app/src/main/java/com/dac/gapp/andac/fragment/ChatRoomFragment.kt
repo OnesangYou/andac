@@ -80,6 +80,7 @@ class ChatRoomFragment : BaseFragment() {
                         when (dc.type) {
                             DocumentChange.Type.ADDED -> {
                                 binding.isEmpty = false
+                                binding.notifyChange()
                                 val item = dc.document.toObject(ChatListInfo::class.java)
                                 list.add(item)
 
