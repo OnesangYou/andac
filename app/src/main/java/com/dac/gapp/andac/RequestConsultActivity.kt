@@ -17,12 +17,17 @@ import kotlinx.android.synthetic.main.activity_request_consult.*
 import org.jetbrains.anko.alert
 import timber.log.Timber
 
-class RequestSurgeryActivity : BaseActivity() {
+class RequestConsultActivity : BaseActivity() {
     private lateinit var binding: ActivityRequestConsultBinding
     var pictureUri : Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_consult)
+        if(isHospital()) {
+            toast("병원은 상담 요청할 수 없습니다")
+            finish()
+            return
+        }
         setActionBarLeftImage(R.drawable.back)
         setActionBarCenterText("1:1 상담신청서")
         setActionBarRightImage(R.drawable.delete)

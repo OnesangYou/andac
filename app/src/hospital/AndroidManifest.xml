@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".RequestSurgeryActivity" />
+        <activity android:name=".RequestConsultActivity" />
         <activity android:name=".ColumnActivity" />
         <activity android:name=".EventDetailActivity" />
         <activity android:name=".ChatActivity" />

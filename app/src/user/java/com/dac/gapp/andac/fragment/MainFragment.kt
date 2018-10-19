@@ -232,7 +232,7 @@ class MainFragment : BaseFragment() {
 
     private fun setupEvents() {
         binding.btnConsultationForm.setOnClickListener {
-            context?.afterCheckLoginDo { startActivity(Intent(context, RequestSurgeryActivity::class.java).putExtra("isOpen", true)) }
+            context?.afterCheckLoginDo { startActivity(Intent(context, RequestConsultActivity::class.java).putExtra("isOpen", true)) }
         }
 
         binding.btnMyEventHistory.setOnClickListener {
