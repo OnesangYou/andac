@@ -64,9 +64,15 @@ class ChatRoomFragment : BaseFragment() {
         }
         setList()
 
-        binding.goToOpenConsult.setOnClickListener {
-            context?.afterCheckLoginDo { startActivity(Intent(context, RequestConsultActivity::class.java).putExtra("isOpen", true)) }
+        // 상담 신청 플로팅 버튼
+        if((context?:return).isHospital()){
+            binding.goToOpenConsult.visibility = View.GONE
+        } else {
+            binding.goToOpenConsult.setOnClickListener {
+                context?.afterCheckLoginDo { startActivity(Intent(context, RequestConsultActivity::class.java).putExtra("isOpen", true)) }
+            }
         }
+
     }
 
     private fun setList() {
