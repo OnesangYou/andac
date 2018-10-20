@@ -19,12 +19,12 @@ android {
     }
     buildToolsVersion '28.0.3'
     dataBinding.enabled true
-    compileSdkVersion 26
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.dac.gapp"
         minSdkVersion 19
         //noinspection OldTargetApi
-        targetSdkVersion 26
+        targetSdkVersion 28
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
