@@ -64,7 +64,7 @@ class EventListFragment : BaseFragment() {
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.text) {
-                    getString(R.string.popular_order) -> setAdapter(getString(R.string.buy_count))
+                    getString(R.string.popular_order) -> setAdapter(getString(R.string.likeCount))
                     getString(R.string.low_price_order) -> setAdapter(getString(R.string.price), Query.Direction.ASCENDING)
                     getString(R.string.high_price_order) -> setAdapter(getString(R.string.price), Query.Direction.DESCENDING)
                 }
@@ -78,7 +78,7 @@ class EventListFragment : BaseFragment() {
         })
 
         // default
-        setAdapter(getString(R.string.buy_count))
+        setAdapter(getString(R.string.likeCount))
     }
 
     private fun prepareUi() {
@@ -102,7 +102,7 @@ class EventListFragment : BaseFragment() {
         }
     }
 
-    private fun setAdapter(type: String = getString(R.string.buy_count), direction: Query.Direction = Query.Direction.DESCENDING) {
+    private fun setAdapter(type: String = getString(R.string.likeCount), direction: Query.Direction = Query.Direction.DESCENDING) {
 
         // reset data
         lastVisible = null
