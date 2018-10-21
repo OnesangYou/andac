@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
 
@@ -58,27 +60,54 @@
             app:layout_constraintTop_toTopOf="@+id/txtviwDashboard" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/leftVisionLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="교정전 시력 : "
+            android:text="좌안 : "
             android:textSize="18dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtviwDashboard" />
 
         <TextView
-            android:id="@+id/visualacuity"
+            android:id="@+id/leftVisionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{consultInfo.visualacuity}"
-            app:layout_constraintBottom_toBottomOf="@+id/textView4"
+            app:setVision="@{consultInfo.leftVision}"
+            tools:text="0.1"
+
+            app:layout_constraintBottom_toBottomOf="@+id/leftVisionLabel"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toTopOf="@+id/textView4" />
+            app:layout_constraintStart_toEndOf="@+id/leftVisionLabel"
+            app:layout_constraintTop_toTopOf="@+id/leftVisionLabel" />
+
+        <TextView
+            android:id="@+id/rightVisionLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="우안 : "
+            android:textSize="18dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/leftVisionLabel" />
+
+        <TextView
+            android:id="@+id/rightVisionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:setVision="@{consultInfo.rightVision}"
+            tools:text="0.1"
+
+            app:layout_constraintBottom_toBottomOf="@+id/rightVisionLabel"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/rightVisionLabel"
+            app:layout_constraintTop_toTopOf="@+id/rightVisionLabel" />
 
         <TextView
             android:id="@+id/textView5"
@@ -90,7 +119,7 @@
             android:textSize="18dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/rightVisionLabel" />
 
         <TextView
             android:id="@+id/disease"

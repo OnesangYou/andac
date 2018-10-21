@@ -33,3 +33,8 @@ fun TextView.setPrice(price : Int, default : String = "병원문의"){
 fun TextView.onlyDate(date : Date?){
     this.text = date?.getDateFormat("YYYY/MM/dd")
 }
+
+@BindingAdapter("setVision")
+fun TextView.setVision(vision : Double){
+    this.text = "%.1f".format(vision)
+}

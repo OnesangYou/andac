@@ -10,6 +10,8 @@ import com.dac.gapp.andac.databinding.ActivityRequestConsultBinding
 import com.dac.gapp.andac.extension.loadImage
 import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.model.firebase.ConsultInfo
+import com.dac.gapp.andac.util.UiUtil.Companion.VisionArr
+import com.dac.gapp.andac.util.UiUtil.Companion.getVisionIndex
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
@@ -37,7 +39,7 @@ class RequestConsultActivity : BaseActivity() {
             alert(title = "상담내역 리셋", message = "상담내역을 리셋 하시겠습니까?") {
                 positiveButton("YES") { _ ->
                     // 에디트 텍스트 비우기
-                    arrayOf(visualacuityEdit, diseaseEdit, nameEdit, phoneEdit, insert_text_Edit, oldEdit).forEach { it.text.clear() }
+                    arrayOf(diseaseEdit, nameEdit, phoneEdit, insert_text_Edit, oldEdit).forEach { it.text.clear() }
                 }
                 negativeButton("NO") {}
             }.show()
@@ -49,6 +51,16 @@ class RequestConsultActivity : BaseActivity() {
 
         intent.getBooleanExtra("isOpen", true).let { binding.isOpen = it }
 
+        // 시력
+        arrayListOf(binding.leftVisionPicker, binding.rightVisionPicker).forEach {
+            it.apply {
+                minValue = 0
+                maxValue = VisionArr.size - 1
+                displayedValues = VisionArr
+                value = 10
+            }
+        }
+
         // 이미 신청했으면 수정 모드
         if(binding.isOpen?:return){
             // Open 상담
@@ -59,7 +71,10 @@ class RequestConsultActivity : BaseActivity() {
                             arrayOf(tag_1, tag_2, tag_3, tag_4).forEach {
                                 it.isChecked = it.tag == tag
                             }
-                            visualacuityEdit.setText(visualacuity)
+
+                            leftVisionPicker.value = getVisionIndex(leftVision)
+                            rightVisionPicker.value = getVisionIndex(rightVision)
+
                             diseaseEdit.setText(disease)
                             nameEdit.setText(name)
                             phoneEdit.setText(phone)
@@ -87,7 +102,6 @@ class RequestConsultActivity : BaseActivity() {
                             arrayOf(tag_1, tag_2, tag_3, tag_4).forEach {
                                 it.isChecked = it.tag == tag
                             }
-                            visualacuityEdit.setText(visualacuity)
                             diseaseEdit.setText(disease)
                             nameEdit.setText(name)
                             phoneEdit.setText(phone)
@@ -120,7 +134,8 @@ class RequestConsultActivity : BaseActivity() {
         val radio: RadioButton = findViewById(id)
         return ConsultInfo(
                 tag = radio.tag.toString(),
-                visualacuity = visualacuityEdit.text.toString(),
+                leftVision = VisionArr[leftVisionPicker.value].toDouble(),
+                rightVision = VisionArr[rightVisionPicker.value].toDouble(),
                 disease = diseaseEdit.text.toString(),
                 userId = getUid(),
                 name = nameEdit.text.toString(),
@@ -135,7 +150,7 @@ class RequestConsultActivity : BaseActivity() {
         Timber.d("Open")
 
         // 유효성 검사
-        arrayOf(visualacuityEdit, diseaseEdit, nameEdit, phoneEdit, insert_text_Edit, oldEdit).forEach {
+        arrayOf(diseaseEdit, nameEdit, phoneEdit, insert_text_Edit, oldEdit).forEach {
             if(it.text.isBlank()) return toast(it.hint)
         }
 
@@ -163,7 +178,7 @@ class RequestConsultActivity : BaseActivity() {
     fun onClickSelecet(view: View) {
 
         // 유효성 검사
-        arrayOf(visualacuityEdit, diseaseEdit, nameEdit, phoneEdit, insert_text_Edit, oldEdit).forEach {
+        arrayOf(diseaseEdit, nameEdit, phoneEdit, insert_text_Edit, oldEdit).forEach {
             if(it.text.isBlank()) return toast(it.hint)
         }
 
