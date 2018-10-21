@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="18dp"
-        android:text="아래 5개중 게시글의 테그를 선택해 주세요"
+        android:text="아래 게시판의 종류를 선택해주세요"
         android:textColor="@color/colorMain"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,8 +47,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
+        android:layout_marginEnd="10dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/profilePic"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/nickName"
         app:layout_constraintTop_toBottomOf="@+id/nickName">
 
