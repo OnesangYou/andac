@@ -114,7 +114,7 @@ class MainFragment : BaseFragment() {
                                 }
 
                                 val index = (0..adInfoList.lastIndex).random()
-                                val dialog = MainPopupDialog(requireContext())
+                                val dialog = MainPopupDialog(context)
                                 val clickListener = View.OnClickListener {
                                     if (adInfoList[index].eventId.isNotEmpty()) {
                                         context.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfoList[index].eventId)
