@@ -412,7 +412,7 @@ abstract class BaseActivity : AppCompatActivity() {
         transaction.addToBackStack(null)
 
         // Commit the transaction
-        transaction.commit()
+        transaction.commitAllowingStateLoss()
     }
 
     @SuppressLint("SetTextI18n")
