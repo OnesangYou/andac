@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -107,7 +108,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:text="@{chatItem.time}"
-                        android:textSize="11dp" />
+                        android:textSize="11dp"
+                        tools:text = "2018/10/22 19:23"
+                        />
 
                 </LinearLayout>
 

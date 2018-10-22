@@ -2,7 +2,8 @@
 
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -70,6 +71,14 @@
 
             </RelativeLayout>
 
+            <TextView
+                android:id="@+id/nameText"
+                android:text="@{chatItem.name}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="15.5dp"
+                tools:text = "abc1234"/>
             <com.dac.gapp.andac.util.chatUtils.ChatMessageView
                 android:id="@+id/chatMessageView"
                 android:layout_width="0dp"
@@ -88,7 +97,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="15.5dp" />
+                    android:textSize="15.5dp"
+                    tools:text = "안녕하세요"/>
             </com.dac.gapp.andac.util.chatUtils.ChatMessageView>
 
             <LinearLayout
@@ -114,7 +124,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:text="@{chatItem.time}"
-                    android:textSize="11dp" />
+                    android:textSize="11dp"
+                    tools:text = "2018/10/12 12:12"/>
             </LinearLayout>
         </LinearLayout>
 

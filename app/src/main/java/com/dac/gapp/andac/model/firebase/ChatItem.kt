@@ -10,6 +10,8 @@ class ChatItem(var uid: String? = null,
                @ServerTimestamp var time: Date? = null) {
 
     @Exclude var pic:String? = null
+    @Exclude var name:String? = null
+    @Exclude var objectId:String? = null
     @Exclude
     var mUid :String = ""
         set(value) {
