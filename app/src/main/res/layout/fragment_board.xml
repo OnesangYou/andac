@@ -25,7 +25,7 @@
                     android:id="@+id/hot_board"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/hot_board" />
+                    android:text="@string/hot_board_s" />
 
                 <android.support.design.widget.TabItem
                     android:id="@+id/free_board"

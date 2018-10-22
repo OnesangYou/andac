@@ -86,7 +86,7 @@ class BoardFragment : BaseFragment() {
                     getString(R.string.free_board) -> setAdapter(getString(R.string.free_board))
                     getString(R.string.review_board) -> setAdapter(getString(R.string.review_board))
                     getString(R.string.question_board) -> setAdapter(getString(R.string.question_board))
-                    getString(R.string.hot_board) -> setAdapter(getString(R.string.hot_board))
+                    getString(R.string.hot_board_s) -> setAdapter(getString(R.string.hot_board))
                     getString(R.string.certification_board) -> setAdapter(getString(R.string.certification_board))
                 }
             }

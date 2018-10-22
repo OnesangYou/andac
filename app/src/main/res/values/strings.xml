@@ -41,8 +41,9 @@
     <string name="review_board">후기게시판</string>
     <string name="question_board">질문게시판</string>
     <string name="hot_board">인기게시판</string>
-
     <string name="certification_board">인증게시판</string>
+
+    <string name="hot_board_s">인기글</string>
 
 
     <string name="hospital">병원</string>
