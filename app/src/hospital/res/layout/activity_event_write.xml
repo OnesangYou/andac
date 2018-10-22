@@ -66,60 +66,60 @@
 
 
                     <RadioGroup
-                        android:id="@+id/radiogroup_tag"
+                        android:id="@+id/radioGroupType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <RadioButton
-                            android:id="@+id/tag_1"
+                            android:id="@+id/lasik"
                             android:layout_width="65dp"
                             android:layout_height="65dp"
                             android:background="@drawable/request_lasiclasex_btn"
                             android:button="@null"
                             android:checked="true"
                             android:gravity="center"
-                            android:tag="라식 라섹" />
+                            android:tag="@string/lasik" />
 
                         <RadioButton
-                            android:id="@+id/tag_2"
+                            android:id="@+id/insertLens"
                             android:layout_width="65dp"
                             android:layout_height="65dp"
                             android:layout_marginLeft="4dp"
                             android:background="@drawable/request_insertlense_btn"
                             android:button="@null"
                             android:gravity="center"
-                            android:tag="렌즈 삽입" />
+                            android:tag="@string/insertLens" />
 
                         <RadioButton
-                            android:id="@+id/tag_3"
+                            android:id="@+id/cataract"
                             android:layout_width="65dp"
                             android:layout_height="65dp"
                             android:layout_marginLeft="4dp"
                             android:background="@drawable/request_whiteeye_btn"
                             android:button="@null"
                             android:gravity="center"
-                            android:tag="백내장 녹내장" />
+                            android:tag="@string/cataract" />
 
                         <RadioButton
-                            android:id="@+id/tag_4"
+                            android:id="@+id/presbyopia"
                             android:layout_width="65dp"
                             android:layout_height="65dp"
                             android:layout_marginLeft="4dp"
                             android:background="@drawable/request_oldeye_btn"
                             android:button="@null"
                             android:gravity="center"
-                            android:tag="노안" />
+                            android:tag="@string/presbyopia" />
 
                         <RadioButton
-                            android:id="@+id/tag_5"
+                            android:id="@+id/eyeDisease"
                             android:layout_width="65dp"
                             android:layout_height="65dp"
                             android:layout_marginLeft="4dp"
                             android:background="@drawable/request_eyesick_btn"
                             android:button="@null"
                             android:gravity="center"
-                            android:tag="안구 질환" />
+                            android:tag="@string/eyeDisease" />
                     </RadioGroup>
 
 

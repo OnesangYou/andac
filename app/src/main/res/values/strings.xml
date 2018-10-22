@@ -117,6 +117,15 @@
     <string name="jeju">제주</string>
     <string name="gangwon">강원</string>
 
+
+    <!-- event tag -->
+    <string name="lasik">라식 라섹</string>
+    <string name="insertLens">렌즈 삽입</string>
+    <string name="cataract">백내장 녹내장</string>
+    <string name="presbyopia">노안</string>
+    <string name="eyeDisease">안구 질환</string>
+
+
     <string name="no_hospital_addres_entered">입력된 병원주소가 없습니다.</string>
     <string name="no_business_hours_entered">입력된 영업시간이 없습니다.</string>
     <string name="write_consultation_form">1:1 상담신청서 작성</string>

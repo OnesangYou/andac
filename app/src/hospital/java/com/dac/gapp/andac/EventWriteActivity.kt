@@ -46,6 +46,15 @@ class EventWriteActivity : BaseActivity() {
                 Glide.with(this@EventWriteActivity).load(pictureUrl).into(binding.topImage)
                 Glide.with(this@EventWriteActivity).load(detailPictureUrl).into(binding.bottomImage)
 
+                binding.radioGroupType.check(when(tag) {
+                    getString(R.string.lasik) -> R.id.lasik
+                    getString(R.string.insertLens) -> R.id.insertLens
+                    getString(R.string.cataract) -> R.id.cataract
+                    getString(R.string.presbyopia) -> R.id.presbyopia
+                    getString(R.string.eyeDisease) -> R.id.eyeDisease
+                    else -> R.id.lasik
+                })
+
             }}?.addOnCompleteListener { hideProgressDialog() }
             setOnActionBarRightClickListener(View.OnClickListener {
                 showDeleteEventDialog(key)
@@ -67,6 +76,17 @@ class EventWriteActivity : BaseActivity() {
                 detailPictureUri = it
                 Glide.with(this@EventWriteActivity).load(it).into(binding.bottomImage)
             }?.apply { disposables.add(this) }
+        }
+
+        // Type
+        binding.radioGroupType.setOnCheckedChangeListener{ _, id ->
+            when(id) {
+                R.id.lasik -> eventInfo.tag = getString(R.string.lasik)
+                R.id.insertLens -> eventInfo.tag = getString(R.string.insertLens)
+                R.id.cataract -> eventInfo.tag = getString(R.string.cataract)
+                R.id.presbyopia -> eventInfo.tag = getString(R.string.presbyopia)
+                R.id.eyeDisease -> eventInfo.tag = getString(R.string.eyeDisease)
+            }
         }
 
         // Upload

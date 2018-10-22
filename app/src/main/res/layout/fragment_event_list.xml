@@ -8,6 +8,7 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
+            app:tabMode="scrollable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,6 +32,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/high_price_order" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/lasik"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lasik" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/insertLens"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/insertLens" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/cataract"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cataract" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/presbyopia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/presbyopia" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/eyeDisease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eyeDisease" />
+
+
 
         </android.support.design.widget.TabLayout>
 

@@ -67,6 +67,12 @@ class EventListFragment : BaseFragment() {
                     getString(R.string.popular_order) -> setAdapter(getString(R.string.likeCount))
                     getString(R.string.low_price_order) -> setAdapter(getString(R.string.price), Query.Direction.ASCENDING)
                     getString(R.string.high_price_order) -> setAdapter(getString(R.string.price), Query.Direction.DESCENDING)
+
+                    getString(R.string.lasik) -> setAdapter(tag = getString(R.string.lasik))
+                    getString(R.string.insertLens) -> setAdapter(tag = getString(R.string.insertLens))
+                    getString(R.string.cataract) -> setAdapter(tag = getString(R.string.cataract))
+                    getString(R.string.presbyopia) -> setAdapter(tag = getString(R.string.presbyopia))
+                    getString(R.string.eyeDisease) -> setAdapter(tag = getString(R.string.eyeDisease))
                 }
             }
 
@@ -102,19 +108,19 @@ class EventListFragment : BaseFragment() {
         }
     }
 
-    private fun setAdapter(type: String = getString(R.string.likeCount), direction: Query.Direction = Query.Direction.DESCENDING) {
+    private fun setAdapter(type: String = getString(R.string.likeCount), direction: Query.Direction = Query.Direction.DESCENDING, tag: String? = null) {
 
         // reset data
         lastVisible = null
 
         // add Data
-        addDataToRecycler(type, direction)
+        addDataToRecycler(type, direction, tag)
 
         // add event to recycler's last
         binding.recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(rv: RecyclerView?, newState: Int) {
                 if (newState == RecyclerView.SCROLL_STATE_SETTLING && !binding.recyclerView.canScrollVertically(1)) {
-                    addDataToRecycler(type, direction)
+                    addDataToRecycler(type, direction, tag)
                 }
             }
         })
@@ -125,13 +131,17 @@ class EventListFragment : BaseFragment() {
         map.clear()
     }
 
-    fun addDataToRecycler(type: String, direction: Query.Direction = Query.Direction.DESCENDING) {
+    fun addDataToRecycler(type: String, direction: Query.Direction = Query.Direction.DESCENDING, tag: String?) {
         var needClear = false
         context?.apply {
             showProgressDialog()
             getTripleDataTask(
                     getEvents()
-                            .orderBy(type, direction)
+                            .let {
+                                // tag 조회면, tag 필더, 최신순
+                                reference -> tag?.let { reference.whereEqualTo("tag", it).orderBy("writeDate", Query.Direction.DESCENDING) }
+                                    ?:reference.orderBy(type, direction)
+                            }
                             .let { query ->
                                 lastVisible?.let { query.startAfter(it) } ?: let{needClear = true; query}
                             }    // 쿼리 커서 시작 위치 지정
@@ -144,6 +154,9 @@ class EventListFragment : BaseFragment() {
                         binding.recyclerView.adapter.notifyDataSetChanged()
                     }
                     ?.addOnCompleteListener { hideProgressDialog() }
+                    ?.addOnFailureListener{
+                        it.printStackTrace()
+                    }
         }
     }
 
@@ -152,7 +165,7 @@ class EventListFragment : BaseFragment() {
             var infos: List<EventInfo> = listOf()
             query.get()
                     .continueWith { it ->
-                        lastVisible = it.result.documents.let { it[it.size - 1] }
+                        lastVisible = it.result.documents.let { if(it.isEmpty()) null else it[it.size - 1] }
                         it.result.toObjects(EventInfo::class.java)
                     }.continueWithTask { it ->
                         infos = it.result
