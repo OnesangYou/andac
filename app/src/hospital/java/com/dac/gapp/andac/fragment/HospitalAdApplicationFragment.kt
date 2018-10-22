@@ -57,9 +57,9 @@ class HospitalAdApplicationFragment : BaseFragment() {
         }
     }
 
-    private lateinit var mAd: Ad
+    private lateinit var ad: Ad
     private lateinit var forWhat: String
-    private lateinit var mBinding: FragmentHospitalAdApplicationBinding
+    private lateinit var binding: FragmentHospitalAdApplicationBinding
 
     private var photoUrl: String? = null
     private var photoUri: Uri? = null
@@ -73,7 +73,7 @@ class HospitalAdApplicationFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.let {
-            mAd = it.getSerializable(EXTRA_AD) as Ad
+            ad = it.getSerializable(EXTRA_AD) as Ad
             forWhat = it.getSerializable(EXTRA_FOR_WHAT) as String
             photoUrl = it.getSerializable(EXTRA_PHOTO_URL) as String?
             prepareUi()
@@ -85,23 +85,23 @@ class HospitalAdApplicationFragment : BaseFragment() {
     }
 
     private fun prepareUi() {
-        mBinding = getBinding()
+        binding = getBinding()
         context?.let { context ->
             context.setActionBarLeftImage(R.drawable.back)
             forWhat.let { forWhat ->
-                mAd.let { ad ->
-                    if (ad == Ad.SEARCH_HOSPITAL_BANNER_AD) mBinding.layoutUploadPhoto.visibleOrGone(false)
-                    mBinding.txtviewAd.text = getString(ad.titleResId)
-                    mBinding.btnSelectMyEvent.visibleOrGone(ad.isAdTypeEvent())
+                ad.let {
+                    if (it == Ad.SEARCH_HOSPITAL_BANNER_AD) binding.layoutUploadPhoto.visibleOrGone(false)
+                    binding.txtviewAd.text = getString(it.titleResId)
+                    binding.btnSelectMyEvent.visibleOrGone(it.isAdTypeEvent())
                     if (forWhat == EXTRA_FOR_PAY) {
                         context.setActionBarCenterText(R.string.apply_for_a_hospital_ad)
-                        mBinding.btnNext.text = getString(R.string.apply)
+                        binding.btnNext.text = getString(R.string.apply)
                     } else if (forWhat == EXTRA_FOR_EDIT) {
                         context.setActionBarCenterText(R.string.edit_for_hospital_ad)
-                        mBinding.btnNext.text = getString(R.string.edit)
-                        photoUrl?.let {
-                            mBinding.imgviewPhoto.loadImageAny(it)
-                            mBinding.txtviewUploadPhoto.setBackgroundResource(R.color.AF000000)
+                        binding.btnNext.text = getString(R.string.edit)
+                        photoUrl?.let { url ->
+                            binding.imgviewPhoto.loadImageAny(url)
+                            binding.txtviewUploadPhoto.setBackgroundResource(R.color.AF000000)
                         }
                     }
                 }
@@ -110,18 +110,18 @@ class HospitalAdApplicationFragment : BaseFragment() {
     }
 
     private fun setupEventsOnViewCreated() {
-        mBinding.btnSelectMyEvent.setOnClickListener {
+        binding.btnSelectMyEvent.setOnClickListener {
             context?.startActivityForResult<HospitalEventListActivity>(REQUEST_EVENT_SELECT, Extra.IS_EVENT_SELECT.name to true)
         }
 
-        mBinding.layoutUploadPhoto.setOnClickListener { _ ->
+        binding.layoutUploadPhoto.setOnClickListener { _ ->
             TedPermission.with(context)
                     .setPermissionListener(object : PermissionListener {
                         override fun onPermissionGranted() {
-                            context?.getAlbumImage{
+                            context?.getAlbumImage {
                                 photoUri = it
-                                mBinding.imgviewPhoto.loadImageAny(it)
-                                mBinding.txtviewUploadPhoto.setBackgroundResource(R.color.AF000000)
+                                binding.imgviewPhoto.loadImageAny(it)
+                                binding.txtviewUploadPhoto.setBackgroundResource(R.color.AF000000)
                             }?.apply { context?.disposables?.add(this) }
                         }
 
@@ -134,8 +134,8 @@ class HospitalAdApplicationFragment : BaseFragment() {
                     .check()
         }
 
-        mBinding.btnNext.setOnClickListener { _ ->
-            if (mAd == Ad.SEARCH_HOSPITAL_BANNER_AD) {
+        binding.btnNext.setOnClickListener { _ ->
+            if (ad == Ad.SEARCH_HOSPITAL_BANNER_AD) {
                 context?.showProgressDialog()
                 saveAd("")
                         ?.addOnCompleteListener {
@@ -176,7 +176,7 @@ class HospitalAdApplicationFragment : BaseFragment() {
     private fun savePhoto(uri: Uri): Task<String>? {
         return context?.run {
             getUid()?.let { uid ->
-                getAdStorageRef().child(uid).child(mAd.uploadFileName).putFile(uri)
+                getAdStorageRef().child(uid).child(ad.uploadFileName).putFile(uri)
                         .continueWith {
                             it.result.downloadUrl.toString()
                         }
@@ -187,13 +187,20 @@ class HospitalAdApplicationFragment : BaseFragment() {
     private fun saveAd(photoUrl: String): Task<Void>? {
         return context?.run {
             getUid()?.let { uid ->
-                getDb().collection(mAd.collectionName).document(uid)
-                        .set(
-                                AdInfo(uid, photoUrl, false, Date(), Date(), eventObjectId ?: ""),
-                                SetOptions.merge()
-                        )
+                getDb().collection(ad.collectionName).document(uid)
+                        .get()
+                        .continueWith {
+                            it.result.toObject(AdInfo::class.java)
+                        }.continueWithTask {
+                            it.result?.let { adInfo ->
+                                getDb().collection(ad.collectionName).document(uid).set(
+                                        AdInfo(uid, photoUrl, adInfo.showingUp, adInfo.startDate, adInfo.endDate, eventObjectId
+                                                ?: ""),
+                                        SetOptions.merge()
+                                )
+                            }
+                        }
             }
         }
     }
-
 }

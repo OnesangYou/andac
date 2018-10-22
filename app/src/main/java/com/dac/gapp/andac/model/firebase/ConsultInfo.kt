@@ -9,7 +9,6 @@ import java.util.*
  * Created by Administrator on 2018-04-13.
  */
 data class ConsultInfo(var tag:String = "",
-                       var visualacuity:String = "",    // 시력
                        var disease:String? = null,
                        var userId:String? = null,
                        var hospitalId: String? = null,
@@ -21,5 +20,7 @@ data class ConsultInfo(var tag:String = "",
                        var status: String = ConsultStatus.APPLY.value,
                        @ServerTimestamp var writeDate: Date? = null,
                        var pictureUrl : String? = null,
-                       var pictureRef : String? = null
+                       var pictureRef : String? = null,
+                       var leftVision : Double = 1.0,
+                       var rightVision : Double = 1.0
                        )

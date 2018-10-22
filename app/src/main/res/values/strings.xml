@@ -93,6 +93,7 @@
     <string name="select_my_event">내 이벤트 선택</string>
 
     <string name="buy_count">buy_count</string>
+    <string name="likeCount">likeCount</string>
     <string name="price">price</string>
     <string name="distance">distance</string>
     <string name="go_to_detail_page">상세 페이지로</string>
