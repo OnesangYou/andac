@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.fragment.*
 import com.dac.gapp.andac.model.ActivityResultEvent
+import com.dac.gapp.andac.util.Preference
 import com.dac.gapp.andac.util.RxBus
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
@@ -114,5 +115,11 @@ class MainActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         // 이벤트 전달
         RxBus.publish(ActivityResultEvent(requestCode, resultCode, data))
+    }
+
+    override fun onDestroy() {
+        val isAutoLogin = getSharedPreferences(Preference.FileName, 0).getBoolean(Preference.AutoLogin, false)
+        if(!isAutoLogin) getAuth()?.signOut()
+        super.onDestroy()
     }
 }

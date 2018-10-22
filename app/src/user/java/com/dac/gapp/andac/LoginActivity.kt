@@ -11,6 +11,7 @@ import com.dac.gapp.andac.enums.AdCountType
 import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.extension.random
 import com.dac.gapp.andac.model.firebase.AdInfo
+import com.dac.gapp.andac.util.Preference
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import org.jetbrains.anko.startActivity
@@ -69,6 +70,12 @@ open class LoginActivity : BaseLoginActivity() {
         binding.findPasswordBtn.setOnClickListener {
             findPassword()
         }
+
+        // Auto Login
+        binding.autoLoginCheck.isChecked = getSharedPreferences(Preference.FileName, 0).getBoolean(Preference.AutoLogin, false)
+        binding.autoLoginCheck.setOnCheckedChangeListener { _, isChecked ->
+            getSharedPreferences(Preference.FileName, 0).edit().putBoolean(Preference.AutoLogin, isChecked).apply()
+        }
     }
 
     private fun prepareUi() {
@@ -95,7 +102,10 @@ open class LoginActivity : BaseLoginActivity() {
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = mAuth!!.currentUser
+
+        // Auto Login
+        val isAutoLogin = getSharedPreferences(Preference.FileName, 0).getBoolean(Preference.AutoLogin, false)
+        val currentUser = if(isAutoLogin) mAuth?.currentUser else {mAuth?.signOut(); null}
         updateUI(currentUser)
     }
 

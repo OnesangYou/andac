@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.dac.gapp.andac.base.BaseHospitalActivity
 import com.dac.gapp.andac.databinding.ActivityLoginBinding
+import com.dac.gapp.andac.util.Preference
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import org.jetbrains.anko.startActivity
@@ -62,12 +63,21 @@ class LoginActivity : BaseHospitalActivity() {
         binding.findPasswordBtn.setOnClickListener {
             findPassword()
         }
+
+        // Auto Login
+        binding.autoLoginCheck.isChecked = getSharedPreferences(Preference.FileName, 0).getBoolean(Preference.AutoLogin, false)
+        binding.autoLoginCheck.setOnCheckedChangeListener { _, isChecked ->
+            getSharedPreferences(Preference.FileName, 0).edit().putBoolean(Preference.AutoLogin, isChecked).apply()
+        }
     }
 
     override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = mAuth!!.currentUser
+
+        // Auto Login
+        val isAutoLogin = getSharedPreferences(Preference.FileName, 0).getBoolean(Preference.AutoLogin, false)
+        val currentUser = if(isAutoLogin) mAuth?.currentUser else {mAuth?.signOut(); null}
         showProgressDialog()
         updateUI(currentUser)
     }
