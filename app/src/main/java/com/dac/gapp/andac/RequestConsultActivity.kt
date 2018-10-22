@@ -115,7 +115,7 @@ class RequestConsultActivity : BaseActivity() {
                     .addOnCompleteListener { hideProgressDialog() }
         }
 
-        intent.getStringExtra("hospitalName")?.let {
+        intent.getStringExtra("name")?.let {
             binding.regionText1.text = it
         }
 

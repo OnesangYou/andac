@@ -7,7 +7,7 @@ import java.util.*
 data class ChatListInfo(var roomId: String? = "",
                         var lastchat: String? = null,
                         @Exclude var picUrl:String?=null,
-                        @Exclude var hospitalName:String?=null,
+                        @Exclude var name:String?=null,
                         @Exclude var hUid:String?=null,
                         @Exclude var uUid:String?=null,
                         @ServerTimestamp var date : Date? = null)

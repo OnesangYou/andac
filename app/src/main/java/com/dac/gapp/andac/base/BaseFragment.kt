@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dac.gapp.andac.BuildConfig
 
 open class BaseFragment : Fragment() {
 
@@ -23,7 +24,7 @@ open class BaseFragment : Fragment() {
 
     fun getUid() = context?.getUid()
 
-
+    fun isUser(): Boolean = BuildConfig.FLAVOR.startsWith("user")
     fun goToLogin(gotoMyPage: Boolean = false) = context?.goToLogin(gotoMyPage)
 
     private var viewDataBinding: ViewDataBinding? = null

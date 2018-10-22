@@ -25,6 +25,11 @@ import java.util.*
 
 class ChatActivity : BaseActivity() {
     var list: MutableList<ChatItem> = mutableListOf()
+
+    interface OnCompleteImage {
+        fun onComplete(position: Int)
+    }
+
     private lateinit var binding: ActivityChatBinding
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,9 +42,15 @@ class ChatActivity : BaseActivity() {
         setOnActionBarLeftClickListener(View.OnClickListener {
             finish()
         })
+        val onCompleteImage = object : OnCompleteImage {
+            override fun onComplete(position: Int) {
+                    binding.ChatListView.post{ binding.ChatListView.smoothScrollToPosition(View.FOCUS_DOWN) }
+            }
+        }
+
         binding.ChatListView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = ColumnChatListRecyclerViewAdapter(list)
+            adapter = ColumnChatListRecyclerViewAdapter(list, onCompleteImage)
         }
 
         val roomId = intent.getStringExtra("roomId")
@@ -56,8 +67,8 @@ class ChatActivity : BaseActivity() {
             }
         }
 
-        var hospitalInfo : HospitalInfo? = null
-        var userInfo : UserInfo? = null
+        var hospitalInfo: HospitalInfo? = null
+        var userInfo: UserInfo? = null
         Tasks.whenAllComplete(
                 getHospitalInfo(hUid)?.addOnSuccessListener { hospitalInfo = it },
                 getUserInfo(uUid)?.addOnSuccessListener {
@@ -74,11 +85,11 @@ class ChatActivity : BaseActivity() {
                                     chatItem.objectId = dc.document.id
                                     list.add(chatItem)
                                     if (isUser() && !chatItem.isMine) {
-                                            chatItem.pic = hospitalInfo?.profilePicUrl
-                                            chatItem.name = hospitalInfo?.name
+                                        chatItem.pic = hospitalInfo?.profilePicUrl
+                                        chatItem.name = hospitalInfo?.name
                                     } else if (!chatItem.isMine) {
-                                            chatItem.pic = userInfo?.profilePicUrl
-                                            chatItem.name = userInfo?.nickName
+                                        chatItem.pic = userInfo?.profilePicUrl
+                                        chatItem.name = userInfo?.nickName
                                     }
                                     binding.ChatListView.scrollToPosition(list.size - 1)
                                     binding.ChatListView.apply { adapter.notifyItemChanged(list.size - 1) }

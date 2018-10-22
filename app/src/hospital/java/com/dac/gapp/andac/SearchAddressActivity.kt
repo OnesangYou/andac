@@ -24,7 +24,7 @@ class SearchAddressActivity : BaseActivity() {
 
         autocompleteFragment.setHint("병원명이나 병원 주소를 입력하세요")
 
-        intent.getStringExtra("hospitalName")?.let{hospitalName ->
+        intent.getStringExtra("name")?.let{hospitalName ->
             autocompleteFragment.setText(hospitalName)
         }
 

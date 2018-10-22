@@ -82,7 +82,7 @@ class JoinInfoFragment : JoinBaseFragment() {
 
         // 주소 검색
         binding.addressEdit.setOnClickListener{
-            startActivityForResult(Intent(context, SearchAddressActivity::class.java).putExtra("hospitalName", binding.hospitalName.text.toString()), PICK_ADDRESS_REQUEST)
+            startActivityForResult(Intent(context, SearchAddressActivity::class.java).putExtra("name", binding.hospitalName.text.toString()), PICK_ADDRESS_REQUEST)
         }
 
     }
@@ -102,7 +102,7 @@ class JoinInfoFragment : JoinBaseFragment() {
 //                context!!.toast("latLng : $latLng, name : $name")
 
                 getJoinActivity().apply{
-//                    hospitalName.setText(name)
+//                    name.setText(name)
                     binding.addressEdit.setText(address)
                     binding.phoneEdit.setText(phoneNumber)
                     hospitalInfo._geoloc.apply {

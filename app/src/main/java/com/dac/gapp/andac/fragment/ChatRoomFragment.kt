@@ -16,6 +16,7 @@ import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentChatRoomBinding
 import com.dac.gapp.andac.model.firebase.ChatListInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.dac.gapp.andac.model.firebase.UserInfo
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import timber.log.Timber
@@ -65,7 +66,7 @@ class ChatRoomFragment : BaseFragment() {
         setList()
 
         // 상담 신청 플로팅 버튼
-        if((context?:return).isHospital()){
+        if ((context ?: return).isHospital()) {
             binding.goToOpenConsult.visibility = View.GONE
         } else {
             binding.goToOpenConsult.setOnClickListener {
@@ -89,24 +90,34 @@ class ChatRoomFragment : BaseFragment() {
                                 binding.notifyChange()
                                 val item = dc.document.toObject(ChatListInfo::class.java)
                                 list.add(item)
+                                if (isUser()) {
+                                    db.collection("hospitals").document(dc.document.id).get().addOnCompleteListener {
+                                        val hospitalinfo = it.result.toObject(HospitalInfo::class.java)
+                                        item.apply {
+                                            name = hospitalinfo?.name
+                                            picUrl = hospitalinfo?.profilePicUrl
 
-                                db.collection("hospitals").document(dc.document.id).get().addOnCompleteListener {
-                                    val hospitalinfo = it.result.toObject(HospitalInfo::class.java)
-                                    item.apply {
-                                        hospitalName = hospitalinfo?.name
-                                        picUrl = hospitalinfo?.profilePicUrl
-
-                                        context?.apply {
-                                            if(isUser()){
+                                            context?.apply {
                                                 hUid = dc.document.id
                                                 uUid = uid
-                                            } else {
+                                            }
+                                        }
+                                        binding.chatRoomList.apply { adapter.notifyDataSetChanged() }
+                                    }
+                                } else {
+                                    db.collection("users").document(dc.document.id).get().addOnCompleteListener {
+                                        val userInfo = it.result.toObject(UserInfo::class.java)
+                                        item.apply {
+                                            name = userInfo?.nickName
+                                            picUrl = userInfo?.profilePicUrl
+
+                                            context?.apply {
                                                 hUid = uid
                                                 uUid = dc.document.id
                                             }
                                         }
+                                        binding.chatRoomList.apply { adapter.notifyDataSetChanged() }
                                     }
-                                    binding.chatRoomList.apply { adapter.notifyDataSetChanged() }
                                 }
                             }
                             DocumentChange.Type.MODIFIED -> {

@@ -8,7 +8,7 @@ class ChatItem(var uid: String? = null,
                var content: String? = null,
                var imageUrl: String? = null,
                @ServerTimestamp var time: Date? = null) {
-
+    @Exclude var first:Boolean = true
     @Exclude var pic:String? = null
     @Exclude var name:String? = null
     @Exclude var objectId:String? = null
