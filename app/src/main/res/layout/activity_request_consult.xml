@@ -30,8 +30,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
                 android:text="상담받을 태그신청"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_15sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -114,29 +114,76 @@
                 android:background="@color/lightgray"
                 app:layout_constraintTop_toBottomOf="@+id/tagLayout" />
 
-
-            <NumberPicker
-                android:id="@+id/leftVisionPicker"
+            <TextView
+                android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/textView3"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:text="시력을 설정해주세요"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
 
-            <NumberPicker
-                android:id="@+id/rightVisionPicker"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/numberpic_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:layout_constraintStart_toEndOf="@+id/textView10"
-                app:layout_constraintTop_toBottomOf="@+id/view" />
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView13">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="좌안"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/leftVisionPicker"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/leftVisionPicker" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="우안"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/rightVisionPicker"
+                    app:layout_constraintStart_toEndOf="@+id/leftVisionPicker"
+                    app:layout_constraintTop_toTopOf="@+id/rightVisionPicker" />
+
+                <NumberPicker
+                    android:id="@+id/leftVisionPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/textView3" />
+
+                <NumberPicker
+                    android:id="@+id/rightVisionPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintStart_toEndOf="@+id/textView10" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
 
             <View
                 android:id="@+id/view2"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
+                android:layout_marginTop="10dp"
                 android:background="@color/lightgray"
-                app:layout_constraintTop_toBottomOf="@+id/leftVisionPicker" />
+                app:layout_constraintTop_toBottomOf="@+id/numberpic_layout" />
 
             <EditText
                 android:id="@+id/diseaseEdit"
@@ -355,26 +402,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/regionText1"
                 app:layout_constraintStart_toEndOf="@+id/regionText1"
                 app:layout_constraintTop_toTopOf="@+id/regionText1" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="좌안"
-                app:layout_constraintBottom_toBottomOf="@+id/leftVisionPicker"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/leftVisionPicker" />
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="우안"
-                app:layout_constraintBottom_toBottomOf="@+id/rightVisionPicker"
-                app:layout_constraintStart_toEndOf="@+id/leftVisionPicker"
-                app:layout_constraintTop_toTopOf="@+id/rightVisionPicker" />
 
         </android.support.constraint.ConstraintLayout>
 

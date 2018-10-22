@@ -54,8 +54,8 @@
             android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
             app:backgroundTint="@color/colorMain"
-            android:scaleType="centerCrop"
-            android:src="@drawable/write_button"
+            android:scaleType="fitCenter"
+            android:src="@drawable/consultation"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 

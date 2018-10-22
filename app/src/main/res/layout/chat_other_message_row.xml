@@ -50,66 +50,77 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/relativeLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/profile_image"
+                    defaultSrc="@drawable/logo_user"
+                    imageUrl="@{chatItem.pic}"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:scaleType="centerCrop"
-                    imageUrl="@{chatItem.pic}"
-                    defaultSrc="@drawable/logo_user"  />
+                    android:scaleType="centerCrop" />
 
             </RelativeLayout>
 
             <TextView
                 android:id="@+id/nameText"
-                android:text="@{chatItem.name}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@{chatItem.name}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="15.5dp"
-                tools:text = "abc1234"/>
+                app:layout_constraintStart_toEndOf="@+id/relativeLayout2"
+                app:layout_constraintTop_toTopOf="@+id/relativeLayout2"
+                tools:text="abc1234" />
+
             <com.dac.gapp.andac.util.chatUtils.ChatMessageView
                 android:id="@+id/chatMessageView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-6dp"
-                android:layout_marginStart="-6dp"
-                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 app:cmv_backgroundColorPressed="@color/white"
                 app:cmv_cornerRadius="1dp"
-                app:cmv_showArrow="false">
+                app:cmv_showArrow="false"
+                app:layout_constraintStart_toEndOf="@+id/relativeLayout2"
+                app:layout_constraintTop_toBottomOf="@+id/nameText">
 
                 <TextView
                     android:id="@+id/chatText"
-                    android:text="@{chatItem.content}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="0dp"
+                    android:text="@{chatItem.content}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="15.5dp"
-                    tools:text = "안녕하세요"/>
+                    tools:text="안녕하세요" />
             </com.dac.gapp.andac.util.chatUtils.ChatMessageView>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|start"
-                android:layout_marginLeft="1dp"
+                android:layout_marginEnd="20dp"
                 android:orientation="vertical"
                 android:paddingLeft="3dp"
+                android:paddingTop="3dp"
                 android:paddingRight="3dp"
-                android:paddingTop="3dp">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/chatMessageView"
+                app:layout_constraintTop_toTopOf="@+id/chatMessageView">
 
                 <TextView
                     android:id="@+id/check"
@@ -125,9 +136,9 @@
                     android:gravity="end"
                     android:text="@{chatItem.time}"
                     android:textSize="11dp"
-                    tools:text = "2018/10/12 12:12"/>
+                    tools:text="2018/10/12 12:12" />
             </LinearLayout>
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
 </layout>
