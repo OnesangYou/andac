@@ -742,6 +742,7 @@ abstract class BaseActivity : AppCompatActivity() {
         Timber.d("storeVersion : $storeVersion, deviceVersion : $deviceVersion")
 
         if (storeVersion > deviceVersion) {
+            if(isFinishing) return
             // 업데이트 필요
             alert(title = "업데이트 필요", message = "버전 업데이트를 하시겠습니까?") {
                 positiveButton("업데이트") { _ ->
