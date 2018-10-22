@@ -95,8 +95,16 @@ class ChatRoomFragment : BaseFragment() {
                                     item.apply {
                                         hospitalName = hospitalinfo?.name
                                         picUrl = hospitalinfo?.profilePicUrl
-                                        hUid = dc.document.id
-                                        uUid = uid
+
+                                        context?.apply {
+                                            if(isUser()){
+                                                hUid = dc.document.id
+                                                uUid = uid
+                                            } else {
+                                                hUid = uid
+                                                uUid = dc.document.id
+                                            }
+                                        }
                                     }
                                     binding.chatRoomList.apply { adapter.notifyDataSetChanged() }
                                 }
