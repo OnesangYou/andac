@@ -231,7 +231,13 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
 
                 override fun onCancel() {
                     Timber.d("animateCamera onCancel()")
-                    animateCamera(CameraUpdateFactory.newLatLngZoom(hospitalInfo.getLatLng(), 15f), 1, this)
+
+                    /*
+                    * 크래시틱스 : https://console.firebase.google.com/project/andac-200802/crashlytics/app/android:com.dac.gapp.andac.user/issues/5bccd440f8b88c2963aa623b?time=last-seven-days&sessionId=5BCCD3D602A5000127EFA831C6D34AD5_DNE_0_v2
+                    * 익셉션 발생 : apiexception.c: Camera moved during a cancellation
+                    * */
+//                    animateCamera(CameraUpdateFactory.newLatLngZoom(hospitalInfo.getLatLng(), 15f), 1, this)
+
                 }
             })
             googleMap = this
