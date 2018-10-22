@@ -36,75 +36,75 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:id="@+id/tagLayout"
+            android:id="@+id/tagLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tagText"
+            tools:ignore="MissingConstraints">
+
+            <RadioGroup
+                android:id="@+id/radiogroup_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tagText"
-                tools:ignore="MissingConstraints">
+                android:orientation="horizontal">
 
-                <RadioGroup
-                    android:id="@+id/radiogroup_tag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/tag_1"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="@drawable/request_lasiclasex_btn"
+                    android:button="@null"
+                    android:checked="true"
+                    android:tag="라식 라섹"
+                    android:gravity="center" />
 
-                    <RadioButton
-                        android:id="@+id/tag_1"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:background="@drawable/request_lasiclasex_btn"
-                        android:button="@null"
-                        android:checked="true"
-                        android:tag="라식 라섹"
-                        android:gravity="center" />
+                <RadioButton
+                    android:id="@+id/tag_2"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_marginLeft="4dp"
+                    android:background="@drawable/request_insertlense_btn"
+                    android:button="@null"
+                    android:tag="렌즈 삽입"
+                    android:gravity="center" />
 
-                    <RadioButton
-                        android:id="@+id/tag_2"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:layout_marginLeft="4dp"
-                        android:background="@drawable/request_insertlense_btn"
-                        android:button="@null"
-                        android:tag="렌즈 삽입"
-                        android:gravity="center" />
+                <RadioButton
+                    android:id="@+id/tag_3"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_marginLeft="4dp"
+                    android:background="@drawable/request_whiteeye_btn"
+                    android:button="@null"
+                    android:tag="백내장 녹내장"
+                    android:gravity="center" />
 
-                    <RadioButton
-                        android:id="@+id/tag_3"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:layout_marginLeft="4dp"
-                        android:background="@drawable/request_whiteeye_btn"
-                        android:button="@null"
-                        android:tag="백내장 녹내장"
-                        android:gravity="center" />
+                <RadioButton
+                    android:id="@+id/tag_4"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_marginLeft="4dp"
+                    android:background="@drawable/request_oldeye_btn"
+                    android:button="@null"
+                    android:tag="노안"
+                    android:gravity="center" />
 
-                    <RadioButton
-                        android:id="@+id/tag_4"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:layout_marginLeft="4dp"
-                        android:background="@drawable/request_oldeye_btn"
-                        android:button="@null"
-                        android:tag="노안"
-                        android:gravity="center" />
-
-                    <RadioButton
-                        android:id="@+id/tag_5"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:layout_marginLeft="4dp"
-                        android:background="@drawable/request_eyesick_btn"
-                        android:button="@null"
-                        android:tag="안구 질환"
-                        android:gravity="center" />
-                </RadioGroup>
+                <RadioButton
+                    android:id="@+id/tag_5"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_marginLeft="4dp"
+                    android:background="@drawable/request_eyesick_btn"
+                    android:button="@null"
+                    android:tag="안구 질환"
+                    android:gravity="center" />
+            </RadioGroup>
 
 
-            </LinearLayout>
+        </LinearLayout>
 
             <View
                 android:id="@+id/view"
