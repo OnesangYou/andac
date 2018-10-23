@@ -208,6 +208,8 @@ class HospitalActivity : BaseActivity(), OnMapReadyCallback {
                     }
                 }
             }
+
+            binding.ratingBar.rating = hospitalInfo.rateAvg
         })
     }
 

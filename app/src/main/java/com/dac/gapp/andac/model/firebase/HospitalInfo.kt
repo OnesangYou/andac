@@ -59,4 +59,10 @@ class HospitalInfo : Serializable {
     fun getLatLng(): LatLng {
         return LatLng(_geoloc.lat!!, _geoloc.lng!!)
     }
+
+    // 평점
+    var rateAvg : Float = 0.0F
+    var rateSum : Float = 0.0F
+    var rateCount : Int = 0
+
 }

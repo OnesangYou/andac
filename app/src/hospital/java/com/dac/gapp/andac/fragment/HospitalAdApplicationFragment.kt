@@ -125,7 +125,7 @@ class HospitalAdApplicationFragment : BaseFragment() {
                             }?.apply { context?.disposables?.add(this) }
                         }
 
-                        override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
+                        override fun onPermissionDenied(deniedPermissions: List<String>?) {
                             MyToast.showShort(context, "권한이 거절되어 이미지를 가져올 수 없습니다!!")
                         }
                     })

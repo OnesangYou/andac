@@ -54,7 +54,7 @@ ext {
                                         "com.orhanobut:logger:2.2.0",
             ],
 
-            ted                     : "gun0912.ted:tedpermission:2.1.1",
+            ted                     : "gun0912.ted:tedpermission:2.2.2",
 
             multidex                : "com.android.support:multidex:1.0.3",
 

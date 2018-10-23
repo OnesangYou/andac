@@ -73,6 +73,19 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
+                        <RatingBar
+                            android:id="@+id/ratingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:isIndicator="false"
+                            android:max="5"
+                            android:numStars="5"
+                            android:rating="2.5"
+                            android:stepSize="0.5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/txtvieName" />
                         <TextView
                             android:id="@+id/txtviewAddress"
                             android:layout_width="0dp"
@@ -85,7 +98,7 @@
                             android:textSize="15dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/txtvieName" />
+                            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
 
                         <TextView
                             android:id="@+id/txtviewBusinessHours"

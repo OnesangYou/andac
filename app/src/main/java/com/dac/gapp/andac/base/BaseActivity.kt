@@ -231,6 +231,7 @@ abstract class BaseActivity : AppCompatActivity() {
     fun getUserBoards() = getUserContents()?.collection("boards")
     fun getUserLikeBoards() = getUserContents()?.collection("likeBoards")
     fun getUserLikeBoard(boardKey: String) = getUserContents()?.collection("likeBoards")?.document(boardKey)
+    fun getUserRatingHospital(hospitalId: String) = getUserContents()?.collection("ratingHospitals")?.document(hospitalId)
 
     fun getViewedColumns() = getUserContents()?.collection("viewedColumns")
     fun getUserEvents() = getUserContents()?.collection("events")
@@ -607,6 +608,23 @@ abstract class BaseActivity : AppCompatActivity() {
 
             negativeButton("NO"){hideProgressDialog()}
         }.show()
+    }
+
+    fun ratingHospital(hospitalId: String, rate : Float): Task<MutableList<Task<*>>>? {
+        return Tasks.whenAllComplete(
+                // 유저 컨텐츠 도큐먼트 평점병원 추가 {병원키 : 날짜}
+                getUserRatingHospital(hospitalId)?.set(Common.getCreateDate(), SetOptions.merge()),
+                // 병원 평점 계산
+                runTransaction<HospitalInfo>(getHospital(hospitalId)) { hospitalInfo ->
+                    hospitalInfo.apply {
+                        rateCount++
+                        rateSum += rate
+                        rateAvg = rateSum/rateCount
+                    }
+                    if(hospitalInfo.rateAvg < 0 || hospitalInfo.rateAvg > 5) throw IllegalStateException("rateAvg < 0  or rateAvg > 5")
+                }
+
+        )
     }
 
     fun clickBoardLikeBtn(boardKey : String, setLike : Boolean): Task<MutableList<Task<*>>>? {

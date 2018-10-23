@@ -8,6 +8,9 @@ import com.dac.gapp.andac.util.RemoteConfig
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import java.util.*
+import android.widget.Toast
+
+
 
 class SplashActivity : BaseActivity() {
 
@@ -24,7 +27,7 @@ class SplashActivity : BaseActivity() {
                             }
                         }
 
-                        override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
+                        override fun onPermissionDenied(deniedPermissions: List<String>) {
                             MyToast.showShort(thisActivity(), "권한이 거절되어 앱이 종료됩니다\n권한 승낙후 앱을 다시 실행해주세요")
                             finish()
                         }
