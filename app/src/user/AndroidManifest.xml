@@ -27,7 +27,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".JoinActivity" />
         <activity android:name=".UserEventApplyListActivity" />
-        <activity android:name=".EyeTestActivity"></activity>
+        <activity android:name=".EyeTestActivity" />
+        <activity android:name=".RatingBar"></activity>
     </application>
 
 </manifest>
