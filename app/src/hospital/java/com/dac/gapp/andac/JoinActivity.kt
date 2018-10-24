@@ -16,7 +16,7 @@ import android.view.WindowManager
 
 class JoinActivity : BaseJoinActivity() {
 
-    var MAX_PAGE = 5
+    var MAX_PAGE = 6
     var current_fragment : JoinBaseFragment? = null
     var viewPager : SwipeViewPager? = null
     var hospitalInfo = HospitalInfo()
@@ -48,6 +48,7 @@ class JoinActivity : BaseJoinActivity() {
                 2 -> current_fragment = JoinCertiFragment()
                 3 -> current_fragment = JoinTermsFragment()
                 4 -> current_fragment = JoinCerti2Fragment()
+                5 -> current_fragment = JoinFinishFragment()
             }
             return current_fragment
         }

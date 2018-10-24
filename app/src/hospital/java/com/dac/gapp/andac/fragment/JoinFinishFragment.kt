@@ -1,21 +1,15 @@
 package com.dac.gapp.andac.fragment
 
-
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.dac.gapp.andac.R
-import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentJoinFinishBinding
 
-
-/**
- * A simple [Fragment] subclass.
- */
-class JoinFinishFragment : BaseFragment() {
+class JoinFinishFragment : JoinBaseFragment(){
+    override fun onChangeFragment() {
+    }
 
     lateinit var binding: FragmentJoinFinishBinding
 
@@ -33,5 +27,4 @@ class JoinFinishFragment : BaseFragment() {
         }
 
     }
-
-}// Required empty public constructor
+}

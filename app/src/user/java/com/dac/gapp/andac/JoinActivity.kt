@@ -8,6 +8,7 @@ import android.view.View
 import com.dac.gapp.andac.base.BaseJoinActivity
 import com.dac.gapp.andac.custom.SwipeViewPager
 import com.dac.gapp.andac.databinding.ActivityJoinBinding
+import com.dac.gapp.andac.fragment.JoinFinishFragment
 import com.dac.gapp.andac.fragment.JoinInfoFragment
 import com.dac.gapp.andac.fragment.JoinTermsFragment
 import com.dac.gapp.andac.model.firebase.UserInfo
@@ -19,7 +20,7 @@ import org.jetbrains.anko.debug
 @Suppress("NAME_SHADOWING")
 class JoinActivity : BaseJoinActivity(), AnkoLogger {
 
-    var MAX_PAGE = 2
+    var MAX_PAGE = 3
     var cur_fragment = Fragment()
     var viewPager : SwipeViewPager? = null
     val mUserInfo = UserInfo()
@@ -36,15 +37,15 @@ class JoinActivity : BaseJoinActivity(), AnkoLogger {
 
     }
 
-    fun goToNextView(isAgreeAlarm : Boolean){
-        mUserInfo.isAgreeAlarm = isAgreeAlarm
+    fun goToNextView(){
         viewPager!!.apply { if(currentItem < MAX_PAGE) currentItem++ }
     }
 
     fun updateUI(user: FirebaseUser?) {
         user?.let{
-            toast("Authentication Success.")
-            finish()
+            toast("회원가입 완료")
+            goToNextView()
+//            finish()
         }
     }
 
@@ -56,6 +57,7 @@ class JoinActivity : BaseJoinActivity(), AnkoLogger {
             when (position) {
                 0 -> cur_fragment = JoinTermsFragment()
                 1 -> cur_fragment = JoinInfoFragment()
+                2 -> cur_fragment = JoinFinishFragment()
             }
             return cur_fragment
         }

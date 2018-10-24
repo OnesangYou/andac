@@ -154,7 +154,8 @@ class JoinCerti2Fragment : JoinBaseFragment(){
         (activity as JoinActivity).run {
             user?.let{
                 toast("회원가입 성공")
-                finish()
+                goToNextView()
+//                finish()
             }
         }
     }

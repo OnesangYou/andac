@@ -25,7 +25,11 @@ class JoinTermsFragment : BaseFragment() {
 
             // 필수 체크 검사
             if(Arrays.asList(checkedTextView,checkedTextView3, checkedTextView4, checkedTextView5).map { it.isChecked }.all{ it }){
-                (activity as JoinActivity).goToNextView(checkedAgreeAlarm.isChecked)
+                (activity as JoinActivity).apply {
+                    mUserInfo.isAgreeAlarm = checkedAgreeAlarm.isChecked
+                    goToNextView()
+                }
+
             } else {
                 context!!.toast("필수 항목을 모두 체크해야 진행할 수 있습니다")
             }
