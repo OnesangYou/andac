@@ -424,7 +424,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
 
         val title = TextView(this@BaseActivity)
-        title.text = "[비밀번호 찾기]\n\n가입하신 메일을 알려주세요.\n비밀번호 변경 페이지를 메일로 보내드립니다."
+        title.text = "[비밀번호 변경]\n\n가입하신 메일을 알려주세요.\n비밀번호 변경 페이지를 메일로 보내드립니다."
         title.gravity = Gravity.CENTER
         title.setPadding(0, 90, 0, 40)
         title.textSize = 15f
