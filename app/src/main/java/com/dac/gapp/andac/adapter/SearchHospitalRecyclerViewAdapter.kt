@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import com.dac.gapp.andac.HospitalActivity
 import com.dac.gapp.andac.R
@@ -60,7 +61,7 @@ class SearchHospitalRecyclerViewAdapter(private var context: BaseActivity, priva
                         holder.thumbnail.loadImageAny(item.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (approval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
                         holder.title.text = item.name
                         holder.address.text = if(item.address2.isNotEmpty()) item.address2 else item.address1
-                        holder.phone.text = item.phone
+                        holder.rate.rating = item.rateAvg
                         holder.likeCntText.text = item.likeCount.toString()
                         holder.itemView.setOnClickListener {
                             if (item.isUltraAd) {
@@ -83,7 +84,7 @@ class SearchHospitalRecyclerViewAdapter(private var context: BaseActivity, priva
         var thumbnail: ImageView = view.findViewById(R.id.imgview_thumbnail)
         var title: TextView = view.findViewById(R.id.txtview_title)
         var address: TextView = view.findViewById(R.id.txtview_address)
-        var phone: TextView = view.findViewById(R.id.txtview_phone)
+        var rate: RatingBar = view.findViewById(R.id.ratingBar)
         var likeCntText: TextView = view.findViewById(R.id.likeCntText)
     }
 

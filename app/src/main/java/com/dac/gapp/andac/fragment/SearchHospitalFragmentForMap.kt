@@ -97,7 +97,7 @@ class SearchHospitalFragmentForMap : BaseFragment() {
                         it.imgviewThumbnail.loadImageAny(info.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (approval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
                         it.txtviewTitle.text = info.name
                         it.txtviewAddress.text = info.address2
-                        it.txtviewPhone.text = info.phone
+                        it.ratingBar.rating = info.rateAvg
                         it.heartCount.text = info.likeCount.toString()
                         it.root.setOnClickListener {
                             startActivity(HospitalActivity.createIntent(thisActivity(), hospitalInfo))

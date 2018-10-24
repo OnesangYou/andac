@@ -38,7 +38,7 @@ class MyPageActivity : BaseHospitalActivity() {
                     layoutHospitalInfo.imgviewThumbnail.loadImageAny(hospitalInfo.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (approval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
                     layoutHospitalInfo.txtviewTitle.text = hospitalInfo.name
                     layoutHospitalInfo.txtviewAddress.text = hospitalInfo.address2
-                    layoutHospitalInfo.txtviewPhone.text = hospitalInfo.phone
+                    layoutHospitalInfo.ratingBar.rating = hospitalInfo.rateAvg
                 }
 
                 // check approval
