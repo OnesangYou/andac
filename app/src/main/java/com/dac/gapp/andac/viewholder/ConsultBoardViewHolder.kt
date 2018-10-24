@@ -3,6 +3,7 @@ package com.dac.gapp.andac.viewholder
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Toast
@@ -135,6 +136,10 @@ class ConsultBoardViewHolder(var context: Context?, var view: View) : RecyclerVi
 
         }
 
+    }
+
+    fun call(phone : String) {
+        context?.startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:$phone")))
     }
 
 }
