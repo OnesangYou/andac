@@ -42,7 +42,7 @@
             android:gravity="center"
             android:textSize="@dimen/_13sp"
             tools:text="01012341234"
-            android:onClick="@{() -> holder.call(usermodel.hospital.phone)}"
+            android:onClick="@{() -> holder.call(holder.isHospital()? usermodel.user.phoneNumber : usermodel.hospital.phone)}"
             android:text="@{holder.isHospital()? usermodel.user.phoneNumber : usermodel.hospital.phone}" />
 
         <TextView
