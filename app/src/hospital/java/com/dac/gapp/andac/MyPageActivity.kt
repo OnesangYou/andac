@@ -7,6 +7,7 @@ import com.dac.gapp.andac.base.BaseHospitalActivity
 import com.dac.gapp.andac.databinding.ActivityMyPageBinding
 import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import org.jetbrains.anko.startActivity
 
 
 class MyPageActivity : BaseHospitalActivity() {
@@ -54,5 +55,8 @@ class MyPageActivity : BaseHospitalActivity() {
 
         // 버전 정보
         binding.versionText.setOnClickListener { toastVersion() }
+
+        // 공지
+        binding.noticeBtn.setOnClickListener { startActivity<NoticeActivity>() }
     }
 }
