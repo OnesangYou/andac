@@ -73,33 +73,47 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
+                        <TextView
+                            android:id="@+id/textView25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="상담별점"
+                            android:textColor="@color/black"
+                            android:textSize="12dp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/txtvieName" />
+
                         <RatingBar
                             android:id="@+id/ratingBar"
                             style="?android:attr/ratingBarStyleSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="10dp"
                             android:isIndicator="false"
                             android:max="5"
                             android:numStars="5"
-                            android:rating="2.5"
+                            android:rating="3.5"
                             android:stepSize="0.5"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/txtvieName" />
+                            app:layout_constraintBottom_toBottomOf="@+id/textView25"
+                            app:layout_constraintStart_toEndOf="@+id/textView25"
+                            app:layout_constraintTop_toTopOf="@+id/textView25" />
+
                         <TextView
                             android:id="@+id/txtviewAddress"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="10dp"
                             android:layout_marginEnd="5dp"
                             android:maxLines="2"
                             android:text="서울특별시 강남구 역삼1동 강남대로 388"
                             android:textSize="15dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+                            app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
                         <TextView
                             android:id="@+id/txtviewBusinessHours"
