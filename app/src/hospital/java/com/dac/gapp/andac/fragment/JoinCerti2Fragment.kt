@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.databinding.FragmentJoinCerti2Binding
+import com.dac.gapp.andac.util.UiUtil
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.SetOptions
 import timber.log.Timber
@@ -90,10 +92,15 @@ class JoinCerti2Fragment : JoinBaseFragment(){
                     }
                 }
                         ?.addOnSuccessListener { updateUI(getCurrentUser()) }
-                        ?.addOnFailureListener {
-                            // If sign in fails, display a message to the user.
-                            Timber.d("Authentication failed.%s", it.message)
-                            toast("회원가입 실패." + it.message)
+                        ?.addOnFailureListener { exception ->
+
+                            val exceptionMessage = if(exception is FirebaseAuthException) {
+                                UiUtil.getMessageFromAuthException(exception)
+                            } else {
+                                exception.localizedMessage
+                            }
+
+                            toast("회원가입 실패, $exceptionMessage")
                             updateUI(null)
                         }
                         ?.addOnCompleteListener { hideProgressDialog() }

@@ -11,8 +11,10 @@ import com.dac.gapp.andac.JoinActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentJoinInfoBinding
+import com.dac.gapp.andac.util.UiUtil
 import com.dac.gapp.andac.util.getDateFormat
 import com.dac.gapp.andac.util.toast
+import com.google.firebase.auth.FirebaseAuthException
 import org.jetbrains.anko.debug
 import java.util.*
 
@@ -168,9 +170,15 @@ class JoinInfoFragment : BaseFragment() {
                     getUsers().document(user.uid).set(mUserInfo).continueWith { user }
                 }
                 ?.addOnSuccessListener { updateUI(it) }
-                ?.addOnFailureListener{
-                    // If sign in fails, display a message to the user.
-                    toast("회원가입에 실패 하였습니다. ${it.localizedMessage}")
+                ?.addOnFailureListener{ exception ->
+
+                    val exceptionMessage = if(exception is FirebaseAuthException) {
+                        UiUtil.getMessageFromAuthException(exception)
+                    } else {
+                        exception.localizedMessage
+                    }
+
+                    toast("회원가입 실패, $exceptionMessage")
                     updateUI(null)
                 }
                 ?.addOnCompleteListener { hideProgressDialog() }

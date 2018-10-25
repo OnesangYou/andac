@@ -12,7 +12,9 @@ import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.extension.random
 import com.dac.gapp.andac.model.firebase.AdInfo
 import com.dac.gapp.andac.util.Preference
+import com.dac.gapp.andac.util.UiUtil.Companion.getMessageFromAuthException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
@@ -60,8 +62,15 @@ open class LoginActivity : BaseLoginActivity() {
                 Timber.tag(KBJ).d("signInWithEmail:success")
                 val user = it.user
                 updateUI(user)
-            }.addOnFailureListener {
-                toast("로그인 실패, ${it.localizedMessage}")
+            }.addOnFailureListener { exception ->
+
+                val exceptionMessage = if(exception is FirebaseAuthException) {
+                    getMessageFromAuthException(exception)
+                } else {
+                    exception.localizedMessage
+                }
+
+                toast("로그인 실패, $exceptionMessage")
                 updateUI(null)
             }.addOnCompleteListener { hideProgressDialog() }
 
