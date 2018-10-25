@@ -1,16 +1,19 @@
 package com.dac.gapp.andac.fragment
 
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.NoticeActivity
-
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentAccountSettingBinding
+import com.dac.gapp.andac.util.UiUtil.Companion.AdminEmail
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import org.jetbrains.anko.startActivity
@@ -52,6 +55,21 @@ class AccountSettingFragment : BaseFragment() {
 
         // 공지사항
         binding.noticeBtn.setOnClickListener { context?.startActivity<NoticeActivity>() }
+
+        // 문의
+        binding.questionText.setOnClickListener { sendMail() }
+    }
+
+    private fun sendMail() {
+        val email = Intent(Intent.ACTION_SENDTO)
+        email.type = "plain/text"
+        email.putExtra(Intent.EXTRA_SUBJECT, "[안닥 문의사항]")
+        val brand = Build.BRAND + "/" + Build.MANUFACTURER + "/" + Build.MODEL
+        val version = Build.VERSION.RELEASE
+        val accountEmail = getCurrentUser()?.email
+        email.putExtra(Intent.EXTRA_TEXT, "\n\n\naccountEmail: $accountEmail\nbrand : $brand\nversion : $version\n")
+        email.data = Uri.parse("mailto:$AdminEmail")
+        startActivity(email)
     }
 
 }// Required empty public constructor

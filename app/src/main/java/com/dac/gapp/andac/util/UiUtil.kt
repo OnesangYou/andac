@@ -20,14 +20,17 @@ class UiUtil {
         }
 
         fun getMessageFromAuthException(exception: FirebaseAuthException) =
-            if(exception is FirebaseAuthWeakPasswordException) "잘못된 이메일주소를 입력하셨습니다"
-            else if(exception is FirebaseAuthInvalidCredentialsException) "잘못된 패스워드 혹은 인증코드를 입력하셨습니다"
-            else if(exception is FirebaseAuthUserCollisionException) "이미 존재하는 이메일입니다"
-            else if(exception is FirebaseAuthActionCodeException) "유효기간이 만료되었습니다"
-            else if(exception is FirebaseAuthInvalidUserException) "비활성화된 계정입니다"
-            else if(exception is FirebaseAuthRecentLoginRequiredException) "자격증명이 유효하지 않습니다"
-            else "등록에 실패하였습니다"
+                when (exception) {
+                    is FirebaseAuthWeakPasswordException -> "잘못된 이메일주소를 입력하셨습니다"
+                    is FirebaseAuthInvalidCredentialsException -> "잘못된 패스워드 혹은 인증코드를 입력하셨습니다"
+                    is FirebaseAuthUserCollisionException -> "이미 존재하는 이메일입니다"
+                    is FirebaseAuthActionCodeException -> "유효기간이 만료되었습니다"
+                    is FirebaseAuthInvalidUserException -> "비활성화된 계정입니다"
+                    is FirebaseAuthRecentLoginRequiredException -> "자격증명이 유효하지 않습니다"
+                    else -> "등록에 실패하였습니다"
+                }
 
+        val AdminEmail = "ndactor123@gmail.com"
     }
 
 }
