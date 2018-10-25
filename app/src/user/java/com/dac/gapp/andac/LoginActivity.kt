@@ -85,6 +85,8 @@ open class LoginActivity : BaseLoginActivity() {
         binding.autoLoginCheck.setOnCheckedChangeListener { _, isChecked ->
             getSharedPreferences(Preference.FileName, 0).edit().putBoolean(Preference.AutoLogin, isChecked).apply()
         }
+
+        binding.findIdBtn.setOnClickListener { startActivity<FindMailByPhoneActivity>() }
     }
 
     private fun prepareUi() {

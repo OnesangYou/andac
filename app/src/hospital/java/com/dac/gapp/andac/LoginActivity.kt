@@ -78,6 +78,8 @@ class LoginActivity : BaseHospitalActivity() {
         binding.autoLoginCheck.setOnCheckedChangeListener { _, isChecked ->
             getSharedPreferences(Preference.FileName, 0).edit().putBoolean(Preference.AutoLogin, isChecked).apply()
         }
+
+        binding.findIdButton.setOnClickListener { startActivity<FindMailByPhoneActivity>() }
     }
 
     override fun onStart() {
