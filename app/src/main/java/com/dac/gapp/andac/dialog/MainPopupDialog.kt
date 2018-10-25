@@ -4,8 +4,8 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import com.bumptech.glide.Glide
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.extension.loadImageAny
 import kotlinx.android.synthetic.main.dialog_main_popup.*
 
 class MainPopupDialog(context: Context) : Dialog(context) {
@@ -18,7 +18,7 @@ class MainPopupDialog(context: Context) : Dialog(context) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_main_popup)
-        mImage?.let { Glide.with(context).load(mImage).into(imgview) }
+        mImage?.let { imgview.loadImageAny(mImage?:return@let) }
         mOnImageClickListener?.let { imgview.setOnClickListener(mOnImageClickListener) }
         mOnCancelListener?.let { btnCancel.setOnClickListener(mOnCancelListener) }
         mOnConfirmListener?.let { btnConfirm.setOnClickListener(mOnConfirmListener) }
