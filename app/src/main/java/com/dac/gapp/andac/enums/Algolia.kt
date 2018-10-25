@@ -5,8 +5,19 @@ import com.dac.gapp.andac.BuildConfig
 
 enum class Algolia(val value: String) {
 
-    APP_ID(if(BuildConfig.FLAVOR_type == "andac") "H9Q32H274M" else "JJP46KUQ53"),
-    SEARCH_API_KEY(if(BuildConfig.FLAVOR_type == "andac") "96c3b64fabaf0a7bdeca95fd7788ace3" else "aba7d528204fde1f9b291725c41d4aa0"),
+    APP_ID_ANDAC_DEBUG("VUNTR162M6"),
+    APP_ID_ANDAC_RELEASE("H9Q32H274M"),
+    SEARCH_API_KEY_ANDAC_DEBUG("f8eab63beb88f72136b260ea219aa6a4"),
+    SEARCH_API_KEY_ANDAC_RELEASE("96c3b64fabaf0a7bdeca95fd7788ace3"),
+    APP_ID_CHIDAC_DEBUG("JJP46KUQ53"),
+    APP_ID_CHIDAC_RELEASE("JJP46KUQ53"),
+    SEARCH_API_KEY_CHIDAC_DEBUG("aba7d528204fde1f9b291725c41d4aa0"),
+    SEARCH_API_KEY_CHIDAC_RELEASE("aba7d528204fde1f9b291725c41d4aa0"),
+
+    APP_ID(if(BuildConfig.FLAVOR_type == "andac") if(BuildConfig.BUILD_TYPE == "debug") APP_ID_ANDAC_DEBUG.value else APP_ID_ANDAC_RELEASE.value else APP_ID_CHIDAC_DEBUG.value),
+    SEARCH_API_KEY(if(BuildConfig.FLAVOR_type == "andac") if(BuildConfig.BUILD_TYPE == "debug") SEARCH_API_KEY_ANDAC_DEBUG.value else SEARCH_API_KEY_ANDAC_RELEASE.value else SEARCH_API_KEY_CHIDAC_DEBUG.value),
+
+
     INDEX_NAME_HOSPITAL("hospitals"),
     INDEX_NAME_BOARD("boards"),
     INDEX_NAME_COLUMN("columns"),

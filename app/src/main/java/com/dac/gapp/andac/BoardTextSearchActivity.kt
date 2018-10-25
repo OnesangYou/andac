@@ -10,7 +10,6 @@ import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.enums.Algolia
 import kotlinx.android.synthetic.main.activity_hospital_text_search.*
 
-
 class BoardTextSearchActivity : BaseActivity() {
 
     private lateinit var searcher: Searcher

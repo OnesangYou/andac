@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:requiresFadingEdge="vertical"
-            algolia:autoHideKeyboard="true"
+            algolia:autoHideKeyboard="false"
             algolia:hitsPerPage="10"
             algolia:itemLayout="@layout/algolia_column_card" />
 
