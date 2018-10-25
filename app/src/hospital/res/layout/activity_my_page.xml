@@ -78,18 +78,6 @@
                     android:textSize="15dp"
                     tools:ignore="MissingConstraints" />
 
-                <Button
-                    android:id="@+id/eventManageBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@color/non"
-                    android:text="이벤트 페이지 관리"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    tools:ignore="MissingConstraints" />
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -115,11 +103,12 @@
                     tools:ignore="MissingConstraints" />
 
                 <Button
+                    android:id="@+id/questionText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:background="@color/non"
-                    android:text="고객센터 및 문의사항"
+                    android:text="문의"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="15dp"
@@ -148,16 +137,6 @@
                     android:textSize="15dp"
                     tools:ignore="MissingConstraints" />
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@color/non"
-                    android:text="안닥 계약하기"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:textAlignment="textStart"
-                    tools:ignore="MissingConstraints" />
 
                 <Button
                     android:id="@+id/versionText"

@@ -22,7 +22,7 @@ class MyPageActivity : BaseHospitalActivity() {
         setActionBarCenterText(R.string.mypage)
         setActionBarRightText(R.string.logout)
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
-        setOnActionBarRightClickListener(View.OnClickListener {
+        setOnActionBarRightClickListener(View.OnClickListener { _ ->
             getAuth()!!.signOut()
             Intent(this@MyPageActivity, LoginActivity::class.java).let {
                 it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -35,7 +35,7 @@ class MyPageActivity : BaseHospitalActivity() {
         getHospital()?.get()?.addOnSuccessListener { documentSnapshot ->
             val hospitalInfo = documentSnapshot.toObject(HospitalInfo::class.java)
             hospitalInfo?.let { hospitalInfo ->
-                binding.layoutHospitalInfo?.let { layoutHospitalInfo ->
+                binding.layoutHospitalInfo.let { layoutHospitalInfo ->
                     layoutHospitalInfo.imgviewThumbnail.loadImageAny(hospitalInfo.run { if (profilePicUrl.isNotEmpty()) profilePicUrl else if (approval) R.drawable.hospital_profile_default_approval else R.drawable.hospital_profile_default_not_approval })
                     layoutHospitalInfo.txtviewTitle.text = hospitalInfo.name
                     layoutHospitalInfo.txtviewAddress.text = hospitalInfo.address2
@@ -58,5 +58,8 @@ class MyPageActivity : BaseHospitalActivity() {
 
         // 공지
         binding.noticeBtn.setOnClickListener { startActivity<NoticeActivity>() }
+
+        // 문의
+        binding.questionText.setOnClickListener { sendMail() }
     }
 }

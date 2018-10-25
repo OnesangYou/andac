@@ -12,6 +12,7 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.net.Uri
+import android.os.Build
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
@@ -37,6 +38,7 @@ import com.dac.gapp.andac.model.firebase.*
 import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.UiUtil
+import com.dac.gapp.andac.util.UiUtil.Companion.AdminEmail
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.tasks.Task
@@ -824,4 +826,15 @@ abstract class BaseActivity : AppCompatActivity() {
         return false
     }
 
+    fun sendMail() {
+        val email = Intent(Intent.ACTION_SENDTO)
+        email.type = "plain/text"
+        email.putExtra(Intent.EXTRA_SUBJECT, "[안닥 문의사항]")
+        val brand = Build.BRAND + "/" + Build.MANUFACTURER + "/" + Build.MODEL
+        val version = Build.VERSION.RELEASE
+        val accountEmail = getCurrentUser()?.email
+        email.putExtra(Intent.EXTRA_TEXT, "\n\n\naccountEmail: $accountEmail\nbrand : $brand\nversion : $version\n")
+        email.data = Uri.parse("mailto:$AdminEmail")
+        startActivity(email)
+    }
 }
