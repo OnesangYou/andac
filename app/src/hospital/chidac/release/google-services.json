@@ -1,27 +1,58 @@
 {
   "project_info": {
-    "project_number": "822698505523",
-    "firebase_url": "https://chidacdevelop-5acee.firebaseio.com",
-    "project_id": "chidacdevelop-5acee",
-    "storage_bucket": "chidacdevelop-5acee.appspot.com"
+    "project_number": "186065504752",
+    "firebase_url": "https://chidac-8e830.firebaseio.com",
+    "project_id": "chidac-8e830",
+    "storage_bucket": "chidac-8e830.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:822698505523:android:06b0784538ea1618",
+        "mobilesdk_app_id": "1:186065504752:android:06b0784538ea1618",
         "android_client_info": {
           "package_name": "com.dac.gapp.andac.hospital.chidac"
         }
       },
       "oauth_client": [
         {
-          "client_id": "822698505523-812dhbkffu2121piku89b726k9d4vet5.apps.googleusercontent.com",
+          "client_id": "186065504752-r0vbf9lv15h2nfv5641vonhi2eq4vhnh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDTTG4hb3WxaEZsEfHqIsQHicoW_3BRKT0"
+          "current_key": "AIzaSyDr-vkm2SEQ2N3EYB-Bb9acS9yzjvc2g5I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186065504752:android:3db4f0c50878c40b",
+        "android_client_info": {
+          "package_name": "com.dac.gapp.andac.user.chidac"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186065504752-r0vbf9lv15h2nfv5641vonhi2eq4vhnh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr-vkm2SEQ2N3EYB-Bb9acS9yzjvc2g5I"
         }
       ],
       "services": {
