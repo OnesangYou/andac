@@ -10,12 +10,12 @@ enum class Algolia(val value: String) {
     SEARCH_API_KEY_ANDAC_DEBUG("f8eab63beb88f72136b260ea219aa6a4"),
     SEARCH_API_KEY_ANDAC_RELEASE("96c3b64fabaf0a7bdeca95fd7788ace3"),
     APP_ID_CHIDAC_DEBUG("JJP46KUQ53"),
-    APP_ID_CHIDAC_RELEASE("JJP46KUQ53"),
+    APP_ID_CHIDAC_RELEASE("8RC9O215JK"),
     SEARCH_API_KEY_CHIDAC_DEBUG("aba7d528204fde1f9b291725c41d4aa0"),
-    SEARCH_API_KEY_CHIDAC_RELEASE("aba7d528204fde1f9b291725c41d4aa0"),
+    SEARCH_API_KEY_CHIDAC_RELEASE("f361cf4cdb6687d83f11f2becc03acf4"),
 
-    APP_ID(if(BuildConfig.FLAVOR_type == "andac") if(BuildConfig.BUILD_TYPE == "debug") APP_ID_ANDAC_DEBUG.value else APP_ID_ANDAC_RELEASE.value else APP_ID_CHIDAC_DEBUG.value),
-    SEARCH_API_KEY(if(BuildConfig.FLAVOR_type == "andac") if(BuildConfig.BUILD_TYPE == "debug") SEARCH_API_KEY_ANDAC_DEBUG.value else SEARCH_API_KEY_ANDAC_RELEASE.value else SEARCH_API_KEY_CHIDAC_DEBUG.value),
+    APP_ID(if(BuildConfig.FLAVOR_type == "andac") if(BuildConfig.BUILD_TYPE == "debug") APP_ID_ANDAC_DEBUG.value else APP_ID_ANDAC_RELEASE.value else if(BuildConfig.BUILD_TYPE == "debug") APP_ID_CHIDAC_DEBUG.value else APP_ID_CHIDAC_RELEASE.value),
+    SEARCH_API_KEY(if(BuildConfig.FLAVOR_type == "andac") if(BuildConfig.BUILD_TYPE == "debug") SEARCH_API_KEY_ANDAC_DEBUG.value else SEARCH_API_KEY_ANDAC_RELEASE.value else if(BuildConfig.BUILD_TYPE == "debug")SEARCH_API_KEY_CHIDAC_DEBUG.value else SEARCH_API_KEY_CHIDAC_RELEASE.value),
 
 
     INDEX_NAME_HOSPITAL("hospitals"),
