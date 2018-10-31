@@ -61,12 +61,6 @@ class HospitalEventApplicantListActivity : BaseActivity() {
             // recyclerView
             binding.recyclerView.layoutManager = LinearLayoutManager(this@HospitalEventApplicantListActivity)
             binding.recyclerView.adapter = EventApplyRecyclerviewAdapter(list)
-//            recyclerView.addOnItemClickListener(object: OnItemClickListener {
-//                override fun onItemClicked(position: Int, view: View) {
-//                    // 이벤트 신청자 리스트
-//                    if(list[position].writerUid == getUid()) startActivityForResult<HospitalEventApplicantListActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to list[position].objectId)
-//                }
-//            })
 
             setAdapter()
 
