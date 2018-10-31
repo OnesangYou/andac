@@ -1,6 +1,8 @@
 package com.dac.gapp.andac.adapter
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,8 +12,12 @@ import android.widget.ToggleButton
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.model.firebase.EventApplyInfo
 import com.dac.gapp.andac.util.getDateFormat
+import com.dac.gapp.andac.util.getHour
 import com.dac.gapp.andac.util.getHourAndMin
+import com.dac.gapp.andac.util.getMin
 import kotlinx.android.synthetic.main.event_apply_row.view.*
+import org.jetbrains.anko.alert
+import java.util.*
 
 class EventApplyRecyclerviewAdapter
 (private val mDataList: List<EventApplyInfo>) : RecyclerView.Adapter<EventApplyRecyclerviewAdapter.EventApplyHolder>() {
@@ -35,6 +41,34 @@ class EventApplyRecyclerviewAdapter
             item.possibleTimeEnd.getHourAndMin { hour, min -> possibleEndTime.text = "${"%02d".format(hour)}:${"%02d".format(min)}" }
 
             phoneBtn.text = item.phone
+            phoneBtn.setOnClickListener { view ->
+                // 가능 시간 판단
+                val calendar = Calendar.getInstance()
+                val cHour = calendar.get(Calendar.HOUR_OF_DAY)
+                val cMin = calendar.get(Calendar.MINUTE)
+
+                val sHour = item.possibleTimeStart.getHour()
+                val sMin = item.possibleTimeStart.getMin()
+
+                val eHour = item.possibleTimeEnd.getHour()
+                val eMin = item.possibleTimeEnd.getMin()
+
+                if(cHour < sHour
+                    || (cHour == sHour && cMin < sMin)
+                    || cHour > eHour
+                    || (cHour == eHour && cMin > eMin)
+                ) {
+                    view.context.alert(title = "통화", message = "통화 가능한 시간이 아닙니다 \n그래도 통화하시겠습니까?") {
+                        positiveButton("YES") { _ ->
+                            view.context.startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + item.phone)))
+                        }
+                        negativeButton("NO") {}
+                    }.show()
+                } else {
+                    // 통화
+                    view.context.startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + item.phone)))
+                }
+            }
             confirmBtn.isChecked = item.confirmDate != null
         }
     }

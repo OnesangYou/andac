@@ -8,3 +8,13 @@ fun Long.getHourAndMin(callback : (hour : Int, min : Int) -> Unit) = Calendar.ge
     val min = it.get(Calendar.MINUTE)
     return@let callback(hour, min)
 }
+
+fun Long.getHour() = Calendar.getInstance().let {
+    it.timeInMillis = this
+    return@let it.get(Calendar.HOUR_OF_DAY)
+}
+
+fun Long.getMin() = Calendar.getInstance().let {
+    it.timeInMillis = this
+    return@let it.get(Calendar.MINUTE)
+}
