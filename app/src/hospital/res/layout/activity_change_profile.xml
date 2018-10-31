@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.dac.gapp.andac.ChangeProfileActivity">
+        tools:context="com.dac.gapp.andac.ChangeProfileActivity"
+        >
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -110,6 +111,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6"
                 app:srcCompat="@android:drawable/ic_menu_camera" />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/cancle_btn"
+                app:layout_constraintEnd_toEndOf="@+id/pictureImage"
+                app:layout_constraintTop_toTopOf="@+id/pictureImage" />
 
             <EditText
                 android:id="@+id/hospitalText"
