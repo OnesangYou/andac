@@ -192,13 +192,12 @@ class HospitalAdApplicationFragment : BaseFragment() {
                         .continueWith {
                             it.result.toObject(AdInfo::class.java)
                         }.continueWithTask {
-                            it.result?.let { adInfo ->
+                            val adInfo = it.result ?: AdInfo(uid, photoUrl, false, Date(), Date(), eventObjectId ?: "")
                                 getDb().collection(ad.collectionName).document(uid).set(
                                         AdInfo(uid, photoUrl, adInfo.showingUp, adInfo.startDate, adInfo.endDate, eventObjectId
                                                 ?: ""),
                                         SetOptions.merge()
                                 )
-                            }
                         }
             }
         }
