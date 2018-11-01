@@ -211,6 +211,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/cancle_btn1"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/cancle_btn"
@@ -230,6 +231,7 @@
             app:layout_constraintStart_toEndOf="@+id/picture_1"
             app:layout_constraintTop_toTopOf="parent" />
         <ImageView
+            android:id="@+id/cancle_btn2"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/cancle_btn"
@@ -250,6 +252,7 @@
             app:layout_constraintStart_toEndOf="@+id/picture_2"
             app:layout_constraintTop_toTopOf="parent" />
         <ImageView
+            android:id="@+id/cancle_btn3"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/cancle_btn"

@@ -14,7 +14,7 @@ data class BoardInfo (
         var writerUid: String = "",
         var title: String = "",
         var contents: String = "",
-        var pictureUrls: ArrayList<String>? = ArrayList(),
+        var pictureUrls: ArrayList<String?>? = arrayListOf(null, null, null),
         @ServerTimestamp var writeDate: Date? = null,
         var modifyDate: Date? = null,
         var objectId : String = "",

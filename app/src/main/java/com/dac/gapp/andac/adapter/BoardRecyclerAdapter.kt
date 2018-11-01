@@ -58,7 +58,9 @@ class BoardRecyclerAdapter(
             // 게시판 사진
             pictures.forEach { it.visibility = View.GONE }
             boardInfo.pictureUrls?.forEachIndexed { index, url ->
-                pictures[index].apply { visibility = View.VISIBLE }.loadImage(url)
+                url?.let { pictures[index].apply { visibility = View.VISIBLE }.loadImage(url) }
+                        ?:let{}
+
             }
 
             // 클릭시 디테일 게시물 이동
@@ -91,6 +93,8 @@ class BoardRecyclerAdapter(
             }
 
             // 메뉴 버튼
+            val login = context.isLogin()
+            val uid = context.getUid()
             if(context.isLogin() && boardInfo.writerUid == context.getUid()){
                 menu.visibility = View.VISIBLE
                 menu.setOnClickListener {

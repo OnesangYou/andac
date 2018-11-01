@@ -7,11 +7,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
+import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_board_write.*
+import java.net.URI
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -29,7 +33,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         setActionBarRightText(R.string.upload)
 
         val imageViews = Arrays.asList(picture_1, picture_2, picture_3)
-        val mapImageViewUri = mutableMapOf<ImageView, Uri?>(picture_1 to null, picture_2 to null, picture_3 to null)
+        val mapImageViewUnit = mutableMapOf<ImageView, ((DocumentReference) -> Task<String>)?>(picture_1 to null, picture_2 to null, picture_3 to null)
 
         // 수정 시 게시글 데이터 받아서 초기화
         val boardSetTask = intent.getStringExtra(OBJECT_KEY)?.let { key ->
@@ -39,8 +43,15 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                     boardInfo = it
                     edit_text_title.setText(title)
                     edit_text_contents.setText(contents)
+
                     pictureUrls?.forEachIndexed { index, url ->
                         Glide.with(this@BoardWriteActivity).load(url).into(imageViews[index])
+                    }
+
+                    pictureUrls?.let {
+                        for (i in 1..(3 - it.size)) {
+                            it.add(null)
+                        }
                     }
 
                     radioGroupType.check(when(type) {
@@ -63,7 +74,6 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         // Go Task
         showProgressDialog()
         Tasks.whenAll(arrayListOf(boardSetTask, userSetTask).filterNotNull()).addOnCompleteListener{hideProgressDialog()}
-//        Tasks.whenAll(boardSetTask, userSetTask).addOnCompleteListener{hideProgressDialog()}
 
         // 병원 검색 버튼
         hospital_search.setOnClickListener { _ ->
@@ -74,16 +84,35 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         }
 
         // Pick Pictures
-        mapImageViewUri.map {
-            val imageView = it.key
+//        mapImageViewUri.map {
+//            val imageView = it.key
+//            imageView.setOnClickListener { _ ->
+//                getAlbumImage()?.subscribe {uri ->
+//                    Glide.with(this@BoardWriteActivity).load(uri).into(imageView)
+//                    mapImageViewUri[imageView] = uri
+//                }
+//            }
+//        }
+
+        mapImageViewUnit.map { entry ->
+            val imageView = entry.key
             imageView.setOnClickListener { _ ->
                 getAlbumImage()?.subscribe {uri ->
                     Glide.with(this@BoardWriteActivity).load(uri).into(imageView)
-                    mapImageViewUri[imageView] = uri
-
+                    mapImageViewUnit[imageView] = { boardInfoRef : DocumentReference ->
+                        getBoardStorageRef()
+                                .child(boardInfoRef.id).child("picture${imageViews.indexOf(imageView)}.jpg")
+                                .putFile(uri)
+                                .continueWith { task ->
+                                    task.result.downloadUrl.toString().also{
+                                        boardInfo.pictureUrls?.set(imageViews.indexOf(imageView), it)
+                                    } // 새로운 사진으로 넣기
+                                }
+                    }
                 }
             }
         }
+
 
         // Type
         radioGroupType.setOnCheckedChangeListener { _, id ->
@@ -101,7 +130,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         }
 
         // Upload
-        setOnActionBarRightClickListener(View.OnClickListener {
+        setOnActionBarRightClickListener(View.OnClickListener { _ ->
 
             // set boardInfo
             getUid()?.let {
@@ -132,19 +161,27 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
             // picture 있을 경우 업로드 후 uri 받아오기, 데이터 업로드
             showProgressDialog()
 
-            mapImageViewUri.values.filterNotNull().let{ uris ->
-                uris.mapIndexed { index, uri ->
-                    getBoardStorageRef()
-                            .child(boardInfoRef.id).child("picture$index.jpg")
-                            .putFile(uri)
-                            .continueWith { it.result.downloadUrl.toString() }
-                }
-                        .let { Tasks.whenAllSuccess<String>(it) }
-                        .onSuccessTask {
-                            boardInfo.pictureUrls = ArrayList(it)
-                            boardInfoRef.set(boardInfo, SetOptions.merge())
-                        }
-            }
+            mapImageViewUnit.values.filterNotNull().map{
+                it.invoke(boardInfoRef)
+            }.let { Tasks.whenAllSuccess<String>(it) }
+                    .onSuccessTask {
+                        boardInfoRef.set(boardInfo, SetOptions.merge())
+                    }
+
+
+//            mapImageViewUri.values.filterNotNull().let{ uris ->
+//                uris.mapIndexed { index, uri ->
+//                    getBoardStorageRef()
+//                            .child(boardInfoRef.id).child("picture$index.jpg")
+//                            .putFile(uri)
+//                            .continueWith { it.result.downloadUrl.toString() }
+//                }
+//                        .let { Tasks.whenAllSuccess<String>(it) }
+//                        .onSuccessTask {
+//                            boardInfo.pictureUrls = ArrayList(it)
+//                            boardInfoRef.set(boardInfo, SetOptions.merge())
+//                        }
+//            }
 
                     .addOnSuccessListener{
                         toast("게시물 업로드 완료")
@@ -152,10 +189,25 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                         finish()
                     }
                     .addOnCompleteListener{hideProgressDialog()}
+                    .addOnFailureListener {
+                        it.printStackTrace()
+                    }
 
         })
 
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
+
+        // 사진 지우기
+        listOf(cancle_btn1, cancle_btn2, cancle_btn3).forEachIndexed { index, imageView ->
+            imageView.setOnClickListener {
+                imageViews[index].let {
+//                    check(mapImageViewUri[it] != null) {return@let}
+//                    mapImageViewUri[it] = null
+                    it.loadImageAny(android.R.drawable.ic_menu_camera)
+
+                }
+            }
+        }
     }
 
     private fun validate() : Boolean {
