@@ -2,7 +2,6 @@ package com.dac.gapp.andac
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -14,10 +13,9 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_board_write.*
-import java.net.URI
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
@@ -33,21 +31,36 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         setActionBarRightText(R.string.upload)
 
         val imageViews = Arrays.asList(picture_1, picture_2, picture_3)
+        val imageViewDeleteBtns = Arrays.asList(cancle_btn1, cancle_btn2, cancle_btn3)
         val mapImageViewUnit = mutableMapOf<ImageView, ((DocumentReference) -> Task<String>)?>(picture_1 to null, picture_2 to null, picture_3 to null)
 
         // 수정 시 게시글 데이터 받아서 초기화
         val boardSetTask = intent.getStringExtra(OBJECT_KEY)?.let { key ->
 
-            getBoard(key)?.get()?.continueWith { it.result.toObject(BoardInfo::class.java) }?.addOnSuccessListener {
-                it?.apply {
-                    boardInfo = it
+            val boardRef = getBoard(key)?:return
+            boardRef.get().continueWith { it.result.toObject(BoardInfo::class.java) }.addOnSuccessListener { info ->
+                info?.apply {
+                    boardInfo = info
                     edit_text_title.setText(title)
                     edit_text_contents.setText(contents)
 
                     pictureUrls?.forEachIndexed { index, url ->
-                        Glide.with(this@BoardWriteActivity).load(url).into(imageViews[index])
+                        if(url != null) {
+                            val imageView = imageViews[index]
+                            imageViewDeleteBtns[index].apply {
+                                visibility = View.VISIBLE
+                                setOnClickListener { _ ->
+                                    deleteImage(imageView, mapImageViewUnit, imageViews)
+                                }
+                            }
+                            imageView.loadImageAny(url)
+                        } else {
+                            imageViewDeleteBtns[index].visibility = View.GONE
+                            return@forEachIndexed
+                        }
                     }
 
+                    // 빈 배열은 3개까지 null로 채움
                     pictureUrls?.let {
                         for (i in 1..(3 - it.size)) {
                             it.add(null)
@@ -62,7 +75,7 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                         else -> R.id.free_board
                     })
                 }
-            }?.continueWithTask { info -> info.result?.let{ getHospital(it.hospitalUid).get() }}?.addOnSuccessListener { hospital_search.setText(it.toObject(HospitalInfo::class.java)?.name) }
+            }.continueWithTask { info -> info.result?.let{ getHospital(it.hospitalUid).get() }}.addOnSuccessListener { hospital_search.setText(it.toObject(HospitalInfo::class.java)?.name) }
         }
 
         // Set User
@@ -83,17 +96,6 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
             }
         }
 
-        // Pick Pictures
-//        mapImageViewUri.map {
-//            val imageView = it.key
-//            imageView.setOnClickListener { _ ->
-//                getAlbumImage()?.subscribe {uri ->
-//                    Glide.with(this@BoardWriteActivity).load(uri).into(imageView)
-//                    mapImageViewUri[imageView] = uri
-//                }
-//            }
-//        }
-
         mapImageViewUnit.map { entry ->
             val imageView = entry.key
             imageView.setOnClickListener { _ ->
@@ -109,6 +111,17 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                                     } // 새로운 사진으로 넣기
                                 }
                     }
+
+                    // 삭제버튼
+                    imageViewDeleteBtns[imageViews.indexOf(imageView)].apply {
+                        visibility = View.VISIBLE
+                        setOnClickListener {
+
+                            deleteImage(imageView, mapImageViewUnit, imageViews)
+                        }
+                    }
+
+
                 }
             }
         }
@@ -167,22 +180,6 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
                     .onSuccessTask {
                         boardInfoRef.set(boardInfo, SetOptions.merge())
                     }
-
-
-//            mapImageViewUri.values.filterNotNull().let{ uris ->
-//                uris.mapIndexed { index, uri ->
-//                    getBoardStorageRef()
-//                            .child(boardInfoRef.id).child("picture$index.jpg")
-//                            .putFile(uri)
-//                            .continueWith { it.result.downloadUrl.toString() }
-//                }
-//                        .let { Tasks.whenAllSuccess<String>(it) }
-//                        .onSuccessTask {
-//                            boardInfo.pictureUrls = ArrayList(it)
-//                            boardInfoRef.set(boardInfo, SetOptions.merge())
-//                        }
-//            }
-
                     .addOnSuccessListener{
                         toast("게시물 업로드 완료")
                         setResult(Activity.RESULT_OK)
@@ -196,26 +193,23 @@ class BoardWriteActivity : com.dac.gapp.andac.base.BaseActivity() {
         })
 
         setOnActionBarLeftClickListener(View.OnClickListener { finish() })
+    }
 
-        // 사진 지우기
-        listOf(cancle_btn1, cancle_btn2, cancle_btn3).forEachIndexed { index, imageView ->
-            imageView.setOnClickListener {
-                imageViews[index].let {
-//                    check(mapImageViewUri[it] != null) {return@let}
-//                    mapImageViewUri[it] = null
-                    it.loadImageAny(android.R.drawable.ic_menu_camera)
+    private fun ImageView.deleteImage(imageView: ImageView, mapImageViewUnit: MutableMap<ImageView, ((DocumentReference) -> Task<String>)?>, imageViews: MutableList<ImageView>) {
+        val url = boardInfo.pictureUrls?.get(imageViews.indexOf(imageView))
+        imageView.loadImageAny(android.R.drawable.ic_menu_camera)
+        mapImageViewUnit.remove(imageView)
+        this.visibility = View.GONE
 
-                }
+        if (url != null && boardInfo.pictureUrls?.get(imageViews.indexOf(imageView)) != null) {
+            mapImageViewUnit[imageView] = { _: DocumentReference ->
+                FirebaseStorage.getInstance().getReferenceFromUrl(url).delete() // Storage 삭제
+                        .continueWith { boardInfo.pictureUrls?.set(imageViews.indexOf(imageView), null); null }
             }
         }
     }
 
     private fun validate() : Boolean {
-        // 태그
-//        if(boardInfo.tag.isBlank()) {
-//            toast("태그를 선택하세요")
-//            return false
-//        }
 
         // 타입
         if(boardInfo.type.isBlank()) {

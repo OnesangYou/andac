@@ -215,6 +215,8 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/cancle_btn"
+            android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintEnd_toEndOf="@+id/picture_1"
             app:layout_constraintTop_toTopOf="@+id/picture_1" />
 
@@ -234,6 +236,8 @@
             android:id="@+id/cancle_btn2"
             android:layout_width="22dp"
             android:layout_height="22dp"
+            android:visibility="gone"
+            tools:visibility="visible"
             android:src="@drawable/cancle_btn"
             app:layout_constraintEnd_toEndOf="@+id/picture_2"
             app:layout_constraintTop_toTopOf="@+id/picture_2" />
@@ -255,6 +259,8 @@
             android:id="@+id/cancle_btn3"
             android:layout_width="22dp"
             android:layout_height="22dp"
+            android:visibility="gone"
+            tools:visibility="visible"
             android:src="@drawable/cancle_btn"
             app:layout_constraintEnd_toEndOf="@+id/picture_3"
             app:layout_constraintTop_toTopOf="@+id/picture_3" />
