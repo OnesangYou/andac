@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.dac.gapp.andac.ChangeProfileActivity"
-        >
+        android:layout_height="match_parent">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -14,25 +13,25 @@
 
             <TextView
                 android:id="@+id/textView6"
-                android:textStyle="bold"
-                android:textSize="@dimen/_15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="1. 프로필 사진 설정"
+                android:textSize="@dimen/_15sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView25"
-                android:textStyle="bold"
-                android:textSize="@dimen/_15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:text="2. 병원명을 입력해주세요."
+                android:textSize="@dimen/_15sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/pictureImage" />
 
@@ -89,28 +88,28 @@
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:layout_marginTop="8dp"
-                android:text="설정 완료"
                 android:background="@color/colorMain"
+                android:text="설정 완료"
                 android:textColor="@color/white"
                 android:textSize="17dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/descriptionText"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
 
             <ImageView
                 android:id="@+id/pictureImage"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/album_dp_200"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
                 android:background="@color/verylightgray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView6"
                 app:srcCompat="@android:drawable/ic_menu_camera" />
+
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -124,8 +123,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:textSize="@dimen/_13sp"
                 android:text="병원명"
+                android:textSize="@dimen/_13sp"
                 app:layout_constraintStart_toStartOf="@+id/textView25"
                 app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
