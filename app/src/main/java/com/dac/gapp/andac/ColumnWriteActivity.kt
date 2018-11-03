@@ -1,21 +1,23 @@
 package com.dac.gapp.andac
 
 import android.app.Activity
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.model.firebase.ColumnInfo
+import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_column_write.*
 
 class ColumnWriteActivity : BaseActivity() {
 
-    private var pictureUri: Uri? = null
+    private var pictureTaskUnit: ((columnInfoKey : String) -> Task<Unit>)? = null
     private var columnInfo = ColumnInfo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,10 +50,25 @@ class ColumnWriteActivity : BaseActivity() {
 
         // Picture
         pictureImage.setOnClickListener { _ ->
-            getAlbumImage()?.subscribe {
-                pictureUri = it
-                Glide.with(this@ColumnWriteActivity).load(it).into(pictureImage)
+            getAlbumImage()?.subscribe { uri ->
+                pictureImage.loadImageAny(uri)
+                pictureTaskUnit = { columnInfoKey ->
+                    getColumnStorageRef()
+                            .child(columnInfoKey)
+                            .child("picture.jpg")
+                            .putFile(uri)
+                            .continueWith { columnInfo.pictureUrl = it.result.downloadUrl.toString() }
+                }
             }?.apply { disposables.add(this) }
+        }
+
+        // 사진 삭제
+        cancle_btn.setOnClickListener { _ ->
+            pictureImage.loadImageAny(R.drawable.album_ic_image_camera_white)
+            pictureTaskUnit = if(columnInfo.pictureUrl.isEmpty()) null else { _ ->
+                FirebaseStorage.getInstance().getReferenceFromUrl(columnInfo.pictureUrl)
+                        .delete().continueWith { columnInfo.pictureUrl = "" }
+            }
         }
 
         // Upload
@@ -75,15 +92,10 @@ class ColumnWriteActivity : BaseActivity() {
 
             // picture 있을 경우 업로드 후 uri 받아오기, 데이터 업로드
             showProgressDialog()
-            arrayListOf(pictureUri?.let { uri -> getColumnStorageRef()
-                .child(columnInfoRef.id)
-                .child("picture.jpg")
-                .putFile(uri)
-                .continueWith { columnInfo.pictureUrl = it.result.downloadUrl.toString() }}
-            )
+            arrayListOf(pictureTaskUnit?.invoke(columnInfoRef.id))
                     .filterNotNull()
                     .let { Tasks.whenAllSuccess<String>(it) }
-                    .onSuccessTask { list ->
+                    .onSuccessTask { _ ->
                         FirebaseFirestore.getInstance().batch().run {
                             set(columnInfoRef, columnInfo, SetOptions.merge())
                             getHospitalColumn(columnInfoRef.id)
