@@ -1,6 +1,5 @@
 package com.dac.gapp.andac
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
@@ -12,6 +11,7 @@ import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.model.firebase.ConsultInfo
 import com.dac.gapp.andac.util.UiUtil.Companion.VisionArr
 import com.dac.gapp.andac.util.UiUtil.Companion.getVisionIndex
+import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
@@ -21,7 +21,7 @@ import timber.log.Timber
 
 class RequestConsultActivity : BaseActivity() {
     private lateinit var binding: ActivityRequestConsultBinding
-    var pictureUri : Uri? = null
+    var pictureTaskUnit : ((refKey : String, consultInfo : ConsultInfo) -> Task<Unit>)? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_request_consult)
@@ -87,6 +87,9 @@ class RequestConsultActivity : BaseActivity() {
                                     return@forEachIndexed
                                 }
                             }
+
+                            // 사진 삭제
+                            setCancleBtn()
                         }
                     }
                     ?.addOnCompleteListener { hideProgressDialog() }
@@ -109,6 +112,9 @@ class RequestConsultActivity : BaseActivity() {
                             oldEdit.setText(age.toString())
                             insert_picture_img.loadImage(pictureUrl)
 
+                            // 사진 삭제
+                            setCancleBtn()
+
                         }
                         intent.putExtra("objectId", snapshot.documentChanges[0].document.id)  // 수정모드
                     }
@@ -120,11 +126,34 @@ class RequestConsultActivity : BaseActivity() {
         }
 
         // 사진
-        insert_picture_img.setOnClickListener {
+        insert_picture_img.setOnClickListener { _ ->
             getAlbumImage()?.subscribe {uri ->
-                pictureUri = uri
                 insert_picture_img.loadImageAny(uri)
+                pictureTaskUnit = { refKey, consultInfo ->
+                    FirebaseStorage.getInstance().getReference(refKey).child("picture.jpg").putFile(uri).continueWith {
+                        consultInfo.pictureUrl = it.result.downloadUrl.toString()
+                        consultInfo.pictureRef = it.result.storage.path
+                    }
+                }
             }?.apply { disposables.add(this) }
+        }
+
+        // 사진 삭제
+        cancle_btn.setOnClickListener { _ ->
+            insert_picture_img.loadImageAny(R.drawable.album_ic_add_photo_white)
+            pictureTaskUnit = null
+        }
+
+    }
+
+    private fun ConsultInfo?.setCancleBtn() {
+        cancle_btn.setOnClickListener { _ ->
+            this?:return@setOnClickListener
+            insert_picture_img.loadImageAny(R.drawable.album_ic_add_photo_white)
+            pictureTaskUnit = if (pictureUrl.isNullOrEmpty()) null else { _, consultInfo ->
+                FirebaseStorage.getInstance().getReferenceFromUrl(pictureUrl.toString())
+                        .delete().continueWith { consultInfo.pictureUrl = "" }
+            }
         }
     }
 
@@ -162,17 +191,14 @@ class RequestConsultActivity : BaseActivity() {
 
         // 데이터 업로드(사진있으면 사진도 업로드)
         showProgressDialog()
-        pictureUri?.let { uri ->
-            FirebaseStorage.getInstance().getReference(ref.path).child("picture.jpg").putFile(uri).continueWith {
-                consultInfo.pictureUrl = it.result.downloadUrl.toString()
-                consultInfo.pictureRef = it.result.storage.path
-            }
-        }.let { task -> Tasks.whenAllSuccess<Any>(arrayOf(task).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
+        arrayListOf(pictureTaskUnit?.invoke(ref.path, consultInfo)).forEach { task ->
+            task.let { task -> Tasks.whenAllSuccess<Any>(arrayOf(task).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
                 .addOnSuccessListener {
                     Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
                     finish()
                 }
                 .addOnCompleteListener { hideProgressDialog() }
+        }
     }
 
     fun onClickSelecet(view: View) {
@@ -196,12 +222,8 @@ class RequestConsultActivity : BaseActivity() {
 
         // 데이터 업로드(사진있으면 사진도 업로드)
         showProgressDialog()
-        pictureUri?.let { uri ->
-            FirebaseStorage.getInstance().getReference(ref.path).child("picture.jpg").putFile(uri).continueWith {
-                consultInfo.pictureUrl = it.result.downloadUrl.toString()
-                consultInfo.pictureRef = it.result.storage.path
-            }
-        }.let { task -> Tasks.whenAllSuccess<Any>(arrayOf(task).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
+        pictureTaskUnit?.invoke(ref.id,consultInfo)
+            .let { task -> Tasks.whenAllSuccess<Any>(arrayOf(task).filterNotNull()).continueWithTask { ref.set(consultInfo, SetOptions.merge()) } }
                 .addOnSuccessListener {
                     Toast.makeText(this, "신청 성공", Toast.LENGTH_SHORT).show()
                     finish()
