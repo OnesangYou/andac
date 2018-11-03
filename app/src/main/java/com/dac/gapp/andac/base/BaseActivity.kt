@@ -211,8 +211,6 @@ abstract class BaseActivity : AppCompatActivity() {
                 data?.data?.let { mFileUri ->
                     RxBus.publish(mFileUri)
                 }
-            } else {
-                toast("Taking picture failed.")
             }
         }
     }

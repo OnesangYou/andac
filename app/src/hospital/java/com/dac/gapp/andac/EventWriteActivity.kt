@@ -1,26 +1,28 @@
 package com.dac.gapp.andac
 
 import android.app.Activity
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.databinding.ActivityEventWriteBinding
+import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.extension.setPrice
 import com.dac.gapp.andac.model.firebase.EventInfo
+import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
 
 
 class EventWriteActivity : BaseActivity() {
 
-    val objectTypeStr = "이벤트"
+    private val objectTypeStr = "이벤트"
 
-    private var pictureUri: Uri? = null
-    private var detailPictureUri: Uri? = null
+    private var pictureUriTask: ((String) -> Task<Unit>)? = null
+    private var detailPictureUriTask: ((String) -> Task<Unit>)? = null
     private var eventInfo = EventInfo()
 
     lateinit var binding : ActivityEventWriteBinding
@@ -64,17 +66,23 @@ class EventWriteActivity : BaseActivity() {
 
         // Top Picture
         binding.topImage.setOnClickListener { _ ->
-            getAlbumImage()?.subscribe {
-                pictureUri = it
-                Glide.with(this@EventWriteActivity).load(it).into(binding.topImage)
+            getAlbumImage()?.subscribe { uri ->
+                binding.topImage.loadImageAny( uri)
+                pictureUriTask = {eventInfoKey ->
+                    getEventStorageRef().child(eventInfoKey).child("picture.jpg").putFile(uri)
+                            .continueWith { eventInfo.pictureUrl = it.result.downloadUrl.toString()}
+                }
             }?.apply { disposables.add(this) }
         }
 
         // Bottom Picture
         binding.bottomImage.setOnClickListener { _ ->
-            getAlbumImage()?.subscribe {
-                detailPictureUri = it
-                Glide.with(this@EventWriteActivity).load(it).into(binding.bottomImage)
+            getAlbumImage()?.subscribe { uri ->
+                binding.bottomImage.loadImageAny(uri)
+                detailPictureUriTask = {eventInfoKey ->
+                    getEventStorageRef().child(eventInfoKey).child("detailPicture.jpg").putFile(uri)
+                            .continueWith { eventInfo.detailPictureUrl = it.result.downloadUrl.toString()}
+                }
             }?.apply { disposables.add(this) }
         }
 
@@ -114,15 +122,8 @@ class EventWriteActivity : BaseActivity() {
             // picture 있을 경우 업로드 후 url 받아오기, 데이터 업로드
             showProgressDialog()
             arrayListOf(
-                pictureUri?.let{uri ->
-                    getEventStorageRef().child(eventInfoRef.id).child("picture.jpg").putFile(uri)
-                            .continueWith { eventInfo.pictureUrl = it.result.downloadUrl.toString() }
-                }
-                ,
-                detailPictureUri?.let{uri ->
-                    getEventStorageRef().child(eventInfoRef.id).child("detailPicture.jpg").putFile(uri)
-                            .continueWith { eventInfo.detailPictureUrl = it.result.downloadUrl.toString() }
-                }
+                    pictureUriTask?.invoke(eventInfoRef.id),
+                    detailPictureUriTask?.invoke(eventInfoRef.id)
             ).filterNotNull().let { list ->
                 Tasks.whenAllSuccess<String>(list)
                 .onSuccessTask { _ ->
@@ -135,6 +136,34 @@ class EventWriteActivity : BaseActivity() {
                 }
                 .addOnSuccessListener { toast("$objectTypeStr 업로드 완료"); setResult(Activity.RESULT_OK); finish() }
                 .addOnCompleteListener { hideProgressDialog() }
+            }
+        }
+
+        // top image cancel
+        binding.cancleBtn.setOnClickListener { _ ->
+            binding.topImage.loadImageAny(R.drawable.album_ic_add_photo_white)
+            pictureUriTask =
+                if(eventInfo.pictureUrl.isBlank()) { // 서버에 아직 저장 안됬을때
+                    null
+                } else { // 서버상 사진 삭제
+                    { _ ->
+                        FirebaseStorage.getInstance().getReferenceFromUrl(eventInfo.pictureUrl)
+                                .delete().continueWith { eventInfo.pictureUrl = "" }
+                    }
+                }
+        }
+
+        // bottom image cancel
+        binding.cancleBtn2.setOnClickListener { _ ->
+            binding.bottomImage.loadImageAny(R.drawable.album_ic_add_photo_white)
+            detailPictureUriTask =
+            if(eventInfo.detailPictureUrl.isBlank()) { // 서버에 아직 저장 안됬을때
+                null
+            } else { // 서버상 사진 삭제
+                { _ ->
+                    FirebaseStorage.getInstance().getReferenceFromUrl(eventInfo.detailPictureUrl)
+                            .delete().continueWith { eventInfo.detailPictureUrl = "" }
+                }
             }
         }
 
