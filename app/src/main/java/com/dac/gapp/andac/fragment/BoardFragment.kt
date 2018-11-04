@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,13 +22,13 @@ import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.RxBus
+import com.dac.gapp.andac.util.UiUtil
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import org.jetbrains.anko.startActivity
-
 
 @Suppress("DEPRECATION")
 class BoardFragment : BaseFragment() {
@@ -38,12 +37,11 @@ class BoardFragment : BaseFragment() {
     val map = mutableMapOf<String, UserInfo>()
     private val hospitalInfoMap = mutableMapOf<String, HospitalInfo>()
     private var likeSet = mutableSetOf<String>()
-
-
     var type: String? = null
     private var lastVisible: DocumentSnapshot? = null
-
     private lateinit var binding: FragmentBoardBinding
+    var currentTask : Task<*>? = null  // task 진행 유무 판단용
+    var isListEmpty = false // 리스트가 없는지 확인
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflate(inflater, R.layout.fragment_board, container, false)
@@ -134,13 +132,21 @@ class BoardFragment : BaseFragment() {
         addDataToRecycler(type)
 
         // add event to recycler's last
-        binding.recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(rv: RecyclerView?, newState: Int) {
-                if (newState == SCROLL_STATE_SETTLING && !binding.recyclerView.canScrollVertically(1)) {
-                    addDataToRecycler(type)
-                }
+        binding.recyclerView.setOnScrollListener(onScrollListener{addDataToRecycler(type)})
+    }
+
+    private fun onScrollListener(callback : () -> Unit) = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            recyclerView?:return
+            check(!isListEmpty && currentTask == null){return@onScrolled}
+            val computeVerticalScrollRange = recyclerView.computeVerticalScrollRange()
+            val computeVerticalScrollOffset = recyclerView.computeVerticalScrollOffset()
+            val computeVerticalScrollRange80 = (computeVerticalScrollRange* UiUtil.ScrollRefreshTriggerRatio).toInt()
+            if(computeVerticalScrollOffset > computeVerticalScrollRange80){
+                callback()
+                binding.recyclerView.setOnScrollListener(null)
             }
-        })
+        }
     }
 
     private fun resetData() {
@@ -150,11 +156,10 @@ class BoardFragment : BaseFragment() {
         likeSet.clear()
     }
 
-    fun addDataToRecycler(type: String) {
+    private fun addDataToRecycler(type: String) {
         var needClear = false
         context?.apply {
-            showProgressDialog()
-            getTripleDataTask(
+            currentTask = getTripleDataTask(
                     getBoards()
                             .let{boardRef->
                                 if(type == getString(R.string.hot_board)){
@@ -177,19 +182,18 @@ class BoardFragment : BaseFragment() {
                         hospitalInfoMap.putAll(it.hospitalInfoMap)
                         likeSet.addAll(it.likeSet)
                         binding.recyclerView.adapter.notifyDataSetChanged()
-
+                        binding.recyclerView.setOnScrollListener(onScrollListener{addDataToRecycler(type)})
                     }
-                    ?.addOnCompleteListener { hideProgressDialog() }
+                    ?.addOnCompleteListener { currentTask = null }
         }
     }
 
     private fun getTripleDataTask(query: Query): Task<BoardAdapterData>? {
-//        context?:return null
         val data = BoardAdapterData()
         return context?.run {
             query.get()
                     .continueWith { it ->
-                        it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] }
+                        it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] else isListEmpty = true }
                         it.result.toObjects(BoardInfo::class.java)
                     }.continueWithTask { task ->
                         data.boardInfos = task.result

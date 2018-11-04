@@ -14,6 +14,7 @@ import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.OnItemClickListener
+import com.dac.gapp.andac.util.UiUtil
 import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -25,8 +26,9 @@ class UserEventApplyListActivity : BaseActivity() {
     val list = mutableListOf<EventInfo>()
     val map = mutableMapOf<String, HospitalInfo>()
     private var lastVisible : DocumentSnapshot? = null
-
     lateinit var binding: ActivityUserEventApplyListBinding
+    var currentTask : Task<*>? = null  // task 진행 유무 판단용
+    var isListEmpty = false // 리스트가 없는지 확인
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,58 +66,60 @@ class UserEventApplyListActivity : BaseActivity() {
         addDataToRecycler()
 
         // add event to recycler's last
-        binding.recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(rv: RecyclerView?, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_SETTLING && !binding.recyclerView.canScrollVertically(1)) {
-                    addDataToRecycler()
-                }
-            }
-        })
+        binding.recyclerView.setOnScrollListener(onScrollListener{addDataToRecycler()})
     }
 
-    fun resetData() {
+    private fun onScrollListener(callback : () -> Unit) = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            recyclerView?:return
+            check(!isListEmpty && currentTask == null){return@onScrolled}
+            val computeVerticalScrollRange = recyclerView.computeVerticalScrollRange()
+            val computeVerticalScrollOffset = recyclerView.computeVerticalScrollOffset()
+            val computeVerticalScrollRange80 = (computeVerticalScrollRange* UiUtil.ScrollRefreshTriggerRatio).toInt()
+            if(computeVerticalScrollOffset > computeVerticalScrollRange80){
+                callback()
+                binding.recyclerView.setOnScrollListener(null)
+            }
+        }
+    }
+
+    private fun resetData() {
         list.clear()
         map.clear()
         lastVisible = null
     }
 
-    fun addDataToRecycler() {
-        showProgressDialog()
-        getUserEvents()
-                ?.orderBy("createdDate", Query.Direction.DESCENDING)
+    private fun addDataToRecycler() {
+        currentTask = getTripleDataTask(getUserEvents().let { it?:return }.orderBy("createdDate", Query.Direction.DESCENDING)
                 .let { query ->
-                    lastVisible?.let { query?.startAfter(it) } ?: query
-                }    // 쿼리 커서 시작 위치 지정
-                ?.limit(PageSize.event.value)  // 페이지 단위
-                ?.let { it -> getTripleDataTask(it)}
-                ?.addOnSuccessListener {
-                    list.addAll(it.first)
-                    map.putAll(it.second)
-                    binding.recyclerView.adapter.notifyDataSetChanged()
-                }
-                ?.addOnCompleteListener { hideProgressDialog() }
+                    lastVisible?.let { query.startAfter(it) } ?: query
+                }.limit(PageSize.event.value)).let { it?:return }.addOnSuccessListener {
+            list.addAll(it.first)
+            map.putAll(it.second)
+            binding.recyclerView.adapter.notifyDataSetChanged()
+        }.addOnCompleteListener { currentTask = null }
 
     }
 
     private fun getTripleDataTask(query : Query) : Task<Triple<List<EventInfo>, Map<String, HospitalInfo>, DocumentSnapshot?>>? {
-        var infos : List<EventInfo> = listOf()
+        var infoList : List<EventInfo> = listOf()
         return query.get()
                 .continueWithTask { it ->
-                    it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] }
+                    it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] else isListEmpty = true }
                     it.result.map { getEvent(it.id)?.get() }
                             .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                 }
                 .continueWith { it -> it.result.mapNotNull { it.toObject(EventInfo::class.java) } }
                 .continueWithTask { it ->
-                    infos = it.result
-                    infos.groupBy { it.writerUid }
+                    infoList = it.result
+                    infoList.asSequence().groupBy { it.writerUid }
                             .filter { !it.key.isEmpty() }
-                            .mapNotNull { getHospital(it.key).get() }
+                            .mapNotNull { getHospital(it.key).get() }.toList()
                             .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                 }
                 .continueWith { it ->
-                    Triple(infos, it.result.filterNotNull()
-                            .map { it.id to it.toObject(HospitalInfo::class.java)!!}
+                    Triple(infoList, it.result.asSequence().filterNotNull()
+                            .map { it.id to it.toObject(HospitalInfo::class.java)!!}.toList()
                             .toMap(), lastVisible)
                 }
     }

@@ -21,6 +21,7 @@ import com.dac.gapp.andac.enums.PageSize
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.util.OnItemClickListener
+import com.dac.gapp.andac.util.UiUtil
 import com.dac.gapp.andac.util.addOnItemClickListener
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
@@ -38,6 +39,8 @@ class EventListFragment : BaseFragment() {
     val list = mutableListOf<EventInfo>()
     val map = mutableMapOf<String, HospitalInfo?>()
     private var lastVisible: DocumentSnapshot? = null
+    var currentTask : Task<*>? = null  // task 진행 유무 판단용
+    var isListEmpty = false // 리스트가 없는지 확인
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflate(inflater, R.layout.fragment_event_list, container, false)
@@ -117,13 +120,21 @@ class EventListFragment : BaseFragment() {
         addDataToRecycler(type, direction, tag)
 
         // add event to recycler's last
-        binding.recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(rv: RecyclerView?, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_SETTLING && !binding.recyclerView.canScrollVertically(1)) {
-                    addDataToRecycler(type, direction, tag)
-                }
+        binding.recyclerView.setOnScrollListener(onScrollListener{addDataToRecycler(type, direction, tag)})
+    }
+
+    private fun onScrollListener(callback : () -> Unit) = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            recyclerView?:return
+            check(!isListEmpty && currentTask == null){return@onScrolled}
+            val computeVerticalScrollRange = recyclerView.computeVerticalScrollRange()
+            val computeVerticalScrollOffset = recyclerView.computeVerticalScrollOffset()
+            val computeVerticalScrollRange80 = (computeVerticalScrollRange* UiUtil.ScrollRefreshTriggerRatio).toInt()
+            if(computeVerticalScrollOffset > computeVerticalScrollRange80){
+                callback()
+                binding.recyclerView.setOnScrollListener(null)
             }
-        })
+        }
     }
 
     private fun resetData() {
@@ -131,11 +142,10 @@ class EventListFragment : BaseFragment() {
         map.clear()
     }
 
-    fun addDataToRecycler(type: String, direction: Query.Direction = Query.Direction.DESCENDING, tag: String?) {
+    private fun addDataToRecycler(type: String, direction: Query.Direction = Query.Direction.DESCENDING, tag: String?) {
         var needClear = false
         context?.apply {
-            showProgressDialog()
-            getTripleDataTask(
+            currentTask = getTripleDataTask(
                     getEvents()
                             .let {
                                 // tag 조회면, tag 필더, 최신순
@@ -152,8 +162,9 @@ class EventListFragment : BaseFragment() {
                         list.addAll(it.first)
                         map.putAll(it.second)
                         binding.recyclerView.adapter.notifyDataSetChanged()
+                        binding.recyclerView.setOnScrollListener(onScrollListener{addDataToRecycler(type, direction, tag)})
                     }
-                    ?.addOnCompleteListener { hideProgressDialog() }
+                    ?.addOnCompleteListener { currentTask = null }
                     ?.addOnFailureListener{
                         it.printStackTrace()
                     }
@@ -165,7 +176,7 @@ class EventListFragment : BaseFragment() {
             var infos: List<EventInfo> = listOf()
             query.get()
                     .continueWith { it ->
-                        it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] }
+                        it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] else isListEmpty = true }
                         it.result.toObjects(EventInfo::class.java)
                     }.continueWithTask { it ->
                         infos = it.result

@@ -16,6 +16,7 @@ import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.RxBus
+import com.dac.gapp.andac.util.UiUtil
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
@@ -31,7 +32,8 @@ class ReviewBoardListActivity : BaseActivity() {
     private val hospitalInfoMap = mutableMapOf<String, HospitalInfo>()
     private var likeSet = mutableSetOf<String>()
     private var lastVisible: DocumentSnapshot? = null
-
+    var currentTask : Task<*>? = null  // task 진행 유무 판단용
+    var isListEmpty = false // 리스트가 없는지 확인
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,13 +82,21 @@ class ReviewBoardListActivity : BaseActivity() {
         addDataToRecycler(type, hospitalId)
 
         // add event to recycler's last
-        recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(rv: RecyclerView?, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_SETTLING && recyclerView.canScrollVertically(1)) {
-                    addDataToRecycler(type, hospitalId)
-                }
+        recyclerView.setOnScrollListener(onScrollListener{addDataToRecycler(type, hospitalId)})
+    }
+
+    private fun onScrollListener(callback : () -> Unit) = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            recyclerView?:return
+            check(!isListEmpty && currentTask == null){return@onScrolled}
+            val computeVerticalScrollRange = recyclerView.computeVerticalScrollRange()
+            val computeVerticalScrollOffset = recyclerView.computeVerticalScrollOffset()
+            val computeVerticalScrollRange80 = (computeVerticalScrollRange* UiUtil.ScrollRefreshTriggerRatio).toInt()
+            if(computeVerticalScrollOffset > computeVerticalScrollRange80){
+                callback()
+                recyclerView.setOnScrollListener(null)
             }
-        })
+        }
     }
 
     private fun resetData() {
@@ -97,8 +107,8 @@ class ReviewBoardListActivity : BaseActivity() {
         lastVisible = null
     }
 
-    fun addDataToRecycler(type: String, hospitalId : String) {
-        getTripleDataTask(
+    private fun addDataToRecycler(type: String, hospitalId : String) {
+        currentTask = getTripleDataTask(
                 getBoards()
                         .whereEqualTo("type", type)
                         .whereEqualTo("hospitalUid", hospitalId)
@@ -114,8 +124,9 @@ class ReviewBoardListActivity : BaseActivity() {
                     hospitalInfoMap.putAll(it.hospitalInfoMap)
                     likeSet.addAll(it.likeSet)
                     recyclerView.adapter.notifyDataSetChanged()
-
+                    recyclerView.setOnScrollListener(onScrollListener{addDataToRecycler(type, hospitalId)})
                 }
+                ?.addOnCompleteListener { currentTask = null }
                 ?.addOnFailureListener { it.printStackTrace() }
     }
 
@@ -123,7 +134,7 @@ class ReviewBoardListActivity : BaseActivity() {
         val data = BoardAdapterData()
         return query.get()
                 .continueWith { it ->
-                    it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] }
+                    it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] else isListEmpty = true }
                     it.result.toObjects(BoardInfo::class.java)
                 }.continueWithTask { task ->
                     data.boardInfos = task.result

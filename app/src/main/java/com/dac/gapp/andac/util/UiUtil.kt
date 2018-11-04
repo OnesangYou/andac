@@ -31,6 +31,8 @@ class UiUtil {
                 }
 
         val AdminEmail = "ndactor123@gmail.com"
+
+        val ScrollRefreshTriggerRatio = 0.6
     }
 
 }

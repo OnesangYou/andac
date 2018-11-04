@@ -13,6 +13,7 @@ import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.extension.setPrice
 import com.dac.gapp.andac.model.firebase.EventApplyInfo
 import com.dac.gapp.andac.model.firebase.EventInfo
+import com.dac.gapp.andac.util.UiUtil
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -24,10 +25,10 @@ class HospitalEventApplicantListActivity : BaseActivity() {
 
     val list = mutableListOf<EventApplyInfo>()
     private var lastVisible : DocumentSnapshot? = null
-
-    lateinit var eventKey : String
-
+    private lateinit var eventKey : String
     lateinit var binding : ActivityHospitalEventApplicantListBinding
+    var currentTask : Task<*>? = null  // task 진행 유무 판단용
+    var isListEmpty = false // 리스트가 없는지 확인
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,7 @@ class HospitalEventApplicantListActivity : BaseActivity() {
             eventKey = key
             showProgressDialog()
             getEvent(key)?.get()?.continueWith { it.result.toObject(EventInfo::class.java) }?.addOnSuccessListener { eventInfo ->
-                eventInfo?.let { eventInfo ->
+                eventInfo?:return@addOnSuccessListener
                 Glide.with(this@HospitalEventApplicantListActivity).load(eventInfo.pictureUrl).into(event_image)
                 event_title.text = eventInfo.title
                 body.text = eventInfo.body
@@ -53,7 +54,7 @@ class HospitalEventApplicantListActivity : BaseActivity() {
                 likeCountText.text = eventInfo.likeCount.toString()
                 // sub_title(병원명)
                 getHospitalInfo(eventInfo.writerUid)?.addOnSuccessListener { info -> info?.let { sub_title.text = it.name } }
-            }}
+            }
                     ?.addOnCompleteListener { hideProgressDialog() }
 
             setOnActionBarRightClickListener(View.OnClickListener { startActivityForResult<EventWriteActivity>(RequestCode.OBJECT_ADD.value, OBJECT_KEY to key)  })
@@ -77,24 +78,30 @@ class HospitalEventApplicantListActivity : BaseActivity() {
         addDataToRecycler()
 
         // add event to recycler's last
-        binding.recyclerView.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(rv: RecyclerView?, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_SETTLING && !binding.recyclerView.canScrollVertically(1)) {
-                    addDataToRecycler()
-                }
-            }
-        })
+        binding.recyclerView.setOnScrollListener(onScrollListener{addDataToRecycler()})
     }
 
-    fun resetData() {
+    private fun onScrollListener(callback : () -> Unit) = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            recyclerView?:return
+            check(!isListEmpty && currentTask == null){return@onScrolled}
+            val computeVerticalScrollRange = recyclerView.computeVerticalScrollRange()
+            val computeVerticalScrollOffset = recyclerView.computeVerticalScrollOffset()
+            val computeVerticalScrollRange80 = (computeVerticalScrollRange* UiUtil.ScrollRefreshTriggerRatio).toInt()
+            if(computeVerticalScrollOffset > computeVerticalScrollRange80){
+                callback()
+                binding.recyclerView.setOnScrollListener(null)
+            }
+        }
+    }
+
+    private fun resetData() {
         list.clear()
         lastVisible = null
     }
 
-    fun addDataToRecycler() {
-        showProgressDialog()
-
-        getEventApplicants(eventKey)
+    private fun addDataToRecycler() {
+        currentTask = getEventApplicants(eventKey)
                 ?.orderBy("writeDate", Query.Direction.DESCENDING)
                 .let { query ->
                     lastVisible?.let { query?.startAfter(it) } ?: query
@@ -104,15 +111,16 @@ class HospitalEventApplicantListActivity : BaseActivity() {
                 ?.addOnSuccessListener {
                     list.addAll(it)
                     binding.recyclerView.adapter.notifyDataSetChanged()
+                    binding.recyclerView.setOnScrollListener(onScrollListener{addDataToRecycler()})
                 }
-                ?.addOnCompleteListener { hideProgressDialog() }
+                ?.addOnCompleteListener { currentTask = null }
 
     }
 
     private fun getTripleDataTask(query : Query) : Task<List<EventApplyInfo>> {
         return query.get()
                 .continueWith { it ->
-                    it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] }
+                    it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] else isListEmpty = true }
                     it.result.toObjects(EventApplyInfo::class.java).map {eventApplyInfo ->
                         eventApplyInfo.apply { eventKey = intent.getStringExtra(OBJECT_KEY) }
                     }
