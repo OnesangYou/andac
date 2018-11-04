@@ -100,7 +100,7 @@ class ColumnActivity : BaseActivity() {
         var infos : List<ColumnInfo> = listOf()
         return query.get()
                 .continueWith { it ->
-                    lastVisible = it.result.documents.let { it[it.size-1] }
+                    it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] }
                     it.result.toObjects(ColumnInfo::class.java) }
                 .continueWithTask { it ->
                     infos = it.result

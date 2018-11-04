@@ -189,7 +189,7 @@ class BoardFragment : BaseFragment() {
         return context?.run {
             query.get()
                     .continueWith { it ->
-                        lastVisible = it.result.documents.let { it[it.size - 1] }
+                        it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] }
                         it.result.toObjects(BoardInfo::class.java)
                     }.continueWithTask { task ->
                         data.boardInfos = task.result

@@ -165,7 +165,7 @@ class EventListFragment : BaseFragment() {
             var infos: List<EventInfo> = listOf()
             query.get()
                     .continueWith { it ->
-                        lastVisible = it.result.documents.let { if(it.isEmpty()) null else it[it.size - 1] }
+                        it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] }
                         it.result.toObjects(EventInfo::class.java)
                     }.continueWithTask { it ->
                         infos = it.result

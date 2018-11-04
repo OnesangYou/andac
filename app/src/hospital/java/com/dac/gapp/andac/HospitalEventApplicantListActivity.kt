@@ -112,7 +112,7 @@ class HospitalEventApplicantListActivity : BaseActivity() {
     private fun getTripleDataTask(query : Query) : Task<List<EventApplyInfo>> {
         return query.get()
                 .continueWith { it ->
-                    lastVisible = it.result.documents.let { it[it.size - 1] }
+                    it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] }
                     it.result.toObjects(EventApplyInfo::class.java).map {eventApplyInfo ->
                         eventApplyInfo.apply { eventKey = intent.getStringExtra(OBJECT_KEY) }
                     }

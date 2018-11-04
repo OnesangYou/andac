@@ -122,7 +122,7 @@ class HospitalEventListActivity : BaseActivity() {
         var infos: List<EventInfo> = listOf()
         return query.get()
                 .continueWithTask { it ->
-                    lastVisible = it.result.documents.let { it[it.size - 1] }
+                    it.result.documents.let { if(it.isNotEmpty()) lastVisible = it[it.size - 1] }
                     it.result.map { getEvent(it.id)?.get() }
                             .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                 }
