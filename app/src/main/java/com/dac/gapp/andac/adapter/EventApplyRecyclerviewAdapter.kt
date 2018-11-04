@@ -10,13 +10,17 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.ToggleButton
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.model.firebase.EventApplyInfo
 import com.dac.gapp.andac.util.getDateFormat
 import com.dac.gapp.andac.util.getHour
 import com.dac.gapp.andac.util.getHourAndMin
 import com.dac.gapp.andac.util.getMin
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.event_apply_row.view.*
 import org.jetbrains.anko.alert
+import org.jetbrains.anko.toast
 import java.util.*
 
 class EventApplyRecyclerviewAdapter
@@ -69,7 +73,13 @@ class EventApplyRecyclerviewAdapter
                     view.context.startActivity(Intent(Intent.ACTION_CALL, Uri.parse("tel:" + item.phone)))
                 }
             }
+
             confirmBtn.isChecked = item.confirmDate != null
+            confirmBtn.setOnCheckedChangeListener { buttonView, isChecked ->
+                buttonView.context.toast("isChecked : $isChecked")
+                (buttonView.context as BaseActivity).getEventApplicant(item.eventKey, item.writerUid)
+                        ?.set(mapOf("confirmDate" to if(isChecked) FieldValue.serverTimestamp() else null), SetOptions.merge())
+            }
         }
     }
 

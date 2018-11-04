@@ -262,8 +262,8 @@ abstract class BaseActivity : AppCompatActivity() {
     // Event Applicants
     fun getEventApplicants(eventKey: String) = getEvent(eventKey)?.collection("applicants")
 
-    fun getEventApplicant(eventKey: String) = getUid()?.let { getEventApplicants(eventKey)?.document(it) }  // user 용
-
+    fun getEventApplicant(eventKey: String) = if(isUser()) getUid()?.let { getEventApplicants(eventKey)?.document(it) } else error("user가 아닙니다")  // user 용
+    fun getEventApplicant(eventKey: String, userId : String) = getEventApplicants(eventKey)?.document(userId)
 
     private fun restartApp() {
         val mStartActivity = Intent(this, SplashActivity::class.java)
