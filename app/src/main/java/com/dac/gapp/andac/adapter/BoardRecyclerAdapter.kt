@@ -93,8 +93,6 @@ class BoardRecyclerAdapter(
             }
 
             // 메뉴 버튼
-            val login = context.isLogin()
-            val uid = context.getUid()
             if(context.isLogin() && boardInfo.writerUid == context.getUid()){
                 menu.visibility = View.VISIBLE
                 menu.setOnClickListener {

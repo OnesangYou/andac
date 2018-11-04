@@ -23,6 +23,7 @@ import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.UiUtil
+import com.dac.gapp.andac.util.toast
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
@@ -96,8 +97,7 @@ class BoardFragment : BaseFragment() {
             }
         })
 
-        // default
-        setAdapter(getString(R.string.hot_board))
+
 
     }
     private fun prepareUi() {
@@ -233,6 +233,12 @@ class BoardFragment : BaseFragment() {
                         )
                     }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // default
+        setAdapter(getString(R.string.hot_board))
     }
 
 }

@@ -61,6 +61,11 @@ class HospitalEventListActivity : BaseActivity() {
             }
         })
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // default
         setAdapter()
     }
 

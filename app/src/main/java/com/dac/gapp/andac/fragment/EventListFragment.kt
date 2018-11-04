@@ -86,6 +86,10 @@ class EventListFragment : BaseFragment() {
             }
         })
 
+    }
+
+    override fun onStart() {
+        super.onStart()
         // default
         setAdapter(getString(R.string.likeCount))
     }

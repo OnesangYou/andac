@@ -63,9 +63,13 @@ class HospitalEventApplicantListActivity : BaseActivity() {
             binding.recyclerView.layoutManager = LinearLayoutManager(this@HospitalEventApplicantListActivity)
             binding.recyclerView.adapter = EventApplyRecyclerviewAdapter(list)
 
-            setAdapter()
-
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // default
+        setAdapter()
     }
 
     private fun setAdapter() {

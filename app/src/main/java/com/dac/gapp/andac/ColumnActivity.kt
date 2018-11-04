@@ -53,8 +53,12 @@ class ColumnActivity : BaseActivity() {
             }
         })
 
-        setAdapter()
+    }
 
+    override fun onStart() {
+        super.onStart()
+        // default
+        setAdapter()
     }
 
     private fun setAdapter() {

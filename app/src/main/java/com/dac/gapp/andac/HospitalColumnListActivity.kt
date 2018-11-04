@@ -56,6 +56,12 @@ class HospitalColumnListActivity : BaseActivity() {
         setAdapter()
     }
 
+    override fun onStart() {
+        super.onStart()
+        // default
+        setAdapter()
+    }
+
     private fun setAdapter() {
         // reset data
         resetData()

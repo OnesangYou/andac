@@ -68,9 +68,12 @@ class ReviewBoardListActivity : BaseActivity() {
             }
         }.apply { disposables.add(this) }
 
+    }
 
-        setAdapter(hospitalId = hospitalId)
-
+    override fun onStart() {
+        super.onStart()
+        // default
+        setAdapter(hospitalId = intent.getStringExtra(OBJECT_KEY)?:return)
     }
 
     private fun setAdapter(type: String = getString(R.string.review_board), hospitalId : String) {
