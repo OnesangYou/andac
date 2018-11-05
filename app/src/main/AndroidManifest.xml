@@ -43,12 +43,13 @@
         <activity android:name=".NoticeActivity" />
         <activity android:name=".ConsultBoardActivity" />
 
-        <service android:name=".util.FcmSendService">
+        <service android:name=".util.FcmReciveService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".util.FcmInstanceIdService">
+        <service android:name=".util.FcmInstanceIdService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

@@ -47,6 +47,7 @@ android {
             minifyEnabled false // Proguard on/off
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true // BuildConfig.DEBUG
+            buildConfigField 'String', 'SERVER_KEY',"AAAAMPYlx1I:APA91bFoLD-KA-JkU6e1sCL_JpgtUoRX-CezOZkKR6NG3i5hlNNEliWNSHAHaVsl3hDXm49QqHLDn_Q4YIpgQxriRduf9acm4GExOAwokorDjak8PnOB06qnZ7BCQ27KbEbry4BlpzXE"
             buildConfigField 'String', 'ALGOLIA_APP_ID', "\"VUNTR162M6\""
             buildConfigField 'String', 'ALGOLIA_SEARCH_API_KEY', "\"f8eab63beb88f72136b260ea219aa6a4\""
         }

@@ -1,64 +1,75 @@
 package com.dac.gapp.andac.util
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Intent
-import android.os.Build
-import android.support.v4.app.NotificationCompat
-import android.support.v4.app.NotificationManagerCompat
-import com.dac.gapp.andac.MainActivity
-import com.dac.gapp.andac.R
-import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.firebase.messaging.RemoteMessage
-import timber.log.Timber
+import com.dac.gapp.andac.BuildConfig
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
+import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.net.URL
+
+package com.teamcore.android.core.Util
+
+import com.teamcore.android.core.BuildConfig
+import com.teamcore.android.core.Entity.User
+import com.teamcore.android.core.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+
+import org.json.JSONObject
+
+import java.io.OutputStream
+import java.net.HttpURLConnection
+import java.net.URL
+
+/**
+ * Created by Administrator on 2018-02-21.
+ */
+
+object FirebaseSendPushMsg {
+
+    private val FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send"
+    private val SERVER_KEY = BuildConfig.SERVER_KEY
 
 
-class FcmSendService : FirebaseMessagingService() {
+    fun sendPostToFCM(type: String, targetUuid: String, name: String, message: String) {
 
+        FirebaseFirestore.getInstance().collection("token").document(targetUuid).get().addOnCompleteListener {
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
-        super.onMessageReceived(remoteMessage)
-        val message = remoteMessage?:return
-        Timber.d(message.from)
+            val user = dataSnapshot.getValue(User::class.java)
+            Thread(Runnable {
+                try {
+                    // FMC 메시지 생성 start
+                    val root = JSONObject()
+                    //JSONObject notification = new JSONObject();
+                    val data = JSONObject()
+                    //notification.put("body", message);
+                    //notification.put("title", currentUserNick);
+                    data.put("message", message)
+                    data.put("type", type)
+                    data.put("nick", currentUserNick)
+                    root.put("data", data)
+                    //root.put("notification", notification);
+                    root.put("to", user.getToken())
+                    // FMC 메시지 생성 end
 
-        // Check if message contains a data payload.
-        if (message.data.isNotEmpty()) {
-            Timber.d("Message data payload: " + message.data)
-            showNotification(message)
+                    val Url = URL(FCM_MESSAGE_URL)
+                    val conn = Url.openConnection() as HttpURLConnection
+                    conn.requestMethod = "POST"
+                    conn.doOutput = true
+                    conn.doInput = true
+                    conn.addRequestProperty("Authorization", "key=$SERVER_KEY")
+                    conn.setRequestProperty("Accept", "application/json")
+                    conn.setRequestProperty("Content-type", "application/json")
+                    val os = conn.outputStream
+                    os.write(root.toString().toByteArray(charset("utf-8")))
+                    os.flush()
+                    conn.responseCode
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }).start()
         }
+
     }
-
-    fun showNotification(message: RemoteMessage) {
-
-        val intent = Intent(this, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        val pendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
-
-        val mBuilder = NotificationCompat.Builder(this, "notice")
-                .setSmallIcon(R.drawable.andac_logo)
-                .setContentTitle(message.data.get("title"))
-                .setContentText(message.data.get("content"))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "notice"
-            val description = "notice"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("notice", name, importance)
-            channel.description = description
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            val notificationsystemManager = getSystemService(NotificationManager::class.java)
-            notificationsystemManager!!.createNotificationChannel(channel)
-        }
-
-        val notificationManager = NotificationManagerCompat.from(this)
-        notificationManager.notify(0, mBuilder.build())
-    }
-
-
 }

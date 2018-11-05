@@ -5,11 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import com.dac.gapp.andac.base.BaseHospitalActivity
 import com.dac.gapp.andac.databinding.ActivityLoginBinding
+import com.dac.gapp.andac.util.FcmInstanceIdService
 import com.dac.gapp.andac.util.Preference
 import com.dac.gapp.andac.util.UiUtil.Companion.getMessageFromAuthException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import org.jetbrains.anko.startActivity
 import timber.log.Timber
 
@@ -106,6 +108,11 @@ class LoginActivity : BaseHospitalActivity() {
                 if (isCheck) {
                     // 승인 완료
                     toast(getString(R.string.successLogin))
+                    val fcmInstanceIdService = FcmInstanceIdService()
+                    val token = fcmInstanceIdService.getToken()
+                    FirebaseAuth.getInstance().uid?.apply {
+                        FirebaseFirestore.getInstance().collection("token").document(this).set(token)
+                    }
                 } else {
                     toast(getString(R.string.waitApproval))
                 }
