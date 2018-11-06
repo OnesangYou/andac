@@ -41,6 +41,7 @@ class EventListFragment : BaseFragment() {
     private var lastVisible: DocumentSnapshot? = null
     var currentTask : Task<*>? = null  // task 진행 유무 판단용
     var isListEmpty = false // 리스트가 없는지 확인
+    lateinit var type : String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflate(inflater, R.layout.fragment_event_list, container, false)
@@ -50,6 +51,7 @@ class EventListFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareUi()
+        type = getString(R.string.popular_order)
         lastVisible = null
 
         // set recyclerView
@@ -66,17 +68,9 @@ class EventListFragment : BaseFragment() {
         // set tabLayout click listener
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                when (tab.text) {
-                    getString(R.string.popular_order) -> setAdapter(getString(R.string.likeCount))
-                    getString(R.string.low_price_order) -> setAdapter(getString(R.string.price), Query.Direction.ASCENDING)
-                    getString(R.string.high_price_order) -> setAdapter(getString(R.string.price), Query.Direction.DESCENDING)
+                type = tab.text.toString()
 
-                    getString(R.string.lasik) -> setAdapter(tag = getString(R.string.lasik))
-                    getString(R.string.insertLens) -> setAdapter(tag = getString(R.string.insertLens))
-                    getString(R.string.cataract) -> setAdapter(tag = getString(R.string.cataract))
-                    getString(R.string.presbyopia) -> setAdapter(tag = getString(R.string.presbyopia))
-                    getString(R.string.eyeDisease) -> setAdapter(tag = getString(R.string.eyeDisease))
-                }
+                routeSetAdapter(tab.text)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
@@ -88,10 +82,24 @@ class EventListFragment : BaseFragment() {
 
     }
 
+    private fun routeSetAdapter(tabText: CharSequence?) {
+        when (tabText) {
+            getString(R.string.popular_order) -> setAdapter(getString(R.string.likeCount))
+            getString(R.string.low_price_order) -> setAdapter(getString(R.string.price), Query.Direction.ASCENDING)
+            getString(R.string.high_price_order) -> setAdapter(getString(R.string.price), Query.Direction.DESCENDING)
+
+            getString(R.string.lasik) -> setAdapter(tag = getString(R.string.lasik))
+            getString(R.string.insertLens) -> setAdapter(tag = getString(R.string.insertLens))
+            getString(R.string.cataract) -> setAdapter(tag = getString(R.string.cataract))
+            getString(R.string.presbyopia) -> setAdapter(tag = getString(R.string.presbyopia))
+            getString(R.string.eyeDisease) -> setAdapter(tag = getString(R.string.eyeDisease))
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         // default
-        setAdapter(getString(R.string.likeCount))
+        routeSetAdapter(type)
     }
 
     private fun prepareUi() {

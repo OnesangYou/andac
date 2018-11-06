@@ -23,7 +23,6 @@ import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
 import com.dac.gapp.andac.util.RxBus
 import com.dac.gapp.andac.util.UiUtil
-import com.dac.gapp.andac.util.toast
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
@@ -38,7 +37,7 @@ class BoardFragment : BaseFragment() {
     val map = mutableMapOf<String, UserInfo>()
     private val hospitalInfoMap = mutableMapOf<String, HospitalInfo>()
     private var likeSet = mutableSetOf<String>()
-    var type: String? = null
+    lateinit var type: String
     private var lastVisible: DocumentSnapshot? = null
     private lateinit var binding: FragmentBoardBinding
     var currentTask : Task<*>? = null  // task 진행 유무 판단용
@@ -50,6 +49,8 @@ class BoardFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareUi()
+
+        type = getString(R.string.free_board)
         context?.apply {
             if (isUser()) binding.fabWriteBoard.setOnClickListener { _ ->
                 afterCheckLoginDo { activity?.startActivityForResult(Intent(context, BoardWriteActivity::class.java), RequestCode.OBJECT_ADD.value) }
@@ -73,7 +74,7 @@ class BoardFragment : BaseFragment() {
         RxBus.listen(ActivityResultEvent::class.java).subscribe { activityResultEvent ->
             activityResultEvent?.apply {
                 if (requestCode == RequestCode.OBJECT_ADD.value && resultCode == Activity.RESULT_OK) {
-                    type?.let { setAdapter(it) }
+                    setAdapter(type)
                 }
             }
         }.apply { context?.disposables?.add(this) }
@@ -238,7 +239,7 @@ class BoardFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         // default
-        setAdapter(getString(R.string.hot_board))
+        setAdapter(type)
     }
 
 }
