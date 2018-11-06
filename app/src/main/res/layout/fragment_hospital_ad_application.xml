@@ -42,8 +42,8 @@
 
                     <Button
                         android:id="@+id/btnSelectMyEvent"
-                        android:layout_width="130dp"
-                        android:layout_height="25dp"
+                        android:layout_width="120dp"
+                        android:layout_height="35dp"
                         android:background="@color/colorMain"
                         android:text="@string/select_my_event"
                         android:textColor="@color/white"
@@ -58,7 +58,7 @@
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/layoutUploadPhoto"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="200dp"
                     android:layout_marginTop="5dp">
 
                     <ImageView

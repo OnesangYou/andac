@@ -150,7 +150,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/colorMain"
                 android:lineSpacingExtra="5dp"
-                android:text="@string/apply_for_main_todays_hospital_ad"
+                android:text="@string/apply_for_login_banner_ad"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -168,7 +168,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/login_banner_ad_description"
+                android:text="@string/search_hospital_banner_ad_context"
                 android:textColor="@color/black"
                 android:textSize="13sp" />
 
@@ -179,7 +179,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/colorMain"
                 android:lineSpacingExtra="5dp"
-                android:text="[병원 찾기 배너 광고] 신청하기"
+                android:text="[병원 찾기 울트라 광고] 신청하기"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </LinearLayout>

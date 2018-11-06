@@ -144,7 +144,8 @@
     <string name="column_management">컬럼 관리</string>
     <string name="andac_notice">안닥 공지사항</string>
     <string name="more_notice">공지 더보기</string>
-    <string name="search_hospital_banner_ad">5. 병원 찾기 배너 광고</string>
+    <string name="search_hospital_banner_ad">5. 병원 찾기 울트라 광고</string>
+    <string name="search_hospital_banner_ad_context">병원찾기 최 상단에 표시되는 울트라광고입니다.\n병원찾기 화면 최 상단에 내 병원 리스트가 고정됩니다. </string>
     <string name="eye_test_success">모두 정답입니다.</string>
     <string name="eye_test_failure">%1$d개 틀렸습니다.\n지속적인 오답발생시 가까운 병원을 방문해주세요.</string>
 </resources>
