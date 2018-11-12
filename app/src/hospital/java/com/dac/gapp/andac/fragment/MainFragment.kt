@@ -114,7 +114,6 @@ class MainFragment : BaseFragment() {
     private fun prepareUi() {
         context?.let { context ->
             context.setActionBarLeftImage(R.drawable.mypage)
-            context.setActionBarCenterImage(R.drawable.andac_font)
             context.setActionBarRightImage(R.drawable.bell)
             context.setOnActionBarLeftClickListener(View.OnClickListener {
                 // 로그인 상태 체크

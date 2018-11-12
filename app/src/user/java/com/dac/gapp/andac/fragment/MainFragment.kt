@@ -72,7 +72,6 @@ class MainFragment : BaseFragment() {
         binding = getBinding()
         context?.let { context ->
             context.setActionBarLeftImage(R.drawable.mypage)
-            context.setActionBarCenterImage(R.drawable.andac_font)
             context.setActionBarRightImage(R.drawable.bell)
             context.setOnActionBarLeftClickListener(View.OnClickListener {
                 context.afterCheckLoginDo { startActivity(Intent(context, MyPageActivity::class.java)) }

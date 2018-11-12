@@ -32,7 +32,6 @@ class BoardTextSearchActivity : BaseActivity() {
 
     private fun prepareUI() {
         setActionBarLeftImage(R.drawable.back)
-        setActionBarCenterImage(R.drawable.andac_font)
         setOnActionBarLeftClickListener(View.OnClickListener {
             finish()
         })

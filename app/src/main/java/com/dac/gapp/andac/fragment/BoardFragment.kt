@@ -105,7 +105,6 @@ class BoardFragment : BaseFragment() {
         binding = getBinding()
         context?.let { context ->
             context.setActionBarLeftImage(R.drawable.mypage)
-            context.setActionBarCenterImage(R.drawable.andac_font)
             context.setActionBarRightImage(R.drawable.finder)
             context.setOnActionBarLeftClickListener(View.OnClickListener {
                 // 로그인 상태 체크
