@@ -71,6 +71,7 @@
                 android:text="Email 찾기"
                 android:textColor="@color/colorMain"
                 android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/goToJoin"
                 app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
 
@@ -83,6 +84,8 @@
                 android:text="PW 찾기"
                 android:textColor="@color/colorMain"
                 android:textSize="13dp"
+                app:layout_constraintBottom_toBottomOf="@+id/findIdBtn"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/findIdBtn"
                 app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
 
@@ -93,8 +96,8 @@
                 android:layout_marginTop="17dp"
                 android:text="회원이 아니세요?"
                 android:textColor="@color/gray"
-                android:textSize="13dp"
-                android:textStyle="bold"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
 
@@ -102,16 +105,15 @@
                 android:id="@+id/goToJoin"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="160dp"
+                android:layout_marginEnd="20dp"
                 android:background="@color/non"
                 android:text="회원가입"
                 android:textColor="@color/colorMain"
                 android:textSize="13dp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/join_text"
-                app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+                app:layout_constraintBottom_toBottomOf="@+id/join_text"
+                app:layout_constraintEnd_toStartOf="@+id/findIdBtn"
+                app:layout_constraintStart_toEndOf="@+id/join_text" />
 
         </android.support.constraint.ConstraintLayout>
 

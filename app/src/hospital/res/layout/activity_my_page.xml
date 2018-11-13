@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:background="@color/non"
-                    android:text="안닥 공지사항"
+                    android:text="공지사항"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="15dp"

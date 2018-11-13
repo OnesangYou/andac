@@ -107,6 +107,7 @@
         </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
@@ -123,10 +124,12 @@
                 android:text="시력을 설정해주세요"
                 android:textColor="@color/black"
                 android:textSize="15dp"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
 
             <android.support.constraint.ConstraintLayout
+                android:visibility="gone"
                 android:id="@+id/numberpic_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -193,7 +196,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="7dp"
                 android:backgroundTint="@color/non"
-                android:hint="앓았던 안과질환을 입력해주세요."
+                android:hint="@string/consulting_1"
                 android:textSize="@dimen/_15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -215,7 +218,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="7dp"
                 android:backgroundTint="@color/non"
-                android:hint="신청인 이름을 입력해주세요."
+                android:hint="신청인 이름을 입력해주세요"
                 android:textSize="@dimen/_15sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view3" />
@@ -227,7 +230,7 @@
                 android:layout_marginEnd="16dp"
                 android:inputType="number"
                 android:backgroundTint="@color/non"
-                android:hint="나이를 입력해주세요."
+                android:hint="나이를 입력해주세요"
                 android:textSize="@dimen/_15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/nameEdit"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -287,7 +290,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="7dp"
                 android:backgroundTint="@color/non"
-                android:hint="상담신청서 본문 내용을 작성해 주세요."
+                android:hint="상담신청서 본문 내용을 작성해 주세요"
                 android:inputType="textMultiLine"
                 android:textSize="@dimen/_15sp"
                 app:layout_constraintEnd_toEndOf="parent"
