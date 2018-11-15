@@ -25,7 +25,11 @@ class FcmReciveService : FirebaseMessagingService() {
         // Check if message contains a data payload.
         if (message.data.isNotEmpty()) {
             Timber.d("Message data payload: " + message.data)
-            showNotification(message)
+            when(message.data["type"]){
+                "chat" ->showNotification(message)
+                else -> Timber.d("testtesttest")
+            }
+//            showNotification(message)
         }
     }
 
@@ -37,8 +41,8 @@ class FcmReciveService : FirebaseMessagingService() {
 
         val mBuilder = NotificationCompat.Builder(this, "notice")
                 .setSmallIcon(R.drawable.andac_logo)
-                .setContentTitle(message.data.get("title"))
-                .setContentText(message.data.get("content"))
+                .setContentTitle(message.data["title"])
+                .setContentText(message.data["content"])
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)

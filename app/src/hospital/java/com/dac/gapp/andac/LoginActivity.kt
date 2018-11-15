@@ -97,12 +97,14 @@ class LoginActivity : BaseHospitalActivity() {
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if(currentUser != null){
+            Timber.d("token 들어옴11")
             // 폰번호 인증
             if(!isExistPhoneNumber()){
                 startActivity<JoinPhoneActivity>()
                 return
             }
 
+            Timber.d("token 들어옴??")
             // 관리자 승인 확인
             onCheckApproval { isCheck ->
                 if (isCheck) {
@@ -110,6 +112,7 @@ class LoginActivity : BaseHospitalActivity() {
                     toast(getString(R.string.successLogin))
                     val fcmInstanceIdService = FcmInstanceIdService()
                     val token = fcmInstanceIdService.getToken()
+                    Timber.d("token::$token")
                     FirebaseAuth.getInstance().uid?.apply {
                         FirebaseFirestore.getInstance().collection("token").document(this).set(token)
                     }
@@ -122,6 +125,10 @@ class LoginActivity : BaseHospitalActivity() {
             }
         }
         else {
+            Timber.d("token::$token")
+            FirebaseAuth.getInstance().uid?.apply {
+                FirebaseFirestore.getInstance().collection("token").document(this).set(token)
+            }
             hideProgressDialog()
         }
     }

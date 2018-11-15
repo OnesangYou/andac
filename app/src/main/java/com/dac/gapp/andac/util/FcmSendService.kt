@@ -1,26 +1,10 @@
 package com.dac.gapp.andac.util
 
-import com.dac.gapp.andac.BuildConfig
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 
-package com.teamcore.android.core.Util
-
-import com.teamcore.android.core.BuildConfig
-import com.teamcore.android.core.Entity.User
-import com.teamcore.android.core.R
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-
-import org.json.JSONObject
-
-import java.io.OutputStream
-import java.net.HttpURLConnection
-import java.net.URL
 
 /**
  * Created by Administrator on 2018-02-21.
@@ -29,14 +13,13 @@ import java.net.URL
 object FirebaseSendPushMsg {
 
     private val FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send"
-    private val SERVER_KEY = BuildConfig.SERVER_KEY
+    private val SERVER_KEY = "AAAAMPYlx1I:APA91bFoLD-KA-JkU6e1sCL_JpgtUoRX-CezOZkKR6NG3i5hlNNEliWNSHAHaVsl3hDXm49QqHLDn_Q4YIpgQxriRduf9acm4GExOAwokorDjak8PnOB06qnZ7BCQ27KbEbry4BlpzXE"
 
 
-    fun sendPostToFCM(type: String, targetUuid: String, name: String, message: String) {
+    fun sendPostToFCM(type: String, targetUuid: String, message: String) {
 
-        FirebaseFirestore.getInstance().collection("token").document(targetUuid).get().addOnCompleteListener {
-
-            val user = dataSnapshot.getValue(User::class.java)
+        FirebaseFirestore.getInstance().collection("token").document(targetUuid).get().addOnSuccessListener {
+            it.get("token")
             Thread(Runnable {
                 try {
                     // FMC 메시지 생성 start
@@ -47,10 +30,9 @@ object FirebaseSendPushMsg {
                     //notification.put("title", currentUserNick);
                     data.put("message", message)
                     data.put("type", type)
-                    data.put("nick", currentUserNick)
                     root.put("data", data)
+                    root.put("to", it.get("token"))
                     //root.put("notification", notification);
-                    root.put("to", user.getToken())
                     // FMC 메시지 생성 end
 
                     val Url = URL(FCM_MESSAGE_URL)
