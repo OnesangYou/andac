@@ -11,6 +11,7 @@ import com.dac.gapp.andac.enums.AdCountType
 import com.dac.gapp.andac.extension.loadImageAny
 import com.dac.gapp.andac.extension.random
 import com.dac.gapp.andac.model.firebase.AdInfo
+import com.dac.gapp.andac.util.FcmInstanceIdService
 import com.dac.gapp.andac.util.Preference
 import com.dac.gapp.andac.util.UiUtil.Companion.getMessageFromAuthException
 import com.google.firebase.auth.FirebaseAuth
@@ -58,6 +59,8 @@ open class LoginActivity : BaseLoginActivity() {
                 if (!it.result) throw IllegalStateException("유저 회원가입이 안된 Email 입니다")
                 mAuth?.signInWithEmailAndPassword(binding.emailEdit.text.toString(), binding.passwordLoginEdit.text.toString())
             }.addOnSuccessListener {
+                val fids = FcmInstanceIdService()
+                fids.onTokenRefresh()
                 // Sign in success, update UI with the signed-in user's information
                 Timber.tag(KBJ).d("signInWithEmail:success")
                 val user = it.user

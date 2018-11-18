@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.dac.gapp.andac.base.BaseActivity
+import com.dac.gapp.andac.util.FcmInstanceIdService
 import com.dac.gapp.andac.util.MyToast
 import com.dac.gapp.andac.util.RemoteConfig
 import com.gun0912.tedpermission.PermissionListener
@@ -15,6 +16,10 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         checkGooglePlayServices()
+
+        val fids = FcmInstanceIdService()
+        fids.onTokenRefresh()
+
         RemoteConfig.init().addOnSuccessListener {
             TedPermission.with(this)
                     .setPermissionListener(object : PermissionListener {

@@ -16,9 +16,13 @@ class FcmInstanceIdService : FirebaseInstanceIdService() {
         FirebaseInstanceId.getInstance().token?.apply {
             newToken =this
         }
+        sendToken()
     }
 
-    fun getToken() : String{
-        return newToken
+    fun sendToken() {
+        FirebaseAuth.getInstance().uid?.apply {
+            FirebaseFirestore.getInstance().collection("token").document(this).set(newToken)
+        }
+        Timber.d("Token:${newToken}")
     }
 }

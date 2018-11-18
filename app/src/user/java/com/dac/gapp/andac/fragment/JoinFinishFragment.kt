@@ -10,6 +10,10 @@ import android.view.ViewGroup
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentJoinFinishBinding
+import com.dac.gapp.andac.util.FcmInstanceIdService
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import timber.log.Timber
 
 
 /**
@@ -28,6 +32,8 @@ class JoinFinishFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = getBinding()
 
+        val fids = FcmInstanceIdService()
+        fids.onTokenRefresh()
         binding.mainBtn.setOnClickListener {
             context?.finish()
         }
