@@ -17,15 +17,13 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         checkGooglePlayServices()
 
-        val fids = FcmInstanceIdService()
-        fids.onTokenRefresh()
-
         RemoteConfig.init().addOnSuccessListener {
             TedPermission.with(this)
                     .setPermissionListener(object : PermissionListener {
                         override fun onPermissionGranted() {
                             checkMarketVersion {
                                 startActivity(Intent(thisActivity(), LoginActivity::class.java))
+
                                 finish()
                             }
                         }

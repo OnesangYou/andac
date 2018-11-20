@@ -19,7 +19,7 @@ object FirebaseSendPushMsg {
     fun sendPostToFCM(type: String, targetUuid: String, message: String) {
 
         FirebaseFirestore.getInstance().collection("token").document(targetUuid).get().addOnSuccessListener {
-            it.get("token")
+            it.get("value")
             Thread(Runnable {
                 try {
                     // FMC 메시지 생성 start
@@ -31,7 +31,7 @@ object FirebaseSendPushMsg {
                     data.put("message", message)
                     data.put("type", type)
                     root.put("data", data)
-                    root.put("to", it.get("token"))
+                    root.put("to", it.get("value"))
                     //root.put("notification", notification);
                     // FMC 메시지 생성 end
 

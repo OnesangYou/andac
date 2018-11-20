@@ -5,23 +5,26 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
 import timber.log.Timber
+import java.util.stream.Collectors.toMap
 
 class FcmInstanceIdService : FirebaseInstanceIdService() {
 
-    lateinit var newToken :String
     override fun onTokenRefresh() {
         Timber.e("진입")
         super.onTokenRefresh()
 
         FirebaseInstanceId.getInstance().token?.apply {
-            newToken =this
+            sendToken(this)
         }
-        sendToken()
+
     }
 
-    fun sendToken() {
+    private fun sendToken(newToken:String) {
+        val token = HashMap<String,Any>()
         FirebaseAuth.getInstance().uid?.apply {
-            FirebaseFirestore.getInstance().collection("token").document(this).set(newToken)
+
+            token["value"] = newToken
+            FirebaseFirestore.getInstance().collection("token").document(this).set(token)
         }
         Timber.d("Token:${newToken}")
     }

@@ -35,6 +35,10 @@ open class LoginActivity : BaseLoginActivity() {
 
         prepareUi()
 
+
+        val fids = FcmInstanceIdService()
+        fids.onTokenRefresh()
+
         binding.goToJoin.setOnClickListener { _ ->
             startActivity(Intent(this@LoginActivity, JoinActivity::class.java))
         }

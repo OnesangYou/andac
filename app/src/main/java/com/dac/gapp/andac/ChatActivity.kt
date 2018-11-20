@@ -13,6 +13,7 @@ import com.dac.gapp.andac.databinding.ActivityChatBinding
 import com.dac.gapp.andac.model.firebase.ChatItem
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.UserInfo
+import com.dac.gapp.andac.util.FirebaseSendPushMsg
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
@@ -61,6 +62,13 @@ class ChatActivity : BaseActivity() {
             val msg = binding.etMessage.text.toString()
             if (!TextUtils.isEmpty(msg)) {
                 db.collection("chat").document(roomId).collection("list").add(ChatItem(mUid, msg))
+                        .addOnCompleteListener {
+                            if(isUser()){
+                                FirebaseSendPushMsg.sendPostToFCM("chat",hUid,"메시지")
+                            }else{
+                                FirebaseSendPushMsg.sendPostToFCM("chat",uUid,"메시지")
+                            }
+                        }
                 db.collection("chatList").document(uUid).collection("attendants").document(hUid).update("lastchat", msg)
                 db.collection("chatList").document(hUid).collection("attendants").document(uUid).update("lastchat", msg)
                 binding.etMessage.text = null

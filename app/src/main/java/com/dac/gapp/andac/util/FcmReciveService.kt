@@ -41,8 +41,8 @@ class FcmReciveService : FirebaseMessagingService() {
 
         val mBuilder = NotificationCompat.Builder(this, "notice")
                 .setSmallIcon(R.drawable.andac_logo)
-                .setContentTitle(message.data["title"])
-                .setContentText(message.data["content"])
+                .setContentTitle(message.data["type"])
+                .setContentText(message.data["message"])
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
