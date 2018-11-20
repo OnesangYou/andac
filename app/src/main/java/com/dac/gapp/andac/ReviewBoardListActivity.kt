@@ -108,6 +108,7 @@ class ReviewBoardListActivity : BaseActivity() {
         hospitalInfoMap.clear()
         likeSet.clear()
         lastVisible = null
+        isListEmpty = false
     }
 
     private fun addDataToRecycler(type: String, hospitalId : String) {

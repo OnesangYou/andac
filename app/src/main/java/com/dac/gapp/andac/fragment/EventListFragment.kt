@@ -53,6 +53,7 @@ class EventListFragment : BaseFragment() {
         prepareUi()
         type = getString(R.string.popular_order)
         lastVisible = null
+        isListEmpty = false
 
         // set recyclerView
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -126,6 +127,7 @@ class EventListFragment : BaseFragment() {
 
         // reset data
         lastVisible = null
+        isListEmpty = false
 
         // add Data
         addDataToRecycler(type, direction, tag)

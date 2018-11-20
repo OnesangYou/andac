@@ -113,6 +113,7 @@ class HospitalEventListActivity : BaseActivity() {
         list.clear()
         map.clear()
         lastVisible = null
+        isListEmpty = false
     }
 
     private fun addDataToRecycler() {

@@ -79,7 +79,6 @@ class MainFragment : BaseFragment() {
     private fun setAdapter() {
         (context as MainActivity).apply {
 
-            showProgressDialog()
             getColumns()
                     .whereEqualTo("approval", true) // 승인된 컬럼만 보임
                     .orderBy("writeDate", Query.Direction.DESCENDING).limit(4).get().addOnSuccessListener { querySnapshot ->
