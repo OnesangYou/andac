@@ -45,7 +45,7 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/buttonstyle2"
-                    android:text="안닥제휴 계약서보기"
+                    android:text="@string/login_4"
                     android:textColor="@color/white"
                     android:textSize="15dp"
                     android:textStyle="bold"
@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:text="안닥관리자가 병원정보 확인을 위하여 전화연결을 드립니다"
+                    android:text="관리자가 병원정보 확인을 위하여 전화연결을 드립니다"
                     android:textColor="@color/white"
                     android:textSize="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
                     android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="안닥관리자의 확인전에는 병원계정사용에 제약을 받습니다"
+                    android:text="관리자의 확인전에는 병원계정사용에 제약을 받습니다"
                     android:textColor="@color/white"
                     android:textSize="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:text="안닥바로 실행하기"
+                android:text="@string/login_5"
                 android:textColor="@color/colorMain" />
 
         </LinearLayout>

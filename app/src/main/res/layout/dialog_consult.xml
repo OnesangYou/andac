@@ -57,9 +57,12 @@
             app:layout_constraintBottom_toBottomOf="@+id/txtviwDashboard"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toEndOf="@+id/txtviwDashboard"
-            app:layout_constraintTop_toTopOf="@+id/txtviwDashboard" />
+            app:layout_constraintTop_toTopOf="@+id/txtviwDashboard"
+            />
 
         <TextView
+            android:visibility="gone"
+
             android:id="@+id/leftVisionLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,6 +75,8 @@
             app:layout_constraintTop_toBottomOf="@+id/txtviwDashboard" />
 
         <TextView
+            android:visibility="gone"
+
             android:id="@+id/leftVisionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,6 +90,8 @@
             app:layout_constraintTop_toTopOf="@+id/leftVisionLabel" />
 
         <TextView
+            android:visibility="gone"
+
             android:id="@+id/rightVisionLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,6 +104,8 @@
             app:layout_constraintTop_toBottomOf="@+id/leftVisionLabel" />
 
         <TextView
+            android:visibility="gone"
+
             android:id="@+id/rightVisionText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

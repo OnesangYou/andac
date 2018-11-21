@@ -155,6 +155,13 @@
     <string name="join_finish_1">1:1 눈관리 주치의 안닥으로</string>
     <string name="join_finish_2">오늘부터 당신의 눈건강을 지키세요</string>
     <string name="join_info_1">안닥은 개인정보 보호법을 준수합니다.</string>
+    <string name="login_1">병원 관리자님,\nANDAC이 처음이세요?</string>
+    <string name="login_2">회원가입전, 안닥리스트에 병원이\n등재되어 있는지 확인하세요.</string>
+    <string name="login_3">안닥리스트 확인 후 회원가입</string>
+    <string name="login_4">안닥제휴 계약서 보기</string>
+    <string name="login_5">안닥바로 실행하기</string>
+
+
 
 </resources>
 
