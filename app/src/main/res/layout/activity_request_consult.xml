@@ -107,7 +107,6 @@
         </LinearLayout>
 
             <View
-                android:visibility="gone"
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
@@ -124,12 +123,10 @@
                 android:text="시력을 설정해주세요"
                 android:textColor="@color/black"
                 android:textSize="15dp"
-                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
 
             <android.support.constraint.ConstraintLayout
-                android:visibility="gone"
                 android:id="@+id/numberpic_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
