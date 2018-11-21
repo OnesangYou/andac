@@ -19,7 +19,7 @@ import java.util.*
 
 class ConsultBoardFragmentForList : BaseFragment() {
     var title: String = ""
-    var datalist: ArrayList<OpenConsultInfo> = ArrayList()
+    private var datalist: ArrayList<OpenConsultInfo> = ArrayList()
     private lateinit var binding: FragmentConsultBoardListBinding
 
     // static method
@@ -51,30 +51,32 @@ class ConsultBoardFragmentForList : BaseFragment() {
         }
     }
 
-    fun openData() {
+    private fun openData() {
         context?.apply {
             showProgressDialog()
-            getOpenConsults().orderBy("writeDate", Query.Direction.DESCENDING).get().continueWithTask {
-                Tasks.whenAll(
-                    it.result.toObjects(ConsultInfo::class.java).mapNotNull{consultInfo ->
-                        getUserInfo(consultInfo.userId)?.continueWith {
-                            datalist.add(OpenConsultInfo(
-                                    user = it.result,
-                                    createdTime = consultInfo.writeDate,
-                                    uUid = consultInfo.userId,
-                                    isOpen = true
-                            ))
-                            binding.recyclerView.adapter?.notifyDataSetChanged()
-                        }
+            getOpenConsults().orderBy("writeDate", Query.Direction.DESCENDING).get().continueWithTask { task ->
+                task.result.toObjects(ConsultInfo::class.java).mapNotNull{consultInfo ->
+                    getUserInfo(consultInfo.userId)?.continueWith {
+                        OpenConsultInfo(
+                                user = it.result,
+                                createdTime = consultInfo.writeDate,
+                                uUid = consultInfo.userId,
+                                isOpen = true
+                        )
                     }
-                )
+                }.let { Tasks.whenAllSuccess<OpenConsultInfo>(it) }
             }
+                    .addOnSuccessListener { list ->
+                        list.let {
+                        datalist.addAll(it)
+                        binding.recyclerView.adapter?.notifyDataSetChanged()
+                    } }
                     .addOnCompleteListener { hideProgressDialog() }
         }
 
     }
 
-    fun selectData(status : String = ConsultStatus.APPLY.value) {
+    private fun selectData(status : String = ConsultStatus.APPLY.value) {
         val uid = getUid() ?: return
 
         context?.apply {
@@ -82,9 +84,9 @@ class ConsultBoardFragmentForList : BaseFragment() {
             getSelectConsults()
                     .whereEqualTo(if(isUser()) "userId" else "hospitalId", uid)
                     .whereEqualTo("status", status)
-                    .orderBy("writeDate", Query.Direction.DESCENDING).get().continueWithTask {
+                    .orderBy("writeDate", Query.Direction.DESCENDING).get().continueWithTask { task ->
 
-                        val consultInfos =  it.result.toObjects(ConsultInfo::class.java)
+                        val consultInfos =  task.result.toObjects(ConsultInfo::class.java)
 
                         consultInfos.mapNotNull {consultInfo ->
                             val openConsultInfo = OpenConsultInfo(
@@ -95,27 +97,13 @@ class ConsultBoardFragmentForList : BaseFragment() {
                             Tasks.whenAll(
                                     getHospitalInfo(consultInfo.hospitalId)?.continueWith { openConsultInfo.hospital = it.result },
                                     getUserInfo(consultInfo.userId)?.continueWith { openConsultInfo.user = it.result }
-                            )?.continueWith {
-                                datalist.add(openConsultInfo)
-                                binding.recyclerView.adapter?.notifyDataSetChanged()
-                            }
-                        }.let { Tasks.whenAll(it) }
-
-//                Tasks.whenAll(
-//                        it.result.toObjects(ConsultInfo::class.java).mapNotNull{consultInfo ->
-//                            getUserInfo(consultInfo.userId)?.continueWith {
-//                                datalist.add(OpenConsultInfo(
-//                                        user = it.result,
-//                                        createdTime = consultInfo.writeDate,
-//                                        uUid = consultInfo.userId,
-//                                        hUid = if(isHospital()) uid else consultInfo.hospitalId,
-//                                        isOpen = false
-//                                ))
-//                                binding.recyclerView.adapter.notifyDataSetChanged()
-//                            }
-//                        }
-//                )
-            }
+                            ).continueWith { openConsultInfo }
+                        }.let { Tasks.whenAllSuccess<OpenConsultInfo>(it) }
+                    }
+                    .addOnSuccessListener {
+                        datalist.addAll(it)
+                        binding.recyclerView.adapter?.notifyDataSetChanged()
+                    }
                     .addOnCompleteListener { hideProgressDialog() }
         }
     }
