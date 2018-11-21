@@ -54,7 +54,7 @@ class ConsultBoardFragmentForList : BaseFragment() {
     fun openData() {
         context?.apply {
             showProgressDialog()
-            getOpenConsults().get().continueWithTask {
+            getOpenConsults().orderBy("writeDate", Query.Direction.DESCENDING).get().continueWithTask {
                 Tasks.whenAll(
                     it.result.toObjects(ConsultInfo::class.java).mapNotNull{consultInfo ->
                         getUserInfo(consultInfo.userId)?.continueWith {
