@@ -102,6 +102,7 @@ class HospitalEventApplicantListActivity : BaseActivity() {
     private fun resetData() {
         list.clear()
         lastVisible = null
+        isListEmpty = false
     }
 
     private fun addDataToRecycler() {

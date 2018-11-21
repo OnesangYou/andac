@@ -61,6 +61,7 @@ class BoardFragment : BaseFragment() {
         }
 
         lastVisible = null
+        isListEmpty = false
 
         // set recyclerView
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -127,6 +128,7 @@ class BoardFragment : BaseFragment() {
 
         // reset data
         lastVisible = null
+        isListEmpty = false
 
         // add Data
         addDataToRecycler(type)
