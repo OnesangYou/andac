@@ -32,7 +32,7 @@ class UiUtil {
 
         val AdminEmail = "ndactor123@gmail.com"
 
-        val ScrollRefreshTriggerRatio = 0.6
+        val ScrollRefreshTriggerRatio = 0.3
     }
 
 }

@@ -3,6 +3,7 @@ package com.dac.gapp.andac
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import android.widget.RadioButton
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.databinding.ActivityEventWriteBinding
@@ -87,14 +88,10 @@ class EventWriteActivity : BaseActivity() {
         }
 
         // Type
-        binding.radioGroupType.setOnCheckedChangeListener{ _, id ->
-            when(id) {
-                R.id.lasik -> eventInfo.tag = getString(R.string.lasik)
-                R.id.insertLens -> eventInfo.tag = getString(R.string.insertLens)
-                R.id.cataract -> eventInfo.tag = getString(R.string.cataract)
-                R.id.presbyopia -> eventInfo.tag = getString(R.string.presbyopia)
-                R.id.eyeDisease -> eventInfo.tag = getString(R.string.eyeDisease)
-            }
+        binding.radioGroupType.setOnCheckedChangeListener{ _, _ ->
+            val id: Int = binding.radioGroupType.checkedRadioButtonId
+            val radio: RadioButton = findViewById(id)
+            eventInfo.tag = radio.tag.toString()
         }
 
         // Upload
@@ -172,7 +169,11 @@ class EventWriteActivity : BaseActivity() {
     private fun showDeleteEventDialog(objectId : String) = getEvent(objectId)?.let{ showDeleteObjectDialog(objectTypeStr, it) }
 
     private fun validate() : Boolean {
-        
+        check(binding.radioGroupType.checkedRadioButtonId != -1){
+            toast("태그를 선택하세요")
+            return false
+        }
+
         if(binding.titleText.text.isBlank()) {
             toast("제목을 입력하세요")
             return false

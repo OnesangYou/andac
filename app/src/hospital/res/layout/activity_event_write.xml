@@ -77,7 +77,6 @@
                             android:layout_height="65dp"
                             android:background="@drawable/request_lasiclasex_btn"
                             android:button="@null"
-                            android:checked="true"
                             android:gravity="center"
                             android:tag="@string/lasik" />
 

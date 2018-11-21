@@ -178,6 +178,11 @@ class RequestConsultActivity : BaseActivity() {
     fun onClickOpen(view: View) {
         Timber.d("Open")
 
+        check(radiogroup_tag.checkedRadioButtonId != -1) {
+            toast("태그를 선택하세요")
+            return
+        }
+
         // 유효성 검사
         arrayOf(diseaseEdit, nameEdit, phoneEdit, insert_text_Edit, oldEdit).forEach {
             if(it.text.isBlank()) return toast(it.hint)
