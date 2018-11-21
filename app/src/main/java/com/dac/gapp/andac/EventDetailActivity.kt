@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_event.*
 import kotlinx.android.synthetic.main.event_request_dialog.view.*
+import org.jetbrains.anko.startActivity
 import java.sql.Time
 import java.text.DateFormat
 import java.util.*
@@ -185,6 +186,10 @@ class EventDetailActivity : BaseActivity() {
                                     }
                                     .show()
                         }
+
+                        eventPolicyBtn.setOnClickListener {
+                            context?.startActivity<TermsActivity>("policyFile" to "andac_personal_information_policy_event.txt")
+                        }
                     }
 
             builder.setView(dialogView)
@@ -192,7 +197,7 @@ class EventDetailActivity : BaseActivity() {
                     .setNegativeButton("취소", null).create()
                     .also {dialog ->
                         // 확인 버튼을 눌러도 닫히지 않도록
-                        dialog.setOnShowListener{
+                        dialog.setOnShowListener{ it ->
                             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { _ ->
                                 if(!dialogView.agreePersonalInfoCheckBox.isChecked) {
                                     toast("개인정보 이용 동의하지 않으면 신청 불가능합니다")

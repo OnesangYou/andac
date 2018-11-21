@@ -61,5 +61,10 @@ class MyPageActivity : BaseHospitalActivity() {
 
         // 문의
         binding.questionText.setOnClickListener { sendMail() }
+
+        // 약관
+        binding.termsBtn.setOnClickListener {
+            startActivity<TermsActivity>("policyFile" to "andac_service_term.txt")
+        }
     }
 }

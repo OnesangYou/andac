@@ -160,7 +160,7 @@
     <string name="login_3">안닥리스트 확인 후 회원가입</string>
     <string name="login_4">안닥제휴 계약서 보기</string>
     <string name="login_5">안닥바로 실행하기</string>
-
+    <string name="title_activity_terms">TermsActivity</string>
 
 
 </resources>

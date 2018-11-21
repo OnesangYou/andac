@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.dac.gapp.andac.NoticeActivity
 import com.dac.gapp.andac.R
+import com.dac.gapp.andac.TermsActivity
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentAccountSettingBinding
 import com.google.firebase.firestore.SetOptions
@@ -54,6 +55,12 @@ class AccountSettingFragment : BaseFragment() {
 
         // 문의
         binding.questionText.setOnClickListener { context?.sendMail() }
+
+        // 이용약관
+        binding.termBtn.setOnClickListener { context?.startActivity<TermsActivity>("policyFile" to "andac_service_term.txt") }
+
+        // 개인정보 취급방침
+        binding.privacyPolicyBtn.setOnClickListener { context?.startActivity<TermsActivity>("policyFile" to "andac_privacy_policy.txt") }
     }
 
 }// Required empty public constructor

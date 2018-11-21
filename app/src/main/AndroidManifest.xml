@@ -48,7 +48,8 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".util.FcmInstanceIdService"
+        <service
+            android:name=".util.FcmInstanceIdService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -59,7 +60,10 @@
         <activity android:name=".EventTextSearchActivity" />
         <activity android:name=".ColumnTextSearchActivity" />
         <activity android:name=".ReviewBoardListActivity" />
-        <activity android:name=".FindMailByPhoneActivity"></activity>
+        <activity android:name=".FindMailByPhoneActivity" />
+        <activity
+            android:name=".TermsActivity"
+            android:label="@string/title_activity_terms"></activity>
     </application>
 
 </manifest>
