@@ -84,31 +84,43 @@
                 app:layout_constraintBottom_toBottomOf="@+id/findIdBtn"
                 app:layout_constraintStart_toEndOf="@+id/findIdBtn" />
 
-            <TextView
-                android:id="@+id/join_text"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:layout_marginEnd="8dp"
-                android:text="아직 회원이 아니신가요?"
-                android:textColor="@color/gray"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/goToJoin"
-                app:layout_constraintTop_toBottomOf="@+id/autoLoginCheck" />
-
-            <Button
-                android:id="@+id/goToJoin"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:background="@color/non"
-                android:text="지금 회원가입"
-                android:textColor="@color/colorMain"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/join_text"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/join_text" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/autoLoginCheck">
+
+                <TextView
+                    android:id="@+id/join_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="아직 회원이 아니신가요?"
+                    android:textColor="@color/gray"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/goToJoin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@color/non"
+                    android:text="지금 회원가입"
+                    android:textColor="@color/colorMain"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/join_text"
+                    app:layout_constraintStart_toEndOf="@+id/join_text"
+                    app:layout_constraintTop_toTopOf="@+id/join_text" />
+
+            </android.support.constraint.ConstraintLayout>
+
 
             <CheckBox
                 android:id="@+id/autoLoginCheck"
