@@ -53,6 +53,7 @@ class MainFragment : BaseFragment() {
         binding.myColumnsBtn.setOnClickListener { context?.startActivity<HospitalColumnListActivity>() }
 
         binding.columnList.layoutManager = GridLayoutManager(context, 2)
+        binding.columnList.adapter = ColumnRecyclerAdapter(context?:return, arrayListOf(ColumnInfo(),ColumnInfo(),ColumnInfo(),ColumnInfo()), mapOf())
         setNotice()
         setAdapter()
 

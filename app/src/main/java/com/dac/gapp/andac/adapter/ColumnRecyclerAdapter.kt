@@ -38,6 +38,13 @@ class ColumnRecyclerAdapter
             titleText.text = item.title
             hospitalName.text = hospital?.name
             viewCount.text = item.viewCount.toString()
+            if(hospitalName.text.isNotEmpty()) {
+                viewCount.visibility = View.VISIBLE
+                viewCountLabel.visibility = View.VISIBLE
+            } else {
+                viewCount.visibility = View.INVISIBLE
+                viewCountLabel.visibility = View.INVISIBLE
+            }
             picture.loadImage(item.pictureUrlThumbnail?:item.pictureUrl)
             // 승인, 보류
             if(context is HospitalColumnListActivity) {
@@ -48,8 +55,6 @@ class ColumnRecyclerAdapter
             }
         }
 
-        // Set the view to fade in
-        UiUtil.setFadeAnimation(holder.itemView)
     }
 
     class ColumnHolder(parent: ViewGroup) : AndroidExtensionsViewHolder(
@@ -61,6 +66,7 @@ class ColumnRecyclerAdapter
         val viewCount: TextView = itemView.viewCount
         val layout: ConstraintLayout = itemView.layout
         val approvalText : TextView = itemView.approvalText
+        val viewCountLabel : TextView = itemView.viewCountLabel
     }
 
 }

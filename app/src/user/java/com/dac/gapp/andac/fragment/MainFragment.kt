@@ -168,6 +168,7 @@ class MainFragment : BaseFragment() {
                     }
 
             binding.recyclerviewColumn.layoutManager = GridLayoutManager(context, 2)
+            binding.recyclerviewColumn.adapter = ColumnRecyclerAdapter(context, arrayListOf(ColumnInfo(),ColumnInfo(),ColumnInfo(),ColumnInfo()), mapOf())
             // 인기 칼럼
             setAdapter()
 

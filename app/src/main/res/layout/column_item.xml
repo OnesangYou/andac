@@ -48,11 +48,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="조회수"
+            tools:text="0"
+            android:visibility="invisible"
+            tools:visibility="visible"
             android:textSize="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintBottom_toBottomOf="@+id/viewCountLabel"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView" />
+            app:layout_constraintTop_toTopOf="@+id/viewCountLabel" />
 
         <TextView
             android:id="@+id/hospitalName"
@@ -66,16 +68,18 @@
             android:textSize="10dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/textView"
+            app:layout_constraintEnd_toStartOf="@+id/viewCountLabel"
             app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/viewCountLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:text="조회"
             android:textSize="10dp"
+            android:visibility="invisible"
+            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/hospitalName"
             app:layout_constraintEnd_toStartOf="@+id/viewCount"
             app:layout_constraintTop_toTopOf="@+id/hospitalName" />
