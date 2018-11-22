@@ -16,6 +16,8 @@ import com.dac.gapp.andac.extension.loadImage
 import com.dac.gapp.andac.model.firebase.ColumnInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import kotlinx.android.synthetic.main.column_item.view.*
+import com.dac.gapp.andac.util.UiUtil
+
 
 class ColumnRecyclerAdapter
 (var context : BaseActivity, private var mDataList :List<ColumnInfo>, private var hospitalInfoMap: Map<String, HospitalInfo?>) : RecyclerView.Adapter<ColumnRecyclerAdapter.ColumnHolder>(){
@@ -45,6 +47,9 @@ class ColumnRecyclerAdapter
                 approvalText.visibility = View.GONE
             }
         }
+
+        // Set the view to fade in
+        UiUtil.setFadeAnimation(holder.itemView)
     }
 
     class ColumnHolder(parent: ViewGroup) : AndroidExtensionsViewHolder(

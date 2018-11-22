@@ -1,6 +1,7 @@
 package com.dac.gapp.andac.util
 
 import android.view.View
+import android.view.animation.AlphaAnimation
 import com.google.firebase.auth.*
 
 class UiUtil {
@@ -33,6 +34,14 @@ class UiUtil {
         val AdminEmail = "ndactor123@gmail.com"
 
         val ScrollRefreshTriggerRatio = 0.3
+
+        private val FADE_DURATION : Long = 300
+        fun setFadeAnimation(view: View) {
+            val anim = AlphaAnimation(0.0f, 1.0f)
+            anim.duration = FADE_DURATION
+            view.startAnimation(anim)
+        }
     }
+
 
 }

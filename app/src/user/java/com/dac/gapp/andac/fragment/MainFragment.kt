@@ -213,7 +213,7 @@ class MainFragment : BaseFragment() {
                                     return false
                                 }
                             }
-                            swapAdapter(EventRecyclerAdapter(context, list, map), false)
+                            adapter = EventRecyclerAdapter(context, list, map)
 
                             addOnItemClickListener(object : OnItemClickListener {
                                 override fun onItemClicked(position: Int, view: View) {
@@ -221,7 +221,6 @@ class MainFragment : BaseFragment() {
                                     startActivity(Intent(context, EventDetailActivity::class.java).putExtra(context.OBJECT_KEY, list[position].objectId))
                                 }
                             })
-                            adapter.notifyDataSetChanged()
                         }
                     }
 
@@ -265,18 +264,19 @@ class MainFragment : BaseFragment() {
                                 ?.let { it -> it.map { activity.getColumn(it.id)?.get() } }
                                 .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                                 .onSuccessTask { it ->
-                                    val columnInfos = it?.filterNotNull()?.map { it.toObject(ColumnInfo::class.java)!! }
+                                    val columnInfos = it?.asSequence()?.filterNotNull()?.map { it.toObject(ColumnInfo::class.java)!! }?.toList()
                                     columnInfos?.groupBy { it.writerUid }
                                             ?.map { activity.getHospital(it.key).get() }
                                             .let { Tasks.whenAllSuccess<DocumentSnapshot>(it) }
                                             .addOnSuccessListener { mutableList ->
                                                 mutableList
+                                                        .asSequence()
                                                         .filterNotNull()
                                                         .map { it.id to it.toObject(HospitalInfo::class.java) }
+                                                        .toList()
                                                         .toMap().also { hospitalInfoMap ->
                                                             binding.recyclerviewColumn.apply {
-                                                                swapAdapter(ColumnRecyclerAdapter(activity, columnInfos!!, hospitalInfoMap), false)
-                                                                adapter.notifyDataSetChanged()
+                                                                adapter = ColumnRecyclerAdapter(activity, columnInfos!!, hospitalInfoMap)
                                                                 addOnItemClickListener(object : OnItemClickListener {
                                                                     override fun onItemClicked(position: Int, view: View) {
                                                                         // 디테일
