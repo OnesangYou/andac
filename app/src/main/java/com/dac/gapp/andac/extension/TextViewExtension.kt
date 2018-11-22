@@ -31,7 +31,7 @@ fun TextView.setPrice(price : Int, default : String = "병원문의"){
 
 @BindingAdapter("onlyDate")
 fun TextView.onlyDate(date : Date?){
-    this.text = date?.getDateFormat("YYYY/MM/dd")
+    this.text = date?.getDateFormat("yyyy/MM/dd")
 }
 
 @BindingAdapter("setVision")
