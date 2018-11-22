@@ -50,7 +50,7 @@ class BoardFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         prepareUi()
 
-        type = getString(R.string.free_board)
+        type = getString(R.string.hot_board)
         context?.apply {
             if (isUser()) binding.fabWriteBoard.setOnClickListener { _ ->
                 afterCheckLoginDo { activity?.startActivityForResult(Intent(context, BoardWriteActivity::class.java), RequestCode.OBJECT_ADD.value) }
