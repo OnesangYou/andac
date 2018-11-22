@@ -110,7 +110,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="요청 사항"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorMain"
                     android:textSize="@dimen/_15sp"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toTopOf="@+id/btnConsultingBoard"

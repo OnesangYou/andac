@@ -2,8 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -17,6 +18,35 @@
             android:orientation="vertical"
             android:paddingBottom="10dp"
             android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/ad_manage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="병원 광고 신청내역"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:id="@+id/ad_manage2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="신청한 광고를 확인하고 수정 할 수 있습니다."
+                android:textColor="@color/black"
+                android:textSize="17dp"
+                />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="7dp"
+                android:background="@color/lightgray"
+                app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
             <!-- login banner ad -->
             <LinearLayout
@@ -32,16 +62,16 @@
                     android:layout_marginTop="30dp"
                     android:text="@string/login_banner_ad_days"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/imgviewLoginBannerAd"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="200dp"
                     android:layout_marginTop="5dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/usermain1" />
+                    android:src="@color/white" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -87,6 +117,14 @@
 
                 </android.support.constraint.ConstraintLayout>
 
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
             </LinearLayout>
 
             <!-- main popup ad -->
@@ -103,16 +141,16 @@
                     android:layout_marginTop="30dp"
                     android:text="@string/main_popup_ad_days"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/imgviewMainPopupAd"
                     android:layout_width="match_parent"
-                    android:layout_height="260dp"
+                    android:layout_height="200dp"
                     android:layout_marginTop="5dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/event1" />
+                    android:src="@color/white" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -157,6 +195,13 @@
                         android:textStyle="bold" />
 
                 </android.support.constraint.ConstraintLayout>
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
             </LinearLayout>
 
@@ -174,16 +219,16 @@
                     android:layout_marginTop="30dp"
                     android:text="@string/main_banner_ad_days"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/imgviewMainBannerAd"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="80dp"
                     android:layout_marginTop="5dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ad21" />
+                    android:src="@color/white" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -229,6 +274,14 @@
 
                 </android.support.constraint.ConstraintLayout>
 
+                <View
+                    android:id="@+id/view4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
             </LinearLayout>
 
             <!-- main todays hospital ad -->
@@ -245,16 +298,16 @@
                     android:layout_marginTop="30dp"
                     android:text="@string/main_todays_hosptial_ad_days"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/imgviewMainTodaysHospitalAd"
                     android:layout_width="match_parent"
-                    android:layout_height="260dp"
+                    android:layout_height="200dp"
                     android:layout_marginTop="5dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/event2" />
+                    android:src="@color/white" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -300,6 +353,14 @@
 
                 </android.support.constraint.ConstraintLayout>
 
+                <View
+                    android:id="@+id/view6"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
             </LinearLayout>
 
             <!-- search hospital banner ad -->
@@ -316,16 +377,16 @@
                     android:layout_marginTop="30dp"
                     android:text="@string/search_hosptial_banner_ad_days"
                     android:textColor="@color/black"
-                    android:textSize="15sp"
+                    android:textSize="18dp"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/imgviewSearchHospitalBannerAd"
                     android:layout_width="match_parent"
-                    android:layout_height="260dp"
+                    android:layout_height="200dp"
                     android:layout_marginTop="5dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/event2" />
+                    android:src="@color/white" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -370,6 +431,13 @@
                         android:textStyle="bold" />
 
                 </android.support.constraint.ConstraintLayout>
+                <View
+                    android:id="@+id/view7"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/lightgray"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
             </LinearLayout>
         </LinearLayout>

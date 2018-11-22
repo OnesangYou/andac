@@ -17,7 +17,7 @@
 
             android:background="@color/non"
             android:scaleType="centerCrop"
-            android:src="@drawable/longin_ad_defult"
+            android:src="@color/non"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -50,12 +50,11 @@
                 android:id="@+id/passwordLoginEdit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:ems="10"
                 android:hint="비밀번호를 입력해주세요"
                 android:inputType="textPassword"
                 android:textSize="18dp"
-                app:layout_constraintBottom_toTopOf="@+id/findIdBtn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emailEdit" />
@@ -65,55 +64,62 @@
                 android:id="@+id/findIdBtn"
                 android:layout_width="70dp"
                 android:layout_height="25dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="100dp"
                 android:background="@color/non"
                 android:text="Email 찾기"
                 android:textColor="@color/colorMain"
-                android:textSize="13dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/goToJoin"
-                app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/autoLoginCheck"
+                app:layout_constraintStart_toEndOf="@+id/autoLoginCheck"
+                app:layout_constraintTop_toTopOf="@+id/autoLoginCheck" />
 
             <Button
                 android:id="@+id/findPasswordBtn"
-                android:layout_width="70dp"
+                android:layout_width="60dp"
                 android:layout_height="25dp"
-                android:layout_marginTop="16dp"
                 android:background="@color/non"
                 android:text="PW 찾기"
                 android:textColor="@color/colorMain"
-                android:textSize="13dp"
+                android:textSize="12dp"
                 app:layout_constraintBottom_toBottomOf="@+id/findIdBtn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/findIdBtn"
-                app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+                app:layout_constraintStart_toEndOf="@+id/findIdBtn" />
 
             <TextView
                 android:id="@+id/join_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="17dp"
-                android:text="회원이 아니세요?"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="8dp"
+                android:text="아직 회원이 아니신가요?"
                 android:textColor="@color/gray"
                 android:textSize="15dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/goToJoin"
+                app:layout_constraintTop_toBottomOf="@+id/autoLoginCheck" />
 
             <Button
                 android:id="@+id/goToJoin"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:layout_marginEnd="20dp"
                 android:background="@color/non"
-                android:text="회원가입"
+                android:text="지금 회원가입"
                 android:textColor="@color/colorMain"
-                android:textSize="13dp"
+                android:textSize="15dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/join_text"
-                app:layout_constraintEnd_toStartOf="@+id/findIdBtn"
-                app:layout_constraintStart_toEndOf="@+id/join_text" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/join_text" />
+
+            <CheckBox
+                android:id="@+id/autoLoginCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="자동 로그인"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                app:layout_constraintTop_toBottomOf="@+id/passwordLoginEdit" />
+
 
         </android.support.constraint.ConstraintLayout>
 
@@ -128,16 +134,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
-
-        <CheckBox
-            android:id="@+id/autoLoginCheck"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="자동 로그인"
-            app:layout_constraintStart_toStartOf="@+id/id_pw_box"
-            app:layout_constraintTop_toBottomOf="@+id/id_pw_box" />
+            tools:ignore="MissingConstraints"
+            />
 
 
     </android.support.constraint.ConstraintLayout>
