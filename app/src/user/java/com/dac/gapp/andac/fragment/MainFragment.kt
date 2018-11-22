@@ -70,6 +70,7 @@ class MainFragment : BaseFragment() {
 
     private fun prepareUi() {
         binding = getBinding()
+        binding.imgviewTodaysHospitalAd.loadImageAny(R.drawable.main_todays_hospital_ad)
         context?.let { context ->
             context.setActionBarLeftImage(R.drawable.mypage)
             context.setActionBarRightImage(R.drawable.bell)

@@ -214,7 +214,6 @@
                     android:layout_height="250dp"
                     android:layout_marginTop="8dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/main_todays_hospital_ad"
                     app:layout_constraintDimensionRatio="w,3:2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
