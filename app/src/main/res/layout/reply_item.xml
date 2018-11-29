@@ -16,14 +16,15 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <ImageView
             android:id="@+id/replyImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:scaleType="centerCrop"
             app:imageUrl="@{somebodyInfo.profilePicUrl}"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,17 +36,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
             android:inputType="textMultiLine"
             android:text="@{replyInfo.contents}"
             android:textAlignment="viewStart"
-            android:textSize="17dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/menu"
+            android:textSize="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/replyImage"
-            app:layout_constraintTop_toBottomOf="@+id/writerText" />
+            app:layout_constraintTop_toBottomOf="@+id/replyImage" />
 
         <TextView
             android:id="@+id/writerText"
@@ -57,22 +56,39 @@
             android:maxLines="2"
             android:text="@{somebodyInfo.name}"
             android:textAlignment="viewStart"
-            android:textSize="15dp"
+            android:textSize="14dp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/menu"
             app:layout_constraintStart_toEndOf="@+id/replyImage"
             app:layout_constraintTop_toTopOf="@+id/replyImage" />
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="2018/11/23"
+            android:textSize="12dp"
+            app:layout_constraintStart_toEndOf="@+id/replyImage"
+            app:layout_constraintTop_toBottomOf="@+id/writerText" />
+
         <Button
             android:id="@+id/menu"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/menu_button"
             android:visibility="@{somebodyInfo.isOwner}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="30dp"
+            android:background="@color/verylightgray"
+            app:layout_constraintTop_toBottomOf="@+id/replyText"
+            tools:layout_editor_absoluteX="10dp" />
     </android.support.constraint.ConstraintLayout>
 
 </layout>
