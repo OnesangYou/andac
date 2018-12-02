@@ -12,11 +12,11 @@ import com.dac.gapp.andac.adapter.ReplyRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.extension.loadImage
+import com.dac.gapp.andac.extension.onlyDate
 import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.HospitalInfo
 import com.dac.gapp.andac.model.firebase.ReplyInfo
 import com.dac.gapp.andac.model.firebase.SomebodyInfo
-import com.dac.gapp.andac.util.getFullFormat
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.Query
 import kotlinx.android.synthetic.main.activity_board_detail.*
@@ -39,7 +39,7 @@ class BoardDetailActivity : BaseActivity() {
                 boardInfo.pictureUrls?.forEachIndexed { index, url ->
                     pictureList[index].loadImage(url)
                 }
-                date.text = boardInfo.writeDate?.getFullFormat() ?: ""
+                date.onlyDate(boardInfo.writeDate)
                 replyText.text = "댓글 ${boardInfo.replyCount} 개"
                 likeText.text = "좋아요 ${boardInfo.likeCount} 개"
 
@@ -116,8 +116,12 @@ class BoardDetailActivity : BaseActivity() {
                         }.toList())?.toList()
                 ).addOnSuccessListener { list ->
                     val map = list.toMap()
-                    recyclerView.layoutManager = LinearLayoutManager(this@BoardDetailActivity)
+                    // 리사이클뷰 포커싱 방지
+                    recyclerView.layoutManager = object : LinearLayoutManager(this@BoardDetailActivity) {
+                        override fun canScrollVertically(): Boolean { return false }
+                    }
                     recyclerView.adapter = mutableList?.let { it1 -> ReplyRecyclerAdapter(this@BoardDetailActivity, it1, map) }
+
                 }
             }
         }?.also { addListenerRegistrations(it) }
