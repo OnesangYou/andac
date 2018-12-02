@@ -41,7 +41,6 @@ android {
             debuggable false // BuildConfig.DEBUG
             buildConfigField 'String', 'ALGOLIA_APP_ID', "\"H9Q32H274M\""
             buildConfigField 'String', 'ALGOLIA_SEARCH_API_KEY', "\"96c3b64fabaf0a7bdeca95fd7788ace3\""
-//            signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false // Proguard on/off
@@ -49,6 +48,14 @@ android {
             debuggable true // BuildConfig.DEBUG
             buildConfigField 'String', 'ALGOLIA_APP_ID', "\"VUNTR162M6\""
             buildConfigField 'String', 'ALGOLIA_SEARCH_API_KEY', "\"f8eab63beb88f72136b260ea219aa6a4\""
+        }
+        releaseDebug {
+            minifyEnabled false // Proguard on/off
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true // BuildConfig.DEBUG
+            buildConfigField 'String', 'ALGOLIA_APP_ID', "\"H9Q32H274M\""
+            buildConfigField 'String', 'ALGOLIA_SEARCH_API_KEY', "\"96c3b64fabaf0a7bdeca95fd7788ace3\""
+            signingConfig signingConfigs.release
         }
 
     }
