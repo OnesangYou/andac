@@ -61,7 +61,8 @@ class ConsultBoardFragmentForList : BaseFragment() {
                                 user = it.result,
                                 createdTime = consultInfo.writeDate,
                                 uUid = consultInfo.userId,
-                                isOpen = true
+                                isOpen = true,
+                                name = consultInfo.name
                         )
                     }
                 }.let { Tasks.whenAllSuccess<OpenConsultInfo>(it) }
@@ -93,7 +94,9 @@ class ConsultBoardFragmentForList : BaseFragment() {
                                     createdTime = consultInfo.writeDate,
                                     uUid = consultInfo.userId,
                                     hUid = if(isHospital()) uid else consultInfo.hospitalId,
-                                    isOpen = false)
+                                    isOpen = false,
+                                    name = consultInfo.name
+                            )
                             Tasks.whenAll(
                                     getHospitalInfo(consultInfo.hospitalId)?.continueWith { openConsultInfo.hospital = it.result },
                                     getUserInfo(consultInfo.userId)?.continueWith { openConsultInfo.user = it.result }

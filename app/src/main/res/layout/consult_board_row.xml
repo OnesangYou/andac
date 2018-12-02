@@ -23,7 +23,9 @@
             android:layout_weight="1"
             android:textSize="@dimen/_13sp"
             android:gravity="center"
-            android:text="@{usermodel.createdTime}" />
+            android:text="@{usermodel.createdTime}"
+            tools:text="2018/10/18 09:00"
+            />
 
         <TextView
             android:id="@+id/name"
@@ -32,7 +34,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="@dimen/_13sp"
-            android:text="@{holder.isHospital()? usermodel.user.nickName : usermodel.hospital.name }"/>
+            android:text="@{holder.isHospital()? usermodel.name : usermodel.hospital.name }"
+            tools:text="홍길동"/>
 
         <TextView
             android:id="@+id/phone"
