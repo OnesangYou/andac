@@ -22,16 +22,15 @@
 
     <LinearLayout
 
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:padding="2dp"
-                >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:padding="2dp">
 
 
             <ImageView
@@ -94,7 +93,7 @@
                 android:layout_marginTop="15dp"
                 android:text="@{boardInfo.title}"
                 android:textColor="@color/black"
-                android:textSize="17dp"
+                android:textSize="16dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -109,7 +108,7 @@
                 android:onClick="@{(v) -> holder.goToHospital(v, hospitalInfo)}"
                 android:text="@{hospitalInfo.name}"
                 android:textColor="@color/colorMain"
-                android:textSize="14dp"
+                android:textSize="13.5dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title_text" />
@@ -124,7 +123,7 @@
                 android:inputType="textMultiLine"
                 android:text="@{boardInfo.contents}"
                 android:textColor="@color/black"
-                android:textSize="17dp"
+                android:textSize="15.5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/hospital_hashtag" />
@@ -134,12 +133,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginBottom="1dp"
                 android:text="@{userInfo.nickName}"
                 android:textColor="@color/black"
-                android:textSize="15dp"
+                android:textSize="14.5dp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/date"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toTopOf="@+id/imageView" />
 
@@ -147,20 +144,20 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                app:onlyDate = "@{boardInfo.writeDate}"
+                android:layout_marginTop="1dp"
                 android:textColor="@color/black"
-                tools:text = "2018/10/20"
                 android:textSize="13dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                app:layout_constraintStart_toEndOf="@+id/imageView" />
+                app:layout_constraintStart_toEndOf="@+id/text_nickname"
+                app:layout_constraintTop_toBottomOf="@+id/text_nickname"
+                app:onlyDate="@{boardInfo.writeDate}"
+                tools:text="2018/10/20" />
 
             <Button
                 android:id="@+id/menu"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
                 android:background="@drawable/menu_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -173,6 +170,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="3dp"
                 android:text="좋아요"
+                android:textSize="14dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/picture_3"
@@ -184,6 +182,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:text="댓글"
+                android:textSize="14dp"
                 app:layout_constraintBottom_toBottomOf="@+id/likeText"
                 app:layout_constraintStart_toEndOf="@+id/likeText"
                 app:layout_constraintTop_toTopOf="@+id/likeText"
@@ -207,11 +206,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@drawable/selector_like_btn"
                 android:background="@color/white"
+                android:textColor="@drawable/selector_like_btn"
                 android:textOff="좋아요"
-                android:textOn="좋아요"
-                />
+                android:textOn="좋아요" />
 
             <Button
                 android:id="@+id/button_writting"
@@ -222,6 +220,5 @@
                 android:text="댓글쓰기" />
 
         </LinearLayout>
-    </LinearLayout
->
+    </LinearLayout>
 </layout>
