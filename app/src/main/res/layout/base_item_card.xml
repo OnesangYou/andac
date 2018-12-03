@@ -146,7 +146,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/black"
                 android:textSize="13dp"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/text_nickname"
