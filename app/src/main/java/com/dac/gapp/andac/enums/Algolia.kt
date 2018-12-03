@@ -22,6 +22,8 @@ enum class Algolia(val value: String) {
     INDEX_NAME_BOARD("boards"),
     INDEX_NAME_COLUMN("columns"),
     INDEX_NAME_EVENT("events"),
+    INDEX_NAME_OPEN_CONSULT("openConsults"),
+    INDEX_NAME_SELECT_CONSULT("selectConsults"),
     HITS("hits"),
     NAME("name"),
     GEOLOC("_geoloc"),

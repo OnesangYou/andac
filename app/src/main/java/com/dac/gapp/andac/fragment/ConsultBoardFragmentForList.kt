@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dac.gapp.andac.ConsultTextSearchActivity
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.ConsultBoardRecytclerViewAdapter
 import com.dac.gapp.andac.base.BaseFragment
@@ -14,6 +15,7 @@ import com.dac.gapp.andac.model.OpenConsultInfo
 import com.dac.gapp.andac.model.firebase.ConsultInfo
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.Query
+import org.jetbrains.anko.startActivity
 import java.util.*
 
 
@@ -38,7 +40,7 @@ class ConsultBoardFragmentForList : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding = getBinding()
+        prepareUi()
         val layoutManager = LinearLayoutManager(context)
         binding.recyclerView.layoutManager = layoutManager
         val adapter = ConsultBoardRecytclerViewAdapter(context, datalist)
@@ -48,6 +50,28 @@ class ConsultBoardFragmentForList : BaseFragment() {
             context!!.getString(R.string.consult_seleted_board) -> selectData(ConsultStatus.APPLY.value)
             context!!.getString(R.string.consulting_board) -> selectData(ConsultStatus.CONSULTING.value)
             context!!.getString(R.string.consulted_board) -> selectData(ConsultStatus.COMPLETE.value)
+        }
+    }
+
+    private fun prepareUi() {
+        binding = getBinding()
+        context?.let { context ->
+//            context.setActionBarLeftImage(R.drawable.mypage)
+//            context.setOnActionBarLeftClickListener(View.OnClickListener {
+//                // 로그인 상태 체크
+//                if (getCurrentUser() == null) {
+//                    goToLogin(true)
+//                } else {
+//                    startActivity(Intent(context, MyPageActivity::class.java))
+//                }
+//            })
+
+            context.setActionBarRightImage(R.drawable.finder)
+            context.setOnActionBarRightClickListener(View.OnClickListener {
+                // 게시판 검색
+                context.startActivity<ConsultTextSearchActivity>()
+
+            })
         }
     }
 

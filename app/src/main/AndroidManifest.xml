@@ -63,7 +63,10 @@
         <activity android:name=".FindMailByPhoneActivity" />
         <activity
             android:name=".TermsActivity"
-            android:label="@string/title_activity_terms"></activity>
+            android:label="@string/title_activity_terms" />
+        <activity
+            android:name=".ConsultTextSearchActivity"
+            android:label="@string/title_activity_consult_text_search"></activity>
     </application>
 
 </manifest>

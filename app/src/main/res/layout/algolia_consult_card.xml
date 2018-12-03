@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:algolia="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:cardElevation="10dp"
+        >
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="@dimen/_13sp"
+                android:gravity="center"
+                algolia:attribute='@{"date"}'
+                tools:text="2018/10/18 09:00"
+                />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/_13sp"
+                algolia:attribute='@{"name"}'
+                algolia:highlighted='@{true}'
+                tools:text="홍길동"/>
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textSize="@dimen/_13sp"
+                tools:text="01012341234"
+                algolia:attribute='@{"phone"}'
+                algolia:highlighted='@{true}'
+                />
+
+            <TextView
+                android:id="@+id/view_status"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:gravity="center"
+                android:text="상담중"
+                android:textSize="@dimen/_13sp"
+                android:textColor="@color/colorMain"
+                android:textStyle="bold"
+                algolia:attribute='@{"status"}'
+                algolia:highlighted='@{true}'
+                />
+
+
+            <TextView
+                android:id="@+id/start_consult"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1.4"
+                android:background="@color/colorMain"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="상담하기"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</layout>
