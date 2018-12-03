@@ -66,12 +66,16 @@ class ConsultBoardFragmentForList : BaseFragment() {
 //                }
 //            })
 
-            context.setActionBarRightImage(R.drawable.finder)
-            context.setOnActionBarRightClickListener(View.OnClickListener {
-                // 게시판 검색
-                context.startActivity<ConsultTextSearchActivity>()
+            if(context.isHospital()){
+                context.setActionBarRightImage(R.drawable.finder)
+                context.setOnActionBarRightClickListener(View.OnClickListener {
+                    // 게시판 검색
+                    context.startActivity<ConsultTextSearchActivity>()
 
-            })
+                })
+            } else {
+                context.hideActionBarRight()
+            }
         }
     }
 
