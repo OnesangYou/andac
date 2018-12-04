@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.algolia.instantsearch.helpers.InstantSearch
 import com.algolia.instantsearch.helpers.Searcher
+import com.algolia.search.saas.Query
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.dialog.ConsultContentDialog
 import com.dac.gapp.andac.enums.Algolia
@@ -22,7 +23,16 @@ class ConsultTextSearchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_consult_text_search)
         prepareUI()
-        searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, Algolia.INDEX_NAME_OPEN_CONSULT.value)
+
+        val index = intent.getStringExtra("index")?:Algolia.INDEX_NAME_OPEN_CONSULT.value
+
+        searcher = Searcher.create(Algolia.APP_ID.value, Algolia.SEARCH_API_KEY.value, index)
+
+                // add filter
+                .also {
+                    val hospitalUid = getUid()?:return
+                    if(index == Algolia.INDEX_NAME_SELECT_CONSULT.value) it.query = Query().setFilters("hospitalId:$hospitalUid")
+                }
 
                 // add date
                 .registerResultListener { results, _ ->
@@ -30,13 +40,8 @@ class ConsultTextSearchActivity : BaseActivity() {
                     val jsonArray : JSONArray = results.hits
                     for (i in 0..(jsonArray.length() - 1)) {
                         val item = jsonArray.getJSONObject(i)
-
-                        // Your code here
                         if(!item.has(indexStr)) {
                             item.put(indexStr, item.getString("writeDate").toDate("yyyy-MM-dd'T'HH:mm:ss")?.getDateFormat('/'))
-                            //  yyyy-MM-dd'T'HH:mm:ss
-
-//                            item.put(indexStr, Date(item.getLong("writeDate")).getDateFormat('/'))
                         }
                     }
                 }
@@ -45,14 +50,13 @@ class ConsultTextSearchActivity : BaseActivity() {
 
         searcher.search(intent)
 
-        // 객체를 만들어서 호출한 곳에 보냄
+        // 아이템 클릭시 신청서 보기
         hits.setOnItemClickListener{ _: RecyclerView, i: Int, _: View ->
             val jo = hits.get(i)
-
-            // 오픈 상담 신청서
-            getOpenConsult(jo.getString("userId"))?.get()?.addOnSuccessListener { querySnapshot ->
-                val consultInfo = querySnapshot.toObject(ConsultInfo::class.java)
-                val dialog = ConsultContentDialog(this@ConsultTextSearchActivity, consultInfo)
+            val consultTask = if(index == Algolia.INDEX_NAME_OPEN_CONSULT.value) getOpenConsult(jo.getString("userId"))?.get()?.continueWith { it.result.toObject(ConsultInfo::class.java) }
+            else getSelectConsultInfo(getUid()?:return@setOnItemClickListener, jo.getString("userId"))
+            consultTask?.addOnSuccessListener {
+                val dialog = ConsultContentDialog(this@ConsultTextSearchActivity, it?:return@addOnSuccessListener)
                 dialog.show()
             }
         }

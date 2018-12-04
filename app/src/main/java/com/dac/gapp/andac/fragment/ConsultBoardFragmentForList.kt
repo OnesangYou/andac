@@ -10,6 +10,7 @@ import com.dac.gapp.andac.R
 import com.dac.gapp.andac.adapter.ConsultBoardRecytclerViewAdapter
 import com.dac.gapp.andac.base.BaseFragment
 import com.dac.gapp.andac.databinding.FragmentConsultBoardListBinding
+import com.dac.gapp.andac.enums.Algolia
 import com.dac.gapp.andac.enums.ConsultStatus
 import com.dac.gapp.andac.model.OpenConsultInfo
 import com.dac.gapp.andac.model.firebase.ConsultInfo
@@ -40,42 +41,16 @@ class ConsultBoardFragmentForList : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        prepareUi()
+        binding = getBinding()
         val layoutManager = LinearLayoutManager(context)
         binding.recyclerView.layoutManager = layoutManager
         val adapter = ConsultBoardRecytclerViewAdapter(context, datalist)
         binding.recyclerView.adapter = adapter
         when (title) {
-            context!!.getString(R.string.consult_open_board) -> openData()
-            context!!.getString(R.string.consult_seleted_board) -> selectData(ConsultStatus.APPLY.value)
-            context!!.getString(R.string.consulting_board) -> selectData(ConsultStatus.CONSULTING.value)
-            context!!.getString(R.string.consulted_board) -> selectData(ConsultStatus.COMPLETE.value)
-        }
-    }
-
-    private fun prepareUi() {
-        binding = getBinding()
-        context?.let { context ->
-//            context.setActionBarLeftImage(R.drawable.mypage)
-//            context.setOnActionBarLeftClickListener(View.OnClickListener {
-//                // 로그인 상태 체크
-//                if (getCurrentUser() == null) {
-//                    goToLogin(true)
-//                } else {
-//                    startActivity(Intent(context, MyPageActivity::class.java))
-//                }
-//            })
-
-            if(context.isHospital()){
-                context.setActionBarRightImage(R.drawable.finder)
-                context.setOnActionBarRightClickListener(View.OnClickListener {
-                    // 게시판 검색
-                    context.startActivity<ConsultTextSearchActivity>()
-
-                })
-            } else {
-                context.hideActionBarRight()
-            }
+            context?.getString(R.string.consult_open_board) -> openData()
+            context?.getString(R.string.consult_seleted_board) -> selectData(ConsultStatus.APPLY.value)
+            context?.getString(R.string.consulting_board) -> selectData(ConsultStatus.CONSULTING.value)
+            context?.getString(R.string.consulted_board) -> selectData(ConsultStatus.COMPLETE.value)
         }
     }
 

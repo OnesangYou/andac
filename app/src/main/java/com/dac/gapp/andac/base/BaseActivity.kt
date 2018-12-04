@@ -34,6 +34,7 @@ import com.dac.gapp.andac.dialog.ConsultContentDialog
 import com.dac.gapp.andac.enums.AdCountType
 import com.dac.gapp.andac.enums.RequestCode
 import com.dac.gapp.andac.model.ActivityResultEvent
+import com.dac.gapp.andac.model.OpenConsultInfo
 import com.dac.gapp.andac.model.firebase.*
 import com.dac.gapp.andac.util.Common
 import com.dac.gapp.andac.util.RxBus
@@ -719,6 +720,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun getOpenConsults() = getDb().collection("openConsults")
     fun getOpenConsult(uid : String? = getUid()): DocumentReference? = uid?.let { getOpenConsults().document(it) }
+    fun getOpenConsultInfo(uid : String? = getUid()) = getOpenConsult(uid)?.get()?.continueWith {task ->
+        task.result.toObject(OpenConsultInfo::class.java)
+    }
 
     fun getSelectConsults() = getDb().collection("selectConsults")
     fun getSelectConsult(hospitalId : String, userId : String) = getSelectConsults().whereEqualTo("hospitalId", hospitalId).whereEqualTo("userId", userId)
