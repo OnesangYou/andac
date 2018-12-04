@@ -36,7 +36,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutHospitalInfo" />
 
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+        </android.support.constraint.ConstraintLayout>
+
         <ImageView
+            android:visibility="invisible"
             android:id="@+id/userProfileImage"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -54,23 +62,23 @@
             android:id="@+id/replyEditView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="7dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="7dp"
             android:layout_marginBottom="7dp"
             android:background="@color/white"
             android:hint="댓글을 작성해 주세요"
             android:textSize="@dimen/_15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/replySubmit"
-            app:layout_constraintStart_toEndOf="@+id/userProfileImage"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
         <Button
             android:id="@+id/replySubmit"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="8dp"
             android:background="@color/colorMain"
             android:enabled="false"
             android:text="작성"
@@ -78,7 +86,6 @@
             android:textSize="@dimen/_15sp"
             app:layout_constraintBottom_toBottomOf="@+id/replyEditView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/replyEditView"
             app:layout_constraintTop_toTopOf="@+id/replyEditView" />
 
     </android.support.constraint.ConstraintLayout>
