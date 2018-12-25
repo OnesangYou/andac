@@ -99,6 +99,7 @@ open class LoginActivity : BaseLoginActivity() {
     private fun prepareUi() {
         hideActionBar()
         getDb().collection(Ad.LOGIN_BANNER.collectionName)
+                .whereEqualTo("showingUp", true)
                 .get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful && task.result.size() > 0) {
