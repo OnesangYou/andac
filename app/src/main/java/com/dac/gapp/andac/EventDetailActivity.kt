@@ -13,6 +13,7 @@ import android.widget.TimePicker
 import com.bumptech.glide.Glide
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.extension.setPrice
+import com.dac.gapp.andac.model.firebase.BoardInfo
 import com.dac.gapp.andac.model.firebase.EventApplyInfo
 import com.dac.gapp.andac.model.firebase.EventInfo
 import com.google.android.gms.tasks.Task
@@ -232,6 +233,12 @@ class EventDetailActivity : BaseActivity() {
                                             val hospitalId = intent.getStringExtra("hospitalId").also { if(it.isEmpty()) return@addOnSuccessListener }
                                             addCountEventApplicant(hospitalId)
                                             dialog.dismiss()
+
+                                            // applicantCount 카운트 증가
+                                            runTransaction<EventInfo>(getEvent(eventId)?:throw IllegalStateException()) { eventInfo ->
+                                                eventInfo.applicantCount++
+                                                if(eventInfo.applicantCount < 0) throw IllegalStateException("applicantCount Count is Zero")
+                                            }
                                         }
                                         .addOnCompleteListener { hideProgressDialog() }
 

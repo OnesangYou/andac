@@ -15,6 +15,7 @@ data class EventInfo(
         var detailPictureUrl : String = "",
         @ServerTimestamp var writeDate: Date? = null,
         var likeCount : Int = 0,
+        var applicantCount : Int = 0,
         var tag : String = ""
 ) {
     val endDate : Date?

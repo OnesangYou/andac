@@ -508,16 +508,24 @@ abstract class BaseActivity : AppCompatActivity() {
     fun isObjectModify() = !intent.getStringExtra(OBJECT_KEY).isNullOrBlank()
     fun dateFieldStr() = if (isObjectModify()) "updatedDate" else "createdDate"
 
-    fun eventCancelDialog(objectId: String, function: () -> Unit) {
+    fun eventCancelDialog(eventId: String, function: () -> Unit) {
         alert(title = "이벤트 신청 취소", message = "이벤트 신청 취소하시겠습니까?") {
             positiveButton("YES") { _ ->
                 showProgressDialog()
                 FirebaseFirestore.getInstance().batch().run {
-                    getUserEvent(objectId)?.let { delete(it) }
-                    getEventApplicant(objectId)?.let { delete(it) }
+                    getUserEvent(eventId)?.let { delete(it) }
+                    getEventApplicant(eventId)?.let { delete(it) }
                     commit()
                 }
-                        .addOnSuccessListener { function.invoke() }
+                        .addOnSuccessListener {
+                            function.invoke()
+
+                            // applicantCount 카운트 감소
+                            runTransaction<EventInfo>(getEvent(eventId)?:throw IllegalStateException()) { eventInfo ->
+                                eventInfo.applicantCount--
+                                if(eventInfo.applicantCount < 0) throw IllegalStateException("applicantCount Count is Zero")
+                            }
+                        }
                         .addOnCompleteListener { hideProgressDialog() }
             }
             negativeButton("NO") {}
@@ -579,7 +587,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     // 트랜잭션
-    private inline fun <reified T> runTransaction(ref : DocumentReference, crossinline function: (info : T) -> Unit) =
+    public inline fun <reified T> runTransaction(ref : DocumentReference, crossinline function: (info : T) -> Unit) =
         FirebaseFirestore.getInstance().runTransaction { transaction ->
         //val ref = getBoard(key)?:throw IllegalStateException()  // getBoard(key)?:throw IllegalStateException() // getHospital()
         val info = transaction.get(ref).toObject(T::class.java)?:throw IllegalStateException()
