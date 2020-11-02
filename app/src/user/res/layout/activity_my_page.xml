@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -9,7 +9,7 @@
         tools:context="com.dac.gapp.andac.MyPageActivity"
         tools:ignore="ExtraText">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/my_profile"
             android:layout_width="match_parent"
             android:layout_height="120dp"
@@ -135,7 +135,7 @@
 
             </RadioGroup>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <FrameLayout
@@ -146,6 +146,6 @@
             app:layout_constraintTop_toBottomOf="@+id/my_profile" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 

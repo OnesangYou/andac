@@ -1,6 +1,6 @@
 package com.dac.gapp.andac.util
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
 interface OnItemClickListener {

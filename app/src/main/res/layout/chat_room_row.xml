@@ -14,7 +14,7 @@
             type="com.dac.gapp.andac.model.firebase.ChatListInfo"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/chatting_other_message_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -96,5 +96,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"></View>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

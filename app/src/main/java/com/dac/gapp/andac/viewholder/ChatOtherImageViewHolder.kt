@@ -1,7 +1,7 @@
 package com.dac.gapp.andac.viewholder
 
-import android.databinding.DataBindingUtil
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.dac.gapp.andac.databinding.ChatOtherImageViewBinding
 

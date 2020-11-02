@@ -17,13 +17,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
 
             <!-- 상담신청 -->
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutConsultationForm"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
@@ -37,7 +37,7 @@
                     android:src="@drawable/main_pic_1" />
 
                 <!-- 대쉬보드 -->
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layoutDashboard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txtviewHospitalName" />
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Button
                     android:id="@+id/btnConsultingBoard"
@@ -118,10 +118,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- 병원 관리 -->
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutManagement"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
@@ -195,7 +195,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- 메인 배너 광고 -->
             <ImageView
@@ -211,7 +211,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/layoutManagement" />
 
             <!-- 공지사항 -->
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutNotice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -392,7 +392,7 @@
                 </LinearLayout>
 
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <!-- 인기칼럼 -->
@@ -408,7 +408,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutNotice" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutColumn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -430,7 +430,7 @@
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/columnList"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -449,9 +449,9 @@
                     app:layout_constraintBottom_toBottomOf="@+id/best_calrum"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 </layout>

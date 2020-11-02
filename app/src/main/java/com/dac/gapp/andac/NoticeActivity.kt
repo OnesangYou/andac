@@ -1,7 +1,7 @@
 package com.dac.gapp.andac
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import com.dac.gapp.andac.adapter.NoticeRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity

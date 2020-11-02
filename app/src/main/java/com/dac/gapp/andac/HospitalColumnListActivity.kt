@@ -3,8 +3,8 @@ package com.dac.gapp.andac
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.dac.gapp.andac.adapter.ColumnRecyclerAdapter
 import com.dac.gapp.andac.base.BaseActivity
@@ -44,7 +44,7 @@ class HospitalColumnListActivity : BaseActivity() {
         resetData()
 
         // recyclerView
-        recyclerView.layoutManager = GridLayoutManager(this@HospitalColumnListActivity,2)
+        recyclerView.layoutManager = GridLayoutManager(this@HospitalColumnListActivity, 2)
         recyclerView.adapter = ColumnRecyclerAdapter(this@HospitalColumnListActivity, list, map)
         recyclerView.addOnItemClickListener(object: OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {

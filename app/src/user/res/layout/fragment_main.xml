@@ -8,12 +8,12 @@
         android:layout_height="match_parent"
         >
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <!-- 상담신청 -->
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutConsultationForm"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
@@ -53,10 +53,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     tools:ignore="MissingConstraints" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- 나의 히스토리 -->
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutMyHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
@@ -123,11 +123,11 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <!-- 메인 배너 광고 -->
-            <android.support.v4.view.ViewPager
+            <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewPagerMainBannerAd"
                 android:layout_width="match_parent"
                 android:layout_height="92dp"
@@ -139,7 +139,7 @@
 
 
             <!-- 인기 칼럼 -->
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutColumn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/txtviewPopularColumn"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerviewColumn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -185,11 +185,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/txtviewPopularColumn" />
 
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <!-- 오늘의 병원 -->
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutTodaysHospital"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -221,11 +221,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtviewTodaysHospital" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <!-- 인기 게시판 -->
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutBoard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -258,7 +258,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/txtviewPopularBoard"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerviewBoard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -269,11 +269,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtviewMoreBoards" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <!-- 인기 이벤트 -->
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layoutEvent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -306,7 +306,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/txtviewPopularEvent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerviewEvent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -318,10 +318,10 @@
                     app:layout_constraintTop_toBottomOf="@+id/txtviewMoreEvents" />
 
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 

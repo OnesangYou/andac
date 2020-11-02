@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import com.dac.gapp.andac.adapter.BoardListRecyclerViewAdapter
 import com.dac.gapp.andac.adapter.EventRecyclerAdapter

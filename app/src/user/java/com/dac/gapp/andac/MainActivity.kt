@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.support.design.internal.BottomNavigationItemView
 import android.support.design.internal.BottomNavigationMenuView
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.Fragment
+import androidx.core.app.Fragment
 import com.dac.gapp.andac.base.BaseActivity
 import com.dac.gapp.andac.fragment.*
 import com.dac.gapp.andac.model.ActivityResultEvent

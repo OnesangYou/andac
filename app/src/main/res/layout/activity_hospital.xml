@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         tools:context="com.dac.gapp.andac.HospitalActivity">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -27,12 +27,12 @@
                 app:layout_constraintBottom_toTopOf="@+id/imgBtnRequestForCounseling"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <!-- 병원 이미지 -->
-                    <android.support.v4.view.ViewPager
+                    <androidx.viewpager.widget.ViewPager
                         android:id="@+id/viewPager"
                         android:layout_width="0dp"
                         android:layout_height="250dp"
@@ -41,7 +41,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <!-- 병원 정보 -->
-                    <android.support.constraint.ConstraintLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layoutHospitalInfo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/viewPager">
 
-                        <android.support.constraint.Guideline
+                        <androidx.constraintlayout.widget.Guideline
                             android:id="@+id/guidelineHospitalInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -143,10 +143,10 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/txtviewBusinessHours" />
 
-                    </android.support.constraint.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <!-- 병원 위치 -->
-                    <android.support.constraint.ConstraintLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layoutHospitalMap"
                         android:layout_width="0dp"
                         android:layout_height="250dp"
@@ -167,10 +167,10 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_bias="0.0" />
 
-                    </android.support.constraint.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <!-- 병원 후기 -->
-                    <android.support.constraint.ConstraintLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layoutHospitalComment"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -203,7 +203,7 @@
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/txtviewHospitalComment" />
 
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerViewHospitalComment"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -212,10 +212,10 @@
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/txtviewHospitalComment" />
 
-                    </android.support.constraint.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <!-- 병원 이벤트 -->
-                    <android.support.constraint.ConstraintLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/layoutHospitalEvent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -237,7 +237,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
 
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerViewHospitalEvent"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -248,7 +248,7 @@
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/txtviewHospitalEvent" />
 
-                    </android.support.constraint.ConstraintLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                     <ImageView
@@ -289,7 +289,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/imgviewFavorite" />
 
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </ScrollView>
 
@@ -304,7 +304,7 @@
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 </layout>

@@ -1,7 +1,7 @@
 package com.dac.gapp.andac.extension
 
 import android.annotation.SuppressLint
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import android.widget.TextView
 import com.dac.gapp.andac.util.getDateFormat
 import java.text.DecimalFormat

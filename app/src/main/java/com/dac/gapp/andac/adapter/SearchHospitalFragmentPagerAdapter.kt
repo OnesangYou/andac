@@ -1,9 +1,9 @@
 package com.dac.gapp.andac.adapter
 
 import android.content.Context
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.core.app.Fragment
+import androidx.core.app.FragmentManager
+import androidx.core.app.FragmentPagerAdapter
 import com.dac.gapp.andac.R
 import com.dac.gapp.andac.fragment.SearchHospitalFragmentForList
 import com.dac.gapp.andac.fragment.SearchHospitalFragmentForMap

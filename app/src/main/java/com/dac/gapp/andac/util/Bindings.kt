@@ -1,7 +1,7 @@
 package com.dac.gapp.andac.util
 
 import android.annotation.SuppressLint
-import android.databinding.BindingConversion
+import androidx.databinding.BindingConversion
 import android.view.View
 import java.util.*
 

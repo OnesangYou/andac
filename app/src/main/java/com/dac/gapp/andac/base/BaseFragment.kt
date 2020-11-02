@@ -1,9 +1,9 @@
 package com.dac.gapp.andac.base
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.core.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View

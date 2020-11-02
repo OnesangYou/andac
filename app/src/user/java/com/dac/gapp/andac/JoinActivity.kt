@@ -1,9 +1,9 @@
 package com.dac.gapp.andac
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.core.app.Fragment
+import androidx.core.app.FragmentManager
+import androidx.core.app.FragmentPagerAdapter
 import android.view.View
 import com.dac.gapp.andac.base.BaseJoinActivity
 import com.dac.gapp.andac.custom.SwipeViewPager

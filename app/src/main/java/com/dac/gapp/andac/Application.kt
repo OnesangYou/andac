@@ -1,6 +1,6 @@
 package com.dac.gapp.andac
 
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import timber.log.Timber
 
 

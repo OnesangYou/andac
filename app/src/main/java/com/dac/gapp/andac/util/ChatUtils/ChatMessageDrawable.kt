@@ -10,7 +10,7 @@ import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 
 class ChatMessageDrawable(backgroundColor: Int, radius: Float) : Drawable() {
     private var mPaint: Paint

@@ -1,12 +1,10 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
-
 apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     signingConfigs {
@@ -17,21 +15,20 @@ android {
             keyPassword '1q2w3e'
         }
     }
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '29.0.2'
     dataBinding.enabled true
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.dac.gapp"
         minSdkVersion 19
-        //noinspection OldTargetApi
-        targetSdkVersion 28
+        targetSdkVersion 29
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
         }
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -82,6 +79,7 @@ android {
             applicationIdSuffix ".chidac"
             manifestPlaceholders = [appType: "치닥"]
         }
+
         andac {
             dimension "type"
             manifestPlaceholders = [appType: "안닥"]
@@ -103,40 +101,58 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation rootProject.ext.libs.supportV4
-    implementation rootProject.ext.libs.supportDesign
-    implementation rootProject.ext.libs.supportAppcompatV7
-    implementation rootProject.ext.libs.supportVectorDrawable
-    implementation rootProject.ext.libs.constraintLayout
-    implementation rootProject.ext.libs.playServices
-    implementation rootProject.ext.libs.firebase
-    implementation rootProject.ext.libs.algolia
-    implementation rootProject.ext.libs.logging
-    implementation rootProject.ext.libs.ted
-    implementation rootProject.ext.libs.multidex
-    implementation rootProject.ext.libs.album
-    implementation rootProject.ext.libs.cardview
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+//    implementation "com.yanzhenjie:album:2.1.1"
+
+    implementation "com.google.android.gms:play-services-auth:18.1.0"
+    implementation "com.google.android.gms:play-services-location:17.1.0"
+    implementation "com.google.android.gms:play-services-maps:17.0.0"
+    implementation "com.google.android.gms:play-services-places:17.0.0"
+    implementation "com.google.android.gms:play-services-plus:17.0.0"
+
+    implementation "com.google.firebase:firebase-auth:20.0.0"
+    implementation "com.google.firebase:firebase-core:18.0.0"
+    implementation "com.google.firebase:firebase-firestore:22.0.0"
+    implementation "com.google.firebase:firebase-storage:19.2.0"
+    implementation "com.google.firebase:firebase-functions:19.1.0"
+    implementation "com.google.firebase:firebase-perf:19.0.9"
+    implementation "com.google.firebase:firebase-config:20.0.0"
+
+    implementation "com.algolia:instantsearch-android:1.7.25"
+
+    implementation "com.jakewharton.timber:timber:4.7.1"
+
+    implementation "gun0912.ted:tedpermission:2.2.2"
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
+
     implementation 'nl.komponents.kovenant:kovenant-core:3.3.0'
+
     implementation 'org.jetbrains.anko:anko-commons:0.10.5'
+
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
-    implementation 'com.google.firebase:firebase-messaging:15.0.2'
+
+    implementation 'com.google.firebase:firebase-messaging:21.0.0'
+
     implementation 'com.thoughtbot:expandablerecyclerview:1.3'
+
     implementation 'gun0912.ted:tedonactivityresult-rx2:1.0.6'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    // Add dependency
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
-}
-androidExtensions {
 
-    // 실험실 기능을 활성화합니다.
-    experimental = true
-}
+    implementation 'com.google.code.gson:gson:2.8.6'
 
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
+//    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+}
