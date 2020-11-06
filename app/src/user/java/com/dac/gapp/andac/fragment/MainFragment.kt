@@ -53,7 +53,7 @@ class MainFragment : BaseFragment() {
 
     private lateinit var binding: FragmentMainBinding
 
-    private var mIsMainPopupAdFirst: Boolean = true
+    private var mIsMainPopupAdFirst: Boolean = false
 
     val list = mutableListOf<EventInfo>()
     val map = mutableMapOf<String, HospitalInfo>()

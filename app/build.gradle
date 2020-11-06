@@ -1,12 +1,10 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
-apply plugin: 'io.fabric'
-
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: 'io.fabric'
 
 android {
     signingConfigs {
@@ -19,12 +17,11 @@ android {
     }
     buildToolsVersion '28.0.3'
     dataBinding.enabled true
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.dac.gapp"
         minSdkVersion 19
-        //noinspection OldTargetApi
-        targetSdkVersion 28
+        targetSdkVersion 29
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
@@ -59,11 +56,28 @@ android {
         }
 
     }
-    flavorDimensions "target", "type"
+    flavorDimensions "type", "target"
     productFlavors {
+
+        andac {
+            dimension "type"
+            applicationIdSuffix ".andac"
+            manifestPlaceholders = [appType: "안닥"]
+        }
+        chidac {
+            dimension "type"
+            applicationIdSuffix ".chidac"
+            manifestPlaceholders = [appType: "치닥"]
+        }
+        healing {
+            dimension "type"
+            applicationIdSuffix ".healing"
+            manifestPlaceholders = [appType: "힐링 옵터"]
+        }
+
         user {
             dimension "target"
-            applicationIdSuffix ".andac.user"
+            applicationIdSuffix ".user"
             manifestPlaceholders = [appLabel: ""]
             buildConfigField 'boolean', 'IS_USER', "true"
             versionCode new Date().format('yyMMddHHmm').toInteger()
@@ -71,21 +85,12 @@ android {
 
         hospital {
             dimension "target"
-            applicationIdSuffix ".andac.hospital"
+            applicationIdSuffix ".hospital"
             manifestPlaceholders = [appLabel: "파트너스"]
             buildConfigField 'boolean', 'IS_USER', "false"
             versionCode new Date().format('yyMMddHHmm').toInteger()
         }
 
-        chidac {
-            dimension "type"
-            applicationIdSuffix ".chidac"
-            manifestPlaceholders = [appType: "치닥"]
-        }
-        andac {
-            dimension "type"
-            manifestPlaceholders = [appType: "안닥"]
-        }
     }
     defaultConfig {
         resConfigs "kr"
@@ -138,5 +143,4 @@ androidExtensions {
     experimental = true
 }
 
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.gms.google-services'
+

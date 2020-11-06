@@ -22,10 +22,10 @@ class AdPagerAdapter(val activity: BaseActivity, private val adInfoList: ArrayLi
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
         adInfoList[position].let { adInfo ->
             imageView.setOnClickListener {
-                if (adInfoList[position].eventId.isNotEmpty()) {
-                    activity.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfo.eventId)
-                    activity.addCountAdClick(adInfo.hospitalId, AdCountType.BANNER)
-                }
+//                if (adInfoList[position].eventId.isNotEmpty()) {
+//                    activity.startActivity<EventDetailActivity>(Extra.OBJECT_KEY.name to adInfo.eventId)
+//                    activity.addCountAdClick(adInfo.hospitalId, AdCountType.BANNER)
+//                }
             }
             container.addView(imageView)
             Glide.with(activity).load(adInfo.photoUrl).into(imageView)

@@ -1,0 +1,168 @@
+<resources>
+    <string name="app_name">힐링 옵터</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="searchHospital">병원찾기</string>
+    <string name="chatRoom">채팅방</string>
+    <string name="board">게시판</string>
+    <string name="eventList">이벤트</string>
+    <string name="andac">힐링 옵터</string>
+    <string name="main">메인화면</string>
+    <string name="mypage">마이페이지</string>
+    <string name="requestSurgery">내눈 수술 상담받기</string>
+    <string name="andacRequestAdvice">힐링 옵터 상담신청</string>
+    <string name="title_activity_float">FloatActivity</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="no_title">No Title</string>
+    <string name="nearby_hospital">근처 병원</string>
+    <string name="popularity">인기순</string>
+    <string name="seoul">서울</string>
+    <string name="gyeonggi">경기</string>
+    <string name="incheon">인천</string>
+    <string name="busan">부산</string>
+    <string name="ulsan">울산</string>
+    <string name="gwangju">광주</string>
+    <string name="jeonju">전주</string>
+    <string name="daejeon">대전</string>
+    <string name="chungcheong">충청</string>
+    <string name="loading">Loading</string>
+    <string name="title_activity_hospital_text_search">HospitalTextSearchActivity</string>
+    <string name="waitApproval">관리자 승인 대기 중입니다</string>
+    <string name="successLogin">로그인 완료</string>
+
+    <string name="free_board">자유게시판</string>
+    <string name="review_board">후기게시판</string>
+    <string name="question_board">질문게시판</string>
+    <string name="hot_board">인기게시판</string>
+    <string name="certification_board">인증게시판</string>
+
+    <string name="hot_board_s">인기글</string>
+
+
+    <string name="hospital">병원</string>
+    <string name="event">이벤트</string>
+
+
+    <string name="consult_open_board">오픈형 게시판</string>
+    <string name="consult_seleted_board">내 병원 게시판</string>
+    <string name="consulting_board">상담중</string>
+    <string name="consulted_board">상담완료</string>
+    <string name="string_consulting_board">상담신청 게시판</string>
+    <string name="hospital_event_management">이벤트 관리</string>
+    <string name="hospital_ad_management">광고 관리</string>
+    <string name="hospital_ad_application">광고 신청</string>
+    <string name="apply_for_hospital_ad">병원 광고 신청하기</string>
+    <string name="apply_for_a_hospital_ad">병원 광고 신청하기</string>
+    <string name="edit_for_hospital_ad">병원 광고 수정하기</string>
+    <string name="apply_for_creative_production">광고 제작 신청하기</string>
+    <string name="apply_for_creative_production_description">배너광고 및 오늘의 병원 광고 포스터 이외 모든 광고물을 힐링 옵터에 직접 디자인을 요청합니다. 신청 내역 확인 후 병원관리자 전화로 상담 전화를 드립니다.</string>
+    <string name="main_popup_ad">1. 메인 팝업 광고</string>
+    <string name="main_popup_ad_description">로딩이 끝나자마자 팝업으로 생성되는 광고 화면입니다.\n\n광고 해상도 : 300*500 dp\n유효기간 : 30일\n광고금액 : 1,000,000원</string>
+    \
+    <string name="main_popup_ad_description2">메인화면 세로로 길게 제공되는 배너에 업로드 되는 광고입니다.\n배너의 6개의 자구중 1개에 삽입됩니다.</string>
+    <string name="apply_for_main_popup_ad">[팝업 광고] 신청하기</string>
+    <string name="main_banner_ad">2. 메인 배너 광고</string>
+    <string name="main_banner_ad_description">메인 배너부분에 세로로 길게 삽입되는 광고 화면 입니다.\n\n광고 해상도 : 300*500 dp\n유효기간 : 30일\n광고금액 : 1,000,000원</string>
+    <string name="apply_for_main_banner_ad">[배너 광고] 신청하기</string>
+    <string name="main_todays_hospital_ad">3. 오늘의 병원 광고</string>
+    <string name="main_todays_hospital_ad_description">메인화면내 오늘의 병원 소개 광고판 내에 삽입되는 광고 화면 입니다.\n\n광고 해상도 : 300*500 dp\n유효기간 : 30일\n광고금액 : 1,000,000원</string>
+    <string name="apply_for_main_todays_hospital_ad">[오늘의 병원 광고] 신청하기</string>
+    <string name="login_banner_ad">4. 로그인 광고</string>
+    <string name="login_banner_ad_description">유저 로그인화면 상단에 표시되는 광고로 로그인, 회원가입시 표시되는 비교적 큰 사이즈의 광고 화면 입니다.\n\n광고 해상도 : 300*500 dp\n유효기간 : 30일\n광고금액 : 1,000,000원</string>
+    <string name="apply_for_login_banner_ad">[로그인 광고] 신청하기</string>
+    <string name="click_to_upload_photos">클릭하여 사진을 업로드 합니다.</string>
+    <string name="upload_ad_form"><![CDATA[<업로드 광고 양식>]]></string>
+    <string name="upload_ad_form_description">광고형식 : [팝업 광고]\n광고 해상도 : 300*500 dp\n광고 형식 : png, jpg\n광고 기간 : 30일(광고 승인 후 count 됩니다.)</string>
+    <string name="cautions_when_uploading_ads">광고 업로드시 주의사항</string>
+    <string name="cautions_when_uploading_ads_description">1. 해상도를 맞추어 제작해주세요. 해상도가 다르면 광고 이미지가 상하좌우 양끝부분이 잘 보이지 않습니다.\n\n2. 광고 신청 후 유효기간 이내에는 배너사진 수정이 가능합니다.\n\n3. 배너 제작을 원하시면 광고배너 제작료가 따로 추가됩니다.\n\n4.지나치게 자극적인 광고, 지나친 비방광고는 삭제될 수 있습니다.</string>
+    <string name="ad_duration">광고기간</string>
+    <string name="amount_of_payment">결제금액</string>
+    <string name="days">일</string>
+    <string name="won">원</string>
+    <string name="apply">신청하기</string>
+    <string name="edit">수정하기</string>
+    <string name="cancel">취소</string>
+    <string name="confirm">확인</string>
+    <string name="change_photo">배너 이미지를 클릭하여 사진 변경하기</string>
+    <string name="select_my_event">내 이벤트 선택</string>
+
+    <string name="buy_count">buy_count</string>
+    <string name="likeCount">likeCount</string>
+    <string name="price">price</string>
+    <string name="distance">distance</string>
+    <string name="go_to_detail_page">상세 페이지로</string>
+    <string name="popular_order">인기상품</string>
+    <string name="low_price_order">낮은 가격순</string>
+    <string name="high_price_order">높은 가격순</string>
+    <string name="distance_order">근거리 순</string>
+    <string name="login_banner_ad_days">로그인 배너 광고 %1$d일</string>
+    <string name="main_popup_ad_days">메인 팝업 광고 %1$d일</string>
+    <string name="main_banner_ad_days">메인 배너 광고 %1$d일</string>
+    <string name="main_todays_hosptial_ad_days">오늘의 병원 광고 %1$d일</string>
+    <string name="search_hosptial_banner_ad_days">병원 찾기 배너 광고 %1$d일</string>
+    <string name="ad_validity_period_days">광고 유효기간 : %1$d일</string>
+    <string name="ad_clicks">광고 클릭수 : %1$d회</string>
+    <string name="logout">로그아웃</string>
+    <string name="upload">업로드</string>
+    <string name="board_upload">게시글 올리기</string>
+    <string name="column_upload">컬럼 올리기</string>
+    <string name="delete">삭제</string>
+    <string name="etc">그외</string>
+    <string name="jeju">제주</string>
+    <string name="gangwon">강원</string>
+
+
+    <!-- event tag -->
+    <string name="lasik">라식 라섹</string>
+    <string name="insertLens">렌즈 삽입</string>
+    <string name="cataract">백내장 녹내장</string>
+    <string name="presbyopia">노안</string>
+    <string name="eyeDisease">안구 질환</string>
+
+
+    <string name="no_hospital_addres_entered">입력된 병원주소가 없습니다.</string>
+    <string name="no_business_hours_entered">입력된 영업시간이 없습니다.</string>
+    <string name="write_consultation_form">1:1 상담신청서 작성</string>
+    <string name="event_applied">신청한 이벤트</string>
+    <string name="my_consultation_history">내 상담내역</string>
+    <string name="eye_health_checklist"><![CDATA[눈건강 체크리스트 & 시력검사]]></string>
+    <string name="popular_column">인기 칼럼</string>
+    <string name="more_columns">칼럼 더보기</string>
+    <string name="todays_hospital">오늘의 병원</string>
+    <string name="popular_board">인기 게시판</string>
+    <string name="more_boards">게시판 더보기</string>
+    <string name="popular_event">이벤트 기획전</string>
+    <string name="more_events">이벤트 더보기</string>
+    <string name="string_hospital_dashboard">파트너가\n되어주셔서\n감사드립니다.</string>
+    <string name="column_management">컬럼 관리</string>
+    <string name="andac_notice">힐링 옵터 공지사항</string>
+    <string name="more_notice">공지 더보기</string>
+    <string name="search_hospital_banner_ad">5. 병원 찾기 울트라 광고</string>
+    <string name="search_hospital_banner_ad_context">병원찾기 최 상단에 표시되는 울트라광고입니다.\n병원찾기 화면 최 상단에 내 병원 리스트가 고정됩니다. </string>
+    <string name="eye_test_success">모두 정답입니다.</string>링
+    <string name="eye_test_failure">%1$d개 틀렸습니다.\n지속적인 오답발생시 가까운 병원을 방문해주세요.</string>
+
+
+    <string name="andac_join_1">힐링 옵터 회원가입</string>
+    <string name="consulting_1">앓았던 안과질환을 입력해주세요</string>
+    <string name="join_finish_1">1:1 눈관리 주치의 힐링 옵터로</string>
+    <string name="join_finish_2">오늘부터 당신의 눈건강을 지키세요</string>
+    <string name="join_info_1">힐링 옵터는 개인정보 보호법을 준수합니다.</string>
+    <string name="login_1">병원 관리자님,\n힐링 옵터가 처음이세요?</string>
+    <string name="login_2">회원가입전, 힐링 옵터 리스트에 병원이\n등재되어 있는지 확인하세요.</string>
+    <string name="login_3">힐링 옵터 리스트 확인 후 회원가입</string>
+    <string name="login_4">힐링 옵터 제휴 계약서 보기</string>
+    <string name="login_5">힐링 옵터 바로 실행하기</string>
+    <string name="title_activity_terms">TermsActivity</string>
+    <string name="title_activity_consult_text_search">ConsultTextSearchActivity</string>
+
+
+</resources>
+

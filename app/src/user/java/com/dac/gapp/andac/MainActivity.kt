@@ -24,7 +24,7 @@ class MainActivity : BaseActivity() {
 
     init {
         fragments[R.id.navigation_main] = MainFragment()
-        fragments[R.id.navigation_search_hospital] = SearchHospitalFragment()
+//        fragments[R.id.navigation_search_hospital] = SearchHospitalFragment()
         fragments[R.id.navigation_chat] = ChatRoomFragment()
         fragments[R.id.navigation_board] = BoardFragment()
         fragments[R.id.navigation_event] = EventListFragment()
